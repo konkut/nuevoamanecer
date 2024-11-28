@@ -19,7 +19,7 @@ php artisan route:clear
 php artisan cache:clear
 php artisan optimize
 
-composer update
+composer update 
 
 Recompila los assets
 npm install
