@@ -1,3 +1,11 @@
+SOLUCION DEL ERROR 
+sudo chmod -R 775 nuevoamanecer
+php artisan livewire:publish --assets
+php artisan route:clear
+php artisan config:clear
+php artisan cache:clear
+
+
 120bs renovacion dominio hostinger
 
 NAME SERVER hostinger
@@ -23,7 +31,7 @@ composer update
 
 Recompila los assets
 npm install
-npm run dev
+npm run dev 
 
 Publica los assets de Livewire
 php artisan livewire:publish
