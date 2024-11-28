@@ -1,0 +1,64 @@
+120bs renovacion dominio hostinger
+
+NAME SERVER hostinger
+ns1.dns-parking.com
+ns2.dns-parking.com
+
+NAME SERVER DE HOSTGATOR
+ns26.hostgator.mx
+ns27.hostgator.mx
+
+SEEDER
+php artisan make:seeder RoleSeeder  
+php artisan db:seed --class=RoleSeeder
+
+ACTUALIZAR
+php artisan config:clear
+php artisan view:clear
+php artisan route:clear
+php artisan cache:clear
+php artisan optimize
+
+composer update
+
+Recompila los assets
+npm install
+npm run dev
+
+Publica los assets de Livewire
+php artisan livewire:publish
+
+Verificar en el navegador
+http://127.0.0.1:8000/livewire/livewire.js
+
+eliminar del archivo .gitignore la linea
+/public/build
+
+ssh -p 65002 u201205301@217.196.55.84
+Nuevoamanecer7.
+
+
+
+TABLA VACIA
+@if($categories->count())
+TABLA
+@else
+NO HAY REGISTROS
+@endif
+
+
+ {{
+          <!--
+            <x-nav-link href="{{ route('income.index') }}" :active="request()->routeIs('incomes.index')">
+              {{ __('word.income.list') }}
+            </x-nav-link>
+            <x-nav-link href="{{ route('income.create') }}" :active="request()->routeIs('incomes.create')">
+              {{ __('word.income.new') }}
+            </x-nav-link>  
+          -->
+          }}
+
+
+  <form method="POST" id="form_service_create" action="javascript:void(0);">
+
+
