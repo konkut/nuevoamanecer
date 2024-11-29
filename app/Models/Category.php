@@ -21,11 +21,6 @@ class Category extends Model
     'description',
     'status',
   ];
-  // Generar un UUID automáticamente al crear un nuevo modelo
-  public function services()
-  {
-    return $this->hasMany(Service::class, 'category_uuid', 'category_uuid');
-  }
   
   protected static function boot()
   {
@@ -34,7 +29,7 @@ class Category extends Model
     static::creating(function ($model) {
       $model->category_uuid = (string) Str::uuid(); // Genera un UUID
     });
-    static::deleting(function ($category) {
+    /*static::deleting(function ($category) {
       // Elimina con soft delete todos los servicios asociados
       $category->services()->each(function ($category) {
         $category->delete();
@@ -44,6 +39,6 @@ class Category extends Model
       $category->services()->onlyTrashed()->each(function ($service) {
         $service->restore();
       });
-    });
+    });*/
   }
 }

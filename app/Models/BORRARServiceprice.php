@@ -18,7 +18,7 @@ class Serviceprice extends Model
   protected $fillable = [
     'service_uuid',
     'name',
-    'description',
+    'description', 
     'amount',
     'commission',
     /*'currency_uuid',*/

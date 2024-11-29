@@ -32,62 +32,41 @@
         <hr class="my-4 border-gray-600">
 
         <h1 class="block mt-2 text-xl font-extrabold text-white">{{ __('word.service.attribute.name') }}:
-          {{ $service->name }}
+          {{ $servicewithoutprice->name }}
         </h1>
 
-        @if($service->description)
+        @if($servicewithoutprice->description)
         <div class="mt-6">
           <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.description') }}</p>
-          <p class="text-md text-gray-200">{{ $service->description }}</p>
+          <p class="text-md text-gray-200">{{ $servicewithoutprice->description }}</p>
         </div>
         @endif
 
-        {{--
-        <div class="mt-6">
-          <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.amount') }}</p>
-          <p class="text-md text-gray-200">{{ $service->amount }}</p>
-        </div>        
-      
-        @if($service->commission)
-        <div class="mt-6">
-          <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.commission') }}</p>
-          <p class="text-md text-gray-200">{{ $service->commission }}</p>
-        </div>
-        @endif
-
-        <div class="mt-6">
-          <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.currency_uuid') }}</p>
-          <p class="text-md text-gray-200">{{ $service->currency->name }}</p>
-        </div>
-        --}}
         <div class="mt-4">
           <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.category_uuid') }}</p>
-          <p class="text-md text-gray-200">{{ $service->category->name }}</p>
+          <p class="text-md text-gray-200">{{ $servicewithoutprice->category->name }}</p>
         </div>
 
         <div class="mt-4">
           <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.status') }}</p>
-          <p class="text-md text-gray-200">{{ $service->status ? '🟢' : '🔴' }}</p>
+          <p class="text-md text-gray-200">{{ $servicewithoutprice->status ? '🟢' : '🔴' }}</p>
         </div>
 
         <div class="mt-4">
           <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.created_at') }}</p>
-          <p class="text-md text-gray-200"> {{ $service->created_at->format('H:i d/m/Y') }}</p>
+          <p class="text-md text-gray-200"> {{ $servicewithoutprice->created_at->format('H:i d/m/Y') }}</p>
         </div>
 
         <div class="mt-4">
           <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.updated_at') }}</p>
-          <p class="text-md text-gray-200"> {{ $service->updated_at->format('H:i d/m/Y') }}</p>
+          <p class="text-md text-gray-200"> {{ $servicewithoutprice->updated_at->format('H:i d/m/Y') }}</p>
         </div>
 
         <div class="mt-4">
           <p class="text-sm font-semibold text-gray-400">{{ __('word.service.attribute.user_id') }}</p>
-          <p class="text-md text-gray-200">{{ $service->user->name }}</p>
+          <p class="text-md text-gray-200">{{ $servicewithoutprice->user->name }}</p>
         </div>
       </div>
     </div>
   </div>
-
-
-
 </x-app-layout>

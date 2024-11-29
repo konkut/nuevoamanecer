@@ -26,12 +26,12 @@
             {{ __('word.category.title') }}
           </x-nav-link>
 
-          <x-nav-link href="{{ route('services.index') }}" :active="request()->routeIs('services.index')">
-            {{ __('word.service.title') }}
+          <x-nav-link href="{{ route('serviceswithoutprices.index') }}" :active="request()->routeIs('serviceswithoutprices.index')">
+            {{ __('word.service.title_service_without_price') }}
           </x-nav-link>
 
-          <x-nav-link href="{{ route('servicesprices.index') }}" :active="request()->routeIs('servicesprices.index')">
-            {{ __('word.service.titleprice') }}
+          <x-nav-link href="{{ route('serviceswithprices.index') }}" :active="request()->routeIs('serviceswithprices.index')">
+            {{ __('word.service.title_service_with_price') }}
           </x-nav-link>
 
           {{--

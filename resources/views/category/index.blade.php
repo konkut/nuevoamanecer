@@ -61,7 +61,7 @@
                 <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Nombre')">{{ __('word.category.attribute.name') }}</th>
                 <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Fecha de registro')">{{ __('word.category.attribute.created_at') }}</th>
                 <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Estado')">{{ __('word.category.attribute.status') }}</th>
-                @can('categories.create')
+                @can('categories.show')
                 <th class="border border-[#2563eb] p-3">Acciones</th>
                 @endcan
               </tr>
@@ -73,7 +73,7 @@
                 <td class="border border-[#2563eb] p-2">{{ $category->name }}</td>
                 <td class="border border-[#2563eb] p-2">{{ $category->created_at->diffForHumans() }}</td>
                 <td class="border border-[#2563eb] p-2">{{ $category->status ? '🟢' : '🔴' }}</td>
-                @can('categories.create')
+                @can('categories.show')
                 <td class="border border-[#2563eb] p-2 flex justify-evenly">
                   <a href="{{ route('categories.show', $category->category_uuid) }}" class="bg-blue-500 text-white px-4 py-2 rounded">
                     <i class="bi bi-eye"></i>

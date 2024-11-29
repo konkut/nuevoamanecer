@@ -55,14 +55,17 @@
         if (change < 0) {
             changeLabel.innerHTML = "SALDO FALTANTE";
             changeInput.classList.remove("bg-green-600");
+            changeInput.classList.remove("bg-blue-600");
             changeInput.classList.add("bg-red-600");
         } else if (change > 0) {
             changeLabel.innerHTML = "SALDO SOBRANTE";
+            changeInput.classList.remove("bg-red-600");
             changeInput.classList.remove("bg-green-600");
-            changeInput.classList.add("bg-red-600");
+            changeInput.classList.add("bg-blue-600");
         } else {
             changeLabel.innerHTML = "SALDO EQUILIBRADO";
             changeInput.classList.remove("bg-red-600");
+            changeInput.classList.remove("bg-blue-600");
             changeInput.classList.add("bg-green-600");
         }
     }
