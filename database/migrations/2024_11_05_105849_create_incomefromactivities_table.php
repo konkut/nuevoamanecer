@@ -18,8 +18,8 @@ return new class extends Migration
       $table->decimal('commission', 10, 2)->nullable();
       $table->string('observation', 100)->nullable();
       $table->enum('status', ['1', '0'])->default('1');
-      $table->string('service_uuid', 36);
-      $table->foreign('service_uuid')->references('service_uuid')->on('services');
+      //$table->string('service_uuid', 36);
+      //$table->foreign('service_uuid')->references('service_uuid')->on('services');
       $table->string('customer_uuid', 36);
       $table->foreign('customer_uuid')->references('customer_uuid')->on('customers');
       $table->string('denomination_uuid', 36);

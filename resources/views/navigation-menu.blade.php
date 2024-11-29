@@ -22,9 +22,11 @@
           </x-nav-link>
           @endcan
 
+          @can('users.index')
           <x-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')">
             {{ __('word.category.title') }}
           </x-nav-link>
+          @endcan
 
           <x-nav-link href="{{ route('serviceswithoutprices.index') }}" :active="request()->routeIs('serviceswithoutprices.index')">
             {{ __('word.service.title_service_without_price') }}
@@ -34,26 +36,20 @@
             {{ __('word.service.title_service_with_price') }}
           </x-nav-link>
 
-          {{--
-            
-            <x-nav-link href="{{ route('currencies.index') }}" :active="request()->routeIs('currencies.index')">
-              {{ __('word.currency.title') }}
-            </x-nav-link>
-            --}}
+          @can('users.index')
+          <x-nav-link href="{{ route('transactionmethods.index') }}" :active="request()->routeIs('transactionmethods.index')">
+            {{ __('word.transactionmethod.title') }}
+          </x-nav-link>
+          @endcan
 
-
-          <x-nav-link href="{{ route('incomefromtransfers.index') }}" :active="request()->routeIs('incomefromtransfers.index')">
-            {{ __('word.incomefromtransfer.title') }}
+          <x-nav-link href="{{ route('paymentwithoutprices.index') }}" :active="request()->routeIs('paymentwithoutprices.index')">
+            {{ __('word.payment.title') }}
           </x-nav-link>
 
           <x-nav-link href="{{ route('cashcounts.index') }}" :active="request()->routeIs('cashcounts.index')">
             {{ __('word.cashcount.title') }}
           </x-nav-link>
-          <!--
-          <x-nav-link href="{{ route('denominations.index') }}" :active="request()->routeIs('denominations.index')">
-            {{ __('word.denomination.title') }}
-          </x-nav-link>
-          -->
+          
         </div>
       </div>
 

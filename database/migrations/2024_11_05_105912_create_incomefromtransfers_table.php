@@ -17,7 +17,7 @@ return new class extends Migration
       $table->string('code', 30);
       $table->json('amounts'); // Aquí se almacenará un array de montos (JSON)
       $table->json('commissions'); // Aquí se almacenará un array de comisiones (JSON)
-      $table->json('service_uuids'); // Aquí se almacenarán los UUIDs de servicios relacionados (JSON)
+     // $table->json('service_uuids'); // Aquí se almacenarán los UUIDs de servicios relacionados (JSON)
       $table->string('observation', 100)->nullable();
       $table->enum('status', ['1', '0'])->default('1');
       $table->string('denomination_uuid', 36);

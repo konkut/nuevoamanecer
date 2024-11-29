@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
       CategorySeeder::class,
       ServicewithpriceSeeder::class,
       ServicewithoutpriceSeeder::class,
+      TransactionmethodSeeder::class,
     ]);
   }
 }

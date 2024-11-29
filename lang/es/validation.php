@@ -167,11 +167,16 @@ return [
     'symbol' => 'simbolo',
     "exchange_rate" => "Tasa de cambio",
 
+    /*FORM PAYMENT WITHOUT PRICE */
+    "observation" => "observación",
+    'servicewithprice_uuid' => 'servicio',
+    'transactionmethod_uuid' => 'método',
+    'denomination_uuid' => 'denominación',
+
     /*FORM INCOME FROM TRANSFER */
     'code' => 'código',
     'amount' => 'monto',
     'commission' => 'comisión',
-    "observation" => "observación",
     "service_uuid" => "servicio",
 
     /*FORM DENOMINATION */

@@ -45,20 +45,25 @@ class RoleSeeder extends Seeder
     Permission::create(['name' => 'serviceswithprices.edit'])->syncRoles([$role1]);
     Permission::create(['name' => 'serviceswithprices.destroy'])->syncRoles([$role1]);
 
+    /*TRANSACTION METHOD */
+    Permission::create(['name' => 'transactionmethods.index'])->syncRoles([$role1]);
+    Permission::create(['name' => 'transactionmethods.create'])->syncRoles([$role1]);
+    Permission::create(['name' => 'transactionmethods.show'])->syncRoles([$role1]);
+    Permission::create(['name' => 'transactionmethods.edit'])->syncRoles([$role1]);
+    Permission::create(['name' => 'transactionmethods.destroy'])->syncRoles([$role1]);
+
+    /*PAYMENT WITHOUT PRICE*/
+    Permission::create(['name' => 'paymentwithoutprices.index'])->syncRoles([$role1, $role2]);
+    Permission::create(['name' => 'paymentwithoutprices.create'])->syncRoles([$role1, $role2]);
+    Permission::create(['name' => 'paymentwithoutprices.show'])->syncRoles([$role1, $role2]);
+    Permission::create(['name' => 'paymentwithoutprices.edit'])->syncRoles([$role1, $role2]);
+    Permission::create(['name' => 'paymentwithoutprices.destroy'])->syncRoles([$role1, $role2]);
 
     Permission::create(['name' => 'currencies.index'])->syncRoles([$role1]);
     Permission::create(['name' => 'currencies.create'])->syncRoles([$role1]);
     Permission::create(['name' => 'currencies.show'])->syncRoles([$role1]);
     Permission::create(['name' => 'currencies.edit'])->syncRoles([$role1]);
     Permission::create(['name' => 'currencies.destroy'])->syncRoles([$role1]);
-
-    
-
-    Permission::create(['name' => 'incomefromtransfers.index'])->syncRoles([$role1, $role2]);
-    Permission::create(['name' => 'incomefromtransfers.create'])->syncRoles([$role1, $role2]);
-    Permission::create(['name' => 'incomefromtransfers.show'])->syncRoles([$role1, $role2]);
-    Permission::create(['name' => 'incomefromtransfers.edit'])->syncRoles([$role1, $role2]);
-    Permission::create(['name' => 'incomefromtransfers.destroy'])->syncRoles([$role1, $role2]);
 
     Permission::create(['name' => 'denominations.index'])->syncRoles([$role1, $role2]);
     Permission::create(['name' => 'denominations.create'])->syncRoles([$role1, $role2]);
