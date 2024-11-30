@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Models\Servicewithoutprice;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +17,7 @@ class ServicewithoutpriceController extends Controller
     $servicewithoutprices = Servicewithoutprice::with('user')->paginate($perPage);
     return view("servicewithoutprice.index", compact('servicewithoutprices', 'perPage'));
   }
+
   public function create()
   {
     $servicewithoutprice = new Servicewithoutprice();
@@ -113,7 +114,7 @@ class ServicewithoutpriceController extends Controller
   public function destroy(string $servicewithoutprice_uuid)
   {
     $servicewithoutprice = Servicewithoutprice::where('servicewithoutprice_uuid', $servicewithoutprice_uuid)->firstOrFail();
-    $servicewithoutprice->delete(); 
+    $servicewithoutprice->delete();
     return redirect("/serviceswithoutprices")->with('success', 'Servicio eliminado correctamente.');
   }
 }
