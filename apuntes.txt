@@ -1,4 +1,10 @@
-SOLUCION DEL ERROR 
+THEME COLORES
+FFDAB9
+FFA07A
+F75C5C
+
+
+SOLUCION DEL ERROR
 sudo chmod -R 775 nuevoamanecer
 php artisan livewire:publish --assets
 php artisan route:clear
@@ -17,7 +23,7 @@ ns26.hostgator.mx
 ns27.hostgator.mx
 
 SEEDER
-php artisan make:seeder RoleSeeder  
+php artisan make:seeder RoleSeeder
 php artisan db:seed --class=RoleSeeder
 
 ACTUALIZAR
@@ -27,11 +33,11 @@ php artisan route:clear
 php artisan cache:clear
 php artisan optimize
 
-composer update 
+composer update
 
 Recompila los assets
 npm install
-npm run dev 
+npm run dev
 
 Publica los assets de Livewire
 php artisan livewire:publish
@@ -62,7 +68,7 @@ NO HAY REGISTROS
             </x-nav-link>
             <x-nav-link href="{{ route('income.create') }}" :active="request()->routeIs('incomes.create')">
               {{ __('word.income.new') }}
-            </x-nav-link>  
+            </x-nav-link>
           -->
           }}
 

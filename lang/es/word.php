@@ -9,6 +9,10 @@ return [
     ],
   ],
 
+  'menu' =>[
+    'mode' => 'Modo Oscuro'
+  ],
+
   'general' => [
     "app" => "Nuevo amanecer",
     "author" => "Pedro Luis Condori Cutile",
