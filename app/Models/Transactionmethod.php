@@ -12,7 +12,7 @@ class Transactionmethod extends Model
     use HasFactory;
     use SoftDeletes;
     protected $primaryKey = 'transactionmethod_uuid';
-    protected $keyType = 'string'; 
+    protected $keyType = 'string';
     public $incrementing = false;
     protected $table = 'transactionmethods';
     protected $fillable = [
@@ -27,7 +27,7 @@ class Transactionmethod extends Model
     parent::boot();
 
     static::creating(function ($model) {
-      $model->transactionmethod_uuid = (string) Str::uuid(); 
+      $model->transactionmethod_uuid = (string) Str::uuid();
     });
 
     static::deleting(function ($transactionmethod) {
