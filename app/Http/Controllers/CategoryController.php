@@ -16,8 +16,8 @@ class CategoryController extends Controller
   }
   public function create()
   {
-    $categories = new Category();
-    return view("category.create", compact('categories'));
+    $category = new Category();
+    return view("category.create", compact('category'));
   }
   public function store(Request $request)
   {
@@ -47,11 +47,6 @@ class CategoryController extends Controller
       'description' => $request->description,
     ]);
     return redirect("/categories")->with('success', 'Categoria registrada correctamente.');
-  }
-  public function show($category_uuid, Request $request)
-  {
-    $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
-    return view('category.show', compact('category'));
   }
   public function edit(string $category_uuid)
   {
@@ -96,7 +91,7 @@ class CategoryController extends Controller
   public function destroy(string $category_uuid)
   {
     $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
-    $category->delete(); 
+    $category->delete();
     return redirect("/categories")->with('success', 'Categoria eliminada correctamente.');
   }
 }

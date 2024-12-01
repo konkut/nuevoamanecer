@@ -6,15 +6,15 @@
     let password_icon = document.getElementById("password_icon");
 
     document.addEventListener("DOMContentLoaded", () => {
-        email_icon.style.color = "#2563eb";
+        email_icon.style.color = "#60A5FA";
     });
     document.addEventListener(
         "focus",
         (e) => {
             if (e.target.matches("#email")) {
-                email_icon.style.color = "#2563eb";
+                email_icon.style.color = "#60A5FA";
             } else if (e.target.matches("#password")) {
-                password_icon.style.color = "#2563eb";
+                password_icon.style.color = "#60A5FA";
             }
         },
         true
@@ -24,9 +24,9 @@
         "blur",
         (e) => {
             if (e.target.matches("#email")) {
-                email_icon.style.color = "#374151";
+                email_icon.style.color = "#d1d5db";
             } else if (e.target.matches("#password")) {
-                password_icon.style.color = "#374151";
+                password_icon.style.color = "#d1d5db";
             }
         },
         true

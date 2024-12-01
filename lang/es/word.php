@@ -25,6 +25,7 @@ return [
     '50_items' => '50 registros',
     'delete_title' => 'Confirmar eliminación',
     'delete_warning' => '? Esta acción también eliminará todas las tareas relacionadas y no se puede deshacer.',
+      'actions'=> 'Acciones',
   ],
 
   'user' => [
@@ -46,11 +47,6 @@ return [
         'title' => 'Lista de usuarios',
         'description' => 'Explora la lista completa de usuarios disponibles.',
         'keywords' => 'lista de usuarios, usuarios disponibles, plataforma',
-      ],
-      'show' => [
-        'title' => 'Mostrar usuario',
-        'description' => 'Consulta los detalles de cada usuario disponible.',
-        'keywords' => 'ver usuario, detalles del usuario, plataforma',
       ],
       "author" => 'Pedro Luis Condori Cutile',
     ],
@@ -87,11 +83,6 @@ return [
         'title' => 'Lista de categorias',
         'description' => 'Explora la lista completa de categorias disponibles.',
         'keywords' => 'lista de categorias, categorias disponibles, plataforma',
-      ],
-      'show' => [
-        'title' => 'Mostrar categorias',
-        'description' => 'Consulta los detalles de cada categoria disponible.',
-        'keywords' => 'ver categoria, detalles de la categoria, plataforma',
       ],
       "author" => 'Pedro Luis Condori Cutile',
     ],
@@ -131,11 +122,6 @@ return [
         'title' => 'Lista de servicios',
         'description' => 'Explora la lista completa de servicios disponibles.',
         'keywords' => 'lista de servicios, servicios disponibles, plataforma',
-      ],
-      'show' => [
-        'title' => 'Mostrar servicios',
-        'description' => 'Consulta los detalles de cada servicio disponible.',
-        'keywords' => 'ver servicio, detalles del servicio, plataforma',
       ],
       "author" => 'Pedro Luis Condori Cutile',
     ],
@@ -177,11 +163,6 @@ return [
         'title' => 'Lista de métodos de transacción',
         'description' => 'Explora la lista completa de métodos de transacción disponibles.',
         'keywords' => 'lista de métodos de transacción, métodos de transacción disponibles, plataforma',
-      ],
-      'show' => [
-        'title' => 'Mostrar métodos de transacción',
-        'description' => 'Consulta los detalles de cada método de transacción disponible.',
-        'keywords' => 'ver método de transacción, detalles del método de transacción, plataforma',
       ],
       "author" => 'Pedro Luis Condori Cutile',
     ],
@@ -244,7 +225,7 @@ return [
 
   'payment' => [
     'title' => 'Ingresos de pagos',
-    'delete_confirmation' => '¿Está seguro de eliminar el ingreso de pagos',
+    'delete_confirmation' => '¿Está seguro de eliminar el ingreso de pago',
     'select_service' => 'Seleccionar un servicio',
     'select_method' => 'Seleccionar un método',
     'meta' => [
@@ -263,11 +244,6 @@ return [
         'description' => 'Explora la lista completa de ingreso de pagos disponibles.',
         'keywords' => 'lista de ingreso de pagos, ingreso de pagos disponibles, plataforma',
       ],
-      'show' => [
-        'title' => 'Mostrar ingreso de pago',
-        'description' => 'Consulta los detalles de cada ingreso de pago disponible.',
-        'keywords' => 'ver ingreso de pago, detalles del ingreso de pago, plataforma',
-      ],
       "author" => 'Pedro Luis Condori Cutile',
     ],
     'resource' => [
@@ -285,7 +261,7 @@ return [
       "created_at" => "Fecha Registro",
       "updated_at" => "Últ. Act.",
       "amount" => "Monto",
-      
+
       "servicewithoutprice_uuid" => "Servicio",
       "code" => "Codigo",
       "amount_total" => "Monto Total",

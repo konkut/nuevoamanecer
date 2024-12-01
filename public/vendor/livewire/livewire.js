@@ -4239,7 +4239,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     }, 5));
   }
 
-  // js/request/index.js
+  // js/request/show.js
   var commitBus = new CommitBus();
   async function requestCommit(component) {
     let commit = commitBus.add(component);
@@ -7823,7 +7823,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     return result.trim();
   }
 
-  // js/plugins/navigate/index.js
+  // js/plugins/navigate/show.js
   var enablePersist = true;
   var showProgressBar = true;
   var restoreScroll = true;
@@ -8007,7 +8007,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     Alpine.destroyTree(document.body, walker);
   }
 
-  // js/plugins/history/index.js
+  // js/plugins/history/show.js
   function history2(Alpine3) {
     Alpine3.magic("queryString", (el, { interceptor: interceptor2 }) => {
       let alias;
@@ -10023,7 +10023,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     return durationInMilliSeconds || defaultDuration;
   }
 
-  // js/index.js
+  // js/show.js
   var Livewire2 = {
     directive: directive2,
     dispatchTo,

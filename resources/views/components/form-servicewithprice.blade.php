@@ -42,7 +42,7 @@
   <x-label for="category_uuid" value="{{ __('word.service.attribute.category_uuid') }} *" />
   <div class="relative">
     <i id="category_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-    <select id="category_uuid" class="pl-9 pr-3 py-2 bg-[#111827] text-white border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-[#2563eb] focus:border-[#2563eb] w-full" name="category_uuid">
+    <select id="category_uuid" class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="category_uuid">
       <option value="" disabled {{ old('category_uuid', $servicewithprice->category_uuid) ? '' : 'selected' }}>
         {{__('word.service.select_category')}}
       </option>

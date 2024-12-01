@@ -11,12 +11,12 @@
   <x-label for="servicewithprice_uuid" value="{{ __('word.payment.attribute.servicewithprice_uuid') }} *" />
   <div class="relative">
     <i id="servicewithprice_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-    <select id="servicewithprice_uuid" class="pl-9 pr-3 py-2 bg-[#111827] text-white border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-[#2563eb] focus:border-[#2563eb] w-full" name="servicewithprice_uuid">
-      <option value="" disabled {{ old('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuid) ? '' : 'selected' }}>
+    <select id="servicewithprice_uuid" onchange="updateCharge()" class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="servicewithprice_uuid">
+      <option value="{{ $paymentwithoutprice->servicewithprice_uuid }}"  disabled {{ old('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuid) ? '' : 'selected' }}>
         {{__('word.payment.select_service')}}
       </option>
       @foreach($servicewithprices as $item)
-      <option value="{{ $item->servicewithprice_uuid }}" {{ (old('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuid) == $item->servicewithprice_uuid) ? 'selected' : '' }}>
+      <option value="{{ $item->servicewithprice_uuid }}" data-amount="{{ $item->amount }}" data-commission="{{ $item->commission }}" {{ (old('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuid) == $item->servicewithprice_uuid) ? 'selected' : '' }}>
         {{$item->name}}
       </option>
       @endforeach
@@ -31,7 +31,7 @@
   <x-label for="transactionmethod_uuid" value="{{ __('word.payment.attribute.transactionmethod_uuid') }} *" />
   <div class="relative">
     <i id="transactionmethod_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-    <select id="transactionmethod_uuid" class="pl-9 pr-3 py-2 bg-[#111827] text-white border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-[#2563eb] focus:border-[#2563eb] w-full" name="transactionmethod_uuid">
+    <select id="transactionmethod_uuid" class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="transactionmethod_uuid">
       <option value="" disabled {{ old('transactionmethod_uuid', $paymentwithoutprice->transactionmethod_uuid) ? '' : 'selected' }}>
         {{__('word.payment.select_method')}}
       </option>

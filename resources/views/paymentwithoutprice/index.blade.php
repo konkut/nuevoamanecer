@@ -1,128 +1,211 @@
 <x-app-layout>
-  <x-slot name="title">
-    {{ __('word.payment.meta.index.title') }}
-  </x-slot>
-  <x-slot name="metaDescription">
-    {{ __('word.payment.meta.index.description')}}
-  </x-slot>
-  <x-slot name="metaKeywords">
-    {{ __('word.payment.meta.index.keywords')}}
-  </x-slot>
-  <x-slot name="metaOgTitle">
-    {{ __('word.payment.meta.index.title') }}
-  </x-slot>
-  <x-slot name="metaOgDescription">
-    {{ __('word.payment.meta.index.description')}}
-  </x-slot>
+    <x-slot name="title">
+        {{ __('word.payment.meta.index.title') }}
+    </x-slot>
+    <x-slot name="metaDescription">
+        {{ __('word.payment.meta.index.description')}}
+    </x-slot>
+    <x-slot name="metaKeywords">
+        {{ __('word.payment.meta.index.keywords')}}
+    </x-slot>
+    <x-slot name="metaOgTitle">
+        {{ __('word.payment.meta.index.title') }}
+    </x-slot>
+    <x-slot name="metaOgDescription">
+        {{ __('word.payment.meta.index.description')}}
+    </x-slot>
 
-  <x-slot name="js_files">
-    <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
-    <script src="{{ asset('js/paymentwithoutprice/index.js?v='.time()) }}"></script>
-  </x-slot>
+    <x-slot name="js_files">
+        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
+        <script src="{{ asset('js/payment/index.js?v='.time()) }}"></script>
+    </x-slot>
 
 
-  <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-      {{ __('word.payment.resource.index') }}
-    </h2>
-  </x-slot>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('word.payment.resource.index') }}
+        </h2>
+    </x-slot>
 
-  @if (session('success'))
-  <x-alert :message="session('success')" />
-  @endif
+    @if (session('success'))
+        <x-alert :message="session('success')"/>
+    @endif
+    <div class="py-12 ">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="container mx-auto p-4">
+                    <div class="flex justify-end space-x-2 items-center mb-4">
 
-  <div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div class="overflow-hidden shadow-xl sm:rounded-lg">
-        <div class="container mx-auto p-4">
+                            <a href="{{ route('paymentwithoutprices.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
+                                <i class="bi bi-plus"></i>
+                            </a>
 
-          <!-- Búsqueda y selección de registros -->
-          <div class="flex justify-between mb-4">
+                        <form method="GET" action="{{ route('paymentwithoutprices.index') }}" onchange="this.submit()"
+                              class="inline-block">
+                            <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
+                                <option
+                                    value="10" {{ $perPage == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
+                                <option
+                                    value="20" {{ $perPage == 20 ? 'selected' : '' }}>{{ __('word.general.20_items') }}</option>
+                                <option
+                                    value="50" {{ $perPage == 50 ? 'selected' : '' }}>{{ __('word.general.50_items') }}</option>
+                            </select>
+                        </form>
+                    </div>
 
-            <a href="{{ route('paymentwithoutprices.create') }}" class="bg-green-500 text-white px-6 py-3 rounded">
-              <i class="bi bi-plus"></i>
-            </a>
-            <form method="GET" action="{{ route('paymentwithoutprices.index') }}" onchange="this.submit()" class="inline-block">
-              <select name="perPage" class="border border-gray-300 rounded pr-8 w-36">
-                <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
-                <option value="20" {{ $perPage == 20 ? 'selected' : '' }}>{{ __('word.general.20_items') }}</option>
-                <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>{{ __('word.general.50_items') }}</option>
-              </select>
-            </form>
-          </div>
 
-          <!-- Tabla de datos -->
-          <table class="min-w-full border border-collapse border-[#2563eb] text-white text-center">
-            <thead>
-              <tr class="bg-[#2563eb] text-white">
-                <th class="border border-[#2563eb] p-3">#</th>
-                <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Servicio')">{{ __('word.payment.attribute.servicewithprice_uuid') }}</th>
-                <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Monto')">{{ __('word.payment.attribute.amount') }}</th>
-                <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Método')">{{ __('word.payment.attribute.transactionmethod_uuid') }}</th>
-                <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Fecha de registro')">{{ __('word.payment.attribute.created_at') }}</th>
-                <th class="border border-[#2563eb] p-3 cursor-pointer" onclick="enableSearch(this, 'Registrado por')">{{ __('word.payment.attribute.user_id') }}</th>
-                <th class="border border-[#2563eb] p-3">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($paymentwithoutprices as $item)
-              <tr class="hover:bg-slate-700 transition duration-200">
-                <th class="border border-[#2563eb] p-2">{{ $loop->iteration }}</th>
-                <td class="border border-[#2563eb] p-2">{{ $item->servicewithprice->name }}</td>
-                <td class="border border-[#2563eb] p-2">{{ $item->servicewithprice->amount }}</td>
-                <td class="border border-[#2563eb] p-2">{{ $item->transactionmethod->name }}</td>
-                <td class="border border-[#2563eb] p-2">{{ $incomefromtransfer->created_at->diffForHumans() }}</td>
-                <td class="border border-[#2563eb] p-2">{{ $incomefromtransfer->user->name }}</td>
-                <td class="border border-[#2563eb] p-2 flex justify-evenly">
-                  <a href="{{ route('paymentwithoutprices.show', $item->paymentwithoutprice_uuid) }}" class="bg-blue-500 text-white px-4 py-2 rounded">
-                    <i class="bi bi-eye"></i>
-                  </a>
-                  <a href="{{ route('paymentwithoutprices.edit',$item->paymentwithoutprice_uuid) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">
-                    <i class="bi bi-pencil"></i>
-                  </a>
-                  <div class="flex justify-evenly">
-                    <button type="button" class="bg-red-500 text-white px-4 py-2 rounded" onclick="openModal('{{$item->paymentwithoutprice_uuid}}', '{{$item->code}}')">
-                      <i class="bi bi-x-circle"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <!-- Modal -->
-             <!-- Modal -->
-            <div id="modal-{{$item->paymentwithoutprice_uuid}}" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-              <div class="flex items-center justify-center min-h-screen">
-                <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
-                  <div class="modal-header p-4 border-b flex justify-between items-center">
-                    <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
-                    <button type="button" class="close-modal text-gray-500 hover:text-gray-700" onclick="closeModal('{{$item->paymentwithoutprice_uuid}}')">&times;</button>
-                  </div>
-                  <div class="modal-body p-6">
-                    <p class="text-gray-600">{{__('word.payment.delete_confirmation')}} <strong id="name-{{$item->paymentwithoutprice_uuid}}"></strong>{{__('word.general.delete_warning')}}</p>
-                  </div>
-                  <div class="modal-footer p-4 border-t flex justify-end space-x-2">
-                    <button type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400" onclick="closeModal('{{$item->paymentwithoutprice_uuid}}')">{{ __('Close') }}</button>
-                    <form id="delete-form-{{$item->paymentwithoutprice_uuid}}" action="{{route('paymentwithoutprices.destroy',$item->paymentwithoutprice_uuid)}}" method="POST">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-red-600">{{ __('Delete') }}</button>
-                    </form>
-                  </div>
+                    <!-- Tabla de datos -->
+                    <div class="overflow-x-auto text-black">
+                        <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
+                            <thead>
+                            <tr class="bg-[#d1d5db]">
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'servicio')">{{ __('word.payment.attribute.servicewithprice_uuid') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'método')">{{ __('word.payment.attribute.transactionmethod_uuid') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.payment.attribute.created_at') }}</th>
+                                @can('paymentwithoutpricesuser.showuser')
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.payment.attribute.user_id') }}</th>
+                                @endcan
+                                    <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($paymentwithoutprices as $item)
+                                <tr class="hover:bg-[#d1d5db44] transition duration-200">
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->servicewithprice->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->servicewithprice->amount+$item->servicewithprice->commission,2)  }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->transactionmethod->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
+                                    @can('paymentwithoutpricesuser.showuser')
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
+                                    @endcan
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">
+                                            <div class="flex justify-center space-x-1">
+                                                <form id="details-form-{{$item->paymentwithoutprice_uuid}}" action="{{ route('paymentwithoutpricesdetail.showdetail', $item->paymentwithoutprice_uuid) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="button" onclick="fetchDetails('{{$item->paymentwithoutprice_uuid}}')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </form>
+                                                <a href="{{ route('paymentwithoutprices.edit',$item->paymentwithoutprice_uuid) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ $item->servicewithprice->name }}')">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                </tr>
+
+                                <div id="details-modal-{{$item->paymentwithoutprice_uuid}}"
+                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center overflow-y-auto">
+                                    <div
+                                        class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                        <div class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
+                                            <h1 class="text-lg font-semibold mx-auto">{{ __('word.payment.resource.show') }}</h1>
+                                            <button type="button"
+                                                    class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
+                                                    onclick="closeDetailsModal('{{$item->paymentwithoutprice_uuid}}')">
+                                                &times;
+                                            </button>
+                                        </div>
+                                        <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div class="text-center">
+                                                    @if($item->observation)
+                                                        <div>
+                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.observation') }}</p>
+                                                            <p>{{ $item->observation }}</p>
+                                                        </div>
+                                                    @endif
+                                                    <div class="mt-4">
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.created_at') }}</p>
+                                                        <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.updated_at') }}</p>
+                                                        <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.user_id') }}</p>
+                                                        <p>{{ $item->user->name }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center" id="contain_bill_coin">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- modal show -->
+
+
+                                <!-- Modal -->
+                                <div id="modal-{{$item->paymentwithoutprice_uuid}}"
+                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                            <div class="modal-header p-4 border-b flex justify-between items-center">
+                                                <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
+                                                <button type="button"
+                                                        class="close-modal text-gray-500 hover:text-gray-700"
+                                                        onclick="closeModal('{{$item->paymentwithoutprice_uuid}}')">
+                                                    &times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body p-6">
+                                                <p class="text-gray-600">{{__('word.payment.delete_confirmation')}}
+                                                    <strong
+                                                        id="name-{{$item->paymentwithoutprice_uuid}}"></strong>{{__('word.general.delete_warning')}}
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer p-4 border-t flex justify-end space-x-2">
+                                                <button type="button"
+                                                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
+                                                        onclick="closeModal('{{$item->paymentwithoutprice_uuid}}')">{{ __('Close') }}</button>
+                                                <form id="delete-form-{{$item->paymentwithoutprice_uuid}}"
+                                                      action="{{route('paymentwithoutprices.destroy',$item->paymentwithoutprice_uuid)}}"
+                                                      method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="bg-red-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-red-600">{{ __('Delete') }}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginaci車n -->
+                    <div class="pagination-wrapper mt-4">
+                        {!! $paymentwithoutprices->appends(['perPage' => $perPage])->links() !!}
+                    </div>
                 </div>
-              </div>
             </div>
-              @endforeach
-            </tbody>
-          </table>
-          <div class="pagination-wrapper mt-4">
-            {!! $paymentwithoutprices->appends(['perPage' => $perPage])->links() !!}
-          </div>
         </div>
-
-      </div>
     </div>
-  </div>
-
-
 </x-app-layout>

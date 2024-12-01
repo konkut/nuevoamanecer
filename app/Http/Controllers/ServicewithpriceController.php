@@ -69,11 +69,6 @@ class ServicewithpriceController extends Controller
     ]);
     return redirect("/serviceswithprices")->with('success', 'Servicio registrado correctamente.');
   }
-  public function show($servicewithprice_uuid, Request $request)
-  {
-    $servicewithprice = Servicewithprice::where('servicewithprice_uuid', $servicewithprice_uuid)->firstOrFail();
-    return view('servicewithprice.show', compact('servicewithprice'));
-  }
   public function edit(string $servicewithprice_uuid)
   {
     $categories = Category::all();

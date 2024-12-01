@@ -6,17 +6,17 @@
     let name = document.getElementById("name");
 
     /*FOCUS AND BLUR ICON*/
-    name_icon.style.color = "#2563eb";
+    name_icon.style.color = "#60A5FA";
     name.focus();
-  
+
     document.addEventListener(
         "focus",
         (e) => {
             if (e.target.matches("#name")) {
-                name_icon.style.color = "#2563eb";
+                name_icon.style.color = "#60A5FA";
             } else if (e.target.matches("#description")) {
-                description_icon.style.color = "#2563eb";
-            } 
+                description_icon.style.color = "#60A5FA";
+            }
         },
         true
     );
@@ -25,10 +25,10 @@
         "blur",
         (e) => {
             if (e.target.matches("#name")) {
-                name_icon.style.color = "#374151";
+                name_icon.style.color = "#d1d5db";
             } else if (e.target.matches("#description")) {
-                description_icon.style.color = "#374151";
-            } 
+                description_icon.style.color = "#d1d5db";
+            }
         },
         true
     );

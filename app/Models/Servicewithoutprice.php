@@ -11,9 +11,9 @@ class Servicewithoutprice extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $primaryKey = 'servicewithoutprice_uuid';
-    protected $keyType = 'string'; 
+    protected $keyType = 'string';
     public $incrementing = false;
+    protected $primaryKey = 'servicewithoutprice_uuid';
     protected $table = 'servicewithoutprices';
     protected $fillable = [
       'servicewithoutprice_uuid',
@@ -32,6 +32,10 @@ class Servicewithoutprice extends Model
     {
       return $this->belongsTo(User::class);
     }
+    /*public function paymentwithoutprice()
+    {
+        return $this->hasMany(Paymentwithoutprice::class, 'servicewithoutprice_uuid', 'servicewithoutprice_uuid');
+    }*/
     /*
     public function incomefromtransfer()
   {
@@ -45,12 +49,10 @@ class Servicewithoutprice extends Model
     static::creating(function ($model) {
       $model->servicewithoutprice_uuid = (string) Str::uuid(); // Genera un UUID
     });
-
-    static::deleting(function ($servicewithoutprice) {
-      // Elimina con soft delete todos los servicios asociados
-      /*$service->incomefromtransfer()->each(function ($service) {
-        $service->delete();
-      });*/
-    });
+      static::deleting(function ($model) {
+          $model->paymentwithoutprice()->each(function ($row) {
+              $row->delete();
+          });
+      });
   }
 }

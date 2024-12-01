@@ -12,7 +12,7 @@ class Paymentwithoutprice extends Model
     use HasFactory;
     use SoftDeletes;
     protected $primaryKey = 'paymentwithoutprice_uuid';
-    protected $keyType = 'string'; 
+    protected $keyType = 'string';
     public $incrementing = false;
     protected $table = 'paymentwithoutprices';
     protected $fillable = [
@@ -23,17 +23,17 @@ class Paymentwithoutprice extends Model
       'denomination_uuid',
       'user_id',
     ];
-  
+
     public function servicewithprice()
     {
       return $this->belongsTo(Servicewithprice::class, 'servicewithprice_uuid', 'servicewithprice_uuid');
     }
-  
+
     public function transactionmethod()
     {
       return $this->belongsTo(Transactionmethod::class, 'transactionmethod_uuid', 'transactionmethod_uuid');
     }
-  
+
     public function denomination()
     {
       return $this->hasOne(Denomination::class, 'denomination_uuid', 'denomination_uuid');
@@ -47,14 +47,15 @@ class Paymentwithoutprice extends Model
     protected static function boot()
     {
       parent::boot();
-  
+
       static::creating(function ($model) {
         $model->paymentwithoutprice_uuid = (string) Str::uuid();
       });
-      /*
-      static::deleting(function ($incomefromtransfer) {
-        $incomefromtransfer->denomination()->delete();
+
+      static::deleting(function ($model) {
+          $model->denomination()->delete();
       });
+      /*
       static::restoring(function ($incomefromtransfer) {
         $incomefromtransfer->services()->onlyTrashed()->each(function ($incomefromtransfer) {
           $incomefromtransfer->restore();

@@ -13,7 +13,7 @@ const enableSearch = (th, placeholder) => {
     input.type = "text";
     input.placeholder = "Buscar " + placeholder;
     input.className =
-        "border border-gray-300 rounded-full px-2 py-1 w-24 text-xs text-gray-700 focus:ring-2 focus:ring-blue-400";
+        "border-0 focus:outline-none rounded-full px-2 py-1 w-24 text-xs text-gray-700";
     input.style.textAlign = "center";
     // Reemplazar contenido del encabezado por el contenedor con el input
     th.innerHTML = ""; // Limpia el contenido

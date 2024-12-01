@@ -8058,7 +8058,7 @@ function bufferPoolingForFiveMs(commit, callback) {
   }, 5));
 }
 
-// js/request/index.js
+// js/request/show.js
 var commitBus = new CommitBus();
 async function requestCommit(component) {
   let commit = commitBus.add(component);
@@ -9214,7 +9214,7 @@ function ignoreAttributes(subject, attributesToRemove) {
   return result.trim();
 }
 
-// js/plugins/navigate/index.js
+// js/plugins/navigate/show.js
 var enablePersist = true;
 var showProgressBar = true;
 var restoreScroll = true;
@@ -9398,7 +9398,7 @@ function cleanupAlpineElementsOnThePageThatArentInsideAPersistedElement() {
   Alpine.destroyTree(document.body, walker);
 }
 
-// js/plugins/history/index.js
+// js/plugins/history/show.js
 function history2(Alpine20) {
   Alpine20.magic("queryString", (el, { interceptor }) => {
     let alias;
@@ -9673,7 +9673,7 @@ function ensureLivewireScriptIsntMisplaced() {
   }
 }
 
-// js/index.js
+// js/show.js
 var import_alpinejs18 = __toESM(require_module_cjs());
 
 // js/features/supportListeners.js
@@ -10927,7 +10927,7 @@ function extractDurationFrom(modifiers, defaultDuration) {
   return durationInMilliSeconds || defaultDuration;
 }
 
-// js/index.js
+// js/show.js
 var Livewire2 = {
   directive,
   dispatchTo,
@@ -10970,7 +10970,7 @@ export {
  * @license MIT */
 /*! Bundled license information:
 
-tabbable/dist/index.js:
+tabbable/dist/show.js:
   (*!
   * tabbable 5.3.3
   * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE

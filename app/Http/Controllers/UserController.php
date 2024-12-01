@@ -27,24 +27,24 @@ class UserController extends Controller
       'name' => [
         'required',
         'string',
-        'max:100',  
+        'max:100',
         'regex:/^[a-zA-Z\s]+$/',
       ],
       'email' => [
         'required',
         'email',
         'max:100',
-        'unique:users,email', 
+        'unique:users,email',
       ],
       'password' => [
         'required',
         'string',
-        'min:8',  
+        'min:8',
       ],
       'profile_photo_path' => [
         'nullable',
-        'string',  
-        'max:2048',  
+        'string',
+        'max:2048',
       ],
     ];
     $validator = Validator::make($request->all(), $rules);
@@ -55,15 +55,10 @@ class UserController extends Controller
     }
     User::create(['name' => $request->input('name'),
       'email' => $request->input('email'),
-      'password' => bcrypt($request->input('password')), 
+      'password' => bcrypt($request->input('password')),
       'profile_photo_path' => $request->input('profile_photo_path') ?? null,
     ]);
     return redirect("/users")->with('success', 'Usuario registrado  orrectamente.');
-  }
-  public function show(string $id)
-  {
-    $user = User::findOrFail($id);
-    return view("user.show", compact('user'));
   }
   public function edit(string $id)
   {
@@ -90,7 +85,7 @@ class UserController extends Controller
         'required',
         'email',
         'max:100',
-        'unique:users,email,' . $user->id, 
+        'unique:users,email,' . $user->id,
       ],
       'password' => [
         'required',

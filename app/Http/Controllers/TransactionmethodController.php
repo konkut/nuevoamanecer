@@ -48,17 +48,12 @@ class TransactionmethodController extends Controller
       ]);
       return redirect("/transactionmethods")->with('success', 'Método de transacción registrado correctamente.');
     }
-    public function show($transactionmethod_uuid, Request $request)
-    {
-      $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->firstOrFail();
-      return view('transactionmethod.show', compact('transactionmethod'));
-    }
     public function edit(string $transactionmethod_uuid)
     {
         $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->firstOrFail();
         return view("transactionmethod.edit", compact('transactionmethod'));
     }
-  
+
     public function update(Request $request, string $transactionmethod_uuid)
     {
         $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->firstOrFail();
@@ -96,7 +91,7 @@ class TransactionmethodController extends Controller
     public function destroy(string $transactionmethod_uuid)
     {
         $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->firstOrFail();
-        $transactionmethod->delete(); 
+        $transactionmethod->delete();
         return redirect("/transactionmethods")->with('success', 'Método de transacción eliminado correctamente.');
     }
 }
