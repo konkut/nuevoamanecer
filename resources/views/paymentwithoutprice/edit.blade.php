@@ -18,7 +18,7 @@
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/ticketing.js?v='.time()) }}"></script>
-        <script src="{{ asset('/js/payment/form.js?v='.time()) }}"></script>
+        <script src="{{ asset('/js/payment/form_without_price.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">

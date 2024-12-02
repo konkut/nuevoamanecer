@@ -61,6 +61,17 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'paymentwithprices.destroy'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'paymentwithpricesuser.showuser'])->syncRoles([$role1]);
 
+        /*DENOMINATION*/
+        Permission::create(['name' => 'denominations.index'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'denominations.create'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'denominations.edit'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'denominations.destroy'])->syncRoles([$role1, $role2]);
+
+        /*CASHCOUNTS*/
+        Permission::create(['name' => 'cashcounts.index'])->syncRoles([$role1]);
+        Permission::create(['name' => 'cashcounts.create'])->syncRoles([$role1]);
+        Permission::create(['name' => 'cashcounts.edit'])->syncRoles([$role1]);
+        Permission::create(['name' => 'cashcounts.destroy'])->syncRoles([$role1]);
 
         Permission::create(['name' => 'currencies.index'])->syncRoles([$role1]);
         Permission::create(['name' => 'currencies.create'])->syncRoles([$role1]);
@@ -68,11 +79,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'currencies.edit'])->syncRoles([$role1]);
         Permission::create(['name' => 'currencies.destroy'])->syncRoles([$role1]);
 
-        Permission::create(['name' => 'denominations.index'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'denominations.create'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'denominations.show'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'denominations.edit'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'denominations.destroy'])->syncRoles([$role1, $role2]);
+
 
 
     }

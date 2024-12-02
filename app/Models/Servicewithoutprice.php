@@ -11,48 +11,45 @@ class Servicewithoutprice extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $keyType = 'string';
     public $incrementing = false;
     protected $primaryKey = 'servicewithoutprice_uuid';
     protected $table = 'servicewithoutprices';
     protected $fillable = [
-      'servicewithoutprice_uuid',
-      'name',
-      'description',
-      'status',
-      'category_uuid',
-      'user_id',
+        'servicewithoutprice_uuid',
+        'name',
+        'description',
+        'status',
+        'category_uuid',
+        'user_id',
     ];
 
     public function category()
     {
-      return $this->belongsTo(Category::class, 'category_uuid', 'category_uuid');
+        return $this->belongsTo(Category::class, 'category_uuid', 'category_uuid');
     }
+
     public function user()
     {
-      return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
-    /*public function paymentwithoutprice()
+    public function paymentwithprice()
     {
-        return $this->hasMany(Paymentwithoutprice::class, 'servicewithoutprice_uuid', 'servicewithoutprice_uuid');
-    }*/
-    /*
-    public function incomefromtransfer()
-  {
-    return $this->hasMany(Incomefromtransfer::class, 'service_uuid', 'service_uuid');
-  }
-    */
-    protected static function boot()
-  {
-    parent::boot();
+        return $this->hasMany(Paymentwithprice::class, 'servicewithoutprice_uuid', 'servicewithoutprice_uuid');
+    }
 
-    static::creating(function ($model) {
-      $model->servicewithoutprice_uuid = (string) Str::uuid(); // Genera un UUID
-    });
-      static::deleting(function ($model) {
-          $model->paymentwithoutprice()->each(function ($row) {
-              $row->delete();
-          });
-      });
-  }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->servicewithoutprice_uuid = (string)Str::uuid(); // Genera un UUID
+        });
+        static::deleting(function ($model) {
+            $model->paymentwithprice()->each(function ($row) {
+                $row->delete();
+            });
+        });
+    }
 }

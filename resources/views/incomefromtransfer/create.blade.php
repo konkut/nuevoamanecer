@@ -19,7 +19,7 @@
   <x-slot name="js_files">
     <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ asset('js/ticketing.js?v='.time()) }}"></script>
-    <script src="{{ asset('/js/incomefromtransfer/form.js?v='.time()) }}"></script>
+    <script src="{{ asset('/js/incomefromtransfer/form_without_price.js?v='.time()) }}"></script>
   </x-slot>
 
   <x-slot name="header">
@@ -37,7 +37,7 @@
           <div class="flex flex-row justify-between items-start space-x-4">
             <div class="w-1/2">
               <x-form-incomefromtransfer :incomefromtransfer="$incomefromtransfer" :services="$services" />
-              
+
               @if ($errors->any())
               <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
                 <strong class="font-bold">¡Ups! Algo salió mal:</strong>

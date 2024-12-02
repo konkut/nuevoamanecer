@@ -13,6 +13,7 @@ use App\Http\Controllers\ServicewithpriceController;
 use App\Http\Controllers\TransactionmethodController;
 use App\Http\Controllers\PaymentwithoutpriceController;
 use App\Http\Controllers\PaymentwithpriceController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Models\Cashcount;
 use Illuminate\Support\Facades\Route;
@@ -26,11 +27,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware('can:dashboard')->name('dashboard');
-    //Route::resource("/income",IncomeController::class)->names("income");
-    //Route::resource("/service", ServiceController::class)->names("service");
+    Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
 
     /* USERS */
     Route::get("/users", [UserController::class, "index"])->name("users.index");
@@ -77,12 +74,13 @@ Route::middleware([
     Route::get("/paymentwithoutprices", [PaymentwithoutpriceController::class, "index"])->name("paymentwithoutprices.index")->middleware('can:paymentwithoutprices.index');
     Route::get("/paymentwithoutprices/create", [PaymentwithoutpriceController::class, "create"])->name("paymentwithoutprices.create")->middleware('can:paymentwithoutprices.create');
     Route::post("/paymentwithoutprices", [PaymentwithoutpriceController::class, "store"])->name("paymentwithoutprices.store")->middleware('can:paymentwithoutprices.create');
-     Route::get('/paymentwithoutpricesuser/', [PaymentwithoutpriceController::class, 'show'])->name('paymentwithoutpricesuser.showuser')->middleware('can:paymentwithoutpricesuser.showuser');
+    Route::get('/paymentwithoutpricesuser/', [PaymentwithoutpriceController::class, 'show'])->name('paymentwithoutpricesuser.showuser')->middleware('can:paymentwithoutpricesuser.showuser');
     Route::get('/paymentwithoutprices/{paymentwithoutprice_uuid}/edit', [PaymentwithoutpriceController::class, 'edit'])->name('paymentwithoutprices.edit')->middleware('can:paymentwithoutprices.edit');
     Route::post('/paymentwithoutpricesdetail/{paymentwithoutprice_uuid}', [PaymentwithoutpriceController::class, 'showdetail'])->name('paymentwithoutpricesdetail.showdetail');
     Route::put('/paymentwithoutprices/{paymentwithoutprice_uuid}', [PaymentwithoutpriceController::class, 'update'])->name('paymentwithoutprices.update')->middleware('can:paymentwithoutprices.edit');
     Route::delete('/paymentwithoutprices/{paymentwithoutprice_uuid}', [PaymentwithoutpriceController::class, 'destroy'])->name('paymentwithoutprices.destroy')->middleware('can:paymentwithoutprices.destroy');
 
+    /*PAYMENT WITH PRICE */
     Route::get("/paymentwithprices", [PaymentwithpriceController::class, "index"])->name("paymentwithprices.index")->middleware('can:paymentwithprices.index');
     Route::get("/paymentwithprices/create", [PaymentwithpriceController::class, "create"])->name("paymentwithprices.create")->middleware('can:paymentwithprices.create');
     Route::post("/paymentwithprices", [PaymentwithpriceController::class, "store"])->name("paymentwithprices.store")->middleware('can:paymentwithprices.create');
@@ -91,6 +89,24 @@ Route::middleware([
     Route::post('/paymentwithpricesdetail/{paymentwithprice_uuid}', [PaymentwithpriceController::class, 'showdetail'])->name('paymentwithpricesdetail.showdetail');
     Route::put('/paymentwithprices/{paymentwithprice_uuid}', [PaymentwithpriceController::class, 'update'])->name('paymentwithprices.update')->middleware('can:paymentwithprices.edit');
     Route::delete('/paymentwithprices/{paymentwithprice_uuid}', [PaymentwithpriceController::class, 'destroy'])->name('paymentwithprices.destroy')->middleware('can:paymentwithprices.destroy');
+
+    /*DENOMINATIONS */
+    Route::get("/denominations", [DenominationController::class, "index"])->name("denominations.index")->middleware('can:denominations.index');
+    Route::get("/denominations/create", [DenominationController::class, "create"])->name("denominations.create")->middleware('can:denominations.create');
+    Route::post("/denominations", [DenominationController::class, "store"])->name("denominations.store")->middleware('can:denominations.create');
+    Route::get('/denominations/{denomination_uuid}/edit', [DenominationController::class, 'edit'])->name('denominations.edit')->middleware('can:denominations.edit');
+    Route::put('/denominations/{denomination_uuid}', [DenominationController::class, 'update'])->name('denominations.update')->middleware('can:denominations.edit');
+    Route::delete('/denominations/{denomination_uuid}', [DenominationController::class, 'destroy'])->name('denominations.destroy')->middleware('can:denominations.destroy');
+
+    /*CASHCOUNTS */
+    Route::get("/cashcounts", [CashcountController::class, "index"])->name("cashcounts.index")->middleware('can:cashcounts.index');
+    Route::get("/cashcounts/create", [CashcountController::class, "create"])->name("cashcounts.create")->middleware('can:cashcounts.create');
+    Route::post("/cashcounts", [CashcountController::class, "store"])->name("cashcounts.store")->middleware('can:cashcounts.create');
+    Route::get('/cashcounts/{cashcount_uuid}/edit', [CashcountController::class, 'edit'])->name('cashcounts.edit')->middleware('can:cashcounts.edit');
+    Route::put('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'update'])->name('cashcounts.update')->middleware('can:cashcounts.edit');
+    Route::delete('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'destroy'])->name('cashcounts.destroy')->middleware('can:cashcounts.destroy');
+
+
     /*
     Route::get("/services", [ServiceController::class, "index"])->name("services.index")->middleware('can:services.index');
     Route::get("/services/create", [ServiceController::class, "create"])->name("services.create")->middleware('can:services.create');
@@ -119,24 +135,6 @@ Route::middleware([
     Route::get('/incomefromtransfers/{incomefromtransfers_uuid}/edit', [IncomefromtransferController::class, 'edit'])->name('incomefromtransfers.edit');
     Route::put('/incomefromtransfers/{incomefromtransfers_uuid}', [IncomefromtransferController::class, 'update'])->name('incomefromtransfers.update');
     Route::delete('/incomefromtransfers/{incomefromtransfers_uuid}', [IncomefromtransferController::class, 'destroy'])->name('incomefromtransfers.destroy');
-
-    /*DENOMINATIONS */
-    Route::get("/denominations", [DenominationController::class, "index"])->name("denominations.index");
-    Route::get("/denominations/create", [DenominationController::class, "create"])->name("denominations.create");
-    Route::post("/denominations", [DenominationController::class, "store"])->name("denominations.store");
-    Route::get('/denominations/{denomination_uuid}', [DenominationController::class, 'show'])->name('denominations.show');
-    Route::get('/denominations/{denomination_uuid}/edit', [DenominationController::class, 'edit'])->name('denominations.edit');
-    Route::put('/denominations/{denomination_uuid}', [DenominationController::class, 'update'])->name('denominations.update');
-    Route::delete('/denominations/{denomination_uuid}', [DenominationController::class, 'destroy'])->name('denominations.destroy');
-
-    /*CASHCOUNTS */
-    Route::get("/cashcounts", [CashcountController::class, "index"])->name("cashcounts.index");
-    Route::get("/cashcounts/create", [CashcountController::class, "create"])->name("cashcounts.create");
-    Route::post("/cashcounts", [CashcountController::class, "store"])->name("cashcounts.store");
-    Route::get('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'show'])->name('cashcounts.show');
-    Route::get('/cashcounts/{cashcount_uuid}/edit', [CashcountController::class, 'edit'])->name('cashcounts.edit');
-    Route::put('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'update'])->name('cashcounts.update');
-    Route::delete('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'destroy'])->name('cashcounts.destroy');
 
     /*
     Route::get("/servicesprices", [ServicepriceController::class, "index"])->name("servicesprices.index")->middleware('can:servicesprices.index');

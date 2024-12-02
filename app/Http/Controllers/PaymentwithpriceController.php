@@ -15,24 +15,27 @@ class PaymentwithpriceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $paymentwithoutprices = Paymentwithoutprice::with(['user', 'denomination', 'servicewithprice', 'transactionmethod'])->paginate($perPage);
-        return view("paymentwithoutprice.index", compact('paymentwithoutprices', 'perPage'));
+        $paymentwithprices = Paymentwithprice::with(['user', 'denomination', 'servicewithoutprice', 'transactionmethod'])->paginate($perPage);
+        return view("paymentwithprice.index", compact('paymentwithprices', 'perPage'));
     }
 
     public function create()
     {
-        $paymentwithoutprice = new Paymentwithoutprice();
+        $paymentwithprice = new Paymentwithprice();
         $denomination = new Denomination();
         $transactionmethods = Transactionmethod::all();
-        $servicewithprices = Servicewithprice::all();
-        return view("paymentwithoutprice.create", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices'));
+        $servicewithoutprices = Servicewithoutprice::all();
+        return view("paymentwithprice.create", compact('paymentwithprice', 'denomination', 'transactionmethods', 'servicewithoutprices'));
     }
 
     public function store(Request $request)
     {
         $rules = [
+            'name' => 'required|string|max:30',
             'observation' => 'nullable|string|max:100',
-            'servicewithprice_uuid' => 'required|string|max:36|exists:servicewithprices,servicewithprice_uuid',
+            'amount' => 'required|numeric|regex:/^\d{1,20}(\.\d{1,2})?$/',
+            'commission' => 'nullable|numeric|between:0,9999999999.99',
+            'servicewithoutprice_uuid' => 'required|string|max:36|exists:servicewithoutprices,servicewithoutprice_uuid',
             'transactionmethod_uuid' => 'required|string|max:36|exists:transactionmethods,transactionmethod_uuid',
             'bill_200' => 'nullable|integer',
             'bill_100' => 'nullable|integer',
@@ -69,33 +72,39 @@ class PaymentwithpriceController extends Controller
             'total' => $request->total ?? 0,
         ]);
 
-        Paymentwithoutprice::create([
+        Paymentwithprice::create([
+            'name' => $request->name,
             'observation' => $request->observation,
-            'servicewithprice_uuid' => $request->servicewithprice_uuid,
+            'amount' => $request->amount,
+            'commission' => $request->commission,
+            'servicewithoutprice_uuid' => $request->servicewithoutprice_uuid,
             'transactionmethod_uuid' => $request->transactionmethod_uuid,
             'denomination_uuid' => $denomination->denomination_uuid,
             'user_id' => Auth::id(),
         ]);
-        return redirect("/paymentwithoutprices")->with('success', 'Ingreso registrado correctamente.');
+        return redirect("/paymentwithprices")->with('success', 'Ingreso registrado correctamente.');
     }
 
-    public function edit(string $paymentwithoutprice_uuid)
+    public function edit(string $paymentwithprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $denomination = Denomination::where('denomination_uuid', $paymentwithoutprice->denomination_uuid)->firstOrFail();
+        $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->firstOrFail();
+        $denomination = Denomination::where('denomination_uuid', $paymentwithprice->denomination_uuid)->firstOrFail();
         $transactionmethods = Transactionmethod::all();
-        $servicewithprices = Servicewithprice::all();
-        return view("paymentwithoutprice.edit", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices'));
+        $servicewithoutprices = Servicewithoutprice::all();
+        return view("paymentwithprice.edit", compact('paymentwithprice', 'denomination', 'transactionmethods', 'servicewithoutprices'));
     }
 
-    public function update(Request $request, string $paymentwithoutprice_uuid)
+    public function update(Request $request, string $paymentwithprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $denomination = Denomination::where('denomination_uuid', $paymentwithoutprice->denomination_uuid)->firstOrFail();
+        $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->firstOrFail();
+        $denomination = Denomination::where('denomination_uuid', $paymentwithprice->denomination_uuid)->firstOrFail();
 
         $rules = [
+            'name' => 'required|string|max:30',
             'observation' => 'nullable|string|max:100',
-            'servicewithprice_uuid' => 'required|string|max:36|exists:servicewithprices,servicewithprice_uuid',
+            'amount' => 'required|numeric|regex:/^\d{1,20}(\.\d{1,2})?$/',
+            'commission' => 'nullable|numeric|between:0,9999999999.99',
+            'servicewithoutprice_uuid' => 'required|string|max:36|exists:servicewithoutprices,servicewithoutprice_uuid',
             'transactionmethod_uuid' => 'required|string|max:36|exists:transactionmethods,transactionmethod_uuid',
             'bill_200' => 'nullable|integer',
             'bill_100' => 'nullable|integer',
@@ -132,26 +141,30 @@ class PaymentwithpriceController extends Controller
             'total' => $request->total ?? 0,
         ]);
 
-        $paymentwithoutprice->update([
+        $paymentwithprice->update([
+            'name' => $request->name,
             'observation' => $request->observation,
-            'servicewithprice_uuid' => $request->servicewithprice_uuid,
+            'amount' => $request->amount,
+            'commission' => $request->commission,
+            'servicewithoutprice_uuid' => $request->servicewithoutprice_uuid,
             'transactionmethod_uuid' => $request->transactionmethod_uuid,
+            'denomination_uuid' => $denomination->denomination_uuid,
             'user_id' => Auth::id(),
         ]);
-        return redirect("/paymentwithoutprices")->with('success', 'Ingreso actualizado correctamente.');
+        return redirect("/paymentwithprices")->with('success', 'Ingreso actualizado correctamente.');
     }
 
-    public function destroy(string $paymentwithoutprice_uuid)
+    public function destroy(string $paymentwithprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $paymentwithoutprice->delete();
-        return redirect("/paymentwithoutprices")->with('success', 'Ingreso eliminado correctamente.');
+        $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->firstOrFail();
+        $paymentwithprice->delete();
+        return redirect("/paymentwithprices")->with('success', 'Ingreso eliminado correctamente.');
     }
 
-    public function showdetail(string $paymentwithoutprice_uuid)
+    public function showdetail(string $paymentwithprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $denomination = Denomination::where('denomination_uuid', $paymentwithoutprice->denomination_uuid)->firstOrFail();
+        $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->firstOrFail();
+        $denomination = Denomination::where('denomination_uuid', $paymentwithprice->denomination_uuid)->firstOrFail();
         return response()->json([
             'bill_200' => $denomination->bill_200,
             'bill_100' => $denomination->bill_100,

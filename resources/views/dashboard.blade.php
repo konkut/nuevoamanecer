@@ -22,46 +22,65 @@
 
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-        <div class="p-4 bg-gray-800 text-white rounded-lg shadow-md">
+      <div class="overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="p-4 text-white rounded-lg shadow-md">
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <!-- Card 1: Total Services -->
-            <div class="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 text-white p-6 rounded-lg shadow-lg">
-              <div class="flex items-center justify-between">
-                <div class="text-2xl font-semibold">Total Services</div>
-                <div class="text-4xl"><i class="bi bi-file-earmark-person"></i></div>
+              <!-- Card 2: Total Categories -->
+              <div class="bg-gradient-to-r from-[#FF7EB3] via-[#FF758C] to-[#FEB47B] text-white p-6 rounded-lg shadow-lg">
+                  <div class="flex items-center justify-between">
+                      <div class="text-2xl font-semibold">{{__('word.general.total_user')}}</div>
+                      <div class="text-4xl"><i class="bi bi-file-earmark-person"></i></div>
+                  </div>
+                  <p class="mt-2 text-lg">{{$total_users}} {{__('word.user.title')}}</p>
+                  <div class="mt-4 h-1 bg-green-200 rounded-full">
+                      <div class="w-2/3 h-full bg-green-600"></div>
+                  </div>
               </div>
-              <p class="mt-2 text-lg">12 Services</p>
+            <!-- Card 1: Total Services -->
+              <div class="bg-gradient-to-r from-[#6A11CB] via-[#2575FC] to-[#00C9FF] text-white p-6 rounded-lg shadow-lg">
+              <div class="flex items-center justify-between">
+                  <div class="text-2xl font-semibold">{{__('word.general.total_category')}}</div>
+                <div class="text-4xl"><i class="bi bi-folder"></i></div>
+              </div>
+              <p class="mt-2 text-lg">{{$total_categories}} {{__('word.category.title')}}</p>
               <div class="mt-4 h-1 bg-blue-200 rounded-full">
                 <div class="w-3/4 h-full bg-blue-600"></div>
               </div>
             </div>
-
-            <!-- Card 2: Total Categories -->
-            <div class="bg-gradient-to-r from-green-400 via-teal-500 to-blue-600 text-white p-6 rounded-lg shadow-lg">
-              <div class="flex items-center justify-between">
-                <div class="text-2xl font-semibold">Total Categories</div>
-                <div class="text-4xl"><i class="bi bi-folder"></i></div>
-              </div>
-              <p class="mt-2 text-lg">8 Categories</p>
-              <div class="mt-4 h-1 bg-green-200 rounded-full">
-                <div class="w-2/3 h-full bg-green-600"></div>
-              </div>
-            </div>
-
             <!-- Card 3: Total Users -->
-            <div class="bg-gradient-to-r from-pink-400 via-red-500 to-yellow-600 text-white p-6 rounded-lg shadow-lg">
+              <div class="bg-gradient-to-r from-[#0F9B0F] via-[#00B09B] to-[#96FBC4] text-white p-6 rounded-lg shadow-lg">
               <div class="flex items-center justify-between">
-                <div class="text-2xl font-semibold">Total Users</div>
-                <div class="text-4xl"><i class="bi bi-person-lines-fill"></i></div>
+                <div class="text-2xl font-semibold">{{__('word.general.total_service')}}</div>
+                <div class="text-4xl"><i class="bi bi-grid"></i></div>
               </div>
-              <p class="mt-2 text-lg">35 Users</p>
+              <p class="mt-2 text-lg">{{$total_services}} {{__('word.service.title')}}</p>
               <div class="mt-4 h-1 bg-pink-200 rounded-full">
                 <div class="w-5/6 h-full bg-pink-600"></div>
               </div>
             </div>
+              <!-- Card 3: Total Users -->
+              <div class="bg-gradient-to-r from-pink-400 via-red-500 to-yellow-600 text-white p-6 rounded-lg shadow-lg">
+                  <div class="flex items-center justify-between">
+                      <div class="text-2xl font-semibold">{{__('word.general.total_method')}}</div>
+                      <div class="text-4xl"><i class="bi bi-cash"></i></div>
+                  </div>
+                  <p class="mt-2 text-lg">{{$total_transactionmethods}} {{__('word.transactionmethod.title')}}</p>
+                  <div class="mt-4 h-1 bg-pink-200 rounded-full">
+                      <div class="w-5/6 h-full bg-pink-600"></div>
+                  </div>
+              </div>
+              <!-- Card 3: Total Users -->
+              <div class="bg-gradient-to-r from-[#6A0572] via-[#AB47BC] to-[#E1BEE7] text-white p-6 rounded-lg shadow-lg">
+                  <div class="flex items-center justify-between">
+                      <div class="text-2xl font-semibold">{{__('word.general.total_transaction')}}</div>
+                      <div class="text-4xl"><i class="bi bi-receipt"></i></div>
+                  </div>
+                  <p class="mt-2 text-lg">{{$total_payments}} {{__('word.payment.title')}}</p>
+                  <div class="mt-4 h-1 bg-pink-200 rounded-full">
+                      <div class="w-5/6 h-full bg-pink-600"></div>
+                  </div>
+              </div>
           </div>
         </div>
       </div>

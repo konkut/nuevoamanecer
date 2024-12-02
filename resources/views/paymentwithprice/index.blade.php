@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('word.cashcount.meta.index.title') }}
+        {{ __('word.payment.meta.index.title') }}
     </x-slot>
     <x-slot name="metaDescription">
-        {{ __('word.cashcount.meta.index.description')}}
+        {{ __('word.payment.meta.index.description')}}
     </x-slot>
     <x-slot name="metaKeywords">
-        {{ __('word.cashcount.meta.index.keywords')}}
+        {{ __('word.payment.meta.index.keywords')}}
     </x-slot>
     <x-slot name="metaOgTitle">
-        {{ __('word.cashcount.meta.index.title') }}
+        {{ __('word.payment.meta.index.title') }}
     </x-slot>
     <x-slot name="metaOgDescription">
-        {{ __('word.cashcount.meta.index.description')}}
+        {{ __('word.payment.meta.index.description')}}
     </x-slot>
 
     <x-slot name="js_files">
@@ -21,13 +21,13 @@
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
-        <script src="{{ asset('js/cashcount/index.js?v='.time()) }}"></script>
+        <script src="{{ asset('js/payment/index_price.js?v='.time()) }}"></script>
     </x-slot>
 
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('word.cashcount.resource.index') }}
+            {{ __('word.payment.resource.index') }}
         </h2>
     </x-slot>
 
@@ -39,11 +39,13 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('cashcounts.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
-                            <i class="bi bi-plus"></i>
-                        </a>
-                        <form method="GET" action="{{ route('cashcounts.index') }}" onchange="this.submit()"
+
+                            <a href="{{ route('paymentwithprices.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
+                                <i class="bi bi-plus"></i>
+                            </a>
+
+                        <form method="GET" action="{{ route('paymentwithprices.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
                                 <option
@@ -64,112 +66,113 @@
                             <tr class="bg-[#d1d5db]">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'Fecha')">{{ __('word.cashcount.attribute.date') }}</th>
+                                    onclick="enableSearch(this, 'servicio')">{{ __('word.payment.attribute.servicewithoutprice_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'Monto Inicial')">{{ __('word.cashcount.attribute.opening') }}</th>
+                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'Monto Final')">{{ __('word.cashcount.attribute.closing') }}</th>
+                                    onclick="enableSearch(this, 'método')">{{ __('word.payment.attribute.transactionmethod_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.cashcount.attribute.user_id') }}</th>
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
+                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.payment.attribute.created_at') }}</th>
+                                @can('paymentwithpricesuser.showuser')
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.payment.attribute.user_id') }}</th>
+                                @endcan
+                                    <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($cashcounts as $item)
+                            @foreach($paymentwithprices as $item)
                                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->date}}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->opening, 2) }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $totalSuma }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->servicewithoutprice->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->amount+$item->commission,2)  }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->transactionmethod->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
+                                    @can('paymentwithoutpricesuser.showuser')
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                        <div class="flex justify-center space-x-1">
-                                            {{--
-                                            <form id="details-form-{{$item->cashcount_uuid}}"
-                                                  action="{{ route('cashcounts.showcashcount', $item->cashcount_uuid) }}"
-                                                  method="POST" style="display: inline;">
-                                                @csrf
+                                    @endcan
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">
+                                            <div class="flex justify-center space-x-1">
+                                                <form id="details-forms-{{$item->paymentwithprice_uuid}}" action="{{ route('paymentwithpricesdetail.showdetail', $item->paymentwithprice_uuid) }}" method="POST" >
+                                                    @csrf
+                                                    <button type="button" onclick="fetchDetailsForm('{{$item->paymentwithprice_uuid}}')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </form>
+                                                <a href="{{ route('paymentwithprices.edit',$item->paymentwithprice_uuid) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
                                                 <button type="button"
-                                                        onclick="fetchDetails('{{$item->cashcount_uuid}}')"
-                                                        class="bg-green-500 text-white px-2 py-1 rounded text-xs">
-                                                    <i class="bi bi-eye"></i>
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->paymentwithprice_uuid }}', '{{ $item->servicewithoutprice->name }}')">
+                                                    <i class="bi bi-x-circle"></i>
                                                 </button>
-                                            </form>
-                                            --}}
-                                            <a href="{{ route('cashcounts.edit',$item->cashcount_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            {{--
-                                            <button type="button"
-                                                   class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                   onclick="openModal('{{ $item->cashcount_uuid }}', '{{ $item->date }}')">
-                                               <i class="bi bi-x-circle"></i>
-                                            </button>
-                                            --}}
-                                        </div>
-                                    </td>
+                                            </div>
+                                        </td>
 
                                 </tr>
 
-                                <div id="details-modal-{{$item->cashcount_uuid}}"
+                                <div id="details-modal-{{$item->paymentwithprice_uuid}}"
                                      class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center overflow-y-auto">
                                     <div
                                         class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
-                                        <div
-                                            class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
-                                            <h1 class="text-lg font-semibold mx-auto">{{ __('word.cashcount.resource.show') }}</h1>
+                                        <div class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
+                                            <h1 class="text-lg font-semibold mx-auto">{{ __('word.payment.resource.show') }}</h1>
                                             <button type="button"
                                                     class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
-                                                    onclick="closeDetailsModal('{{$item->cashcount_uuid}}')">
+                                                    onclick="closeDetailsModal('{{$item->paymentwithprice_uuid}}')">
                                                 &times;
                                             </button>
                                         </div>
                                         <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div class="text-center">
-                                                    @if($item->date)
-                                                        <div>
-                                                            <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.date') }}</p>
-                                                            <p>{{ $item->date }}</p>
-                                                        </div>
-                                                    @endif
-                                                    @if($item->opening)
+                                                    @if($item->name)
                                                         <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.opening') }}</p>
-                                                            <p>{{ $item->opening }}</p>
-                                                        </div>
-                                                    @endif
-                                                    @if($item->closing)
-                                                        <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.closing') }}</p>
-                                                            <p>{{ $item->closing }}</p>
+                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.name') }}</p>
+                                                            <p>{{ $item->name }}</p>
                                                         </div>
                                                     @endif
                                                     <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.created_at') }}</p>
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.amount') }}</p>
+                                                        <p>{{ $item->amount }}</p>
+                                                    </div>
+                                                    @if($item->commission)
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.commission') }}</p>
+                                                            <p>{{ $item->commission }}</p>
+                                                        </div>
+                                                    @endif
+                                                    @if($item->observation)
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.observation') }}</p>
+                                                            <p>{{ $item->observation }}</p>
+                                                        </div>
+                                                    @endif
+                                                    <div class="mt-4">
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.created_at') }}</p>
                                                         <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
                                                     </div>
                                                     <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.updated_at') }}</p>
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.updated_at') }}</p>
                                                         <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                     </div>
                                                     <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.user_id') }}</p>
+                                                        <p class="text-sm font-semibold">{{ __('word.payment.attribute.user_id') }}</p>
                                                         <p>{{ $item->user->name }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="text-center" id="contain_bill_coin">
-
+                                                <div class="text-center" id="contain_bill_coin_price">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {{--
+
                                 <!-- Modal -->
-                                <div id="modal-{{$item->cashcount_uuid}}"
+                                <div id="modal-{{$item->paymentwithprice_uuid}}"
                                      class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen">
                                         <div
@@ -178,22 +181,22 @@
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700"
-                                                        onclick="closeModal('{{$item->cashcount_uuid}}')">
+                                                        onclick="closeModal('{{$item->paymentwithprice_uuid}}')">
                                                     &times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
-                                                <p class="text-gray-600">{{__('word.cashcount.delete_confirmation')}}
+                                                <p class="text-gray-600">{{__('word.payment.delete_confirmation')}}
                                                     <strong
-                                                        id="name-{{$item->cashcount_uuid}}"></strong>{{__('word.general.delete_warning')}}
+                                                        id="name-{{$item->paymentwithprice_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>
                                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">
                                                 <button type="button"
                                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
-                                                        onclick="closeModal('{{$item->cashcount_uuid}}')">{{ __('Close') }}</button>
-                                                <form id="delete-form-{{$item->cashcount_uuid}}"
-                                                      action="{{route('cashcounts.destroy',$item->cashcount_uuid)}}"
+                                                        onclick="closeModal('{{$item->paymentwithprice_uuid}}')">{{ __('Close') }}</button>
+                                                <form id="delete-form-{{$item->paymentwithprice_uuid}}"
+                                                      action="{{route('paymentwithprices.destroy',$item->paymentwithprice_uuid)}}"
                                                       method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -204,7 +207,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                --}}
                             @endforeach
                             </tbody>
                         </table>
@@ -212,7 +214,7 @@
 
                     <!-- Paginaci車n -->
                     <div class="pagination-wrapper mt-4">
-                        {!! $cashcounts->appends(['perPage' => $perPage])->links() !!}
+                        {!! $paymentwithprices->appends(['perPage' => $perPage])->links() !!}
                     </div>
                 </div>
             </div>

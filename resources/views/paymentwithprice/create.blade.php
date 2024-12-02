@@ -18,8 +18,8 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/ticketing.js?v='.time()) }}"></script>
-        <script src="{{ asset('/js/payment/form_without_price.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/ticketing_price.js?v='.time()) }}"></script>
+        <script src="{{ asset('/js/payment/form_with_price.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">
@@ -31,13 +31,13 @@
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
-                <form method="POST" action="{{ route('paymentwithoutprices.store') }}">
+                <form method="POST" action="{{ route('paymentwithprices.store') }}">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <x-form-paymentwithoutprice :paymentwithoutprice="$paymentwithoutprice"
+                            <x-form-paymentwithprice :paymentwithprice="$paymentwithprice"
                                                         :transactionmethods="$transactionmethods"
-                                                        :servicewithprices="$servicewithprices" />
+                                                        :servicewithoutprices="$servicewithoutprices" />
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">
@@ -51,7 +51,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination" :servicewithprices="$servicewithprices"/>
+                            <x-form-billcoin :denomination="$denomination" :servicewithoutprices="$servicewithoutprices"/>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

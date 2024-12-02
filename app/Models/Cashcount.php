@@ -12,7 +12,7 @@ class Cashcount extends Model
   use HasFactory;
   use SoftDeletes;
   protected $primaryKey = 'cashcount_uuid';
-  protected $keyType = 'string'; // Asegura que Laravel trate el primaryKey como string
+  protected $keyType = 'string';
   public $incrementing = false;
   protected $table = 'cashcounts';
   protected $fillable = [
@@ -48,8 +48,8 @@ class Cashcount extends Model
     static::creating(function ($model) {
       $model->cashcount_uuid = (string) Str::uuid(); // Genera un UUID
     });
-    static::deleting(function ($cashcount) {
-      $cashcount->denomination()->delete();
+    static::deleting(function ($model) {
+        $model->opening_denomination()->delete();
     });
   }
 }

@@ -1,7 +1,7 @@
 <div>
   <x-label for="name" value="{{ __('word.service.attribute.name') }} *" />
   <div class="relative">
-    <i id="name_icon" class="bi bi-tag absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+    <i id="name_icon" class="bi bi-tag absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
     <x-input id="name" class="pl-9 block mt-1 w-full" type="text" name="name" value="{{ old('name', $servicewithoutprice->name?? '') }}" />
   </div>
   @error('name')
@@ -11,7 +11,7 @@
 <div class="mt-4">
   <x-label for="description" value="{{ __('word.service.attribute.description') }}" />
   <div class="relative">
-    <i id="description_icon" class="bi bi-card-text absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+    <i id="description_icon" class="bi bi-card-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
     <x-input id="description" class="pl-9 block mt-1 w-full" type="text" name="description" value="{{ old('description', $servicewithoutprice->description?? '') }}" />
   </div>
   @error('description')
@@ -21,7 +21,7 @@
 <div class="mt-4">
   <x-label for="category_uuid" value="{{ __('word.service.attribute.category_uuid') }} *" />
   <div class="relative">
-    <i id="category_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+    <i id="category_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
     <select id="category_uuid" class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="category_uuid">
       <option value="" disabled {{ old('category_uuid', $servicewithoutprice->category_uuid) ? '' : 'selected' }}>
         {{__('word.service.select_category')}}

@@ -1,3 +1,33 @@
+    //Validation income from transfer
+    $rules = [
+      /*'date' => [
+        'required',              // El campo es obligatorio
+        'date',                 // Validar que sea una fecha válida
+        'after_or_equal:today', // La fecha debe ser hoy o una fecha futura (opcional)
+      ],*/
+      'opening' => [
+        'required',
+        'numeric',
+        'regex:/^\d{1,20}(\.\d{1,2})?$/',
+      ],
+      /*'closing' => [
+        'nullable',
+        'numeric',
+        'regex:/^\d{1,20}(\.\d{1,2})?$/',
+      ],*/
+      /*'opening_denomination_uuid' => [
+        'required',
+        'string',
+        'max:36',
+      ],
+      'closing_denomination_uuid' => [
+        'required',
+        'string',
+        'max:36',
+      ]*/
+    ];
+
+
 CTRL + D DUPLICAR CODIGO
 CTRL + SHIFT + DIRECCIONALES MOVER CODIGO
 CTRL + N BUSCAR
