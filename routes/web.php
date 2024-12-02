@@ -12,6 +12,7 @@ use App\Http\Controllers\ServicewithoutpriceController;
 use App\Http\Controllers\ServicewithpriceController;
 use App\Http\Controllers\TransactionmethodController;
 use App\Http\Controllers\PaymentwithoutpriceController;
+use App\Http\Controllers\PaymentwithpriceController;
 use App\Http\Controllers\UserController;
 use App\Models\Cashcount;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +83,14 @@ Route::middleware([
     Route::put('/paymentwithoutprices/{paymentwithoutprice_uuid}', [PaymentwithoutpriceController::class, 'update'])->name('paymentwithoutprices.update')->middleware('can:paymentwithoutprices.edit');
     Route::delete('/paymentwithoutprices/{paymentwithoutprice_uuid}', [PaymentwithoutpriceController::class, 'destroy'])->name('paymentwithoutprices.destroy')->middleware('can:paymentwithoutprices.destroy');
 
+    Route::get("/paymentwithprices", [PaymentwithpriceController::class, "index"])->name("paymentwithprices.index")->middleware('can:paymentwithprices.index');
+    Route::get("/paymentwithprices/create", [PaymentwithpriceController::class, "create"])->name("paymentwithprices.create")->middleware('can:paymentwithprices.create');
+    Route::post("/paymentwithprices", [PaymentwithpriceController::class, "store"])->name("paymentwithprices.store")->middleware('can:paymentwithprices.create');
+    Route::get('/paymentwithpricesuser/', [PaymentwithpriceController::class, 'show'])->name('paymentwithpricesuser.showuser')->middleware('can:paymentwithpricesuser.showuser');
+    Route::get('/paymentwithprices/{paymentwithprice_uuid}/edit', [PaymentwithpriceController::class, 'edit'])->name('paymentwithprices.edit')->middleware('can:paymentwithprices.edit');
+    Route::post('/paymentwithpricesdetail/{paymentwithprice_uuid}', [PaymentwithpriceController::class, 'showdetail'])->name('paymentwithpricesdetail.showdetail');
+    Route::put('/paymentwithprices/{paymentwithprice_uuid}', [PaymentwithpriceController::class, 'update'])->name('paymentwithprices.update')->middleware('can:paymentwithprices.edit');
+    Route::delete('/paymentwithprices/{paymentwithprice_uuid}', [PaymentwithpriceController::class, 'destroy'])->name('paymentwithprices.destroy')->middleware('can:paymentwithprices.destroy');
     /*
     Route::get("/services", [ServiceController::class, "index"])->name("services.index")->middleware('can:services.index');
     Route::get("/services/create", [ServiceController::class, "create"])->name("services.create")->middleware('can:services.create');

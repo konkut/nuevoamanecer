@@ -14,10 +14,9 @@ class PaymentwithoutpriceController extends Controller
 {
     public function index(Request $request)
     {
-        $denomination = new Denomination();
         $perPage = $request->input('perPage', 10);
         $paymentwithoutprices = Paymentwithoutprice::with(['user', 'denomination', 'servicewithprice', 'transactionmethod'])->paginate($perPage);
-        return view("paymentwithoutprice.index", compact('paymentwithoutprices', 'perPage', 'denomination'));
+        return view("paymentwithoutprice.index", compact('paymentwithoutprices', 'perPage'));
     }
 
     public function create()

@@ -54,6 +54,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'paymentwithoutprices.destroy'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'paymentwithoutpricesuser.showuser'])->syncRoles([$role1]);
 
+        /*PAYMENT WITH PRICE*/
+        Permission::create(['name' => 'paymentwithprices.index'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'paymentwithprices.create'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'paymentwithprices.edit'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'paymentwithprices.destroy'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'paymentwithpricesuser.showuser'])->syncRoles([$role1]);
 
 
         Permission::create(['name' => 'currencies.index'])->syncRoles([$role1]);
