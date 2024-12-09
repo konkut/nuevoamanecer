@@ -169,12 +169,23 @@ return [
 
         /*FORM PAYMENT WITHOUT PRICE */
         "observation" => "observación",
-        'servicewithprice_uuid' => 'servicio',
-        'transactionmethod_uuid' => 'método',
+        'servicewithprice_uuids' => 'servicio',
+        'transactionmethod_uuids' => 'método',
+        'servicewithprice_uuids.*' => 'servicio',
+        'transactionmethod_uuids.*' => 'método',
         'denomination_uuid' => 'denominación',
 
         /*FORM PAYMENT WITH PRICE */
-        'servicewithoutprice_uuid' => 'servicio',
+        'names' => 'nombre',
+        'names.*' => 'nombre',
+        'amounts' => 'monto',
+        'amounts.*' => 'monto',
+        'commissions' => 'commission',
+        'commissions.*' => 'commission',
+        'servicewithoutprice_uuids' => 'servicio',
+        'servicewithoutprice_uuids.*' => 'servicio',
+        'transactionmethod_uuids' => 'método',
+        'transactionmethod_uuids.*' => 'método',
 
         /*FORM INCOME FROM TRANSFER */
         'code' => 'código',

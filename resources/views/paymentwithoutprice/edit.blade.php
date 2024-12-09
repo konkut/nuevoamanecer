@@ -17,8 +17,9 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/ticketing.js?v='.time()) }}"></script>
-        <script src="{{ asset('/js/payment/form_without_price.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/payment/ticketing_payment_without_price.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/payment/form_payment_without_price.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">
@@ -26,7 +27,6 @@
             {{ __('word.payment.resource.edit') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
@@ -36,10 +36,11 @@
                     @method("PUT" )
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-
-                            <x-form-paymentwithoutprice :paymentwithoutprice="$paymentwithoutprice"
+                            <x-form-paymentwithoutprice-edit :paymentwithoutprice="$paymentwithoutprice"
                                                         :transactionmethods="$transactionmethods"
-                                                        :servicewithprices="$servicewithprices"/>
+                                                        :servicewithprices="$servicewithprices"
+                                                             :services="$services"
+                                                             :methods="$methods"/>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">

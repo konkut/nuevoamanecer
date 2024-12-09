@@ -21,7 +21,8 @@
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
-        <script src="{{ asset('js/payment/index.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('js/fetch_modal_show.js?v='.time()) }}"></script>
+
     </x-slot>
 
 
@@ -68,7 +69,7 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'servicio')">{{ __('word.payment.attribute.servicewithprice_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount') }}</th>
+                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount_ticketing') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'método')">{{ __('word.payment.attribute.transactionmethod_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -85,9 +86,26 @@
                             @foreach($paymentwithoutprices as $item)
                                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->servicewithprice->name }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->servicewithprice->amount+$item->servicewithprice->commission,2)  }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->transactionmethod->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">
+                                        @if (!empty($item->services))
+                                            {{ implode(', ', $item->services->toArray()) }}
+                                        @else
+                                            N/A
+                                        @endif</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">
+                                        @if (!empty($item->total))
+                                            {{ ($item->total) }}
+                                        @else
+                                            N/A
+                                        @endif</td>
+                                    </td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">
+                                        @if (!empty($item->methods))
+                                            {{ implode(', ', $item->methods->toArray()) }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                     @can('paymentwithoutpricesuser.showuser')
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
@@ -106,7 +124,7 @@
                                                 </a>
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ $item->servicewithprice->name }}')">
+                                                        onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ implode(', ', $item->services->toArray()) }}')">
                                                     <i class="bi bi-x-circle"></i>
                                                 </button>
                                             </div>
@@ -148,16 +166,14 @@
                                                         <p>{{ $item->user->name }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="text-center" id="contain_bill_coin">
-
+                                                <div class="text-center" id="modal-show-{{$item->paymentwithoutprice_uuid}}">
+                                                    <div class="contain-bill-coin">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- modal show -->
-
 
                                 <!-- Modal -->
                                 <div id="modal-{{$item->paymentwithoutprice_uuid}}"
@@ -169,13 +185,11 @@
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700"
-                                                        onclick="closeModal('{{$item->paymentwithoutprice_uuid}}')">
-                                                    &times;
+                                                        onclick="closeModal('{{$item->paymentwithoutprice_uuid}}')">&times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
-                                                <p class="text-gray-600">{{__('word.payment.delete_confirmation')}}
-                                                    <strong
+                                                <p class="text-gray-600">{{__('word.transactionmethod.delete_confirmation')}} <strong
                                                         id="name-{{$item->paymentwithoutprice_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>

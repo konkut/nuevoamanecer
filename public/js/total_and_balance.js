@@ -1,21 +1,3 @@
-"use strict";
-
-document.addEventListener("DOMContentLoaded", () => {
-    updateCharge();
-    updateTotalandBalance();
-});
-const updateCharge = () => {
-    const select = document.getElementById('servicewithprice_uuid');
-    const selectedOption = select.options[select.selectedIndex];
-    if (selectedOption && selectedOption.hasAttribute('data-amount') && selectedOption.hasAttribute('data-commission')) {
-        const charge = document.getElementById('charge');
-        const amount = parseFloat(selectedOption.getAttribute('data-amount'));
-        const commission = parseFloat(selectedOption.getAttribute('data-commission'));
-        charge.value = (amount + commission).toFixed(2);
-    }
-    updateTotalandBalance();
-}
-
 const updateTotalandBalance = () => {
     let total = document.getElementById("total");
     let charge = document.getElementById("charge");

@@ -18,8 +18,9 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/ticketing_cashcount.js?v='.time()) }}"></script>
-        <script src="{{ asset('/js/cashcount/form.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashcount/ticketing_cashcount.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/total_and_balance.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashcount/form.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">

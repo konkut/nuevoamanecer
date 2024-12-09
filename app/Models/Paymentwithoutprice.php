@@ -18,27 +18,29 @@ class Paymentwithoutprice extends Model
     protected $fillable = [
       'paymentwithoutprice_uuid',
       'observation',
-      'servicewithprice_uuid',
-      'transactionmethod_uuid',
-      'denomination_uuid',
+      'servicewithprice_uuids',
+      'transactionmethod_uuids',
       'user_id',
     ];
-
+    protected $casts = [
+        'servicewithprice_uuids' => 'array',
+        'transactionmethod_uuids' => 'array',
+    ];
     public function servicewithprice()
     {
       return $this->belongsTo(Servicewithprice::class, 'servicewithprice_uuid', 'servicewithprice_uuid');
     }
-
+    public function denominations(){
+        return $this->morphToMany(Denomination::class,'denominationable','denominationables','denominationable_uuid','denomination_uuid','paymentwithoutprice_uuid','denomination_uuid');
+    }
+    public function denominationable()
+    {
+        return $this->hasMany(Denominationables::class, 'denominationable_uuid', 'paymentwithoutprice_uuid');
+    }
     public function transactionmethod()
     {
-      return $this->belongsTo(Transactionmethod::class, 'transactionmethod_uuid', 'transactionmethod_uuid');
+        return $this->belongsTo(Transactionmethod::class, 'transactionmethod_uuid', 'transactionmethod_uuid');
     }
-
-    public function denomination()
-    {
-      return $this->hasOne(Denomination::class, 'denomination_uuid', 'denomination_uuid');
-    }
-
     public function user()
     {
       return $this->belongsTo(User::class);
@@ -53,7 +55,8 @@ class Paymentwithoutprice extends Model
       });
 
       static::deleting(function ($model) {
-          $model->denomination()->delete();
+          $model->denominations()->delete();
+          $model->denominationable()->delete();
       });
       /*
       static::restoring(function ($incomefromtransfer) {

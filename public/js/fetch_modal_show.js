@@ -1,3 +1,4 @@
+
 function fetchDetails(uuid) {
     const form = document.getElementById(`details-form-${uuid}`);
     const url = form.action;
@@ -17,9 +18,9 @@ function fetchDetails(uuid) {
             return response.json();
         })
         .then(data => {
-            let contain_bill_coin = document.getElementById('contain_bill_coin');
+            const modal_show = document.querySelector(`#modal-show-${uuid}`);
+            const contain_bill_coin = modal_show.querySelector('.contain-bill-coin');
             contain_bill_coin.innerHTML = "";
-            console.log(data);
             if(data.bill_200 != 0) contain_bill_coin.innerHTML += `
                                                         <div>
                                                             <p><span class="text-sm font-semibold">Bs 200 - Cantidad:</span> ${data.bill_200}</p>

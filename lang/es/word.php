@@ -108,8 +108,8 @@ return [
     ],
 
     'service' => [
-        'title_service_with_price' => 'Servicios con precio',
-        'title_service_without_price' => 'Servicios sin precio',
+        'title_service_with_price' => 'Otros servicios',
+        'title_service_without_price' => 'Servicios básicos',
         'title'=>'Servicios',
         'delete_confirmation' => '¿Está seguro de eliminar el servicio',
         'select_category' => 'Seleccionar una categoría',
@@ -230,8 +230,8 @@ return [
     ],
 
     'payment' => [
-        'title' => 'Ingresos de pagos',
-        'title_others' => 'Otros ingresos',
+        'title' => 'Otros ingresos',
+        'title_others' => 'Ingresos servicios básicos',
         'delete_confirmation' => '¿Está seguro de eliminar el ingreso de pago',
         'select_service' => 'Seleccionar un servicio',
         'select_method' => 'Seleccionar un método',
@@ -272,6 +272,7 @@ return [
             "commission" => "Comisión",
             "servicewithoutprice_uuid" => "Servicio",
             "amount_total" => "Monto Total",
+            "amount_ticketing" => "Total Billetaje",
         ],
     ],
 
@@ -411,60 +412,6 @@ return [
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
         ],
-    ],
-
-    'incomefromtransfer' => [
-        'title' => 'Ingresos de transferencias',
-        'delete_confirmation' => '¿Está seguro de eliminar el ingreso por transferencia',
-        'select_service' => 'Seleccionar un servicio',
-        'meta' => [
-            'create' => [
-                'title' => 'Nuevo ingreso de transferencia',
-                'description' => 'Crea un nuevo ingreso de transferencia en nuestra plataforma.',
-                'keywords' => 'crear ingreso de transferencia, nuevo ingreso de transferencia, plataforma',
-            ],
-            'edit' => [
-                'title' => 'Actualizar ingreso de transferencia',
-                'description' => 'Edita y actualiza un ingreso de transferencia existente.',
-                'keywords' => 'editar ingreso de transferencia, actualizar ingreso de transferencia, plataforma',
-            ],
-            'index' => [
-                'title' => 'Lista de ingresos de transferencias',
-                'description' => 'Explora la lista completa de ingreso de transferencias disponibles.',
-                'keywords' => 'lista de ingreso de transferencias, ingreso de transferencias disponibles, plataforma',
-            ],
-            'show' => [
-                'title' => 'Mostrar ingreso de transferencias',
-                'description' => 'Consulta los detalles de cada ingreso de transferencia disponible.',
-                'keywords' => 'ver ingreso de transferencia, detalles del ingreso de transferencia, plataforma',
-            ],
-            "author" => 'Pedro Luis Condori Cutile',
-        ],
-        'resource' => [
-            "create" => "Nuevo ingreso de transferencia",
-            "edit" => "Actualizar ingreso de transferencia",
-            "show" => "Detalles del ingreso de transferencia",
-            "index" => "Lista de ingresos de transferencias",
-        ],
-        'attribute' => [
-            "code" => "Codigo",
-            "amount" => "Monto",
-            "amount_total" => "Monto Total",
-            "commission" => "Comisión",
-            "observation" => "Observación",
-            "status" => "Estado",
-            "service_uuid" => "Servicio",
-            "denomination_uuid" => "Denominación",
-            "user_id" => "Registrado por",
-            "created_at" => "Fecha Registro",
-            "updated_at" => "Últ. Act.",
-        ],
-    ],
-
-
-    'income' => [
-        "new" => "Nuevo ingreso",
-        "list" => "Lista de ingresos",
     ],
 
 ];

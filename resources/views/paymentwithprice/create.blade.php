@@ -18,8 +18,9 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/ticketing_price.js?v='.time()) }}"></script>
-        <script src="{{ asset('/js/payment/form_with_price.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/payment/ticketing_payment_with_price.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/payment/form_payment_with_price.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">
@@ -35,7 +36,7 @@
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <x-form-paymentwithprice :paymentwithprice="$paymentwithprice"
+                            <x-form-paymentwithprice-create :paymentwithprice="$paymentwithprice"
                                                         :transactionmethods="$transactionmethods"
                                                         :servicewithoutprices="$servicewithoutprices" />
                             @if ($errors->any())

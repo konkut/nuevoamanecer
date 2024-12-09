@@ -17,14 +17,20 @@ class Paymentwithprice extends Model
     protected $table = 'paymentwithprices';
     protected $fillable = [
         'paymentwithprice_uuid',
-        'name',
-        'amount',
-        'commission',
+        'names',
+        'amounts',
+        'commissions',
         'observation',
-        'servicewithoutprice_uuid',
-        'transactionmethod_uuid',
-        'denomination_uuid',
+        'servicewithoutprice_uuids',
+        'transactionmethod_uuids',
         'user_id',
+    ];
+    protected $casts = [
+        'names' => 'array',
+        'amounts' => 'array',
+        'commissions' => 'array',
+        'servicewithoutprice_uuids' => 'array',
+        'transactionmethod_uuids' => 'array',
     ];
 
     public function servicewithoutprice()
@@ -32,14 +38,19 @@ class Paymentwithprice extends Model
         return $this->belongsTo(Servicewithoutprice::class, 'servicewithoutprice_uuid', 'servicewithoutprice_uuid');
     }
 
+    public function denominations()
+    {
+        return $this->morphToMany(Denomination::class, 'denominationable', 'denominationables', 'denominationable_uuid', 'denomination_uuid', 'paymentwithprice_uuid', 'denomination_uuid');
+    }
+
+    public function denominationable()
+    {
+        return $this->hasMany(Denominationables::class, 'denominationable_uuid', 'paymentwithprice_uuid');
+    }
+
     public function transactionmethod()
     {
         return $this->belongsTo(Transactionmethod::class, 'transactionmethod_uuid', 'transactionmethod_uuid');
-    }
-
-    public function denomination()
-    {
-        return $this->hasOne(Denomination::class, 'denomination_uuid', 'denomination_uuid');
     }
 
     public function user()
@@ -50,13 +61,12 @@ class Paymentwithprice extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            $model->paymentwithprice_uuid = (string) Str::uuid();
+            $model->paymentwithprice_uuid = (string)Str::uuid();
         });
-
         static::deleting(function ($model) {
-            $model->denomination()->delete();
+            $model->denominations()->delete();
+            $model->denominationable()->delete();
         });
         /*
         static::restoring(function ($incomefromtransfer) {

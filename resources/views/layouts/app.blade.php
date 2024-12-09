@@ -65,28 +65,30 @@
                                 {{ __('word.category.title') }}
                             </x-responsive-nav-link>
                         @endcan
-                        <x-responsive-nav-link href="{{ route('serviceswithoutprices.index') }}"
-                                               :active="request()->routeIs('serviceswithoutprices.index')">
-                            {{ __('word.service.title_service_without_price') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('serviceswithprices.index') }}"
-                                               :active="request()->routeIs('serviceswithprices.index')">
-                            {{ __('word.service.title_service_with_price') }}
-                        </x-responsive-nav-link>
                         @can('transactionmethods.index')
                             <x-responsive-nav-link href="{{ route('transactionmethods.index') }}"
                                                    :active="request()->routeIs('transactionmethods.index')">
                                 {{ __('word.transactionmethod.title') }}
                             </x-responsive-nav-link>
                         @endcan
-                        <x-responsive-nav-link href="{{ route('paymentwithoutprices.index') }}"
-                                               :active="request()->routeIs('paymentwithoutprices.index')">
-                            {{ __('word.payment.title') }}
+                        <x-responsive-nav-link href="{{ route('serviceswithoutprices.index') }}"
+                                               :active="request()->routeIs('serviceswithoutprices.index')">
+                            {{ __('word.service.title_service_without_price') }}
                         </x-responsive-nav-link>
                         <x-responsive-nav-link href="{{ route('paymentwithprices.index') }}"
                                                :active="request()->routeIs('paymentwithprices.index')">
                             {{ __('word.payment.title_others') }}
                         </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('serviceswithprices.index') }}"
+                                               :active="request()->routeIs('serviceswithprices.index')">
+                            {{ __('word.service.title_service_with_price') }}
+                        </x-responsive-nav-link>
+
+                        <x-responsive-nav-link href="{{ route('paymentwithoutprices.index') }}"
+                                               :active="request()->routeIs('paymentwithoutprices.index')">
+                            {{ __('word.payment.title') }}
+                        </x-responsive-nav-link>
+
                         <x-responsive-nav-link href="{{ route('cashcounts.index') }}"
                                                :active="request()->routeIs('cashcounts.index')">
                             {{ __('word.cashcount.title') }}

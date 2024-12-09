@@ -14,12 +14,8 @@ return new class extends Migration
         Schema::create('paymentwithoutprices', function (Blueprint $table) {
             $table->string('paymentwithoutprice_uuid', 36)->unique();
             $table->string('observation', 100)->nullable();
-            $table->string('servicewithprice_uuid', 36);
-            $table->foreign('servicewithprice_uuid')->references('servicewithprice_uuid')->on('servicewithprices');
-            $table->string('transactionmethod_uuid', 36);
-            $table->foreign('transactionmethod_uuid')->references('transactionmethod_uuid')->on('transactionmethods');
-            $table->string('denomination_uuid', 36);
-            $table->foreign('denomination_uuid')->references('denomination_uuid')->on('denominations');
+            $table->json('servicewithprice_uuids');
+            $table->json('transactionmethod_uuids');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

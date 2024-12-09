@@ -21,7 +21,7 @@
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
-        <script src="{{ asset('js/cashcount/index.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/fetch_modal_show.js?v='.time()) }}"></script>
     </x-slot>
 
 
@@ -39,10 +39,13 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('cashcounts.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
-                            <i class="bi bi-plus"></i>
-                        </a>
+                        @if(!$cashcounts->contains(fn($item) => \Carbon\Carbon::parse($item->date)->isSameDay(now())))
+                                <a href="{{ route('cashcounts.create') }}"
+                                   class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
+                                    <i class="bi bi-plus"></i>
+                                </a>
+                            @endif
+
                         <form method="GET" action="{{ route('cashcounts.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
@@ -81,7 +84,7 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->date}}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->opening, 2) }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $totalSuma }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->closing, 2) }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">

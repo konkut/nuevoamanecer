@@ -16,6 +16,7 @@ class Denomination extends Model
   protected $table = 'denominations';
   protected $fillable = [
     'denomination_uuid',
+      'type',
     'bill_200',
     'bill_100',
     'bill_50',
@@ -29,12 +30,15 @@ class Denomination extends Model
     'coin_0_1',
     'total',
   ];
-  public function incomefromtransfer()
-  {
-    return $this->hasOne(Incomefromtransfer::class, 'denomination_uuid', 'denomination_uuid');
-  }
 
-  // Generar un UUID automáticamente al crear un nuevo modelo
+  public function paymentwithoutprice (){
+      return $this->morphedByMany(Paymentwithoutprice::class, 'denominationable','denominationables','denominationable_uuid','denomination_uuid','denomination_uuid','paymentwithoutprice_uuid');
+  }
+/*
+  public function denominationable()
+ {
+   return $this->hasMany(Denominationables::class, 'denomination_uuid', 'denomination_uuid');
+ }*/
   protected static function boot()
   {
     parent::boot();
@@ -42,13 +46,17 @@ class Denomination extends Model
     static::creating(function ($model) {
       $model->denomination_uuid = (string) Str::uuid(); // Genera un UUID
     });
-    static::deleting(function ($denomination) {
-      $denomination->incomefromtransfer()->delete();
-    });
+    /*
+      static::deleting(function ($model) {
+          $model->paymentwithoutprice()->delete();
+      });*/
+
+
+    /*
     static::restoring(function ($denomination) {
       $denomination->services()->onlyTrashed()->each(function ($denomination) {
         $denomination->restore();
       });
-    });
+    });*/
   }
 }

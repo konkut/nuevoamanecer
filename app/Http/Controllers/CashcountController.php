@@ -13,13 +13,8 @@ class CashcountController extends Controller
   public function index(Request $request)
   {
     $perPage = $request->input('perPage', 10);
-
     $cashcounts = Cashcount::with(['user', 'opening_denomination', 'closing_denomination'])->paginate($perPage);
-      $date = '2024-12-02';
-      $totalSuma = DB::table('denominations')
-          ->whereDate('denominations.created_at', '=', $date)
-          ->sum('denominations.total');
-    return view("cashcount.index", compact('cashcounts', 'perPage','totalSuma'));
+    return view("cashcount.index", compact('cashcounts', 'perPage'));
   }
   public function create()
   {
@@ -52,6 +47,7 @@ class CashcountController extends Controller
       }
 
     $denomination = Denomination::create([
+        'type'=>'opening',
       'bill_200' => $request->bill_200 ?? 0,
       'bill_100' => $request->bill_100 ?? 0,
       'bill_50' => $request->bill_50 ?? 0,

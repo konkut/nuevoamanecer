@@ -1,3 +1,34 @@
+     /*
+        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
+        $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
+        $denomination = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)->firstOrFail();
+        $transactionmethods = Transactionmethod::all();
+        $servicewithprices = Servicewithprice::all();
+        return view("paymentwithoutprice.edit", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices'));
+        */
+        /*$paymentwithoutprice_aux = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
+        $denominationables_aux = Denominationables::where('denominationable_uuid', $paymentwithoutprice_aux->paymentwithoutprice_uuid)->firstOrFail();
+        $denomination = Denomination::where('denomination_uuid', $denominationables_aux->denomination_uuid)->firstOrFail();
+        $denominationables = Denominationables::where('denomination_uuid', $denomination->denomination_uuid)->get();
+        $paymentwithoutpriceUUIDs = $denominationables->pluck('denominationable_uuid')->toArray();
+        $servicewithpriceNames = [];
+        $transactionmethodNames = [];
+
+        foreach ($paymentwithoutpriceUUIDs as $uuid) {
+            $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $uuid)->firstOrFail();
+            $servicewithprice = Servicewithprice::where('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuid)->firstOrFail();
+            $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $paymentwithoutprice->transactionmethod_uuid)->firstOrFail();
+            $servicewithpriceNames[] = $servicewithprice->name;
+            $transactionmethodNames[] = $transactionmethod->name;
+        }
+        $servicewithprices = Servicewithprice::all();
+        $transactionmethods = Transactionmethod::all();
+
+        return view('paymentwithoutprice.edit', compact('servicewithprices', 'transactionmethods', 'denomination', 'servicewithpriceNames', 'transactionmethodNames'));
+    */
+
+
+
     //Validation income from transfer
     $rules = [
       /*'date' => [
