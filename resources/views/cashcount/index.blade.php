@@ -18,6 +18,7 @@
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/close_box_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
@@ -88,29 +89,31 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
-                                            {{--
-                                            <form id="details-form-{{$item->cashcount_uuid}}"
-                                                  action="{{ route('cashcounts.showcashcount', $item->cashcount_uuid) }}"
-                                                  method="POST" style="display: inline;">
+                                            <form id="details-form-{{$item->cashcount_uuid}}" action="{{ route('cashcounts.showdetail', $item->cashcount_uuid) }}" method="POST" style="display: inline;">
                                                 @csrf
-                                                <button type="button"
-                                                        onclick="fetchDetails('{{$item->cashcount_uuid}}')"
-                                                        class="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                                                <button type="button" onclick="fetchDetails('{{$item->cashcount_uuid}}')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">
                                                     <i class="bi bi-eye"></i>
                                                 </button>
                                             </form>
-                                            --}}
-                                            <a href="{{ route('cashcounts.edit',$item->cashcount_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            {{--
+                                            @if($item->status != 0)
+                                                <a href="{{ route('cashcounts.edit',$item->cashcount_uuid) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button"
+                                                        class="bg-yellow-950 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openBoxModal('{{ $item->cashcount_uuid }}', '{{ $item->date }}')">
+                                                    <i class="bi bi-lock"></i>
+                                                </button>
+                                            @endif
+
+                                           {{--
                                             <button type="button"
-                                                   class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                   onclick="openModal('{{ $item->cashcount_uuid }}', '{{ $item->date }}')">
-                                               <i class="bi bi-x-circle"></i>
+                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                    onclick="openModal('{{ $item->cashcount_uuid }}', '{{$item->date }}')">
+                                                <i class="bi bi-x-circle"></i>
                                             </button>
-                                            --}}
+                                           --}}
                                         </div>
                                     </td>
 
@@ -119,10 +122,9 @@
                                 <div id="details-modal-{{$item->cashcount_uuid}}"
                                      class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center overflow-y-auto">
                                     <div
-                                        class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
-                                        <div
-                                            class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
-                                            <h1 class="text-lg font-semibold mx-auto">{{ __('word.cashcount.resource.show') }}</h1>
+                                        class="bg-white rounded-lg shadow-lg w-11/12 max-w-5xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                        <div class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
+                                            <h1 class="text-lg font-semibold mx-auto">{{__('word.cashcount.resource.show')}}</h1>
                                             <button type="button"
                                                     class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
                                                     onclick="closeDetailsModal('{{$item->cashcount_uuid}}')">
@@ -130,8 +132,8 @@
                                             </button>
                                         </div>
                                         <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div class="text-center">
+                                            <div class="grid grid-cols-1 @if($item->status != 1) md:grid-cols-3 @endif md:grid-cols-2">
+                                                <div class="text-center pb-8 md:pb-0">
                                                     @if($item->date)
                                                         <div>
                                                             <p class="text-sm font-semibold">{{ __('word.cashcount.attribute.date') }}</p>
@@ -163,15 +165,18 @@
                                                         <p>{{ $item->user->name }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="text-center" id="contain_bill_coin">
-
+                                                <div class="text-center pb-8 md:pb-0" id="modal-show-{{$item->cashcount_uuid}}">
                                                 </div>
+                                                @if($item->status != 1)
+                                                    <div class="text-center pb-8 md:pb-0" id="modal-closing-{{$item->cashcount_uuid}}">
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {{--
-                                <!-- Modal -->
+
+                                <!-- Modal Delete -->
                                 <div id="modal-{{$item->cashcount_uuid}}"
                                      class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen">
@@ -195,19 +200,54 @@
                                                 <button type="button"
                                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
                                                         onclick="closeModal('{{$item->cashcount_uuid}}')">{{ __('Close') }}</button>
-                                                <form id="delete-form-{{$item->cashcount_uuid}}"
-                                                      action="{{route('cashcounts.destroy',$item->cashcount_uuid)}}"
+
+                                                <form action="{{route('cashcounts.destroy',$item->cashcount_uuid)}}"
                                                       method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
                                                             class="bg-red-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-red-600">{{ __('Delete') }}</button>
                                                 </form>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                --}}
+
+                                <!-- Modal Close Box -->
+                                <div id="modal-box-{{$item->cashcount_uuid}}"
+                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                            <div class="modal-header p-4 border-b flex justify-between items-center">
+                                                <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.box_close_title')}}</h1>
+                                                <button type="button"
+                                                        class="close-modal text-gray-500 hover:text-gray-700"
+                                                        onclick="closeBoxModal('{{$item->cashcount_uuid}}')">
+                                                    &times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body p-6">
+                                                <p class="text-gray-600">{{__('word.cashcount.box_close_confirmation')}}
+                                                    <strong
+                                                        id="name-box-{{$item->cashcount_uuid}}"></strong>{{__('word.general.box_close_warning')}}
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer p-4 border-t flex justify-end space-x-2">
+                                                <button type="button"
+                                                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
+                                                        onclick="closeBoxModal('{{$item->cashcount_uuid}}')">{{ __('Exit') }}</button>
+                                                <form action="{{route('cashcounts.changestatus',$item->cashcount_uuid)}}"
+                                                      method="POST">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            class="bg-yellow-900 text-white px-4 py-2 rounded transition duration-300 hover:bg-yellow-950">{{ __('Confirm') }}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                             </tbody>
                         </table>

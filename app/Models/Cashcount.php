@@ -20,36 +20,32 @@ class Cashcount extends Model
     'date',
     'opening',
     'closing',
-    'opening_denomination_uuid',
-    'closing_denomination_uuid',
+      'status',
     'user_id',
   ];
 
-  public function opening_denomination()
-  {
-    return $this->hasOne(Denomination::class, 'denomination_uuid', 'opening_denomination_uuid');
-  }
-
-  public function closing_denomination()
-  {
-    return $this->hasOne(Denomination::class, 'denomination_uuid', 'closing_denomination_uuid');
-  }
+    public function denominations(){
+        return $this->morphToMany(Denomination::class,'denominationable','denominationables','denominationable_uuid','denomination_uuid','cashcount_uuid','denomination_uuid');
+    }
+    public function denominationable()
+    {
+        return $this->hasMany(Denominationables::class, 'denominationable_uuid', 'cashcount_uuid');
+    }
 
   public function user()
   {
     return $this->belongsTo(User::class);
   }
-
-  // Generar un UUID automáticamente al crear un nuevo modelo
   protected static function boot()
   {
     parent::boot();
 
     static::creating(function ($model) {
-      $model->cashcount_uuid = (string) Str::uuid(); // Genera un UUID
+      $model->cashcount_uuid = (string) Str::uuid();
     });
     static::deleting(function ($model) {
-        $model->opening_denomination()->delete();
+        $model->denominations()->delete();
+        $model->denominationable()->delete();
     });
   }
 }

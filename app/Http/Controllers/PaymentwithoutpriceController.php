@@ -42,7 +42,6 @@ class PaymentwithoutpriceController extends Controller
 
     public function store(Request $request)
     {
-        $cashcount = Cashcount::where('date', now()->toDateString())->first();
         $rules = [
             'observation' => 'nullable|string|max:100',
             'servicewithprice_uuids' => 'required|array',
@@ -63,6 +62,13 @@ class PaymentwithoutpriceController extends Controller
             'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
         ];
         $validator = Validator::make($request->all(), $rules);
+        $validator->after(function ($validator) use ($request) {
+            $serviceCount = count($request->input('servicewithprice_uuids', []));
+            $transactionCount = count($request->input('transactionmethod_uuids', []));
+            if ($serviceCount !== $transactionCount) {
+                $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
+            }
+        });
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -90,11 +96,6 @@ class PaymentwithoutpriceController extends Controller
             'user_id' => Auth::id(),
         ]);
         $paymentwithoutprice->denominations()->attach($denomination->denomination_uuid);
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) + ($denomination->total ?? 0),
-            ]);
-        }
         return redirect("/paymentwithoutprices")->with('success', 'Ingreso registrado correctamente.');
     }
 
@@ -114,7 +115,6 @@ class PaymentwithoutpriceController extends Controller
         $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
         $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
         $denomination = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)->firstOrFail();
-        $cashcount = Cashcount::where('date', now()->toDateString())->first();
         $rules = [
             'observation' => 'nullable|string|max:100',
             'servicewithprice_uuids' => 'required|array',
@@ -140,11 +140,6 @@ class PaymentwithoutpriceController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) - ($denomination->total ?? 0),
-            ]);
-        }
         $denomination->update([
             'bill_200' => $request->bill_200 ?? 0,
             'bill_100' => $request->bill_100 ?? 0,
@@ -159,31 +154,18 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_1' => $request->coin_0_1 ?? 0,
             'total' => $request->total ?? 0,
         ]);
-
         $paymentwithoutprice->update([
             'observation' => $request->observation,
             'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
             'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
             'user_id' => Auth::id(),
         ]);
-
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) + ($denomination->total ?? 0),
-            ]);
-        }
         return redirect("/paymentwithoutprices")->with('success', 'Ingreso actualizado correctamente.');
     }
 
     public function destroy(string $paymentwithoutprice_uuid)
     {
         $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $cashcount = Cashcount::where('date', now()->toDateString())->first();
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) - ($denomination->total ?? 0),
-            ]);
-        }
         $paymentwithoutprice->delete();
         return redirect("/paymentwithoutprices")->with('success', 'Ingreso eliminado correctamente.');
     }

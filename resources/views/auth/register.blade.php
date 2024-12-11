@@ -1,7 +1,7 @@
 <x-guest-layout>
 
   <x-slot name="js_files">
-    <script type="module" src="{{ asset('js/register/register.js?v='.time()) }}"></script>
+      <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ asset('js/lang/es.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ asset('js/components/show-password.js?v='.time()) }}"></script>
   </x-slot>
@@ -21,24 +21,24 @@
       <div>
         <x-label for="name" value="{{ __('Name') }}" />
         <div class="relative">
-          <i id="name_icon" class="bi bi-person-circle absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-          <x-input id="name" class="pl-9 block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+          <i class="bi bi-person-circle absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+          <x-input id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
         </div>
       </div>
 
       <div class="mt-4">
         <x-label for="email" value="{{ __('Email') }}" />
         <div class="relative">
-          <i id="email_icon" class="bi bi-envelope-open absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-          <x-input id="email" class="pl-9 lock mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+          <i class="bi bi-envelope-open absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+          <x-input id="email" class="focus-and-blur pl-9 lock mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
         </div>
       </div>
 
       <div class="mt-4">
         <x-label for="password" value="{{ __('Password') }}" />
         <div class="relative">
-          <i id="password_icon" class="bi bi-fingerprint absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-          <x-input id="password" class="pl-9 block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+          <i class="bi bi-fingerprint absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+          <x-input id="password" class="focus-and-blur pl-9 block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
         </div>
       </div>
       <a href="#" class="show_password outline-none flex justify-end text-xs pt-1 text-gray-600 dark:text-gray-400" data-state="hide" data-target="password">{{ __('word.general.show_password') }}</a>
@@ -46,8 +46,8 @@
       <div>
         <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
         <div class="relative">
-          <i id="password_confirmation_icon" class="bi bi-fingerprint absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-          <x-input id="password_confirmation" class="pl-9 block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+          <i class="bi bi-fingerprint absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+          <x-input id="password_confirmation" class="focus-and-blur pl-9 block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
         </div>
       </div>
 

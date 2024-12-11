@@ -191,10 +191,7 @@
                                                         <p>{{ $item->user->name }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="text-center"
-                                                     id="modal-show-{{$item->paymentwithprice_uuid}}">
-                                                    <div class="contain-bill-coin">
-                                                    </div>
+                                                <div class="text-center pb-8 md:pb-0" id="modal-show-{{$item->paymentwithprice_uuid}}">
                                                 </div>
                                             </div>
                                         </div>

@@ -31,6 +31,8 @@ return [
         'total_user'=>'Total Usuarios',
         'total_transaction'=>'Total Transacciones',
         'total_method'=>'Total Métodos de transacción',
+        'box_close_title' => 'Confirmar cierre de caja',
+        'box_close_warning' => '? Esta acción también inhabilitara la edición de todos los registros relacionados y no se puede deshacer.',
     ],
 
     'user' => [
@@ -378,6 +380,9 @@ return [
     'cashcount' => [
         'title' => 'Arqueo de caja',
         'delete_confirmation' => '¿Está seguro de eliminar el arqueo de caja',
+        'box_close_confirmation' => '¿Está seguro de cerrar el arqueo de caja',
+        'billcoin_open' => 'Monto de inicio',
+        'billcoin_close' => 'Monto de cierre',
         'meta' => [
             'create' => [
                 'title' => 'Nuevo arqueo de caja',

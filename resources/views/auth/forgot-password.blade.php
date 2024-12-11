@@ -1,6 +1,7 @@
 <x-guest-layout>
   <x-slot name="js_files">
-    <script type="module" src="{{ asset('js/forgot-password/forgot-password.js?v='.time()) }}"></script>
+
+      <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
   </x-slot>
   <x-authentication-card>
     <x-slot name="logo">
@@ -27,8 +28,8 @@
       <div class="block">
         <x-label for="email" value="{{ __('Email') }}" />
         <div class="relative">
-          <i id="email_icon" class="bi bi-envelope-open absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
-          <x-input id="email" class="pl-9 block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+          <i class="bi bi-envelope-open absolute top-1.5 left-2 text-[1.3em] text-[#374151]"></i>
+          <x-input id="email" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
         </div>
       </div>
 

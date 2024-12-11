@@ -42,7 +42,6 @@ class PaymentwithpriceController extends Controller
 
     public function store(Request $request)
     {
-        $cashcount = Cashcount::where('date', now()->toDateString())->first();
         $rules = [
             'observation' => 'nullable|string|max:100',
             'names' => 'required|array',
@@ -74,7 +73,6 @@ class PaymentwithpriceController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
         $denomination = Denomination::create([
             'bill_200' => $request->bill_200 ?? 0,
             'bill_100' => $request->bill_100 ?? 0,
@@ -89,7 +87,6 @@ class PaymentwithpriceController extends Controller
             'coin_0_1' => $request->coin_0_1 ?? 0,
             'total' => $request->total ?? 0,
         ]);
-
         $paymentwithprice = Paymentwithprice::create([
             'names' => json_encode($request->names),
             'observation' => $request->observation,
@@ -99,13 +96,7 @@ class PaymentwithpriceController extends Controller
             'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
             'user_id' => Auth::id(),
         ]);
-
         $paymentwithprice->denominations()->attach($denomination->denomination_uuid);
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) + ($denomination->total ?? 0),
-            ]);
-        }
         return redirect("/paymentwithprices")->with('success', 'Ingreso registrado correctamente.');
     }
 
@@ -130,7 +121,6 @@ class PaymentwithpriceController extends Controller
         $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->firstOrFail();
         $denominationables = Denominationables::where('denominationable_uuid', $paymentwithprice->paymentwithprice_uuid)->firstOrFail();
         $denomination = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)->firstOrFail();
-        $cashcount = Cashcount::where('date', now()->toDateString())->first();
         $rules = [
             'observation' => 'nullable|string|max:100',
             'names' => 'required|array',
@@ -162,11 +152,6 @@ class PaymentwithpriceController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) - ($denomination->total ?? 0),
-            ]);
-        }
         $denomination->update([
             'bill_200' => $request->bill_200 ?? 0,
             'bill_100' => $request->bill_100 ?? 0,
@@ -181,7 +166,6 @@ class PaymentwithpriceController extends Controller
             'coin_0_1' => $request->coin_0_1 ?? 0,
             'total' => $request->total ?? 0,
         ]);
-
         $paymentwithprice->update([
             'names' => json_encode($request->names),
             'observation' => $request->observation,
@@ -191,11 +175,6 @@ class PaymentwithpriceController extends Controller
             'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
             'user_id' => Auth::id(),
         ]);
-        if ($cashcount && $cashcount->date == now()->toDateString()) {
-            $cashcount->update([
-                'closing' => ($cashcount->closing ?? 0) + ($denomination->total ?? 0),
-            ]);
-        }
         return redirect("/paymentwithprices")->with('success', 'Ingreso actualizado correctamente.');
     }
 

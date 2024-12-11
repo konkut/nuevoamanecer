@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('servicewithoutprices', function (Blueprint $table) {
             $table->string('servicewithoutprice_uuid', 36)->unique();
-            $table->string('name', 30)->unique();
+            $table->string('name', 50)->unique();
             $table->string('description',100)->nullable();
             $table->enum('status', ['1', '0'])->default('1');
             $table->string('category_uuid', 36);

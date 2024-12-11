@@ -1,8 +1,8 @@
 <div class="mt-4">
     <x-label for="observation" value="{{ __('word.payment.attribute.observation') }}" />
     <div class="relative">
-        <i id="observation_icon" class="bi-info-circle absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input id="observation" class="pl-9 block mt-1 w-full" type="text" name="observation" value="{{ old('observation', $paymentwithoutprice->observation?? '') }}" />
+        <i class="bi-info-circle absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+        <x-input id="observation" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="observation" value="{{ old('observation', $paymentwithoutprice->observation?? '') }}" />
     </div>
 </div>
 <div id="dynamic-rows-container" class="flex flex-col space-y-4">
@@ -12,8 +12,8 @@
             <div class="mt-4 w-full sm:w-1/2">
                 <x-label for="servicewithprice_uuid" value="{{ __('word.payment.attribute.servicewithprice_uuid') }} *" />
                 <div class="relative">
-                    <i id="servicewithprice_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                    <select id="servicewithprice_uuid" onchange="updateCharge_paymentwithoutprice()" class="service-select border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="servicewithprice_uuids[]">
+                    <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                    <select id="servicewithprice_uuid" onchange="updateCharge_paymentwithoutprice()" class="focus-and-blur service-select border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="servicewithprice_uuids[]">
                         <option value="" disabled>{{ __('word.payment.select_service') }}</option>
                         @foreach($servicewithprices as $item)
                             <option value="{{ $item->servicewithprice_uuid }}" data-amount="{{ $item->amount }}" data-commission="{{ $item->commission }}"
@@ -28,8 +28,8 @@
             <div class="mt-4 w-full sm:w-1/2">
                 <x-label for="transactionmethod_uuid" value="{{ __('word.payment.attribute.transactionmethod_uuid') }} *" />
                 <div class="relative">
-                    <i id="transactionmethod_uuid_icon" class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                    <select id="transactionmethod_uuid" class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="transactionmethod_uuids[]">
+                    <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                    <select id="transactionmethod_uuid" class="focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="transactionmethod_uuids[]">
                         <option value="" disabled>{{ __('word.payment.select_method') }}</option>
                         @foreach($transactionmethods as $item)
                             <option value="{{ $item->transactionmethod_uuid }}"

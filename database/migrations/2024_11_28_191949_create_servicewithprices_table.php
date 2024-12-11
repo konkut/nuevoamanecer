@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('servicewithprices', function (Blueprint $table) {
             $table->string('servicewithprice_uuid', 36)->unique();
-            $table->string('name', 30)->unique();
+            $table->string('name', 50)->unique();
             $table->string('description', 100)->nullable();
             $table->decimal('amount', 20, 2);
             $table->decimal('commission', 10, 2)->nullable();

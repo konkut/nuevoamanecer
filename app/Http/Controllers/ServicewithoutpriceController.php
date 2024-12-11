@@ -32,7 +32,7 @@ class ServicewithoutpriceController extends Controller
                 'required',
                 'unique:servicewithoutprices,name',
                 'string',
-                'max:30',
+                'max:50',
                 'regex:/^[a-zA-Z0-9\s]+$/',
             ],
             'description' => [
@@ -75,7 +75,7 @@ class ServicewithoutpriceController extends Controller
             'name' => [
                 'required',
                 'string',
-                'max:30',
+                'max:50',
                 'regex:/^[a-zA-Z0-9\s]+$/',
                 'unique:servicewithoutprices,name,' . $servicewithoutprice->servicewithoutprice_uuid . ',servicewithoutprice_uuid',
             ],

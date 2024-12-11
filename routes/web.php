@@ -103,19 +103,10 @@ Route::middleware([
     Route::get("/cashcounts/create", [CashcountController::class, "create"])->name("cashcounts.create")->middleware('can:cashcounts.create');
     Route::post("/cashcounts", [CashcountController::class, "store"])->name("cashcounts.store")->middleware('can:cashcounts.create');
     Route::get('/cashcounts/{cashcount_uuid}/edit', [CashcountController::class, 'edit'])->name('cashcounts.edit')->middleware('can:cashcounts.edit');
+    Route::post('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'showdetail'])->name('cashcounts.showdetail');
+    Route::post("/cashcountstatus/{cashcount_uuid}", [CashcountController::class, "changestatus"])->name('cashcounts.changestatus');
     Route::put('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'update'])->name('cashcounts.update')->middleware('can:cashcounts.edit');
     Route::delete('/cashcounts/{cashcount_uuid}', [CashcountController::class, 'destroy'])->name('cashcounts.destroy')->middleware('can:cashcounts.destroy');
-
-
-    /*
-    Route::get("/services", [ServiceController::class, "index"])->name("services.index")->middleware('can:services.index');
-    Route::get("/services/create", [ServiceController::class, "create"])->name("services.create")->middleware('can:services.create');
-    Route::post("/services", [ServiceController::class, "store"])->name("services.store")->middleware('can:services.create');
-    Route::get('/services/{service_uuid}', [ServiceController::class, 'show'])->name('services.show')->middleware('can:services.show');
-    Route::get('/services/{service_uuid}/edit', [ServiceController::class, 'edit'])->name('services.edit')->middleware('can:services.edit');
-    Route::put('/services/{service_uuid}', [ServiceController::class, 'update'])->name('services.update')->middleware('can:services.edit');
-    Route::delete('/services/{service_uuid}', [ServiceController::class, 'destroy'])->name('services.destroy')->middleware('can:services.destroy');*/
-    //Route::get('/servicesnew', [ServiceController::class, 'getServices'])->name('servicesnew.get');
 
     /*CURRENCIES */
     Route::get("/currencies", [CurrencyController::class, "index"])->name("currencies.index");
@@ -125,16 +116,6 @@ Route::middleware([
     Route::get('/currencies/{currency_id}/edit', [CurrencyController::class, 'edit'])->name('currencies.edit');
     Route::put('/currencies/{currency_id}', [CurrencyController::class, 'update'])->name('currencies.update');
     Route::delete('/currencies/{currency_id}', [CurrencyController::class, 'destroy'])->name('currencies.destroy');
-
-
-    /*INCOME FROM TRANSFER */
-    Route::get("/incomefromtransfers", [IncomefromtransferController::class, "index"])->name("incomefromtransfers.index");
-    Route::get("/incomefromtransfers/create", [IncomefromtransferController::class, "create"])->name("incomefromtransfers.create");
-    Route::post("/incomefromtransfers", [IncomefromtransferController::class, "store"])->name("incomefromtransfers.store");
-    Route::get('/incomefromtransfers/{incomefromtransfers_uuid}', [IncomefromtransferController::class, 'show'])->name('incomefromtransfers.show');
-    Route::get('/incomefromtransfers/{incomefromtransfers_uuid}/edit', [IncomefromtransferController::class, 'edit'])->name('incomefromtransfers.edit');
-    Route::put('/incomefromtransfers/{incomefromtransfers_uuid}', [IncomefromtransferController::class, 'update'])->name('incomefromtransfers.update');
-    Route::delete('/incomefromtransfers/{incomefromtransfers_uuid}', [IncomefromtransferController::class, 'destroy'])->name('incomefromtransfers.destroy');
 
     /*
     Route::get("/servicesprices", [ServicepriceController::class, "index"])->name("servicesprices.index")->middleware('can:servicesprices.index');

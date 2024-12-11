@@ -20,7 +20,7 @@
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/payment/ticketing_payment_with_price.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/payment/form_payment_with_price.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">

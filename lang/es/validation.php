@@ -150,8 +150,8 @@ return [
     'uppercase' => 'El campo :attribute debe estar en mayúscula.',
     'url' => 'El campo :attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
+    'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga un método de transacción correspondiente.',
     'attributes' => [
-
         /*FORM USER */
         'email' => 'correo electrónico',
         'password' => 'contraseña',

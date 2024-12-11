@@ -50,8 +50,13 @@
                 </div>
                 <nav class="flex-1 overflow-y-auto">
                     <ul class="space-y-1">
+
                         <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('cashcounts.index') }}"
+                                               :active="request()->routeIs('cashcounts.index')">
+                            {{ __('word.cashcount.title') }}
                         </x-responsive-nav-link>
                         @can('users.index')
                             <x-responsive-nav-link href="{{ route('users.index') }}"
@@ -89,10 +94,6 @@
                             {{ __('word.payment.title') }}
                         </x-responsive-nav-link>
 
-                        <x-responsive-nav-link href="{{ route('cashcounts.index') }}"
-                                               :active="request()->routeIs('cashcounts.index')">
-                            {{ __('word.cashcount.title') }}
-                        </x-responsive-nav-link>
                     </ul>
                 </nav>
             </div>
