@@ -21,6 +21,7 @@ class Paymentwithoutprice extends Model
       'servicewithprice_uuids',
       'transactionmethod_uuids',
       'user_id',
+        'cashshift_uuid',
     ];
     protected $casts = [
         'servicewithprice_uuids' => 'array',

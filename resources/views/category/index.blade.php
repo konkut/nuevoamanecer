@@ -39,10 +39,12 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('categories.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
-                            <i class="bi bi-plus"></i>
-                        </a>
+                        @can('categories.create')
+                            <a href="{{ route('categories.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        @endcan
                         <form method="GET" action="{{ route('categories.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
@@ -80,20 +82,26 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
-                                            <a href="javascript:void(0);"
-                                               class="bg-green-500 text-white px-2 py-1 rounded text-xs"
-                                               onclick="openDetailsModal('{{$item->category_uuid}}')">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{ route('categories.edit',$item->category_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->category_uuid }}', '{{ $item->name }}')">
-                                                <i class="bi bi-x-circle"></i>
-                                            </button>
+                                            @can('categories.index')
+                                                <a href="javascript:void(0);"
+                                                   class="bg-green-500 text-white px-2 py-1 rounded text-xs"
+                                                   onclick="openDetailsModal('{{$item->category_uuid}}')">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            @endcan
+                                            @can('categories.edit')
+                                                <a href="{{ route('categories.edit',$item->category_uuid) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            @endcan
+                                            @can('categories.destroy')
+                                                <button type="button"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->category_uuid }}', '{{ $item->name }}')">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </button>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -160,7 +168,8 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
-                                                <p class="text-gray-600">{{__('word.category.delete_confirmation')}} <strong
+                                                <p class="text-gray-600">{{__('word.category.delete_confirmation')}}
+                                                    <strong
                                                         id="name-{{$item->category_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>
@@ -169,7 +178,8 @@
                                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
                                                         onclick="closeModal('{{$item->category_uuid}}')">{{ __('Close') }}</button>
                                                 <form id="delete-form-{{$item->category_uuid}}"
-                                                      action="{{route('categories.destroy',$item->category_uuid)}}" method="POST">
+                                                      action="{{route('categories.destroy',$item->category_uuid)}}"
+                                                      method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

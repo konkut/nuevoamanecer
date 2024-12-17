@@ -17,11 +17,13 @@ class Cashcount extends Model
   protected $table = 'cashcounts';
   protected $fillable = [
     'cashcount_uuid',
-    'date',
-    'opening',
-    'closing',
-      'status',
-    'user_id',
+    'physical_balance',
+      'system_balance',
+      'difference',
+    'observation',
+    'cashshift_uuid',
+      'user_id',
+      'status'
   ];
 
     public function denominations(){
@@ -31,7 +33,6 @@ class Cashcount extends Model
     {
         return $this->hasMany(Denominationables::class, 'denominationable_uuid', 'cashcount_uuid');
     }
-
   public function user()
   {
     return $this->belongsTo(User::class);

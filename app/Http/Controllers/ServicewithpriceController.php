@@ -13,7 +13,9 @@ class ServicewithpriceController extends Controller
     public function index(Request $request)
   {
     $perPage = $request->input('perPage', 10);
-    $servicewithprices = Servicewithprice::with('user')->paginate($perPage);
+      $servicewithprices = Servicewithprice::with(['user'])
+          ->orderBy('created_at', 'desc')
+          ->paginate($perPage);
     return view("servicewithprice.index", compact('servicewithprices', 'perPage'));
   }
   public function create()

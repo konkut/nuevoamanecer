@@ -6,8 +6,8 @@ return [
     'accepted' => 'El campo :attribute debe ser aceptado.',
     'accepted_if' => 'El campo :attribute debe ser aceptado cuando :other sea :value.',
     'active_url' => 'El campo :attribute debe ser una URL válida.',
-    'after' => 'El campo :attribute debe ser una fecha posterior a :date.',
-    'after_or_equal' => 'El campo :attribute debe ser una fecha posterior o igual a :date.',
+    'after' => 'El campo :attribute debe ser una fecha posterior a hoy.',
+    'after_or_equal' => 'El campo :attribute debe ser una fecha posterior o igual a hoy.',
     'alpha' => 'El campo :attribute sólo debe contener letras.',
     'alpha_dash' => 'El campo :attribute sólo debe contener letras, números, guiones y guiones bajos.',
     'alpha_num' => 'El campo :attribute sólo debe contener letras y números.',
@@ -151,6 +151,7 @@ return [
     'url' => 'El campo :attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
     'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga un método de transacción correspondiente.',
+    'custom_paymentwithprice'=> 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
     'attributes' => [
         /*FORM USER */
         'email' => 'correo electrónico',
@@ -176,8 +177,8 @@ return [
         'denomination_uuid' => 'denominación',
 
         /*FORM PAYMENT WITH PRICE */
-        'names' => 'nombre',
-        'names.*' => 'nombre',
+        'names' => 'código',
+        'names.*' => 'código',
         'amounts' => 'monto',
         'amounts.*' => 'monto',
         'commissions' => 'commission',
@@ -206,7 +207,7 @@ return [
         "coin_0_2" => "moneda de 0.2",
         "coin_0_1" => "moneda de 0.1",
         "total" => "total",
-
+/*
         "amounts.1" => "monto 2",
         "amounts.2" => "monto 3",
         "amounts.3" => "monto 4",
@@ -218,12 +219,18 @@ return [
         "amounts.9" => "monto 10",
         "amounts.10" => "monto 11",
         "amounts.11" => "monto 12",
-
+*/
         /*cashcount */
-        "date" => "Fecha arqueo",
-        "opening" => "Monto de apertura",
-        "closing" => "Monto de cierre",
-        "opening_denomination_uuid" => "Denominaciones de arqueo de apertura",
-        "closing_denomination_uuid" => "Denominaciones de arqueo de cierre",
+        "physical_balance" => "Saldo en físico",
+
+        /*cashregister */
+        "initial_balance" => "monto de apertura",
+
+        /*cashshift */
+        "closing_balance" => "monto de cierre",
+        "start_time" => "fecha de apertura de caja",
+        "end_time" => "fecha de cierre de caja",
+        "cashregister_uuid" => "caja",
+        "user_id" => "cajero",
     ]
 ];

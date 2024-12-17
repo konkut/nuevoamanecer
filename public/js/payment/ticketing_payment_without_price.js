@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 const updateCharge_paymentwithoutprice = () => {
     const charge = document.getElementById('charge');
-
         const allSelects = document.querySelectorAll('.service-select');
         let totalAmount = 0;
         // Recorre todos los selects y suma sus valores
@@ -20,6 +19,5 @@ const updateCharge_paymentwithoutprice = () => {
         if (charge) {
             charge.value = totalAmount.toFixed(2);
         }
-
     updateTotalandBalance();
 }

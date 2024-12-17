@@ -39,9 +39,12 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('users.create') }}" class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
-                            <i class="bi bi-plus"></i>
-                        </a>
+                        @can('users.create')
+                            <a href="{{ route('users.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        @endcan
                         <form method="GET" action="{{ route('users.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
@@ -79,25 +82,33 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
-                                            <a href="javascript:void(0);"
-                                               class="bg-green-500 text-white px-2 py-1 rounded text-xs"
-                                               onclick="openDetailsModal('{{$item->id}}')">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{ route('users.edit', $item->id) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <button type="button"
-                                                    class="bg-violet-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openRoleModal('{{ $item->id }}')">
-                                                <i class="bi bi-person-plus"></i>
-                                            </button>
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->id }}', '{{ $item->name }}')">
-                                                <i class="bi bi-x-circle"></i>
-                                            </button>
+                                            @can('users.index')
+                                                <a href="javascript:void(0);"
+                                                   class="bg-green-500 text-white px-2 py-1 rounded text-xs"
+                                                   onclick="openDetailsModal('{{$item->id}}')">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            @endcan
+                                            @can('users.edit')
+                                                <a href="{{ route('users.edit', $item->id) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            @endcan
+                                            @can('users.assign_roles')
+                                                <button type="button"
+                                                        class="bg-violet-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openRoleModal('{{ $item->id }}')">
+                                                    <i class="bi bi-person-plus"></i>
+                                                </button>
+                                            @endcan
+                                            @can('users.destroy')
+                                                <button type="button"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->id }}', '{{ $item->name }}')">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </button>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

@@ -13,7 +13,7 @@ class UserController extends Controller
   {
     $roles = Role::all();
     $perPage = $request->input('perPage', 10);
-    $users = User::paginate($perPage);
+    $users = User::orderBy('created_at', 'desc')->paginate($perPage);
     return view("user.index", compact('users', 'perPage','roles'));
   }
   public function create()

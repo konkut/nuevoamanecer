@@ -54,9 +54,31 @@
                         <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-responsive-nav-link>
+                        @can('cashregisters.index')
+                        <x-responsive-nav-link href="{{ route('cashregisters.index') }}"
+                                               :active="request()->routeIs('cashregisters.index')">
+                            {{ __('word.cashregister.title') }}
+                        </x-responsive-nav-link>
+                        @endcan
+
+                            <x-responsive-nav-link href="{{ route('cashshifts.index') }}"
+                                                   :active="request()->routeIs('cashshifts.index')">
+                                {{ __('word.cashshift.title') }}
+                            </x-responsive-nav-link>
+
+                        @can('cashcounts.index')
                         <x-responsive-nav-link href="{{ route('cashcounts.index') }}"
                                                :active="request()->routeIs('cashcounts.index')">
                             {{ __('word.cashcount.title') }}
+                        </x-responsive-nav-link>
+                        @endcan
+                        <x-responsive-nav-link href="{{ route('paymentwithprices.index') }}"
+                                               :active="request()->routeIs('paymentwithprices.index')">
+                            {{ __('word.payment.title_others') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('paymentwithoutprices.index') }}"
+                                               :active="request()->routeIs('paymentwithoutprices.index')">
+                            {{ __('word.payment.title') }}
                         </x-responsive-nav-link>
                         @can('users.index')
                             <x-responsive-nav-link href="{{ route('users.index') }}"
@@ -80,19 +102,13 @@
                                                :active="request()->routeIs('serviceswithoutprices.index')">
                             {{ __('word.service.title_service_without_price') }}
                         </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('paymentwithprices.index') }}"
-                                               :active="request()->routeIs('paymentwithprices.index')">
-                            {{ __('word.payment.title_others') }}
-                        </x-responsive-nav-link>
+
                         <x-responsive-nav-link href="{{ route('serviceswithprices.index') }}"
                                                :active="request()->routeIs('serviceswithprices.index')">
                             {{ __('word.service.title_service_with_price') }}
                         </x-responsive-nav-link>
 
-                        <x-responsive-nav-link href="{{ route('paymentwithoutprices.index') }}"
-                                               :active="request()->routeIs('paymentwithoutprices.index')">
-                            {{ __('word.payment.title') }}
-                        </x-responsive-nav-link>
+
 
                     </ul>
                 </nav>

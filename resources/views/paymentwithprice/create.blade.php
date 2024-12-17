@@ -21,6 +21,7 @@
         <script type="text/javascript" src="{{ asset('/js/payment/ticketing_payment_with_price.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
     </x-slot>
 
     <x-slot name="header">
@@ -30,7 +31,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
                 <form method="POST" action="{{ route('paymentwithprices.store') }}">
                     @csrf

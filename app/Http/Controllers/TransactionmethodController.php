@@ -12,7 +12,7 @@ class TransactionmethodController extends Controller
     public function index(Request $request)
     {
       $perPage = $request->input('perPage', 10);
-      $transactionmethods = Transactionmethod::paginate($perPage);
+      $transactionmethods = Transactionmethod::orderBy('created_at', 'desc')->paginate($perPage);
       return view("transactionmethod.index", compact('transactionmethods', 'perPage'));
     }
     public function create()

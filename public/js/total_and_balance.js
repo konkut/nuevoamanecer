@@ -49,7 +49,7 @@ const updateChangeLabel=(balance) =>{
         balance_label.innerHTML = "SALDO SOBRANTE";
         balance.style.background = "#22c55e";
     } else {
-        balance_label.innerHTML = "SALDO EQUILIBRADO";
+        balance_label.innerHTML = "SALDO NIVELADO";
         balance.style.background = "#eab308";
     }
 }

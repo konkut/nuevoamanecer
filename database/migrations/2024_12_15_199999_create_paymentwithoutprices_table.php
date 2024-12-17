@@ -18,6 +18,8 @@ return new class extends Migration
             $table->json('transactionmethod_uuids');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->string('cashshift_uuid', 36);
+            $table->foreign('cashshift_uuid')->references('cashshift_uuid')->on('cashshifts');
             $table->timestamps();
             $table->softDeletes();
         });

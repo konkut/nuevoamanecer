@@ -8,23 +8,24 @@ use App\Models\Transactionmethod;
 
 class TransactionmethodSeeder extends Seeder
 {
-    
+
     public function run(): void
     {
         Transactionmethod::create([
-            'name' => 'Efectivo', 
+            'name' => 'Efectivo',
             'description' => 'Pago realizado directamente con dinero físico.'
         ]);
-        
-        Transactionmethod::create([
-            'name' => 'A crédito', 
+        /*
+         * Transactionmethod::create([
+            'name' => 'A crédito',
             'description' => 'Pago aplazado mediante un acuerdo de deuda o crédito.'
         ]);
-        
+         * */
+
         Transactionmethod::create([
-            'name' => 'QR', 
+            'name' => 'QR',
             'description' => 'Pago digital escaneando un código QR con una app móvil.'
         ]);
-        
+
     }
 }

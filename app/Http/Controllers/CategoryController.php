@@ -11,7 +11,8 @@ class CategoryController extends Controller
   public function index(Request $request)
   {
     $perPage = $request->input('perPage', 10);
-    $categories = Category::paginate($perPage);
+      $categories = Category::orderBy('created_at', 'desc')
+          ->paginate($perPage);
     return view("category.index", compact('categories', 'perPage'));
   }
   public function create()

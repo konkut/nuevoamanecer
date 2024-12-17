@@ -72,15 +72,15 @@
                                     onclick="enableSearch(this, 'categoría')">{{ __('word.service.attribute.category_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'fecha de registro')">{{ __('word.service.attribute.created_at') }}</th>
-                                @can('serviceswithprices.create')
+                                @if(auth()->user()->hasRole('Administrador'))
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                         onclick="enableSearch(this, 'registrado por')">{{ __('word.service.attribute.user_id') }}</th>
-                                @endcan
+                                @endif
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'estado')">{{ __('word.service.attribute.status') }}</th>
-                                @can('serviceswithprices.create')
-                                    <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
-                                @endcan
+
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -92,29 +92,33 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->category->name }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                     @can('serviceswithprices.create')
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                                     @endcan
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
-                                    @can('serviceswithprices.create')
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
-                                            <a href="javascript:void(0);"
-                                               class="bg-green-500 text-white px-2 py-1 rounded text-xs"
-                                               onclick="openDetailsModal('{{$item->servicewithprice_uuid}}')">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{ route('serviceswithprices.edit',$item->servicewithprice_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->servicewithprice_uuid }}', '{{ $item->name }}')">
-                                                <i class="bi bi-x-circle"></i>
-                                            </button>
+                                            @can('serviceswithprices.index')
+                                                <a href="javascript:void(0);"
+                                                   class="bg-green-500 text-white px-2 py-1 rounded text-xs"
+                                                   onclick="openDetailsModal('{{$item->servicewithprice_uuid}}')">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            @endcan
+                                            @can('serviceswithprices.edit')
+                                                <a href="{{ route('serviceswithprices.edit',$item->servicewithprice_uuid) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            @endcan
+                                            @can('serviceswithprices.destroy')
+                                                <button type="button"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->servicewithprice_uuid }}', '{{ $item->name }}')">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </button>
+                                            @endcan
                                         </div>
                                     </td>
-                                    @endcan
                                 </tr>
                                 <!-- modal show -->
                                 <div id="details-modal-{{$item->servicewithprice_uuid}}"
@@ -149,10 +153,10 @@
                                                         <p>{{ $item->amount }}</p>
                                                     </div>
                                                     @if($item->commission)
-                                                    <div class="mt-6">
-                                                        <p class="text-sm font-semibold ">{{ __('word.service.attribute.commission') }}</p>
-                                                        <p>{{ $item->commission }}</p>
-                                                    </div>
+                                                        <div class="mt-6">
+                                                            <p class="text-sm font-semibold ">{{ __('word.service.attribute.commission') }}</p>
+                                                            <p>{{ $item->commission }}</p>
+                                                        </div>
                                                     @endif
                                                     <div class="mt-4">
                                                         <p class="text-sm font-semibold ">{{ __('word.service.attribute.category_uuid') }}</p>
@@ -171,10 +175,12 @@
                                                         <p class="text-sm font-semibold ">{{ __('word.service.attribute.updated_at') }}</p>
                                                         <p> {{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                     </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold ">{{ __('word.service.attribute.user_id') }}</p>
-                                                        <p> {{ $item->user->name }}</p>
-                                                    </div>
+                                                    @if(auth()->user()->hasRole('Administrador'))
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold ">{{ __('word.service.attribute.user_id') }}</p>
+                                                            <p> {{ $item->user->name }}</p>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +201,8 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
-                                                <p class="text-gray-600">{{__('word.service.delete_confirmation')}} <strong
+                                                <p class="text-gray-600">{{__('word.service.delete_confirmation')}}
+                                                    <strong
                                                         id="name-{{$item->servicewithprice_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>

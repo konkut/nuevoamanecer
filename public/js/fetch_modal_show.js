@@ -23,7 +23,7 @@ function fetchDetails(uuid) {
              <table class="min-w-full border-collapse border-[#f3f4f6] text-center text-sm">
                 <thead >
                     <tr style='background: #f3f4f6;'>
-                        <th class="border-t border-b border-[#f3f4f6] px-2 py-1" colspan="3">Monto de inicio</th>
+                        <th class="border-t border-b border-[#f3f4f6] px-2 py-1" colspan="3">Billetaje</th>
                     </tr>
                 </thead>
                 <tbody>

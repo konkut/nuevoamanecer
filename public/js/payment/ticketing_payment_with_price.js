@@ -15,6 +15,5 @@ const updateCharge_paymentwithprice = () => {
     if (charge) {
         charge.value = totalAmount.toFixed(2) ;
     }
-
     updateTotalandBalance();
 }

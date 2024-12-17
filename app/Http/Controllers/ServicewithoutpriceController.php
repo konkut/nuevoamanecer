@@ -14,7 +14,9 @@ class ServicewithoutpriceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $servicewithoutprices = Servicewithoutprice::with('user')->paginate($perPage);
+        $servicewithoutprices = Servicewithoutprice::with(['user'])
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
         return view("servicewithoutprice.index", compact('servicewithoutprices', 'perPage'));
     }
 

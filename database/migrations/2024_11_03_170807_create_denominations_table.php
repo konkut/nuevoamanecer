@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('denominations', function (Blueprint $table) {
       $table->string('denomination_uuid',36)->unique();
-      $table->enum('type', ['opening', 'income', 'expense', 'closing'])->default('income');
+      $table->enum('type', ['opening', 'income', 'expense', 'closing','cashcount'])->default('income');
       $table->integer("bill_200")->default(0);
       $table->integer("bill_100")->default(0);
       $table->integer("bill_50")->default(0);

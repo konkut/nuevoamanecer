@@ -83,24 +83,30 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                     @can('transactionmethods.create')
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                        <div class="flex justify-center space-x-1">
-                                            <a href="javascript:void(0);"
-                                               class="bg-green-500 text-white px-2 py-1 rounded text-xs"
-                                               onclick="openDetailsModal('{{$item->transactionmethod_uuid}}')">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{ route('transactionmethods.edit',$item->transactionmethod_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->transactionmethod_uuid }}', '{{ $item->name }}')">
-                                                <i class="bi bi-x-circle"></i>
-                                            </button>
-                                        </div>
-                                    </td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">
+                                            <div class="flex justify-center space-x-1">
+                                                @can('transactionmethods.index')
+                                                    <a href="javascript:void(0);"
+                                                       class="bg-green-500 text-white px-2 py-1 rounded text-xs"
+                                                       onclick="openDetailsModal('{{$item->transactionmethod_uuid}}')">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('transactionmethods.edit')
+                                                    <a href="{{ route('transactionmethods.edit',$item->transactionmethod_uuid) }}"
+                                                       class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('transactionmethods.destroy')
+                                                    <button type="button"
+                                                            class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="openModal('{{ $item->transactionmethod_uuid }}', '{{ $item->name }}')">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </button>
+                                                @endcan
+                                            </div>
+                                        </td>
                                     @endcan
                                 </tr>
                                 <!-- modal show -->
@@ -160,11 +166,13 @@
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700"
-                                                        onclick="closeModal('{{$item->transactionmethod_uuid}}')">&times;
+                                                        onclick="closeModal('{{$item->transactionmethod_uuid}}')">
+                                                    &times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
-                                                <p class="text-gray-600">{{__('word.transactionmethod.delete_confirmation')}} <strong
+                                                <p class="text-gray-600">{{__('word.transactionmethod.delete_confirmation')}}
+                                                    <strong
                                                         id="name-{{$item->transactionmethod_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>

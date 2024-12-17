@@ -8,7 +8,7 @@
 
 <div id="dynamic-rows-container" class="flex flex-col space-y-4">
     @php
-        $old_servicewithprice_uuids = old('servicewithprice_uuids', []); // Filas previas del formulario
+        $old_servicewithprice_uuids = old('servicewithprice_uuids', []);
         $old_transactionmethod_uuids = old('transactionmethod_uuids', []);
         $maxCount = max(count($old_servicewithprice_uuids), count($old_transactionmethod_uuids));
     @endphp
@@ -116,7 +116,9 @@
 
     <div class="flex justify-center">
         <!-- Botón para quitar fila -->
-        <button type="button" id="remove-row" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg">
+        <button type="button" id="remove-row"
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
+                onclick="updateCharge_paymentwithoutprice()">
             <i class="bi bi-dash mr-2"></i>{{ __('Quitar Fila') }}
         </button>
     </div>
@@ -142,6 +144,7 @@
             if (rows.length > 1) {
                 rows[rows.length - 1].remove(); // Quita la última fila
             }
+            updateCharge_paymentwithoutprice();
         });
     });
 </script>

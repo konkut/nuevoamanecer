@@ -376,7 +376,6 @@ return [
         ],
     ],
 
-
     'cashcount' => [
         'title' => 'Arqueo de caja',
         'delete_confirmation' => '¿Está seguro de eliminar el arqueo de caja',
@@ -408,15 +407,95 @@ return [
             "index" => "Lista de arqueo de caja",
         ],
         'attribute' => [
-            "date" => "Fecha de arqueo",
-            "opening" => "Monto de apertura",
-            "closing" => "Monto de cierre",
-            "opening_denomination_uuid" => "Denominaciones de apertura",
-            "closing_denomination_uuid" => "Denominaciones de cierre",
+            "physical_balance" => "Saldo en físico",
+            "system_balance" => "Saldo en el sistema",
+            "observation" => "Observación",
+            "system_balance" => "Saldo en el sistema",
+            "difference" => "Diferencia",
+            "status" => "Estado",
+            "cashshift_uuid" => "Sesión de caja",
+            "user_id" => "Cajero",
+            "created_at" => "Fecha de arqueo",
+            "updated_at" => "Últ. Act.",
+        ],
+    ],
+
+    'cashregister' => [
+        'title' => 'Cajas',
+        'delete_confirmation' => '¿Está seguro de eliminar la caja',
+        'meta' => [
+            'create' => [
+                'title' => 'Nueva caja',
+                'description' => 'Crea una nueva caja en nuestra plataforma.',
+                'keywords' => 'crear caja, nueva caja, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar caja',
+                'description' => 'Edita y actualiza una caja existente.',
+                'keywords' => 'editar caja, actualizar caja, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de cajas',
+                'description' => 'Explora la lista completa de cajas disponibles.',
+                'keywords' => 'lista de cajas, cajas disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "create" => "Nueva caja",
+            "edit" => "Actualizar caja",
+            "show" => "Detalles de la caja",
+            "index" => "Lista de cajas",
+        ],
+        'attribute' => [
+            "name" => "Nombre",
+            "initial_balance" => "Monto de apertura",
+            "status" => "Estado",
             "user_id" => "Registrado por",
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
         ],
     ],
 
+    'cashshift' => [
+        'title' => 'Sesiones de caja ',
+        'delete_confirmation' => '¿Está seguro de eliminar la sesión de caja',
+        'select_cashregister' => 'Seleccionar una caja',
+        'select_user' => 'Seleccionar un cajero',
+        'meta' => [
+            'create' => [
+                'title' => 'Nueva sesión de caja',
+                'description' => 'Crea una nueva sesión de caja en nuestra plataforma.',
+                'keywords' => 'crear sesión de caja, nueva sesión de caja, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar sesión de caja',
+                'description' => 'Edita y actualiza una sesión de caja existente.',
+                'keywords' => 'editar sesión de caja, actualizar sesión de caja, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de sesiones de cajas',
+                'description' => 'Explora la lista completa de sesiones de cajas disponibles.',
+                'keywords' => 'lista de sesiones de cajas, sesiones de cajas disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "create" => "Nueva sesión de caja",
+            "edit" => "Actualizar sesión de caja",
+            "show" => "Detalles de la sesión de caja",
+            "index" => "Lista de sesiones de cajas",
+        ],
+        'attribute' => [
+            "start_time" => "Fecha de apertura",
+            "end_time" => "Fecha de cierre",
+            "initial_balance" => "Monto de apertura",
+            "closing_balance" => "Monto de cierre",
+            "status" => "Estado",
+            "cashregister_uuid" => "Caja",
+            "user_id" => "Cajero",
+            "created_at" => "Fecha Registro",
+            "updated_at" => "Últ. Act.",
+        ],
+    ],
 ];
