@@ -26,13 +26,14 @@ return [
         'delete_title' => 'Confirmar eliminación',
         'delete_warning' => '? Esta acción también eliminará todas las tareas relacionadas y no se puede deshacer.',
         'actions' => 'Acciones',
-        'total_category'=>'Total Categorias',
-        'total_service'=>'Total Servicios',
-        'total_user'=>'Total Usuarios',
-        'total_transaction'=>'Total Transacciones',
-        'total_method'=>'Total Métodos de transacción',
-        'box_close_title' => 'Confirmar cierre de caja',
-        'box_close_warning' => '? Esta acción también inhabilitara la edición de todos los registros relacionados y no se puede deshacer.',
+        'total_category'=>'Total categorias',
+        'total_service'=>'Total servicios',
+        'total_user'=>'Total usuarios',
+        'total_transaction'=>'Total transacciones',
+        'total_method'=>'Total métodos de transacción',
+        'total_cashregister'=>'Total cajas',
+        'total_cashshift'=>'Total sesiones de caja',
+        'total_cashcount'=>'Total arqueos de caja',
     ],
 
     'user' => [
@@ -232,6 +233,7 @@ return [
     ],
 
     'payment' => [
+        'panel' => 'Transacciones',
         'title' => 'Otros ingresos',
         'title_others' => 'Ingresos servicios básicos',
         'delete_confirmation' => '¿Está seguro de eliminar el ingreso de pago',
@@ -267,14 +269,15 @@ return [
             "transactionmethod_uuid" => "Método",
             "denomination_uuid" => "Denominación",
             "user_id" => "Registrado por",
-            "created_at" => "Fecha Registro",
+            "created_at" => "Fecha de registro",
             "updated_at" => "Últ. Act.",
             "amount" => "Monto",
             "name" => "Código",
             "commission" => "Comisión",
             "servicewithoutprice_uuid" => "Servicio",
-            "amount_total" => "Monto Total",
-            "amount_ticketing" => "Total Billetaje",
+            "amount_ticketing" => "Total billetaje",
+            "amount_total" => "Precio total",
+
         ],
     ],
 
@@ -379,7 +382,6 @@ return [
     'cashcount' => [
         'title' => 'Arqueo de caja',
         'delete_confirmation' => '¿Está seguro de eliminar el arqueo de caja',
-        'box_close_confirmation' => '¿Está seguro de cerrar el arqueo de caja',
         'billcoin_open' => 'Monto de inicio',
         'billcoin_close' => 'Monto de cierre',
         'meta' => [
@@ -462,6 +464,12 @@ return [
         'delete_confirmation' => '¿Está seguro de eliminar la sesión de caja',
         'select_cashregister' => 'Seleccionar una caja',
         'select_user' => 'Seleccionar un cajero',
+        'lock_box_confirmation' => '¿Está seguro de cerrar la sesión de caja',
+        'unlock_box_confirmation' => '¿Está seguro de habilitar la sesión de caja',
+        'lock_box_title' => 'Confirmar cierre de caja',
+        'lock_box_warning' => '? Esta acción también inhabilitara la edición de todos los registros relacionados.',
+        'unlock_box_title' => 'Confirmar reactivación de caja',
+        'unlock_box_warning' => '? Esta acción habilitara la edición de todos los registros relacionados',
         'meta' => [
             'create' => [
                 'title' => 'Nueva sesión de caja',

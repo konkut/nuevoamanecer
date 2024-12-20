@@ -42,7 +42,8 @@
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
                         <a href="{{ route('paymentwithoutprices.export') }}"
-                           class="bg-lime-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm">
+                           class="bg-lime-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm"
+                           title="Generar excel">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
                                 <path
@@ -51,6 +52,7 @@
                         </a>
                         @if($cashshiftsvalidated)
                             <a href="{{ route('paymentwithoutprices.create') }}"
+                               title="Agregar"
                                class="bg-blue-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm">
                                 <i class="bi bi-plus"></i>
                             </a>
@@ -73,10 +75,12 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]">
+                            <tr class="bg-[#d1d5db]" title="Buscar">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'servicio')">{{ __('word.payment.attribute.servicewithprice_uuid') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount_total') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount_ticketing') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -87,34 +91,21 @@
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                         onclick="enableSearch(this, 'registrado por')">{{ __('word.payment.attribute.user_id') }}</th>
                                 @endcan
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1" title="">{{ __('word.general.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($paymentwithoutprices as $item)
+                                @php
+                                    $validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+                                @endphp
                                 @if(auth()->user()->hasRole('Administrador') || $item->user_id == Auth::id())
                                     <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                            @if (!empty($item->services))
-                                                {{ implode(', ', $item->services->toArray()) }}
-                                            @else
-                                                N/A
-                                            @endif</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                            @if (!empty($item->total))
-                                                {{ ($item->total) }}
-                                            @else
-                                                N/A
-                                            @endif</td>
-                                        </td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                            @if (!empty($item->methods))
-                                                {{ implode(', ', $item->methods->toArray()) }}
-                                            @else
-                                                N/A
-                                            @endif
-                                        </td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ implode(', ', $item->services->toArray()) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1"> {{ ($item->total_price) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1"> {{ ($item->total_billcoin) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ implode(', ', $item->methods->toArray()) }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                         @can('paymentwithoutpricesuser.showuser')
                                             <td class="border-t border-b border-[#d1d5db] px-2 py-1 registrado-por">{{ $item->user->name }}</td>
@@ -123,6 +114,7 @@
                                             <div class="flex justify-center space-x-1">
                                                 <a href="{{ route('paymentwithoutprices.tax', $item->paymentwithoutprice_uuid) }}"
                                                    target="_blank"
+                                                   title="Generar comprobante"
                                                    class="bg-sky-400 text-white px-2 py-1 rounded text-xs">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
@@ -133,7 +125,8 @@
                                                     </svg>
                                                 </a>
                                                 <form id="details-form-{{$item->paymentwithoutprice_uuid}}"
-                                                      action="{{ route('paymentwithoutpricesdetail.showdetail', $item->paymentwithoutprice_uuid) }}"
+                                                      title="Visualizar"
+                                                      action="{{ route('paymentwithoutprices.detail', $item->paymentwithoutprice_uuid) }}"
                                                       method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="button"
@@ -142,63 +135,168 @@
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                 </form>
+                                                @if($validation)
                                                 <a href="{{ route('paymentwithoutprices.edit',$item->paymentwithoutprice_uuid) }}"
-                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                                   title="Modificar">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ implode(', ', $item->services->toArray()) }}')">
+                                                        onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ implode(', ', $item->services->toArray()) }}')"
+                                                        title="Eliminar">
                                                     <i class="bi bi-x-circle"></i>
                                                 </button>
+                                                @endif
                                             </div>
                                         </td>
-
                                     </tr>
-
                                     <div id="details-modal-{{$item->paymentwithoutprice_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center overflow-y-auto">
-                                        <div
-                                            class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto py-3">
+                                        <div class="flex items-center justify-center min-h-screen">
                                             <div
-                                                class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
-                                                <h1 class="text-lg font-semibold mx-auto">{{ __('word.payment.resource.show') }}</h1>
-                                                <button type="button"
-                                                        class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
-                                                        onclick="closeDetailsModal('{{$item->paymentwithoutprice_uuid}}')">
-                                                    &times;
-                                                </button>
-                                            </div>
-                                            <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
-                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                    <div class="text-center">
-                                                        @if($item->observation)
-                                                            <div>
-                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.observation') }}</p>
-                                                                <p>{{ $item->observation }}</p>
+                                                class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                                <div
+                                                    class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
+                                                    <h1 class="text-lg font-semibold mx-auto">{{ __('word.payment.resource.show') }}</h1>
+                                                    <button type="button"
+                                                            class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
+                                                            onclick="closeDetailsModal('{{$item->paymentwithoutprice_uuid}}')">
+                                                        &times;
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        <div class="text-center">
+                                                            <div class="mt-4">
+                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.servicewithprice_uuid') }}</p>
+                                                                {{ implode(', ', $item->services->toArray()) }}
                                                             </div>
-                                                        @endif
-                                                        <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.created_at') }}</p>
-                                                            <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
+                                                            <div class="mt-4">
+                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.amount') }}</p>
+                                                                {{ $item->amounts }}
+                                                            </div>
+                                                            <div class="mt-4">
+                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.commission') }}</p>
+                                                                {{ $item->commissions }}
+                                                            </div>
+                                                            @if($item->observation)
+                                                                <div class="mt-4">
+                                                                    <p class="text-sm font-semibold">{{ __('word.payment.attribute.observation') }}</p>
+                                                                    <p>{{ $item->observation }}</p>
+                                                                </div>
+                                                            @endif
+                                                            <div class="mt-4">
+                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.created_at') }}</p>
+                                                                <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
+                                                            </div>
+                                                            <div class="mt-4">
+                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.updated_at') }}</p>
+                                                                <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
+                                                            </div>
+                                                            <div class="mt-4">
+                                                                <p class="text-sm font-semibold">{{ __('word.payment.attribute.user_id') }}</p>
+                                                                <p>{{ $item->user->name }}</p>
+                                                            </div>
                                                         </div>
-                                                        <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.updated_at') }}</p>
-                                                            <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
+                                                        <div class="text-center pb-8 md:pb-0"
+                                                             id="modal-show-{{$item->paymentwithoutprice_uuid}}">
+                                                            <div class="bg-[#f3f4f6] p-2">
+                                                                <div class="font-bold py-1 text-sm text-center">PRECIO TOTAL
+                                                                </div>
+                                                            </div>
+                                                            <div class="divide-y divide-[#f3f4f6]">
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">200</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-bill-200-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">100</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-bill-100-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">50</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-bill-50-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">20</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-bill-20-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">10</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-bill-10-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">5</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-coin-5-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">2</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-coin-2-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">1</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-coin-1-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">0.5</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-coin-0-5-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">0.2</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-coin-0-2-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">0.1</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-coin-0-1-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">Total</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="physical-balance-total-{{$item->paymentwithoutprice_uuid}}"></div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.payment.attribute.user_id') }}</p>
-                                                            <p>{{ $item->user->name }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center pb-8 md:pb-0"
-                                                         id="modal-show-{{$item->paymentwithoutprice_uuid}}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Modal -->
                                     <div id="modal-{{$item->paymentwithoutprice_uuid}}"
                                          class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">

@@ -40,27 +40,27 @@
 <section>
     {{--<p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>NIT: </b>6889122011</p>--}}
     <p style="font-size: 11px; text-align: center; line-height: 0.1; margin-top: 17px;"><b>COMPROBANTE DE PAGO</b></p>
-    <p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>COMPROBANTE N°.: </b>1</p>
+    <p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>COMPROBANTE N°.: </b>0807</p>
     <p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>FECHA DE EMISIÓN: </b>{{$paymentwithoutprice->created_at}}</p>
 </section>
 <p style="font-size: 8px; text-align: center; line-height: 0.2;">-----------------------------------------------------------------------------------------------------------------------</p>
 <section>
     <p style="font-size: 11px; text-align: center; line-height: 0.2; margin-top: 17px;"><b>DETALLE</b></p>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: left;">{{ implode(', ', $paymentwithoutprice->services->toArray()) }}</p>
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;">{{ $paymentwithoutprice->pagar }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: left;">{{ $paymentwithoutprice->name }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;">{{ $paymentwithoutprice->total }}</p>
     <div style="line-height: 0.1; margin: 0;clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>TOTAL:</b>&nbsp;&nbsp;&nbsp;{{ $paymentwithoutprice->pagar }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>TOTAL:</b>&nbsp;&nbsp;&nbsp;{{ $paymentwithoutprice->total }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>{{ strtoupper(implode(', ', $paymentwithoutprice->methods->toArray())) }}:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->cobrado }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>{{ strtoupper(implode(', ', $paymentwithoutprice->methods->toArray())) }}:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->received }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>CAMBIO:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->cambio }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>CAMBIO:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->returned }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>MONTO A PAGAR:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->pagar }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>MONTO A PAGAR:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->total }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 </section>
 <p style="text-align: center; font-size: 8px; line-height: 0.1; margin-top: 17px;">GRACIAS POR SU PREFERENCIA</p>

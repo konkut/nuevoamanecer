@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->decimal('system_balance', 20, 2)->nullable();
             $table->decimal('difference', 20, 2)->nullable();
             $table->string('observation', 50)->nullable();
-            $table->enum('status', ['Completado', 'Pendiente','Cerrado'])->default('Pendiente');
+            $table->enum('status', ['0', '1'])->default('1');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('cashshift_uuid', 36);

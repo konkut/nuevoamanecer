@@ -40,7 +40,8 @@
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
                         <a href="{{ route('cashregisters.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm">
+                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
+                           title="Agregar">
                             <i class="bi bi-plus"></i>
                         </a>
                         <form method="GET" action="{{ route('cashregisters.index') }}" onchange="this.submit()"
@@ -58,7 +59,7 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]">
+                            <tr class="bg-[#d1d5db]" title="Buscar">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'nombre')">{{ __('word.cashregister.attribute.name') }}</th>
@@ -68,7 +69,7 @@
                                     onclick="enableSearch(this, 'estado')">{{ __('word.cashregister.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'registrado por')">{{ __('word.cashregister.attribute.user_id') }}</th>
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1">{{ __('word.general.actions') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1" title="">{{ __('word.general.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -82,6 +83,7 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
                                             <form id="details-form-{{$item->cashregister_uuid}}"
+                                                  title="Visualizar"
                                                   action="{{ route('cashregisters.showdetail', $item->cashregister_uuid) }}"
                                                   method="POST" style="display: inline;">
                                                 @csrf
@@ -92,12 +94,14 @@
                                                 </button>
                                             </form>
                                             <a href="{{ route('cashregisters.edit',$item->cashregister_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                               title="Modificar">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <button type="button"
                                                     class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->cashregister_uuid }}', '{{$item->name }}')">
+                                                    onclick="openModal('{{ $item->cashregister_uuid }}', '{{$item->name }}')"
+                                                    title="Eliminar">
                                                 <i class="bi bi-x-circle"></i>
                                             </button>
                                         </div>
@@ -106,48 +110,140 @@
                                 </tr>
 
                                 <div id="details-modal-{{$item->cashregister_uuid}}"
-                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center overflow-y-auto">
-                                    <div
-                                        class="bg-white rounded-lg shadow-lg w-11/12 max-w-5xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                     class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto py-3">
+                                    <div class="flex items-center justify-center min-h-screen">
                                         <div
-                                            class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
-                                            <h1 class="text-lg font-semibold mx-auto">{{__('word.cashregister.resource.show')}}</h1>
-                                            <button type="button"
-                                                    class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
-                                                    onclick="closeDetailsModal('{{$item->cashregister_uuid}}')">
-                                                &times;
-                                            </button>
-                                        </div>
-                                        <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
-                                            <div class="grid grid-cols-1 md:grid-cols-2">
-                                                <div class="text-center pb-8 md:pb-0">
-                                                    <div>
-                                                        <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.name') }}</p>
-                                                        <p>{{ $item->name }}</p>
+                                            class="bg-white rounded-lg shadow-lg w-11/12 max-w-5xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                            <div
+                                                class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
+                                                <h1 class="text-lg font-semibold mx-auto">{{__('word.cashregister.resource.show')}}</h1>
+                                                <button type="button"
+                                                        class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
+                                                        onclick="closeDetailsModal('{{$item->cashregister_uuid}}')">
+                                                    &times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
+                                                <div class="grid grid-cols-1 md:grid-cols-2">
+                                                    <div class="text-center pb-8 md:pb-0">
+                                                        <div>
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.name') }}</p>
+                                                            <p>{{ $item->name }}</p>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.initial_balance') }}</p>
+                                                            <p>{{ $item->initial_balance }}</p>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold ">{{ __('word.cashregister.attribute.status') }}</p>
+                                                            <p>{{ $item->status ? '🟢' : '🔴' }}</p>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.created_at') }}</p>
+                                                            <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.updated_at') }}</p>
+                                                            <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.user_id') }}</p>
+                                                            <p>{{ $item->user->name }}</p>
+                                                        </div>
                                                     </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.initial_balance') }}</p>
-                                                        <p>{{ $item->initial_balance }}</p>
+                                                    <div class="text-center pb-8 md:pb-0"
+                                                         id="modal-show-{{$item->cashregister_uuid}}">
+                                                        <div class="bg-[#f3f4f6] p-2">
+                                                            <div class="font-bold py-1 text-sm text-center">MONTO DE APERTURA
+                                                            </div>
+                                                        </div>
+                                                        <div class="divide-y divide-[#f3f4f6]">
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">200</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-bill-200-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">100</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-bill-100-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">50</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-bill-50-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">20</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-bill-20-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">10</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-bill-10-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">5</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-coin-5-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">2</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-coin-2-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">1</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-coin-1-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">0.5</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-coin-0-5-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">0.2</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-coin-0-2-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">0.1</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-coin-0-1-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                            <div
+                                                                class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                <div class="w-1/3 text-start">Total</div>
+                                                                <div class="w-1/2 text-start"
+                                                                     id="physical-balance-total-{{$item->cashregister_uuid}}"></div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold ">{{ __('word.cashregister.attribute.status') }}</p>
-                                                        <p>{{ $item->status ? '🟢' : '🔴' }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.created_at') }}</p>
-                                                        <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.updated_at') }}</p>
-                                                        <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.user_id') }}</p>
-                                                        <p>{{ $item->user->name }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="text-center pb-8 md:pb-0"
-                                                     id="modal-show-{{$item->cashregister_uuid}}">
                                                 </div>
                                             </div>
                                         </div>

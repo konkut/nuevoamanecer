@@ -19,9 +19,6 @@
                 @endforeach
             </select>
     </div>
-    @error('cashregister_uuid')
-    <small class="font-bold text-red-500/80">{{ $message }}</small>
-    @enderror
 </div>
 
 <div class="mt-4">
@@ -42,9 +39,6 @@
             @endforeach
         </select>
     </div>
-    @error('user_id')
-    <small class="font-bold text-red-500/80">{{ $message }}</small>
-    @enderror
 </div>
 <div class="mt-4">
     <x-label for="initial_balance" value="{{ __('word.cashshift.attribute.initial_balance') }} *"/>

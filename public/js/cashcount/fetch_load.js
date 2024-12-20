@@ -16,8 +16,8 @@ function fetchLoad(uuid) {
             return response.json();
         })
         .then(data => {
-            document.getElementById(`system_balance-${uuid}`).textContent = parseFloat(data.system_balance).toFixed(2);
-            document.getElementById(`difference-${uuid}`).textContent = parseFloat(data.difference).toFixed(2);
+            document.getElementById(`system-balance-table-${uuid}`).textContent = parseFloat(data.system_balance).toFixed(2);
+            document.getElementById(`difference-table-${uuid}`).textContent = parseFloat(data.difference).toFixed(2);
         })
         .catch(error => {
             console.error('Error:', error);

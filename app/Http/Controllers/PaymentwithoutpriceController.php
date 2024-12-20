@@ -32,10 +32,22 @@ class PaymentwithoutpriceController extends Controller
             $serviceUuids = json_decode($item->servicewithprice_uuids, true);
             $methodUuids = json_decode($item->transactionmethod_uuids, true);
             $item->services = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('name');
-            $aux = Denominationables::where('denominationable_uuid', $item->paymentwithoutprice_uuid)->first();
-            $aux1 = Denomination::where('denomination_uuid', $aux->denomination_uuid)->first();
-            $item->total = $aux1->total;
             $item->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
+            $amounts = [];
+            $commissions = [];
+            foreach ($serviceUuids as $serviceUuid) {
+                $service = Servicewithprice::where('servicewithprice_uuid', $serviceUuid)->first();
+                if ($service) {
+                    $amounts[] = $service->amount;
+                    $commissions[] = $service->commission;
+                }
+            }
+            $item->amounts = number_format(array_sum($amounts), 2, '.', '');
+            $item->commissions = number_format(array_sum($commissions), 2, '.', '');
+            $item->total_price = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
+            $aux = Denominationables::where('denominationable_uuid', $item->paymentwithoutprice_uuid)->firstorfail();
+            $aux1 = Denomination::where('denomination_uuid', $aux->denomination_uuid)->firstorfail();
+            $item->total_billcoin = $aux1->total;
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
         return view("paymentwithoutprice.index", compact('paymentwithoutprices', 'cashshiftsvalidated','perPage', 'denominationables'));
@@ -51,6 +63,7 @@ class PaymentwithoutpriceController extends Controller
 
     public function store(Request $request)
     {
+
         $rules = [
             'observation' => 'nullable|string|max:100',
             'servicewithprice_uuids' => 'required|array',
@@ -78,8 +91,6 @@ class PaymentwithoutpriceController extends Controller
                 $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
             }
         });
-
-
         /*if (!$cashshiftsvalidated) {
             return back()->with('error', 'No hay un turno de caja abierto.');
         }*/
@@ -194,7 +205,7 @@ class PaymentwithoutpriceController extends Controller
         return redirect("/paymentwithoutprices")->with('success', 'Ingreso eliminado correctamente.');
     }
 
-    public function showdetail(string $paymentwithoutprice_uuid)
+    public function detail(string $paymentwithoutprice_uuid)
     {
         $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
         $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
@@ -243,20 +254,34 @@ class PaymentwithoutpriceController extends Controller
         $paymentwithoutprice = Paymentwithoutprice::with(['user', 'servicewithprice', 'transactionmethod'])
             ->where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)
             ->firstOrFail();
-        $paymentwithoutprice->random = strtoupper(Str::random(40));
         $serviceUuids = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
-        $methodUuids = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
-        $paymentwithoutprice->services = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('name');
-        $paymentwithoutprice->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
-
-        $amounts = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('amount');
-        $commissions = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('commission');
-        $amountsSum = $amounts->sum();
-        $commissionsSum = $commissions->sum();
-        $paymentwithoutprice->pagar = bcadd($amountsSum, $commissionsSum, 2);
-
+        $services = [];
+        $amounts = [];
+        $commissions = [];
+        foreach ($serviceUuids as $serviceUuid) {
+            $service = Servicewithprice::where('servicewithprice_uuid', $serviceUuid)->first();
+            if ($service) {
+                $services[] = $service->name;
+                $amounts[] = $service->amount;
+                $commissions[] = $service->commission;
+            }
+        }
+        $serviceCount = [];
+        foreach ($services as $service) {
+            if (isset($serviceCount[$service])) {
+                $serviceCount[$service]['cantidad']++;
+            } else {
+                $serviceCount[$service] = ['cantidad' => 1, 'servicio' => $service];
+            }
+        }
+        $names = '';
+        foreach ($serviceCount as $item) {
+            $names .= $item['cantidad'] . ' ' . $item['servicio'] . ', ';
+        }
+        $paymentwithoutprice->name = rtrim($names, ', ');
+        $paymentwithoutprice->total = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
         $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
-        $cobrado = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)
+        $received = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)
             ->selectRaw(' SUM(
             CASE WHEN bill_200 > 0 THEN bill_200 * 200 ELSE 0.00 END +
             CASE WHEN bill_100 > 0 THEN bill_100 * 100 ELSE 0.00 END +
@@ -269,10 +294,9 @@ class PaymentwithoutpriceController extends Controller
             CASE WHEN coin_0_5 > 0 THEN coin_0_5 * 0.5 ELSE 0.00 END +
             CASE WHEN coin_0_2 > 0 THEN coin_0_2 * 0.2 ELSE 0.00 END +
             CASE WHEN coin_0_1 > 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
-        ) AS total_cobrado')->first();
-        $paymentwithoutprice->cobrado = $cobrado->total_cobrado;
-
-        $cambio = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)
+        ) AS total')->firstorfail();
+        $paymentwithoutprice->received = $received->total;
+        $returned = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)
             ->selectRaw('SUM(
             CASE WHEN bill_200 < 0 THEN bill_200 * 200 ELSE 0.00 END +
             CASE WHEN bill_100 < 0 THEN bill_100 * 100 ELSE 0.00 END +
@@ -285,9 +309,10 @@ class PaymentwithoutpriceController extends Controller
             CASE WHEN coin_0_5 < 0 THEN coin_0_5 * 0.5 ELSE 0.00 END +
             CASE WHEN coin_0_2 < 0 THEN coin_0_2 * 0.2 ELSE 0.00 END +
             CASE WHEN coin_0_1 < 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
-        ) AS total_cambio')->first();
-        $paymentwithoutprice->cambio = $cambio->total_cambio;
-
+        ) AS total')->firstorfail();
+        $paymentwithoutprice->returned = $returned->total;
+        $methodUuids = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
+        $paymentwithoutprice->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
         $data = [
             'paymentwithoutprice'=>$paymentwithoutprice
         ];

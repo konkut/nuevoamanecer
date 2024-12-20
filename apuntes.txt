@@ -1,7 +1,26 @@
+********* REVISAR APUNTES
+
 LARAVEL EXCEL
 composer require maatwebsite/excel --with-all-dependencies
 php artisan make:export PaymentwithoutpriceExport --model=Paymentwithoutprice
 
+\Log::info('Eliminando denominaciones del modelo: '.$model->cashcount_uuid);
+
+solo a un array {{ implode(', ', $item->amounts) }}
+suma de array array_sum($amounts);
+lo convierte a array <p>{{ implode(', ', json_decode($item->amounts, true)) }}</p>
+
+$number = 12345.6789;
+echo number_format($number, 2); // "12,345.68"
+
+
+$names = json_decode($item->names, true);
+$amounts = json_decode($item->amounts, true);
+$commissions = json_decode($item->commissions, true);
+if (!is_array($names) || !is_array($amounts) || !is_array($commissions)) {
+    // Manejo de error: verifica que los datos decodificados sean válidos
+    throw new Exception('Los datos JSON no son válidos.');
+}
 
 
 @php artisan vendor:publish --tag=laravel-assets --ansi --force

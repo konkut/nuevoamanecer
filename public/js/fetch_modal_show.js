@@ -16,158 +16,58 @@ function fetchDetails(uuid) {
             return response.json();
         })
         .then(data => {
-            let contain_bill_coin = document.querySelector(`#modal-show-${uuid}`);
-            contain_bill_coin.innerHTML = "";
-            let content = "";
-             content = `
-             <table class="min-w-full border-collapse border-[#f3f4f6] text-center text-sm">
-                <thead >
-                    <tr style='background: #f3f4f6;'>
-                        <th class="border-t border-b border-[#f3f4f6] px-2 py-1" colspan="3">Billetaje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">200</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.bill_200}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">100</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.bill_100}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">50</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.bill_50}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">20</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.bill_20}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">10</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.bill_10}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">5</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.coin_5}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">2</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.coin_2}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">1</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.coin_1}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">0.5</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.coin_0_5}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">0.2</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.coin_0_2}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">0.1</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.coin_0_1}</td>
-                </tr>
-                <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                    <td class="border-b py-1 text-end w-1/3">Bs</td>
-                    <td class="border-b py-1 text-start w-1/3">Total</td>
-                    <td class="border-b py-1 text-start w-1/2">${data.total}</td>
-                </tr>
-                </tbody>
-            </table>`;
-            contain_bill_coin.innerHTML = content;
-            let contain_bill_coin_closing = document.querySelector(`#modal-closing-${uuid}`);
-            if (contain_bill_coin_closing) {
-                contain_bill_coin_closing.innerHTML = "";
-                let closing = "";
-                closing = `
-                 <table class="min-w-full border-collapse border-[#f3f4f6] text-center text-sm">
-                    <thead >
-                        <tr style='background: #f3f4f6;'>
-                            <th class="border-t border-b border-[#f3f4f6] px-2 py-1" colspan="3">Monto de cierre</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">200</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_bill_200}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">100</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_bill_100}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">50</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_bill_50}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">20</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_bill_20}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">10</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_bill_10}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">5</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_coin_5}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">2</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_coin_2}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">1</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_coin_1}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">0.5</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_coin_0_5}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">0.2</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_coin_0_2}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">0.1</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_coin_0_1}</td>
-                    </tr>
-                    <tr class="hover:bg-[#d1d5db44] transition duration-200 w-full">
-                        <td class="border-b py-1 text-end w-1/3">Bs</td>
-                        <td class="border-b py-1 text-start w-1/3">Total</td>
-                        <td class="border-b py-1 text-start w-1/2">${data.total_total}</td>
-                    </tr>
-                    </tbody>
-                </table>`;
-                contain_bill_coin_closing.innerHTML = closing;
-
+            document.querySelector(`#physical-balance-bill-200-${uuid}`).textContent = data.bill_200 ?? 0;
+            document.querySelector(`#physical-balance-bill-100-${uuid}`).textContent = data.bill_100 ?? 0;
+            document.querySelector(`#physical-balance-bill-50-${uuid}`).textContent = data.bill_50 ?? 0;
+            document.querySelector(`#physical-balance-bill-20-${uuid}`).textContent = data.bill_20 ?? 0;
+            document.querySelector(`#physical-balance-bill-10-${uuid}`).textContent = data.bill_10 ?? 0;
+            document.querySelector(`#physical-balance-coin-5-${uuid}`).textContent = data.coin_5 ?? 0;
+            document.querySelector(`#physical-balance-coin-2-${uuid}`).textContent = data.coin_2 ?? 0;
+            document.querySelector(`#physical-balance-coin-1-${uuid}`).textContent = data.coin_1 ?? 0;
+            document.querySelector(`#physical-balance-coin-0-5-${uuid}`).textContent = data.coin_0_5 ?? 0;
+            document.querySelector(`#physical-balance-coin-0-2-${uuid}`).textContent = data.coin_0_2 ?? 0;
+            document.querySelector(`#physical-balance-coin-0-1-${uuid}`).textContent = data.coin_0_1 ?? 0;
+            document.querySelector(`#physical-balance-total-${uuid}`).textContent = data.total ?? 0;
+           if(document.querySelector(`#show-movement-modal-${uuid}`)){
+               document.querySelector(`#system-balance-bill-200-${uuid}`).textContent = data.total_bill_200 ?? 0;
+               document.querySelector(`#system-balance-bill-100-${uuid}`).textContent = data.total_bill_100 ?? 0;
+               document.querySelector(`#system-balance-bill-50-${uuid}`).textContent = data.total_bill_50 ?? 0;
+               document.querySelector(`#system-balance-bill-20-${uuid}`).textContent = data.total_bill_20 ?? 0;
+               document.querySelector(`#system-balance-bill-10-${uuid}`).textContent = data.total_bill_10 ?? 0;
+               document.querySelector(`#system-balance-coin-5-${uuid}`).textContent = data.total_coin_5 ?? 0;
+               document.querySelector(`#system-balance-coin-2-${uuid}`).textContent = data.total_coin_2 ?? 0;
+               document.querySelector(`#system-balance-coin-1-${uuid}`).textContent = data.total_coin_1 ?? 0;
+               document.querySelector(`#system-balance-coin-0-5-${uuid}`).textContent = data.total_coin_0_5 ?? 0;
+               document.querySelector(`#system-balance-coin-0-2-${uuid}`).textContent = data.total_coin_0_2 ?? 0;
+               document.querySelector(`#system-balance-coin-0-1-${uuid}`).textContent = data.total_coin_0_1 ?? 0;
+               document.querySelector(`#system-balance-total-${uuid}`).textContent = parseFloat(data.total_total).toFixed(2) ?? 0;
+           }
+            if(document.querySelector(`#show-closing-modal-${uuid}`)){
+                document.querySelector(`#total-balance-bill-200-${uuid}`).textContent = data.closing_bill_200 ?? 0;
+                document.querySelector(`#total-balance-bill-100-${uuid}`).textContent = data.closing_bill_100 ?? 0;
+                document.querySelector(`#total-balance-bill-50-${uuid}`).textContent = data.closing_bill_50 ?? 0;
+                document.querySelector(`#total-balance-bill-20-${uuid}`).textContent = data.closing_bill_20 ?? 0;
+                document.querySelector(`#total-balance-bill-10-${uuid}`).textContent = data.closing_bill_10 ?? 0;
+                document.querySelector(`#total-balance-coin-5-${uuid}`).textContent = data.closing_coin_5 ?? 0;
+                document.querySelector(`#total-balance-coin-2-${uuid}`).textContent = data.closing_coin_2 ?? 0;
+                document.querySelector(`#total-balance-coin-1-${uuid}`).textContent = data.closing_coin_1 ?? 0;
+                document.querySelector(`#total-balance-coin-0-5-${uuid}`).textContent = data.closing_coin_0_5 ?? 0;
+                document.querySelector(`#total-balance-coin-0-2-${uuid}`).textContent = data.closing_coin_0_2 ?? 0;
+                document.querySelector(`#total-balance-coin-0-1-${uuid}`).textContent = data.closing_coin_0_1 ?? 0;
+                document.querySelector(`#total-balance-total-${uuid}`).textContent = parseFloat(data.closing_total).toFixed(2) ?? 0;
             }
-
+            if(document.querySelector(`#system-balance-table-${uuid}`)){
+                document.getElementById(`system-balance-table-${uuid}`).textContent = parseFloat(data.total_total).toFixed(2);
+            }
+            if(document.querySelector(`#difference-table-${uuid}`)){
+                document.getElementById(`difference-table-${uuid}`).textContent = parseFloat(data.difference).toFixed(2);
+            }
+            if(document.querySelector(`#system-balance-modal-${uuid}`)){
+                document.getElementById(`system-balance-modal-${uuid}`).textContent = parseFloat(data.total_total).toFixed(2);
+            }
+            if(document.querySelector(`#difference-modal-${uuid}`)){
+                document.getElementById(`difference-modal-${uuid}`).textContent = parseFloat(data.difference).toFixed(2);
+            }
             openDetailsModal(uuid);
         })
         .catch(error => {

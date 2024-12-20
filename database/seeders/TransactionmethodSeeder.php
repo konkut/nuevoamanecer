@@ -21,11 +21,11 @@ class TransactionmethodSeeder extends Seeder
             'description' => 'Pago aplazado mediante un acuerdo de deuda o crédito.'
         ]);
          * */
-
+/*
         Transactionmethod::create([
             'name' => 'QR',
             'description' => 'Pago digital escaneando un código QR con una app móvil.'
-        ]);
+        ]);*/
 
     }
 }

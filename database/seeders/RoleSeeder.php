@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'users.create'])->syncRoles([$role1]);
         Permission::create(['name' => 'users.edit'])->syncRoles([$role1]);
         Permission::create(['name' => 'users.destroy'])->syncRoles([$role1]);
-        Permission::create(['name' => 'users.assign_roles'])->syncRoles([$role1]);
+        Permission::create(['name' => 'users.roles'])->syncRoles([$role1]);
 
         /*CATEGORIES ok*/
         Permission::create(['name' => 'categories.index'])->syncRoles([$role1]);
@@ -53,7 +53,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'paymentwithoutprices.create'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'paymentwithoutprices.edit'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'paymentwithoutprices.destroy'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'paymentwithoutpricesuser.showuser'])->syncRoles([$role1]);
         Permission::create(['name' => 'paymentwithoutprices.search'])->syncRoles([$role1, $role2]);
 
         /*PAYMENT WITH PRICE*/

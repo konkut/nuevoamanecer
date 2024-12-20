@@ -152,6 +152,8 @@ return [
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
     'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga un método de transacción correspondiente.',
     'custom_paymentwithprice'=> 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
+    'custom_user_id'=> 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
+
     'attributes' => [
         /*FORM USER */
         'email' => 'correo electrónico',
