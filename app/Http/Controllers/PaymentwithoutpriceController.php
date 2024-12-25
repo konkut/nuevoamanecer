@@ -24,10 +24,9 @@ class PaymentwithoutpriceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $paymentwithoutprices = Paymentwithoutprice::with(['user', 'servicewithprice', 'transactionmethod'])
+        $paymentwithoutprices = Paymentwithoutprice::with(['user', 'servicewithprice', 'transactionmethod', 'denominations'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
-        $denominationables = Denominationables::all();
         foreach ($paymentwithoutprices as $item) {
             $serviceUuids = json_decode($item->servicewithprice_uuids, true);
             $methodUuids = json_decode($item->transactionmethod_uuids, true);
@@ -45,13 +44,12 @@ class PaymentwithoutpriceController extends Controller
             $item->amounts = number_format(array_sum($amounts), 2, '.', '');
             $item->commissions = number_format(array_sum($commissions), 2, '.', '');
             $item->total_price = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
-            $aux = Denominationables::where('denominationable_uuid', $item->paymentwithoutprice_uuid)->firstorfail();
-            $aux1 = Denomination::where('denomination_uuid', $aux->denomination_uuid)->firstorfail();
-            $item->total_billcoin = $aux1->total;
+            $item->total_billcoin = $item->denominations->total;
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-        return view("paymentwithoutprice.index", compact('paymentwithoutprices', 'cashshiftsvalidated','perPage', 'denominationables'));
+        return view("paymentwithoutprice.index", compact('paymentwithoutprices', 'cashshiftsvalidated', 'perPage'));
     }
+
     public function create()
     {
         $paymentwithoutprice = new Paymentwithoutprice();
@@ -63,7 +61,6 @@ class PaymentwithoutpriceController extends Controller
 
     public function store(Request $request)
     {
-
         $rules = [
             'observation' => 'nullable|string|max:100',
             'servicewithprice_uuids' => 'required|array',
@@ -91,23 +88,14 @@ class PaymentwithoutpriceController extends Controller
                 $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
             }
         });
-        /*if (!$cashshiftsvalidated) {
-            return back()->with('error', 'No hay un turno de caja abierto.');
-        }*/
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-        $paymentwithoutprice = Paymentwithoutprice::create([
-            'observation' => $request->observation,
-            'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
-            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
-            'user_id' => Auth::id(),
-            'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
-        ]);
         $denomination = Denomination::create([
+            'type' => 1,
             'bill_200' => $request->bill_200 ?? 0,
             'bill_100' => $request->bill_100 ?? 0,
             'bill_50' => $request->bill_50 ?? 0,
@@ -121,26 +109,32 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_1' => $request->coin_0_1 ?? 0,
             'total' => $request->total ?? 0,
         ]);
-        $paymentwithoutprice->denominations()->attach($denomination->denomination_uuid);
+        Paymentwithoutprice::create([
+            'observation' => $request->observation,
+            'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
+            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
+            'user_id' => Auth::id(),
+            'cashshift_uuid' => $cashshiftsvalidated->cashshift_uuid,
+            'denomination_uuid' => $denomination->denomination_uuid,
+        ]);
         return redirect("/paymentwithoutprices")->with('success', 'Ingreso registrado correctamente.');
     }
 
     public function edit(string $paymentwithoutprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
-        $denomination = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)->firstOrFail();
+        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->with('denominations')->firstOrFail();
+        $denomination = $paymentwithoutprice->denominations;
         $transactionmethods = Transactionmethod::all();
         $servicewithprices = Servicewithprice::all();
         $services = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
         $methods = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
-        return view("paymentwithoutprice.edit", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices','services','methods'));
-        }
+        return view("paymentwithoutprice.edit", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices', 'services', 'methods'));
+    }
+
     public function update(Request $request, string $paymentwithoutprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
-        $denomination = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)->firstOrFail();
+        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->with('denominations')->firstOrFail();
+        $denomination = $paymentwithoutprice->denominations;
         $rules = [
             'observation' => 'nullable|string|max:100',
             'servicewithprice_uuids' => 'required|array',
@@ -174,13 +168,6 @@ class PaymentwithoutpriceController extends Controller
                 ->withInput();
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-        $paymentwithoutprice->update([
-            'observation' => $request->observation,
-            'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
-            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
-            'user_id' => Auth::id(),
-            'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
-        ]);
         $denomination->update([
             'bill_200' => $request->bill_200 ?? 0,
             'bill_100' => $request->bill_100 ?? 0,
@@ -195,6 +182,13 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_1' => $request->coin_0_1 ?? 0,
             'total' => $request->total ?? 0,
         ]);
+        $paymentwithoutprice->update([
+            'observation' => $request->observation,
+            'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
+            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
+            'user_id' => Auth::id(),
+            'cashshift_uuid' => $cashshiftsvalidated->cashshift_uuid,
+        ]);
         return redirect("/paymentwithoutprices")->with('success', 'Ingreso actualizado correctamente.');
     }
 
@@ -207,51 +201,16 @@ class PaymentwithoutpriceController extends Controller
 
     public function detail(string $paymentwithoutprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->firstOrFail();
-        $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
-        $denomination = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)->firstOrFail();
+        $paymentwithoutprice = Paymentwithoutprice::where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)->with('denominations')->firstOrFail();
+        $denomination = $paymentwithoutprice->denominations;
         return response()->json([
-            'bill_200' => $denomination->bill_200,
-            'bill_100' => $denomination->bill_100,
-            'bill_50' => $denomination->bill_50,
-            'bill_20' => $denomination->bill_20,
-            'bill_10' => $denomination->bill_10,
-            'coin_5' => $denomination->coin_5,
-            'coin_2' => $denomination->coin_2,
-            'coin_1' => $denomination->coin_1,
-            'coin_0_5' => $denomination->coin_0_5,
-            'coin_0_2' => $denomination->coin_0_2,
-            'coin_0_1' => $denomination->coin_0_1,
-            'total' => $denomination->total,
+            'denomination' => $denomination,
         ]);
     }
-    public function search(Request $request)
-    {
-        $request->validate([
-            'field' => 'required|string',
-            'query' => 'nullable|string|max:255',
-        ]);
-        $field = $request->input('field');
-        $query = $request->input('query');
-        $allowedfields = ['servicio', 'monto', 'método', 'fecha de registro', 'registrado por'];
-        if (!in_array($field, $allowedfields)) {
-            return response()->json(['error' => 'Campo no permitido'], 400);
-        }
-        if ($field == 'servicio'){}
-        if ($field == 'monto'){}
-        if ($field == 'método'){}
-        if ($field == 'fecha de registro'){
-            $payments = Paymentwithoutprice::where('created_at', 'like', '%' . $query . '%')->get();
-        }
-        if ($field == 'registrado por'){
-            $payments = Paymentwithoutprice::where('name', 'like', '%' . $query . '%')
-                ->join('users', 'paymentwithoutprices.user_id', '=', 'users.id')->get();
-        }
-        return response()->json($payments);
-    }
+
     public function tax(string $paymentwithoutprice_uuid)
     {
-        $paymentwithoutprice = Paymentwithoutprice::with(['user', 'servicewithprice', 'transactionmethod'])
+        $paymentwithoutprice = Paymentwithoutprice::with(['user', 'servicewithprice', 'transactionmethod', 'denominations'])
             ->where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)
             ->firstOrFail();
         $serviceUuids = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
@@ -280,8 +239,8 @@ class PaymentwithoutpriceController extends Controller
         }
         $paymentwithoutprice->name = rtrim($names, ', ');
         $paymentwithoutprice->total = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
-        $denominationables = Denominationables::where('denominationable_uuid', $paymentwithoutprice->paymentwithoutprice_uuid)->firstOrFail();
-        $received = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)
+        $denomination_uuid = $paymentwithoutprice->denominations->denomination_uuid;
+        $received = Denomination::where('denomination_uuid', $denomination_uuid)
             ->selectRaw(' SUM(
             CASE WHEN bill_200 > 0 THEN bill_200 * 200 ELSE 0.00 END +
             CASE WHEN bill_100 > 0 THEN bill_100 * 100 ELSE 0.00 END +
@@ -296,7 +255,7 @@ class PaymentwithoutpriceController extends Controller
             CASE WHEN coin_0_1 > 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
         ) AS total')->firstorfail();
         $paymentwithoutprice->received = $received->total;
-        $returned = Denomination::where('denomination_uuid', $denominationables->denomination_uuid)
+        $returned = Denomination::where('denomination_uuid', $denomination_uuid)
             ->selectRaw('SUM(
             CASE WHEN bill_200 < 0 THEN bill_200 * 200 ELSE 0.00 END +
             CASE WHEN bill_100 < 0 THEN bill_100 * 100 ELSE 0.00 END +
@@ -314,7 +273,7 @@ class PaymentwithoutpriceController extends Controller
         $methodUuids = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
         $paymentwithoutprice->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
         $data = [
-            'paymentwithoutprice'=>$paymentwithoutprice
+            'paymentwithoutprice' => $paymentwithoutprice
         ];
         $pdf = Pdf::loadView('paymentwithoutprice.tax', $data)
             ->setPaper([0, 0, 306, 396]); // Tamaño en puntos (1 pulgada = 72 puntos)
@@ -326,8 +285,9 @@ class PaymentwithoutpriceController extends Controller
         ]);
     }
 
-    public function export(){
-        $paymentwithoutprices = Paymentwithoutprice::where('user_id',Auth::id()) ->get();
+    public function export()
+    {
+        $paymentwithoutprices = Paymentwithoutprice::where('user_id', Auth::id())->get();
         $paymentwithoutprices->each(function ($paymentwithoutprice) {
             $serviceUuids = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
             $methodUuids = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
@@ -342,20 +302,18 @@ class PaymentwithoutpriceController extends Controller
             $paymentwithoutprice->format_user_id = $paymentwithoutprice->user->name;
             $paymentwithoutprice->format_created_at = $paymentwithoutprice->created_at->format('d-m-Y H:i:s');
             $paymentwithoutprice->format_updated_at = $paymentwithoutprice->updated_at->format('d-m-Y H:i:s');
-            foreach ($paymentwithoutprice->denominations as $denomination) {
-                $paymentwithoutprice->format_bill_200 = $denomination->bill_200;
-                $paymentwithoutprice->format_bill_100 = $denomination->bill_100;
-                $paymentwithoutprice->format_bill_50 = $denomination->bill_50;
-                $paymentwithoutprice->format_bill_20 = $denomination->bill_20;
-                $paymentwithoutprice->format_bill_10 = $denomination->bill_10;
-                $paymentwithoutprice->format_coin_5 = $denomination->coin_5;
-                $paymentwithoutprice->format_coin_2 = $denomination->coin_2;
-                $paymentwithoutprice->format_coin_1 = $denomination->coin_1;
-                $paymentwithoutprice->format_coin_0_5 = $denomination->coin_0_5;
-                $paymentwithoutprice->format_coin_0_2 = $denomination->coin_0_2;
-                $paymentwithoutprice->format_coin_0_1 = $denomination->coin_0_1;
-                $paymentwithoutprice->format_total = $denomination->total;
-            }
+            $paymentwithoutprice->format_bill_200 = $paymentwithoutprice->denominations->bill_200;
+            $paymentwithoutprice->format_bill_100 = $paymentwithoutprice->denominations->bill_100;
+            $paymentwithoutprice->format_bill_50 = $paymentwithoutprice->denominations->bill_50;
+            $paymentwithoutprice->format_bill_20 = $paymentwithoutprice->denominations->bill_20;
+            $paymentwithoutprice->format_bill_10 = $paymentwithoutprice->denominations->bill_10;
+            $paymentwithoutprice->format_coin_5 = $paymentwithoutprice->denominations->coin_5;
+            $paymentwithoutprice->format_coin_2 = $paymentwithoutprice->denominations->coin_2;
+            $paymentwithoutprice->format_coin_1 = $paymentwithoutprice->denominations->coin_1;
+            $paymentwithoutprice->format_coin_0_5 = $paymentwithoutprice->denominations->coin_0_5;
+            $paymentwithoutprice->format_coin_0_2 = $paymentwithoutprice->denominations->coin_0_2;
+            $paymentwithoutprice->format_coin_0_1 = $paymentwithoutprice->denominations->coin_0_1;
+            $paymentwithoutprice->format_total = $paymentwithoutprice->denominations->total;
         });
         return Excel::download(new PaymentwithoutpriceExport($paymentwithoutprices), 'transacciones.xlsx');
     }

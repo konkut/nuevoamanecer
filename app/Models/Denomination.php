@@ -31,14 +31,6 @@ class Denomination extends Model
     'total',
   ];
 
-  public function paymentwithoutprice (){
-      return $this->morphedByMany(Paymentwithoutprice::class, 'denominationable','denominationables','denominationable_uuid','denomination_uuid','denomination_uuid','paymentwithoutprice_uuid');
-  }
-/*
-  public function denominationable()
- {
-   return $this->hasMany(Denominationables::class, 'denomination_uuid', 'denomination_uuid');
- }*/
   protected static function boot()
   {
     parent::boot();
@@ -50,8 +42,6 @@ class Denomination extends Model
       static::deleting(function ($model) {
           $model->paymentwithoutprice()->delete();
       });*/
-
-
     /*
     static::restoring(function ($denomination) {
       $denomination->services()->onlyTrashed()->each(function ($denomination) {

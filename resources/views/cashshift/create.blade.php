@@ -38,7 +38,7 @@
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <x-form-cashshift :cashshift="$cashshift" :cashregisters="$cashregisters" :users="$users"></x-form-cashshift>
+                            <x-form-cashshift :cashshift="$cashshift" :cashregisters="$cashregisters" :users="$users" :allfields="$allfields"></x-form-cashshift>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">

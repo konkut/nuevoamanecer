@@ -6,14 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  /**
-   * Run the migrations.
-   */
   public function up(): void
   {
     Schema::create('denominations', function (Blueprint $table) {
       $table->string('denomination_uuid',36)->unique();
-      $table->enum('type', ['opening', 'income', 'expense', 'closing','cashcount'])->default('income');
+      $table->enum('type', [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16])->default(1);
       $table->integer("bill_200")->default(0);
       $table->integer("bill_100")->default(0);
       $table->integer("bill_50")->default(0);

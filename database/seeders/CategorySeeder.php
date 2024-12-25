@@ -17,6 +17,7 @@ class CategorySeeder extends Seeder
     Category::create(['name' => 'TRANSFERENCIAS', 'description' => 'Envío de dinero entre cuentas o hacia terceros.']);
     Category::create(['name' => 'RETIROS', 'description' => 'Extracción de dinero desde cuentas bancarias u otros sistemas financieros.']);
     Category::create(['name' => 'SERVICIOS CONTABLES', 'description' => 'Servicios de asesoramiento contable y tributaria para empresas y personas.']);
+    Category::create(['name' => 'PRODUCTOS COMERCIALES', 'description' => 'Variedad de productos comerciales.']);
     //Category::factory()->count(100)->create();
   }
 }

@@ -22,6 +22,7 @@ class Paymentwithoutprice extends Model
       'transactionmethod_uuids',
       'user_id',
         'cashshift_uuid',
+        'denomination_uuid',
     ];
     protected $casts = [
         'servicewithprice_uuids' => 'array',
@@ -32,11 +33,7 @@ class Paymentwithoutprice extends Model
       return $this->belongsTo(Servicewithprice::class, 'servicewithprice_uuid', 'servicewithprice_uuid');
     }
     public function denominations(){
-        return $this->morphToMany(Denomination::class,'denominationable','denominationables','denominationable_uuid','denomination_uuid','paymentwithoutprice_uuid','denomination_uuid');
-    }
-    public function denominationable()
-    {
-        return $this->hasMany(Denominationables::class, 'denominationable_uuid', 'paymentwithoutprice_uuid');
+        return $this->belongsTo(Denomination::class,'denomination_uuid','denomination_uuid');
     }
     public function transactionmethod()
     {
@@ -57,7 +54,6 @@ class Paymentwithoutprice extends Model
 
       static::deleting(function ($model) {
           $model->denominations()->delete();
-          $model->denominationable()->delete();
       });
       /*
       static::restoring(function ($incomefromtransfer) {

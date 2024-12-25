@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cashcount;
+use App\Models\Cashflowdaily;
 use App\Models\Cashregister;
 use App\Models\Cashshift;
 use App\Models\Category;
+use App\Models\Expense;
 use App\Models\Paymentwithoutprice;
 use App\Models\Paymentwithprice;
+use App\Models\Product;
 use App\Models\Servicewithoutprice;
 use App\Models\Servicewithprice;
 use App\Models\Transactionmethod;
@@ -28,8 +31,10 @@ class DashboardController extends Controller
         $total_cashregisters = Cashregister::count();
         $total_cashshifts = Cashshift::count();
         $total_cashshifts_by_user = Cashshift::where("user_id",Auth::id())->count();
-        $total_cashcounts = Cashcount::count();
-        $total_cashcounts_by_user = Cashcount::where("user_id",Auth::id())->count();
-        return view('dashboard', compact('total_users','total_categories','total_services','total_transactionmethods','total_payments','total_payments_by_user','total_cashregisters','total_cashshifts','total_cashshifts_by_user','total_cashcounts','total_cashcounts_by_user'));
+        $total_expenses = Expense::count();
+        $total_expenses_by_user = Expense::where("user_id",Auth::id())->count();
+        $total_cashflowdailies = Cashflowdaily::count();
+        $total_products = Product::count();
+        return view('dashboard', compact('total_users','total_categories','total_services','total_transactionmethods','total_payments','total_payments_by_user','total_cashregisters','total_cashshifts','total_cashshifts_by_user','total_cashflowdailies','total_expenses','total_expenses_by_user','total_products'));
     }
 }

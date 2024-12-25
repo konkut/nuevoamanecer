@@ -1,11 +1,10 @@
 const fetchData = (uuid) => {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    fetch(`/cashshifts/data`, {
-        method: 'POST',
+    const url = document.getElementById(`data-form-${uuid}`).href;
+    fetch(url, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-        },body: JSON.stringify({ cashregister_uuid: uuid })
+        },
     })
         .then(response => {
             if (!response.ok) {

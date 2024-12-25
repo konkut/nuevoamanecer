@@ -1,5 +1,23 @@
+$table->enum('type', ['opening', 'income', 'expense', 'closing','cashcount','total_opening','total_closing','total_incomes','total_expenses'])->default('income');
+
+$cashshifts = Cashshift::whereBetween('start_time', [now()->startOfDay(), now()->endOfDay()])->with('denominations_opening')->get();
+
+ $value = is_numeric($value) ? $value : 0;
+  if (!isset($totals[$key])) {
+
 ********* REVISAR APUNTES
 
+PASOS PARA SUBIR AL HOST TERMINAL
+CAMBIAR EL ARCHIVO .ENV
+chmod -R 775 nuevoamanecer
+php artisan livewire:publish --assets
+php artisan route:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan migrate:fresh --seed
+
+use Illuminate\Support\Facades\Log;
+gettype(json_encode($services)));
 LARAVEL EXCEL
 composer require maatwebsite/excel --with-all-dependencies
 php artisan make:export PaymentwithoutpriceExport --model=Paymentwithoutprice

@@ -41,6 +41,21 @@
                                 </div>
                             </a>
                         @endif
+                        @if(auth()->user()->hasRole('Administrador'))
+                            <a href="{{ route('cashflowdailies.index') }}"
+                               :active="request()->routeIs('cashflowdailies.index')"
+                               class="bg-gradient-to-r from-slate-700 via-slate-500 to-slate-300 text-white p-6 rounded-lg shadow-lg">
+                                <div class="flex items-center justify-between">
+                                    <div
+                                        class="text-2xl font-semibold">{{ __('word.general.total_cashflowdaily') }}</div>
+                                    <div class="text-4xl"><i class="bi bi-graph-up-arrow"></i></div>
+                                </div>
+                                <p class="mt-2 text-lg">{{$total_cashflowdailies}} {{ __('word.cashflowdaily.title') }}</p>
+                                <div class="mt-4 h-1 bg-green-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-green-600"></div>
+                                </div>
+                            </a>
+                        @endif
                         <a href="{{ route('cashshifts.index') }}" :active="request()->routeIs('cashshifts.index')"
                            class="bg-gradient-to-r from-[#F9A602] via-[#F9D835] to-[#FFED85] text-white p-6 rounded-lg shadow-lg">
                             <div class="flex items-center justify-between">
@@ -58,24 +73,6 @@
                                 <div class="w-1/2 h-full bg-yellow-600"></div>
                             </div>
                         </a>
-                        <a href="{{ route('cashcounts.index') }}" :active="request()->routeIs('cashcounts.index')"
-                           class="bg-gradient-to-r from-[#C92A2A] via-[#E63946] to-[#f79f96] text-white p-6 rounded-lg shadow-lg">
-                            <div class="flex items-center justify-between">
-                                <div class="text-2xl font-semibold">{{ __('word.general.total_cashcount') }}</div>
-                                <div class="text-4xl"><i class="bi bi-cash-stack"></i></div>
-                            </div>
-                            <p class="mt-2 text-lg">
-                                @if(auth()->user()->hasRole('Administrador'))
-                                    {{$total_cashcounts}}
-                                @else
-                                    {{$total_cashcounts_by_user}}
-                                @endif
-                                {{ __('word.cashcount.title') }}</p>
-                            <div class="mt-4 h-1 bg-red-200 rounded-full">
-                                <div class="w-3/4 h-full bg-red-600"></div>
-                            </div>
-                        </a>
-
                         <a href="{{ route('paymentwithprices.index') }}"
                            :active="request()->routeIs('paymentwithprices.index')"
                            class="bg-gradient-to-r from-[#6A0572] via-[#AB47BC] to-[#E1BEE7] text-white p-6 rounded-lg shadow-lg">
@@ -92,6 +89,23 @@
                                 {{__('word.payment.panel')}}</p>
                             <div class="mt-4 h-1 bg-pink-200 rounded-full">
                                 <div class="w-5/6 h-full bg-pink-600"></div>
+                            </div>
+                        </a>
+                        <a href="{{ route('expenses.index') }}" :active="request()->routeIs('expenses.index')"
+                           class="bg-gradient-to-r from-[#C92A2A] via-[#E63946] to-[#f79f96] text-white p-6 rounded-lg shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <div class="text-2xl font-semibold">{{ __('word.general.total_expenses') }}</div>
+                                <div class="text-4xl"><i class="bi bi-cash-stack"></i></div>
+                            </div>
+                            <p class="mt-2 text-lg">
+                                @if(auth()->user()->hasRole('Administrador'))
+                                    {{$total_expenses}}
+                                @else
+                                    {{$total_expenses_by_user}}
+                                @endif
+                                {{ __('word.expense.title') }}</p>
+                            <div class="mt-4 h-1 bg-red-200 rounded-full">
+                                <div class="w-3/4 h-full bg-red-600"></div>
                             </div>
                         </a>
                         @if(auth()->user()->hasRole('Administrador'))
@@ -129,6 +143,18 @@
                             <div class="mt-4 h-1 bg-pink-200 rounded-full">
                                 <div class="w-5/6 h-full bg-pink-600"></div>
                             </div>
+                        </a>
+                        <a href="{{ route('products.index') }}"
+                           :active="request()->routeIs('products.index')"
+                           class="bg-gradient-to-r from-[#3B82F6] via-[#9333EA] to-[#E879F9] text-white p-6 rounded-lg shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-semibold">{{__('word.general.total_products')}}</div>
+                            <div class="text-4xl"><i class="bi bi-grid"></i></div>
+                        </div>
+                        <p class="mt-2 text-lg">{{$total_products}} {{__('word.product.title')}}</p>
+                        <div class="mt-4 h-1 bg-pink-200 rounded-full">
+                            <div class="w-5/6 h-full bg-pink-600"></div>
+                        </div>
                         </a>
                         @if(auth()->user()->hasRole('Administrador'))
                             <a href="{{ route('transactionmethods.index') }}"

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('cashshift_uuid', 36);
             $table->foreign('cashshift_uuid')->references('cashshift_uuid')->on('cashshifts');
+            $table->string('denomination_uuid', 36);
+            $table->foreign('denomination_uuid')->references('denomination_uuid')->on('denominations');
             $table->timestamps();
             $table->softDeletes();
         });

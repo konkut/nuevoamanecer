@@ -153,7 +153,7 @@ return [
     'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga un método de transacción correspondiente.',
     'custom_paymentwithprice'=> 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
     'custom_user_id'=> 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
-
+    'custom_cashregister_uuid'=> 'La caja ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
     'attributes' => [
         /*FORM USER */
         'email' => 'correo electrónico',
@@ -234,5 +234,14 @@ return [
         "end_time" => "fecha de cierre de caja",
         "cashregister_uuid" => "caja",
         "user_id" => "cajero",
+
+        /*expense */
+        'expense_uuid' => 'gasto',
+        'transactionmethod_uuid' => 'método',
+        'cashshift_uuid' => 'sesión',
+
+        /*expense */
+        'price' => 'precio',
+        'stock' => 'cantidad',
     ]
 ];

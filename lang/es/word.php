@@ -34,6 +34,9 @@ return [
         'total_cashregister'=>'Total cajas',
         'total_cashshift'=>'Total sesiones de caja',
         'total_cashcount'=>'Total arqueos de caja',
+        'total_cashflowdaily'=>'Total flujos de caja diario',
+        'total_expenses'=>'Total gastos',
+        'total_products'=>'Total productos',
     ],
 
     'user' => [
@@ -286,7 +289,6 @@ return [
         'delete_confirmation' => '¿Está seguro de eliminar la denominación',
         'billete' => 'Billete de ',
         'moneda' => 'Moneda de ',
-
         'meta' => [
             'create' => [
                 'title' => 'Nueva denominación',
@@ -328,8 +330,8 @@ return [
             "coin_0_5" => "0.5",
             "coin_0_2" => "0.2",
             "coin_0_1" => "0.1",
-            "total" => "TOTAL",
-            "total_due" => "TOTAL A COBRAR",
+            "total" => "TOTAL EFECTIVO",
+            "total_due" => "MONTO TOTAL",
             "change" => "CAMBIO",
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
@@ -470,6 +472,8 @@ return [
         'lock_box_warning' => '? Esta acción también inhabilitara la edición de todos los registros relacionados.',
         'unlock_box_title' => 'Confirmar reactivación de caja',
         'unlock_box_warning' => '? Esta acción habilitara la edición de todos los registros relacionados',
+        'total_services'=> "SERVICIOS",
+        "detail_services" => "DETALLE DE LA SESIÓN DE CAJA",
         'meta' => [
             'create' => [
                 'title' => 'Nueva sesión de caja',
@@ -493,15 +497,130 @@ return [
             "edit" => "Actualizar sesión de caja",
             "show" => "Detalles de la sesión de caja",
             "index" => "Lista de sesiones de cajas",
+            "create_physical" => "Registrar arqueo de caja",
+            "edit_physical" => "Actualizar arqueo de caja",
         ],
         'attribute' => [
             "start_time" => "Fecha de apertura",
             "end_time" => "Fecha de cierre",
             "initial_balance" => "Monto de apertura",
             "closing_balance" => "Monto de cierre",
+            "physical_balance" => "Saldo en físico",
+            "observation" => "Observación",
             "status" => "Estado",
             "cashregister_uuid" => "Caja",
             "user_id" => "Cajero",
+            "created_at" => "Fecha Registro",
+            "updated_at" => "Últ. Act.",
+        ],
+    ],
+
+    'cashflowdaily' => [
+        'title' => 'Flujo de caja diario',
+        "total_services" => "TOTAL SERVICIOS",
+        "detail_services" => "DETALLE DE FLUJO DE CAJA DIARIO",
+        'meta' => [
+            'index' => [
+                'title' => 'Lista de flujos de caja diario',
+                'description' => 'Explora la lista completa de flujos de caja diarios disponibles.',
+                'keywords' => 'lista de flujos de caja diarios, flujos de caja diarios disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "show" => "Detalles del flujo de caja diario",
+            "index" => "Lista de flujos de caja diario",
+        ],
+        'attribute' => [
+            "date" => "Fecha",
+            "total_opening" => "total de apertura",
+            "total_closing" => "total de cierre",
+            "total_incomes" => "total de ingresos",
+            "total_expenses" => "total de egresos",
+            "total_services" => "total de servicios",
+            "total_physical" => "total de arqueo fisico",
+            "created_at" => "Fecha de registro",
+            "updated_at" => "Última actualización",
+        ],
+    ],
+
+    'expense' => [
+        'title' => 'Gastos',
+        'delete_confirmation' => '¿Está seguro de eliminar el gasto',
+        'select_category' => 'Seleccionar una categoria',
+        'select_method' => 'Seleccionar un método',
+        'meta' => [
+            'create' => [
+                'title' => 'Nuevo gasto',
+                'description' => 'Crea un nuevo gasto en nuestra plataforma.',
+                'keywords' => 'crear gasto, nuevo gasto, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar gasto',
+                'description' => 'Edita y actualiza un gasto existente.',
+                'keywords' => 'editar gasto, actualizar gasto, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de gastos',
+                'description' => 'Explora la lista completa de gastos disponibles.',
+                'keywords' => 'lista de gastos, gastos disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "create" => "Nuevo gasto",
+            "edit" => "Actualizar gasto",
+            "show" => "Detalles del gasto",
+            "index" => "Lista de gastos",
+        ],
+        'attribute' => [
+            "observation" => "Observación",
+            "category_uuid" => "Categoria",
+            "transactionmethod_uuid" => "Método",
+            "denomination_uuid" => "Denominación",
+            "user_id" => "Registrado por",
+            "created_at" => "Fecha de registro",
+            "updated_at" => "Últ. Act.",
+            "amount" => "Monto",
+        ],
+    ],
+
+    'product' => [
+        'title'=>'Productos',
+        'delete_confirmation' => '¿Está seguro de eliminar el producto',
+        'select_category' => 'Seleccionar una categoría',
+        'meta' => [
+            'create' => [
+                'title' => 'Nuevo producto',
+                'description' => 'Crea un nuevo producto en nuestra plataforma.',
+                'keywords' => 'crear producto, nuevo producto, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar producto',
+                'description' => 'Edita y actualiza un producto existente.',
+                'keywords' => 'editar producto, actualizar producto, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de productos',
+                'description' => 'Explora la lista completa de productos disponibles.',
+                'keywords' => 'lista de productos, productos disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "create" => "Nuevo producto",
+            "edit" => "Actualizar producto",
+            "show" => "Detalles del producto",
+            "index" => "Lista de productos",
+        ],
+        'attribute' => [
+            "name" => "Nombre",
+            "description" => "Descripción",
+            "price" => "Precio",
+            "stock" => "Cantidad",
+            "status" => "Estado",
+            "category_uuid" => "Categoria",
+            "user_id" => "Registrado por",
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
         ],

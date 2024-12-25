@@ -43,7 +43,7 @@
     <div class="flex flex-row w-full min-h-screen ">
         <div class="justify-start hidden sm:w-[350px] bg-white" id="sidebar">
             <div>
-                <div class="shrink-0 flex items-center justify-center " >
+                <div class="shrink-0 flex items-center justify-center ">
                     <a href="{{ route('dashboard') }}">
                         <img src="{{ asset('/images/logo.png') }}" alt="Logo Nuevo Amanecer" class="block h-12 w-auto">
                     </a>
@@ -51,27 +51,30 @@
                 <nav class="flex-1 overflow-y-auto">
                     <ul class="space-y-1">
 
-                        <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link href="{{ route('dashboard') }}"
+                                               :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-responsive-nav-link>
+
                         @can('cashregisters.index')
-                        <x-responsive-nav-link href="{{ route('cashregisters.index') }}"
-                                               :active="request()->routeIs('cashregisters.index')">
-                            {{ __('word.cashregister.title') }}
-                        </x-responsive-nav-link>
-                        @endcan
-
-                            <x-responsive-nav-link href="{{ route('cashshifts.index') }}"
-                                                   :active="request()->routeIs('cashshifts.index')">
-                                {{ __('word.cashshift.title') }}
+                            <x-responsive-nav-link href="{{ route('cashregisters.index') }}"
+                                                   :active="request()->routeIs('cashregisters.index')">
+                                {{ __('word.cashregister.title') }}
                             </x-responsive-nav-link>
-
-                        @can('cashcounts.index')
-                        <x-responsive-nav-link href="{{ route('cashcounts.index') }}"
-                                               :active="request()->routeIs('cashcounts.index')">
-                            {{ __('word.cashcount.title') }}
-                        </x-responsive-nav-link>
                         @endcan
+                        {{--
+                        @can('cashflowdailies.index')
+                            <x-responsive-nav-link href="{{ route('cashflowdailies.index') }}"
+                                                   :active="request()->routeIs('cashflowdailies.index')">
+                                {{ __('word.cashflowdaily.title') }}
+                            </x-responsive-nav-link>
+                        @endcan
+                        --}}
+
+                        <x-responsive-nav-link href="{{ route('cashshifts.index') }}"
+                                               :active="request()->routeIs('cashshifts.index')">
+                            {{ __('word.cashshift.title') }}
+                        </x-responsive-nav-link>
                         <x-responsive-nav-link href="{{ route('paymentwithprices.index') }}"
                                                :active="request()->routeIs('paymentwithprices.index')">
                             {{ __('word.payment.title_others') }}
@@ -79,6 +82,10 @@
                         <x-responsive-nav-link href="{{ route('paymentwithoutprices.index') }}"
                                                :active="request()->routeIs('paymentwithoutprices.index')">
                             {{ __('word.payment.title') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('expenses.index') }}"
+                                               :active="request()->routeIs('expenses.index')">
+                            {{ __('word.expense.title') }}
                         </x-responsive-nav-link>
                         @can('users.index')
                             <x-responsive-nav-link href="{{ route('users.index') }}"
@@ -107,8 +114,10 @@
                                                :active="request()->routeIs('serviceswithprices.index')">
                             {{ __('word.service.title_service_with_price') }}
                         </x-responsive-nav-link>
-
-
+                        <x-responsive-nav-link href="{{ route('products.index') }}"
+                                               :active="request()->routeIs('products.index')">
+                            {{ __('word.product.title') }}
+                        </x-responsive-nav-link>
 
                     </ul>
                 </nav>
@@ -131,11 +140,11 @@
 @stack('modals')
 @livewireScripts
 {{ $js_files ?? '' }}
-<script type="text/javascript" >
+<script type="text/javascript">
     let button_sidebar = document.getElementById("sidebar_button");
     let sidebar = document.getElementById("sidebar");
     const computedStyle = window.getComputedStyle(sidebar);
-    button_sidebar.addEventListener("click",e=>{
+    button_sidebar.addEventListener("click", e => {
         if (computedStyle.getPropertyValue("display") === "none") {
             sidebar.style.display = "block";
         } else {
