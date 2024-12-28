@@ -16,6 +16,8 @@
         <th>Bs 0.5</th>
         <th>Bs 0.2</th>
         <th>Bs 0.1</th>
+        <th>Físico</th>
+        <th>Digital</th>
         <th>Total</th>
         <th>Usuario</th>
         <th>Fecha de registro</th>
@@ -40,6 +42,8 @@
             <td>{{$item->format_coin_0_5}}</td>
             <td>{{$item->format_coin_0_2}}</td>
             <td>{{$item->format_coin_0_1}}</td>
+            <td>{{$item->format_physical_cash}}</td>
+            <td>{{$item->format_digital_cash}}</td>
             <td>{{$item->format_total}}</td>
             <td>{{$item->format_user_id}}</td>
             <td>{{$item->format_created_at}}</td>

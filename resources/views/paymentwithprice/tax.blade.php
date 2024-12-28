@@ -54,8 +54,13 @@
     <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>TOTAL:</b>&nbsp;&nbsp;&nbsp;{{ $paymentwithprice->total }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>{{ strtoupper(implode(', ', $paymentwithprice->methods->toArray())) }}:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithprice->received }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>EFECTIVO:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithprice->received_physical }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
+
+    @if($paymentwithprice->received_digital != 0)
+        <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>DIGITAL:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithprice->received_digital }}</p>
+        <div style="line-height: 0.1; margin: 0; clear: both;"></div>
+    @endif
 
     <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>CAMBIO:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithprice->returned }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
@@ -63,6 +68,5 @@
     <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>MONTO A PAGAR:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithprice->total }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 </section>
-<p style="text-align: center; font-size: 8px; line-height: 0.1; margin-top: 17px;">GRACIAS POR SU PREFERENCIA</p>
 </body>
 </html>

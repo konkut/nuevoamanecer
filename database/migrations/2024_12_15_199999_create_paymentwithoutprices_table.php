@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('paymentwithoutprices', function (Blueprint $table) {
             $table->string('paymentwithoutprice_uuid', 36)->unique();
             $table->string('observation', 100)->nullable();
+            $table->json('quantities');
             $table->json('servicewithprice_uuids');
             $table->json('transactionmethod_uuids');
             $table->unsignedBigInteger('user_id');

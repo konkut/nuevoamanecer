@@ -41,14 +41,16 @@
     <div class="relative">
         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <select id="transactionmethod_uuid"
-                class="focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                name="transactionmethod_uuid">
+                class="method-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
+                name="transactionmethod_uuid"
+                onchange="updateCharge_expense()">
             <option value=""
-                    disabled {{ old('transactionmethod_uuid', $expense->transactionmethod_uuid) ? '' : 'selected' }}>
+                    disabled data-name="None" {{ old('transactionmethod_uuid', $expense->transactionmethod_uuid) ? '' : 'selected' }}>
                 {{__('word.expense.select_method')}}
             </option>
             @foreach($transactionmethods as $item)
                 <option
+                    data-name="{{ $item->name }}"
                     value="{{ $item->transactionmethod_uuid }}" {{ (old('transactionmethod_uuid', $expense->transactionmethod_uuid) == $item->transactionmethod_uuid) ? 'selected' : '' }}>
                     {{$item->name}}
                 </option>

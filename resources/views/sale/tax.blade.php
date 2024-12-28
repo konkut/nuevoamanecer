@@ -41,31 +41,31 @@
     {{--<p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>NIT: </b>6889122011</p>--}}
     <p style="font-size: 11px; text-align: center; line-height: 0.1; margin-top: 17px;"><b>COMPROBANTE DE PAGO</b></p>
     <p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>COMPROBANTE N°.: </b>0807</p>
-    <p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>FECHA DE EMISIÓN: </b>{{$paymentwithoutprice->created_at}}</p>
+    <p style="font-size: 10px; text-align: center; line-height: 0.3;"><b>FECHA DE EMISIÓN: </b>{{$sale->created_at}}</p>
 </section>
 <p style="font-size: 8px; text-align: center; line-height: 0.2;">-----------------------------------------------------------------------------------------------------------------------</p>
 <section>
     <p style="font-size: 11px; text-align: center; line-height: 0.2; margin-top: 17px;"><b>DETALLE</b></p>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: left;">{{ $paymentwithoutprice->name }}</p>
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;">{{ $paymentwithoutprice->total }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: left;">{{ $sale->name }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;">{{ $sale->total }}</p>
     <div style="line-height: 0.1; margin: 0;clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>TOTAL:</b>&nbsp;&nbsp;&nbsp;{{ $paymentwithoutprice->total }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>TOTAL:</b>&nbsp;&nbsp;&nbsp;{{ $sale->total }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>EFECTIVO:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->received_physical }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>EFECTIVO:&nbsp;&nbsp;&nbsp;</b>{{ $sale->received_physical }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    @if($paymentwithoutprice->received_digital != 0)
-        <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>DIGITAL:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->received_digital }}</p>
+    @if($sale->received_digital != 0)
+        <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>DIGITAL:&nbsp;&nbsp;&nbsp;</b>{{ $sale->received_digital }}</p>
         <div style="line-height: 0.1; margin: 0; clear: both;"></div>
     @endif
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>CAMBIO:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->returned }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>CAMBIO:&nbsp;&nbsp;&nbsp;</b>{{ $sale->returned }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 
-    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>MONTO A PAGAR:&nbsp;&nbsp;&nbsp;</b>{{ $paymentwithoutprice->total }}</p>
+    <p style="font-size: 11px; line-height: 0.1; display: inline-block; float: right;"><b>MONTO A PAGAR:&nbsp;&nbsp;&nbsp;</b>{{ $sale->total }}</p>
     <div style="line-height: 0.1; margin: 0; clear: both;"></div>
 </section>
 </body>

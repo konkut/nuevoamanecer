@@ -54,7 +54,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination"></x-form-billcoin>
+                            <x-form-billcoin :denomination="$denomination" :digital="true" :title="'EGRESO'"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

@@ -24,6 +24,8 @@ const updateTotalandBalance = () => {
     let count_coin_0_5 = parseFloat(document.getElementById("coin_0_5").value) || 0;
     let count_coin_0_2 = parseFloat(document.getElementById("coin_0_2").value) || 0;
     let count_coin_0_1 = parseFloat(document.getElementById("coin_0_1").value) || 0;
+    let digitalCashElement = document.getElementById('digital_cash');
+    let digital_cash = digitalCashElement ? parseFloat(digitalCashElement.value) || 0 : 0;
     total.value = (
         count_bill_200 * 200 +
         count_bill_100 * 100 +
@@ -35,7 +37,8 @@ const updateTotalandBalance = () => {
         count_coin_1 * 1 +
         count_coin_0_5 * 0.5 +
         count_coin_0_2 * 0.2 +
-        count_coin_0_1 * 0.1
+        count_coin_0_1 * 0.1 +
+        digital_cash
     ).toFixed(2);
     balance.value = (parseFloat(total.value) - parseFloat(charge.value || 0)).toFixed(2);
     updateChangeLabel(balance);

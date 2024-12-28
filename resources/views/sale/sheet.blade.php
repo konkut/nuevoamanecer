@@ -1,10 +1,9 @@
 <table>
     <thead>
     <tr>
-        <th>Código</th>
-        <th>Servicios</th>
-        <th>Monto</th>
-        <th>Comisión</th>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Stock</th>
         <th>Método de transacción</th>
         <th>Bs 200</th>
         <th>Bs 100</th>
@@ -26,13 +25,12 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($paymentwithprices as $item)
+    @foreach($sales as $item)
         <tr>
-            <td>{{$item->format_names}}</td>
-            <td>{{$item->format_paymentwithprice_uuids}}</td>
-            <td>{{$item->format_amounts}}</td>
-            <td>{{$item->format_commissions}}</td>
-            <td>{{$item->format_servicewithoutprice_uuids}}</td>
+            <td>{{$item->format_product_uuids}}</td>
+            <td>{{$item->format_prices}}</td>
+            <td>{{$item->format_stocks}}</td>
+            <td>{{$item->format_transactionmethod_uuids}}</td>
             <td>{{$item->format_bill_200}}</td>
             <td>{{$item->format_bill_100}}</td>
             <td>{{$item->format_bill_50}}</td>

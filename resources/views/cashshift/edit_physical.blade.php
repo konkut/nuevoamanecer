@@ -40,18 +40,6 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
                             <x-form-cashcount :cashshift="$cashshift"></x-form-cashcount>
-                            <div class="mt-4">
-                                <x-label for="status" value="{{ __('word.cashshift.attribute.status') }}"/>
-                                <div class="relative flex items-center"><span id="toggleStatus" class="mr-2 text-gray-700 {{ $cashshift->status ? 'text-green-500' : 'text-red-500' }}">{{ $cashshift->status ? 'On' : 'Off' }}</span>
-                                    <button type="button" id="toggleButton"
-                                            class="bg-gray-300 rounded-full w-12 h-6 relative focus:outline-none transition-colors duration-200 {{ $cashshift->status ? 'bg-green-500' : 'bg-red-500' }}"
-                                            onclick="toggleStatus()">
-                                        <div class="absolute top-0 left-0 w-6 h-6 rounded-full transition-transform duration-200 {{ $cashshift->status ? 'translate-x-6 bg-green-600' : 'bg-red-600' }}"></div>
-                                    </button>
-                                    <input type="hidden" name="status" id="status"
-                                           value="{{ $cashshift->status ? '1' : '0' }}">
-                                </div>
-                            </div>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">
@@ -65,7 +53,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination"></x-form-billcoin>
+                            <x-form-billcoin :denomination="$denomination" :digital="false" :title="'BILLETAJE'"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

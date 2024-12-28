@@ -27,6 +27,12 @@ function fetchDetails(uuid) {
             document.querySelector(`#initial-balance-coin-0-5-${uuid}`).textContent = data.denomination.coin_0_5 ?? 0;
             document.querySelector(`#initial-balance-coin-0-2-${uuid}`).textContent = data.denomination.coin_0_2 ?? 0;
             document.querySelector(`#initial-balance-coin-0-1-${uuid}`).textContent = data.denomination.coin_0_1 ?? 0;
+            if (document.querySelector(`#initial-balance-physical-${uuid}`)){
+                document.querySelector(`#initial-balance-physical-${uuid}`).textContent = data.denomination.physical_cash ?? 0;
+            }
+            if (document.querySelector(`#initial-balance-digital-${uuid}`)){
+                document.querySelector(`#initial-balance-digital-${uuid}`).textContent = data.denomination.digital_cash ?? 0;
+            }
             document.querySelector(`#initial-balance-total-${uuid}`).textContent = data.denomination.total ?? 0;
             if (document.querySelector(`#show-incomes-modal-${uuid}`)) {
                 document.querySelector(`#incomes-balance-bill-200-${uuid}`).textContent = data.denomination_incomes.bill_200 ?? 0;
@@ -98,7 +104,7 @@ function fetchDetails(uuid) {
                 document.querySelector(`#difference-balance-coin-0-1-${uuid}`).textContent = data.denomination_difference.coin_0_1 ?? 0;
                 document.querySelector(`#difference-balance-total-${uuid}`).textContent = parseFloat(data.denomination_difference.total).toFixed(2) ?? 0;
             }
-            if (document.querySelector(`#show-services-modal-${uuid}`)) {
+            /*if (document.querySelector(`#show-services-modal-${uuid}`)) {
                 const modalContent = document.querySelector(`#show-services-modal-${uuid}`);
                 modalContent.innerHTML = '';
                 if (data.total_services.length === 0) {
@@ -131,9 +137,40 @@ function fetchDetails(uuid) {
                     }
                 }
             }
-            if (document.querySelector(`#end-time-${uuid}`)) {
-                document.querySelector(`#end-time-${uuid}`).textContent = data.end_time;
-            }
+            if (document.querySelector(`#show-expenses-modal-${uuid}`)) {
+                const modalContent = document.querySelector(`#show-services-modal-${uuid}`);
+                modalContent.innerHTML = '';
+                if (data.total_services.length === 0) {
+                    modalContent.classList.add("py-4");
+                    modalContent.textContent = "Actualmente no hay registros.";
+                } else {
+                    for (const key in data.total_services) {
+                        if (data.total_services.hasOwnProperty(key)) {
+                            const serviceData = data.total_services[key];
+                            const $contain = document.createElement('div');
+                            const $service = document.createElement('div');
+                            const $count = document.createElement('div');
+                            const $amount = document.createElement('div');
+                            const $commission = document.createElement('div');
+                            $contain.classList.add("flex", "hover:bg-[#d1d5db44]", "bg-transparent", "transition", "duration-200","py-2","rounded-b-lg");
+                            $service.classList.add("flex-1", "text-sm", "text-gray-700", "font-medium", "text-center");
+                            $count.classList.add("flex-1", "text-sm", "text-gray-700", "text-center");
+                            $amount.classList.add("flex-1", "text-sm", "text-gray-700", "text-center");
+                            $commission.classList.add("flex-1", "text-sm", "text-gray-700", "text-center");
+                            $service.textContent = serviceData.servicio || key;
+                            $count.textContent = serviceData.cantidad || 0;
+                            $amount.textContent = serviceData.monto || "0.00";
+                            $commission.textContent = serviceData.commission || "0.00";
+                            $contain.appendChild($service);
+                            $contain.appendChild($count);
+                            $contain.appendChild($amount);
+                            $contain.appendChild($commission);
+                            modalContent.appendChild($contain);
+                        }
+                    }
+                }
+            }*/
+
             if (document.querySelector(`#closing-balance-${uuid}`)) {
                 document.querySelector(`#closing-balance-${uuid}`).textContent = parseFloat(data.denomination_closing.total).toFixed(2) ?? 0;
             }

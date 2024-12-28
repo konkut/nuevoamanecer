@@ -1,9 +1,38 @@
+si me equivoco de enlace que te avise una ventana que ese url no existe https://www.bcb.gob.bo/webdocs/nfb/billetes/nfb/moneda5.html
+
+
+
+¿Qué cambia si no tienes $casts?
+Sin $casts:
+
+Los valores se manejarán como cadenas (strings) cuando los recuperes desde la base de datos, incluso si el contenido es JSON.
+Tendrás que manejar la conversión manualmente con funciones como json_decode al recuperar los valores y json_encode al almacenarlos.
+Ejemplo sin $casts:
+
+php
+Copiar código
+$quantities = json_decode($model->quantities, true); // Decodificación manual
+$model->quantities = json_encode($array); // Codificación manual
+Con $casts:
+
+Laravel hace automáticamente la conversión al tipo especificado. No necesitas preocuparte por convertir manualmente los valores.
+Ejemplo con $casts:
+php
+Copiar código
+$quantities = $model->quantities; // Ya es un array
+$model->quantities = $array; // Laravel lo convierte automáticamente a JSON al guar
+
+
+
+
 $table->enum('type', ['opening', 'income', 'expense', 'closing','cashcount','total_opening','total_closing','total_incomes','total_expenses'])->default('income');
 
 $cashshifts = Cashshift::whereBetween('start_time', [now()->startOfDay(), now()->endOfDay()])->with('denominations_opening')->get();
 
  $value = is_numeric($value) ? $value : 0;
   if (!isset($totals[$key])) {
+
+  now()->toDateString()
 
 ********* REVISAR APUNTES
 

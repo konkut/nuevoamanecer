@@ -8,6 +8,7 @@ use App\Http\Controllers\CashshiftController;
 use App\Http\Controllers\CashflowdailyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DenominationController;
 use App\Http\Controllers\ServicewithoutpriceController;
@@ -32,6 +33,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
+    Route::put('/dashboard/{cashshift_uuid}', [DashboardController::class, 'state'])->name('dashboards.state');
     /* USERS */
     Route::get("/users", [UserController::class, "index"])->name("users.index")->middleware('can:users.index');
     Route::get("/users/create", [UserController::class, "create"])->name("users.create")->middleware('can:users.create');
@@ -124,6 +126,8 @@ Route::middleware([
     Route::post('/cashshifts/{cashshift_uuid}', [CashshiftController::class, 'showdetail'])->name('cashshifts.showdetail');
     Route::put('/cashshifts/{cashshift_uuid}', [CashshiftController::class, 'update'])->name('cashshifts.update')->middleware('can:cashshifts.edit');
     Route::put('/cashshifts/{cashshift_uuid}/physical', [CashshiftController::class, 'update_physical'])->name('cashshifts.update_physical');
+    Route::put('/cashshifts/enabled/{cashshift_uuid}', [CashshiftController::class, 'enabled'])->name('cashshifts.enabled');
+    Route::put('/cashshifts/disabled/{cashshift_uuid}', [CashshiftController::class, 'disabled'])->name('cashshifts.disabled');
     Route::delete('/cashshifts/{cashshift_uuid}', [CashshiftController::class, 'destroy'])->name('cashshifts.destroy')->middleware('can:cashshifts.destroy');
 
     /*EXPENSES */
@@ -143,6 +147,17 @@ Route::middleware([
     Route::get('/products/{product_uuid}/edit', [ProductController::class, 'edit'])->name('products.edit')->middleware('can:products.edit');
     Route::put('/products/{product_uuid}', [ProductController::class, 'update'])->name('products.update')->middleware('can:products.edit');
     Route::delete('/products/{product_uuid}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('can:products.destroy');
+
+    /*SALES */
+    Route::get("/sales", [SaleController::class, "index"])->name("sales.index")->middleware('can:sales.index');
+    Route::get("/sales/create", [SaleController::class, "create"])->name("sales.create")->middleware('can:sales.create');
+    Route::post("/sales", [SaleController::class, "store"])->name("sales.store")->middleware('can:sales.create');
+    Route::get('/sales/export', [SaleController::class, 'export'])->name('sales.export');
+    Route::get('/sales/tax/{sale_uuid}', [SaleController::class, 'tax'])->name('sales.tax');
+    Route::get('/sales/{sale_uuid}/edit', [SaleController::class, 'edit'])->name('sales.edit')->middleware('can:sales.edit');
+    Route::post('/sales/detail/{sale_uuid}', [SaleController::class, 'detail'])->name('sales.detail');
+    Route::put('/sales/{sale_uuid}', [SaleController::class, 'update'])->name('sales.update')->middleware('can:sales.edit');
+    Route::delete('/sales/{sale_uuid}', [SaleController::class, 'destroy'])->name('sales.destroy')->middleware('can:sales.destroy');
 
     /*CASHFLOWDAILY */
     Route::get("/cashflowdailies", [CashflowdailyController::class, "index"])->name("cashflowdailies.index")->middleware('can:cashflowdailies.index');

@@ -23,18 +23,14 @@
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/fetch_modal_show.js?v='.time()) }}"></script>
     </x-slot>
-
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('word.payment.resource.index') }}
         </h2>
     </x-slot>
-
     @if (session('success'))
         <x-alert :message="session('success')"/>
     @endif
-
     <div class="py-12 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
@@ -81,7 +77,7 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount_total') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount_ticketing') }}</th>
+                                    onclick="enableSearch(this, 'monto')">{{ __('word.payment.attribute.amount_register') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'método')">{{ __('word.payment.attribute.transactionmethod_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -215,9 +211,7 @@
                                                         <div class="text-center pb-8 md:pb-0"
                                                              id="modal-show-{{$item->paymentwithprice_uuid}}">
                                                             <div class="bg-[#f3f4f6] p-2">
-                                                                <div class="font-bold py-1 text-sm text-center">PRECIO
-                                                                    TOTAL
-                                                                </div>
+                                                                <div class="font-bold py-1 text-sm text-center">INGRESO FÍSICO</div>
                                                             </div>
                                                             <div class="divide-y divide-[#f3f4f6]">
                                                                 <div
@@ -297,6 +291,32 @@
                                                                     <div class="w-1/2 text-start"
                                                                          id="initial-balance-coin-0-1-{{$item->paymentwithprice_uuid}}"></div>
                                                                 </div>
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                    <div class="w-1/3 text-start">Total</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="initial-balance-physical-{{$item->paymentwithprice_uuid}}"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="bg-[#f3f4f6] p-2">
+                                                                <div class="font-bold py-1 text-sm text-center">INGRESO DIGITAL
+                                                                </div>
+                                                            </div>
+                                                            <div class="divide-y divide-[#f3f4f6]">
+                                                                <div
+                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                    <div class="w-1/3 text-end">Bs</div>
+                                                                    <div class="w-1/3 text-start">-D</div>
+                                                                    <div class="w-1/2 text-start"
+                                                                         id="initial-balance-digital-{{$item->paymentwithprice_uuid}}"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="bg-[#f3f4f6] p-2">
+                                                                <div class="font-bold py-1 text-sm text-center">TOTAL INGRESO
+                                                                </div>
+                                                            </div>
+                                                            <div class="divide-y divide-[#f3f4f6] font-extrabold text-red-500">
                                                                 <div
                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>

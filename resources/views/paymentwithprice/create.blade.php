@@ -18,7 +18,8 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/payment/ticketing_payment_with_price.js?v='.time()) }}"></script>
+        <script type="text/javascript"
+                src="{{ asset('/js/payment/ticketing_payment_with_price.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
@@ -37,9 +38,14 @@
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <x-form-paymentwithprice-create :paymentwithprice="$paymentwithprice"
-                                                        :transactionmethods="$transactionmethods"
-                                                        :servicewithoutprices="$servicewithoutprices" />
+                            <x-form-paymentwithprice :paymentwithprice="$paymentwithprice"
+                                                            :transactionmethods="$transactionmethods"
+                                                            :servicewithoutprices="$servicewithoutprices"
+                                                            :names="[]"
+                                                            :amounts="[]"
+                                                            :commissions="[]"
+                                                            :services="[]"
+                                                            :methods="[]"/>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">
@@ -53,7 +59,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination" :servicewithoutprices="$servicewithoutprices"/>
+                            <x-form-billcoin :denomination="$denomination" :digital="true" :title="'INGRESO FÍSICO'"/>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

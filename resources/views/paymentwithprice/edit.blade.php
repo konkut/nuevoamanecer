@@ -40,7 +40,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
 
-                            <x-form-paymentwithprice-edit :paymentwithprice="$paymentwithprice"
+                            <x-form-paymentwithprice :paymentwithprice="$paymentwithprice"
                                                           :transactionmethods="$transactionmethods"
                                                           :servicewithoutprices="$servicewithoutprices"
                                                           :names="$names"
@@ -61,7 +61,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination"></x-form-billcoin>
+                            <x-form-billcoin :denomination="$denomination" :digital="true" :title="'INGRESO FÍSICO'"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

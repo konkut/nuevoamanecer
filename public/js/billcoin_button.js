@@ -18,7 +18,7 @@ if (/android/i.test(userAgent)) {
                 e.preventDefault();
             }
             input.value = currentValue;
-            updateTotalandBalance()
+            updateTotalandBalance();
         });
         input.addEventListener('contextmenu', (e) => {
             e.preventDefault();

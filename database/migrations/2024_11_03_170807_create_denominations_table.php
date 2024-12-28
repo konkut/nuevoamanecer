@@ -22,7 +22,9 @@ return new class extends Migration
       $table->integer("coin_0_5")->default(0);
       $table->integer("coin_0_2")->default(0);
       $table->integer("coin_0_1")->default(0);
-      $table->decimal('total', 20, 2);
+        $table->decimal('physical_cash', 20, 2)->default(0);
+        $table->decimal('digital_cash', 20, 2)->default(0);
+        $table->decimal('total', 20, 2);
       $table->timestamps();
       $table->softDeletes();
     });

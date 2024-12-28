@@ -37,6 +37,8 @@ return [
         'total_cashflowdaily'=>'Total flujos de caja diario',
         'total_expenses'=>'Total gastos',
         'total_products'=>'Total productos',
+        'total_sales'=>'Total ventas',
+
     ],
 
     'user' => [
@@ -274,13 +276,13 @@ return [
             "user_id" => "Registrado por",
             "created_at" => "Fecha de registro",
             "updated_at" => "Últ. Act.",
-            "amount" => "Monto",
+            "amount" => "Precio",
             "name" => "Código",
             "commission" => "Comisión",
             "servicewithoutprice_uuid" => "Servicio",
-            "amount_ticketing" => "Total billetaje",
+            "amount_register" => "Total registrado",
             "amount_total" => "Precio total",
-
+            "quantities" => "Cantidad",
         ],
     ],
 
@@ -330,8 +332,10 @@ return [
             "coin_0_5" => "0.5",
             "coin_0_2" => "0.2",
             "coin_0_1" => "0.1",
-            "total" => "TOTAL EFECTIVO",
-            "total_due" => "MONTO TOTAL",
+            "digital_cash" => "Bs-D",
+            "physical_cash" => "Bs-F",
+            "total" => "TOTAL INGRESO",
+            "total_due" => "PRECIO TOTAL",
             "change" => "CAMBIO",
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
@@ -623,6 +627,49 @@ return [
             "user_id" => "Registrado por",
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
+        ],
+    ],
+
+    'sale' => [
+        'title' => 'Ventas',
+        'delete_confirmation' => '¿Está seguro de eliminar la venta',
+        'select_product' => 'Seleccionar un producto',
+        'select_method' => 'Seleccionar un método',
+        'meta' => [
+            'create' => [
+                'title' => 'Nueva venta',
+                'description' => 'Crea una nueva venta en nuestra plataforma.',
+                'keywords' => 'crear venta, nueva venta, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar venta',
+                'description' => 'Edita y actualiza una venta existente.',
+                'keywords' => 'editar venta, actualizar venta, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de ventas',
+                'description' => 'Explora la lista completa de ventas disponibles.',
+                'keywords' => 'lista de ventas, ventas disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "create" => "Nueva venta",
+            "edit" => "Actualizar venta",
+            "show" => "Detalles de la venta",
+            "index" => "Lista de ventas",
+        ],
+        'attribute' => [
+            "observation" => "Observación",
+            "quantities" => "Cantidad",
+            "product_uuid" => "Producto",
+            "transactionmethod_uuid" => "Método",
+            "denomination_uuid" => "Denominación",
+            "user_id" => "Registrado por",
+            "created_at" => "Fecha de registro",
+            "updated_at" => "Últ. Act.",
+            "amount_register" => "Total registrado",
+            "amount_total" => "Precio total",
         ],
     ],
 ];

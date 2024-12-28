@@ -28,22 +28,22 @@ class PaymentwithoutpriceController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
         foreach ($paymentwithoutprices as $item) {
-            $serviceUuids = json_decode($item->servicewithprice_uuids, true);
-            $methodUuids = json_decode($item->transactionmethod_uuids, true);
-            $item->services = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('name');
-            $item->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
+            $item->services = Servicewithprice::whereIn('servicewithprice_uuid', $item->servicewithprice_uuids)->pluck('name');
+            $item->methods = Transactionmethod::whereIn('transactionmethod_uuid', $item->transactionmethod_uuids)->pluck('name');
+            $prices = [];
             $amounts = [];
             $commissions = [];
-            foreach ($serviceUuids as $serviceUuid) {
+            foreach ($item->servicewithprice_uuids  as $key => $serviceUuid) {
                 $service = Servicewithprice::where('servicewithprice_uuid', $serviceUuid)->first();
                 if ($service) {
-                    $amounts[] = $service->amount;
-                    $commissions[] = $service->commission;
+                    $prices[] = ($service->amount+$service->commission)*$item->quantities[$key];
+                    $amounts[] = $service->amount * $item->quantities[$key];;
+                    $commissions[] = $service->commission * $item->quantities[$key];;
                 }
             }
             $item->amounts = number_format(array_sum($amounts), 2, '.', '');
             $item->commissions = number_format(array_sum($commissions), 2, '.', '');
-            $item->total_price = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
+            $item->total_price = number_format(array_sum($prices), 2, '.', '');
             $item->total_billcoin = $item->denominations->total;
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
@@ -67,6 +67,8 @@ class PaymentwithoutpriceController extends Controller
             'servicewithprice_uuids.*' => 'required|string|max:36|exists:servicewithprices,servicewithprice_uuid',
             'transactionmethod_uuids' => 'required|array',
             'transactionmethod_uuids.*' => 'required|string|max:36|exists:transactionmethods,transactionmethod_uuid',
+            'quantities' => 'required|array',
+            'quantities.*' => 'required|integer|min:1',
             'bill_200' => 'nullable|integer',
             'bill_100' => 'nullable|integer',
             'bill_50' => 'nullable|integer',
@@ -78,13 +80,22 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_5' => 'nullable|integer',
             'coin_0_2' => 'nullable|integer',
             'coin_0_1' => 'nullable|integer',
+            'physical_cash' => 'nullable|numeric',
+            'digital_cash' => 'nullable|numeric',
             'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
         ];
         $validator = Validator::make($request->all(), $rules);
         $validator->after(function ($validator) use ($request) {
+            $quantityCount = count($request->input('quantities', []));
             $serviceCount = count($request->input('servicewithprice_uuids', []));
             $transactionCount = count($request->input('transactionmethod_uuids', []));
             if ($serviceCount !== $transactionCount) {
+                $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
+            }
+            if ($serviceCount !== $quantityCount) {
+                $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
+            }
+            if ($transactionCount !== $quantityCount) {
                 $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
             }
         });
@@ -107,12 +118,15 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_5' => $request->coin_0_5 ?? 0,
             'coin_0_2' => $request->coin_0_2 ?? 0,
             'coin_0_1' => $request->coin_0_1 ?? 0,
+            'physical_cash' => $request->physical_cash ?? 0,
+            'digital_cash' => $request->digital_cash ?? 0,
             'total' => $request->total ?? 0,
         ]);
         Paymentwithoutprice::create([
             'observation' => $request->observation,
-            'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
-            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
+            'quantities' => $request->quantities,
+            'servicewithprice_uuids' => $request->servicewithprice_uuids,
+            'transactionmethod_uuids' => $request->transactionmethod_uuids,
             'user_id' => Auth::id(),
             'cashshift_uuid' => $cashshiftsvalidated->cashshift_uuid,
             'denomination_uuid' => $denomination->denomination_uuid,
@@ -126,9 +140,10 @@ class PaymentwithoutpriceController extends Controller
         $denomination = $paymentwithoutprice->denominations;
         $transactionmethods = Transactionmethod::all();
         $servicewithprices = Servicewithprice::all();
-        $services = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
-        $methods = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
-        return view("paymentwithoutprice.edit", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices', 'services', 'methods'));
+        $quantities = $paymentwithoutprice->quantities;
+        $services = $paymentwithoutprice->servicewithprice_uuids;
+        $methods = $paymentwithoutprice->transactionmethod_uuids;
+        return view("paymentwithoutprice.edit", compact('paymentwithoutprice', 'denomination', 'transactionmethods', 'servicewithprices', 'services', 'methods','quantities'));
     }
 
     public function update(Request $request, string $paymentwithoutprice_uuid)
@@ -141,6 +156,8 @@ class PaymentwithoutpriceController extends Controller
             'servicewithprice_uuids.*' => 'required|string|max:36|exists:servicewithprices,servicewithprice_uuid',
             'transactionmethod_uuids' => 'required|array',
             'transactionmethod_uuids.*' => 'required|string|max:36|exists:transactionmethods,transactionmethod_uuid',
+            'quantities' => 'required|array',
+            'quantities.*' => 'required|integer|min:1',
             'bill_200' => 'nullable|integer',
             'bill_100' => 'nullable|integer',
             'bill_50' => 'nullable|integer',
@@ -152,13 +169,22 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_5' => 'nullable|integer',
             'coin_0_2' => 'nullable|integer',
             'coin_0_1' => 'nullable|integer',
+            'physical_cash' => 'nullable|numeric',
+            'digital_cash' => 'nullable|numeric',
             'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
         ];
         $validator = Validator::make($request->all(), $rules);
         $validator->after(function ($validator) use ($request) {
+            $quantityCount = count($request->input('quantities', []));
             $serviceCount = count($request->input('servicewithprice_uuids', []));
             $transactionCount = count($request->input('transactionmethod_uuids', []));
             if ($serviceCount !== $transactionCount) {
+                $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
+            }
+            if ($serviceCount !== $quantityCount) {
+                $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
+            }
+            if ($transactionCount !== $quantityCount) {
                 $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithoutprice'));
             }
         });
@@ -180,12 +206,15 @@ class PaymentwithoutpriceController extends Controller
             'coin_0_5' => $request->coin_0_5 ?? 0,
             'coin_0_2' => $request->coin_0_2 ?? 0,
             'coin_0_1' => $request->coin_0_1 ?? 0,
+            'physical_cash' => $request->physical_cash ?? 0,
+            'digital_cash' => $request->digital_cash ?? 0,
             'total' => $request->total ?? 0,
         ]);
         $paymentwithoutprice->update([
             'observation' => $request->observation,
-            'servicewithprice_uuids' => json_encode($request->servicewithprice_uuids),
-            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
+            'quantities' => $request->quantities,
+            'servicewithprice_uuids' => $request->servicewithprice_uuids,
+            'transactionmethod_uuids' => $request->transactionmethod_uuids,
             'user_id' => Auth::id(),
             'cashshift_uuid' => $cashshiftsvalidated->cashshift_uuid,
         ]);
@@ -213,11 +242,10 @@ class PaymentwithoutpriceController extends Controller
         $paymentwithoutprice = Paymentwithoutprice::with(['user', 'servicewithprice', 'transactionmethod', 'denominations'])
             ->where('paymentwithoutprice_uuid', $paymentwithoutprice_uuid)
             ->firstOrFail();
-        $serviceUuids = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
         $services = [];
         $amounts = [];
         $commissions = [];
-        foreach ($serviceUuids as $serviceUuid) {
+        foreach ($paymentwithoutprice->servicewithprice_uuids as $serviceUuid) {
             $service = Servicewithprice::where('servicewithprice_uuid', $serviceUuid)->first();
             if ($service) {
                 $services[] = $service->name;
@@ -254,7 +282,8 @@ class PaymentwithoutpriceController extends Controller
             CASE WHEN coin_0_2 > 0 THEN coin_0_2 * 0.2 ELSE 0.00 END +
             CASE WHEN coin_0_1 > 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
         ) AS total')->firstorfail();
-        $paymentwithoutprice->received = $received->total;
+        $paymentwithoutprice->received_physical = $received->total;
+        $paymentwithoutprice->received_digital = $paymentwithoutprice->denominations->digital_cash;
         $returned = Denomination::where('denomination_uuid', $denomination_uuid)
             ->selectRaw('SUM(
             CASE WHEN bill_200 < 0 THEN bill_200 * 200 ELSE 0.00 END +
@@ -270,8 +299,6 @@ class PaymentwithoutpriceController extends Controller
             CASE WHEN coin_0_1 < 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
         ) AS total')->firstorfail();
         $paymentwithoutprice->returned = $returned->total;
-        $methodUuids = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
-        $paymentwithoutprice->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
         $data = [
             'paymentwithoutprice' => $paymentwithoutprice
         ];
@@ -284,17 +311,14 @@ class PaymentwithoutpriceController extends Controller
             'Content-Disposition' => 'inline; filename="factura.pdf"'
         ]);
     }
-
     public function export()
     {
         $paymentwithoutprices = Paymentwithoutprice::where('user_id', Auth::id())->get();
         $paymentwithoutprices->each(function ($paymentwithoutprice) {
-            $serviceUuids = json_decode($paymentwithoutprice->servicewithprice_uuids, true);
-            $methodUuids = json_decode($paymentwithoutprice->transactionmethod_uuids, true);
-            $services = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('name')->toArray();
-            $amounts = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('amount')->toArray();
-            $commissions = Servicewithprice::whereIn('servicewithprice_uuid', $serviceUuids)->pluck('commission')->toArray();
-            $methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name')->toArray();
+            $services = Servicewithprice::whereIn('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuids)->pluck('name')->toArray();
+            $amounts = Servicewithprice::whereIn('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuids)->pluck('amount')->toArray();
+            $commissions = Servicewithprice::whereIn('servicewithprice_uuid', $paymentwithoutprice->servicewithprice_uuids)->pluck('commission')->toArray();
+            $methods = Transactionmethod::whereIn('transactionmethod_uuid', $paymentwithoutprice->transactionmethod_uuids)->pluck('name')->toArray();
             $paymentwithoutprice->format_paymentwithoutprice_uuids = implode(', ', $services);
             $paymentwithoutprice->format_amounts = implode(', ', $amounts);
             $paymentwithoutprice->format_commissions = implode(', ', $commissions);
@@ -313,6 +337,8 @@ class PaymentwithoutpriceController extends Controller
             $paymentwithoutprice->format_coin_0_5 = $paymentwithoutprice->denominations->coin_0_5;
             $paymentwithoutprice->format_coin_0_2 = $paymentwithoutprice->denominations->coin_0_2;
             $paymentwithoutprice->format_coin_0_1 = $paymentwithoutprice->denominations->coin_0_1;
+            $paymentwithoutprice->format_physical_cash = $paymentwithoutprice->denominations->physical_cash;
+            $paymentwithoutprice->format_digital_cash = $paymentwithoutprice->denominations->digital_cash;
             $paymentwithoutprice->format_total = $paymentwithoutprice->denominations->total;
         });
         return Excel::download(new PaymentwithoutpriceExport($paymentwithoutprices), 'transacciones.xlsx');

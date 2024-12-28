@@ -1,14 +1,22 @@
 <div class="p-4 rounded-lg shadow-md">
-    <div class="text-xl font-bold text-center mb-4">BILLETAJE</div>
+    <div class="text-xl font-bold text-center mb-4">{{$title}}</div>
     <hr class="mb-4">
-    <!-- Contenedor de columnas para billetes/monedas -->
+    @if($digital)
+        <div class="flex items-center justify-evenly mb-4">
+            <x-label for="physical_cash" value="{{ __('word.denomination.attribute.physical_cash') }}"/>
+            <input id="physical_cash"
+                   class="cursor-default text-center w-full sm:w-20 px-3 py-1 mt-1 font-bold text-lime-800 bg-lime-300 border border-lime-100 rounded-lg shadow-md hover:bg-lime-400 active:bg-lime-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-lime-300 focus:ring-offset-2 transition-all ease-in-out"
+                   type="text" name="physical_cash" readonly
+                   value="{{ old('physical_cash', $denomination->physical_cash ?? 0) }}"/>
+        </div>
+    @endif
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         <!-- Columna 1 -->
         <div class="space-y-2">
             <div class="flex items-center justify-evenly">
                 <x-label for="bill_200" value="Bs. {{ __('word.denomination.attribute.bill_200') }}"/>
                 <input id="bill_200"
-                       class="bill-input cursor-pointer text-center w-full sm:w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border-0 border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out"
+                       class="bill-input cursor-pointer text-center w-full sm:w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out"
                        type="text" name="bill_200" readonly
                        value="{{ old('bill_200', $denomination->bill_200 ?? 0) }}"/>
             </div>
@@ -89,10 +97,20 @@
             </div>
         </div>
     </div>
-
-    <!-- Totales y Cambio -->
-    <div class="space-y-2 pt-4 px-0 md:px-8">
+    @if($digital)
+        <div class="text-xl font-bold text-center mt-8 mb-4">INGRESO DIGITAL</div>
         <hr class="mb-4">
+        <div class="flex items-center justify-evenly">
+            <x-label for="digital_cash" value="{{ __('word.denomination.attribute.digital_cash') }}"/>
+            <input id="digital_cash"
+                   class="cursor-default text-center w-full sm:w-20 px-3 py-1 mt-1 font-bold text-lime-800 bg-lime-300 border border-lime-100 rounded-lg shadow-md hover:bg-lime-400 active:bg-lime-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-lime-300 focus:ring-offset-2 transition-all ease-in-out"
+                   type="text" name="digital_cash" readonly
+                   value="{{ old('digital_cash', $denomination->digital_cash ?? 0) }}"/>
+        </div>
+    @endif
+    <div class="text-xl font-bold text-center mt-8 mb-4">TOTAL</div>
+    <hr class="mb-0">
+    <div class="space-y-2 pt-4 px-0 md:px-8">
         <div class="flex items-center justify-between">
             <x-label for="total" class="select-none" value="{{ __('word.denomination.attribute.total') }}"/>
             <input

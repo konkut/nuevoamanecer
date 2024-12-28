@@ -145,6 +145,10 @@
                                    :active="request()->routeIs('paymentwithoutprices.index')">
                 {{ __('word.payment.title') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('sales.index') }}"
+                                   :active="request()->routeIs('sales.index')">
+                {{ __('word.sale.title') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('expenses.index') }}"
                                    :active="request()->routeIs('expenses.index')">
                 {{ __('word.expense.title') }}

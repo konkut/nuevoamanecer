@@ -154,7 +154,8 @@ return [
     'custom_paymentwithprice'=> 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
     'custom_user_id'=> 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
     'custom_cashregister_uuid'=> 'La caja ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
-    'attributes' => [
+    'custom_sale'=>'Por favor, complete el formulario asegúrese de que cada producto tenga una cantidad y método de transacción correspondiente.',
+        'attributes' => [
         /*FORM USER */
         'email' => 'correo electrónico',
         'password' => 'contraseña',
@@ -208,6 +209,8 @@ return [
         "coin_0_5" => "moneda de 0.5",
         "coin_0_2" => "moneda de 0.2",
         "coin_0_1" => "moneda de 0.1",
+        "digital_cash" => "moneda digital",
+        "physical_cash" => "moneda físico",
         "total" => "total",
 /*
         "amounts.1" => "monto 2",
@@ -243,5 +246,11 @@ return [
         /*expense */
         'price' => 'precio',
         'stock' => 'cantidad',
+
+            /*sale */
+            'quantities.*' => 'cantidad',
+            'product_uuids.*' => 'producto',
+            'quantities' => 'cantidad',
+            'product_uuids' => 'producto',
     ]
 ];

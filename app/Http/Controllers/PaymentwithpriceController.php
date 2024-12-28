@@ -28,24 +28,19 @@ class PaymentwithpriceController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
         foreach ($paymentwithprices as $item) {
-            $serviceUuids = json_decode($item->servicewithoutprice_uuids, true);
-            $methodUuids = json_decode($item->transactionmethod_uuids, true);
-            $names = json_decode($item->names, true);
-            $amounts = json_decode($item->amounts, true);
-            $commissions = json_decode($item->commissions, true);
-            $item->services = Servicewithoutprice::whereIn('servicewithoutprice_uuid', $serviceUuids)->pluck('name');
-            $item->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
-            $resultNames = [];
-            $resultAmounts = [];
-            $resultCommissions = [];
-            foreach ($names as $key => $name) {
-                $resultNames[] = $name;
-                $resultAmounts[] = $amounts[$key] ?? null;
-                $resultCommissions[] = $commissions[$key] ?? null;
+            $item->services = Servicewithoutprice::whereIn('servicewithoutprice_uuid', $item->servicewithoutprice_uuids)->pluck('name');
+            $item->methods = Transactionmethod::whereIn('transactionmethod_uuid', $item->transactionmethod_uuids)->pluck('name');
+            $names = [];
+            $amounts = [];
+            $commissions = [];
+            foreach ($item->names as $key => $name) {
+                $names[] = $name;
+                $amounts[] = $item->amounts[$key] ?? null;
+                $commissions[] = $item->commissions[$key] ?? null;
             }
-            $item->names = $resultNames;
-            $item->amounts = number_format(array_sum($resultAmounts), 2, '.', '');
-            $item->commissions = number_format(array_sum($resultCommissions), 2, '.', '');
+            $item->names = $names;
+            $item->amounts = number_format(array_sum($amounts), 2, '.', '');
+            $item->commissions = number_format(array_sum($commissions), 2, '.', '');
             $item->total_price = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
             $item->total_billcoin = $item->denominations->total;
         }
@@ -85,6 +80,8 @@ class PaymentwithpriceController extends Controller
             'coin_0_5' => 'nullable|integer',
             'coin_0_2' => 'nullable|integer',
             'coin_0_1' => 'nullable|integer',
+            'physical_cash' => 'nullable|numeric',
+            'digital_cash' => 'nullable|numeric',
             'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -108,8 +105,8 @@ class PaymentwithpriceController extends Controller
                 ->withInput();
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-        $amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
-        $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
+       // $amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
+       // $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
         $denomination = Denomination::create([
             'type'=>1,
             'bill_200' => $request->bill_200 ?? 0,
@@ -123,15 +120,17 @@ class PaymentwithpriceController extends Controller
             'coin_0_5' => $request->coin_0_5 ?? 0,
             'coin_0_2' => $request->coin_0_2 ?? 0,
             'coin_0_1' => $request->coin_0_1 ?? 0,
+            'physical_cash' => $request->physical_cash ?? 0,
+            'digital_cash' => $request->digital_cash ?? 0,
             'total' => $request->total ?? 0,
         ]);
         Paymentwithprice::create([
-            'names' => json_encode($request->names),
+            'names' => $request->names,
             'observation' => $request->observation,
-            'amounts' => json_encode($amounts),
-            'commissions' => json_encode($commissions),
-            'servicewithoutprice_uuids' => json_encode($request->servicewithoutprice_uuids),
-            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
+            'amounts' => $request->amounts,
+            'commissions' => $request->commissions,
+            'servicewithoutprice_uuids' => $request->servicewithoutprice_uuids,
+            'transactionmethod_uuids' => $request->transactionmethod_uuids,
             'user_id' => Auth::id(),
             'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
             'denomination_uuid'=> $denomination->denomination_uuid,
@@ -144,11 +143,11 @@ class PaymentwithpriceController extends Controller
         $denomination = $paymentwithprice->denominations;
         $transactionmethods = Transactionmethod::all();
         $servicewithoutprices = Servicewithoutprice::all();
-        $names = json_decode($paymentwithprice->names, true);
-        $commissions = json_decode($paymentwithprice->commissions, true);
-        $amounts = json_decode($paymentwithprice->amounts, true);
-        $methods = json_decode($paymentwithprice->transactionmethod_uuids, true);
-        $services = json_decode($paymentwithprice->servicewithoutprice_uuids, true);
+        $names = $paymentwithprice->names;
+        $commissions = $paymentwithprice->commissions;
+        $amounts = $paymentwithprice->amounts;
+        $methods = $paymentwithprice->transactionmethod_uuids;
+        $services = $paymentwithprice->servicewithoutprice_uuids;
         return view("paymentwithprice.edit", compact('paymentwithprice', 'denomination', 'transactionmethods', 'servicewithoutprices', 'services', 'methods','names','commissions','amounts'));
     }
     public function update(Request $request, string $paymentwithprice_uuid)
@@ -178,6 +177,8 @@ class PaymentwithpriceController extends Controller
             'coin_0_5' => 'nullable|integer',
             'coin_0_2' => 'nullable|integer',
             'coin_0_1' => 'nullable|integer',
+            'physical_cash' => 'nullable|numeric',
+            'digital_cash' => 'nullable|numeric',
             'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -201,17 +202,17 @@ class PaymentwithpriceController extends Controller
                 ->withInput();
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-        $amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
-        $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
+        //$amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
+       // $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
         $paymentwithprice->update([
-            'names' => json_encode($request->names),
+            'names' => $request->names,
             'observation' => $request->observation,
-            'amounts' => json_encode($amounts),
-            'commissions' => json_encode($commissions),
-            'servicewithoutprice_uuids' => json_encode($request->servicewithoutprice_uuids),
-            'transactionmethod_uuids' => json_encode($request->transactionmethod_uuids),
-            'user_id' => Auth::id(),
+            'amounts' => $request->amounts,
+            'commissions' => $request->commissions,
+            'servicewithoutprice_uuids' => $request->servicewithoutprice_uuids,
+            'transactionmethod_uuids' => $request->transactionmethod_uuids,
             'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
+            'user_id' => Auth::id(),
         ]);
         $denomination->update([
             'bill_200' => $request->bill_200 ?? 0,
@@ -225,6 +226,8 @@ class PaymentwithpriceController extends Controller
             'coin_0_5' => $request->coin_0_5 ?? 0,
             'coin_0_2' => $request->coin_0_2 ?? 0,
             'coin_0_1' => $request->coin_0_1 ?? 0,
+            'physical_cash' => $request->physical_cash ?? 0,
+            'digital_cash' => $request->digital_cash ?? 0,
             'total' => $request->total ?? 0,
         ]);
         return redirect("/paymentwithprices")->with('success', 'Ingreso actualizado correctamente.');
@@ -248,11 +251,8 @@ class PaymentwithpriceController extends Controller
         $paymentwithprice = Paymentwithprice::with(['user', 'servicewithoutprice', 'transactionmethod','denominations'])
             ->where('paymentwithprice_uuid', $paymentwithprice_uuid)
             ->firstOrFail();
-        $serviceUuids = json_decode($paymentwithprice->servicewithoutprice_uuids, true);
-        $amounts = json_decode($paymentwithprice->amounts, true);
-        $commissions = json_decode($paymentwithprice->commissions, true);
         $services = [];
-        foreach ($serviceUuids as $key => $serviceUuid) {
+        foreach ($paymentwithprice->servicewithoutprice_uuids as $key => $serviceUuid) {
             $service = Servicewithoutprice::where('servicewithoutprice_uuid', $serviceUuid)->first();
             if ($service) {
                 $services[] = $service->name;
@@ -271,7 +271,7 @@ class PaymentwithpriceController extends Controller
             $names .= $item['cantidad'] . ' ' . $item['servicio'] . ', ';
         }
         $paymentwithprice->name = rtrim($names, ', ');
-        $paymentwithprice->total = number_format((array_sum($amounts) + array_sum($commissions)), 2, '.', '');
+        $paymentwithprice->total = number_format((array_sum($paymentwithprice->amounts) + array_sum($paymentwithprice->commissions)), 2, '.', '');
         $denomination_uuid = $paymentwithprice->denominations->denomination_uuid;
         $received = Denomination::where('denomination_uuid', $denomination_uuid)
             ->selectRaw(' SUM(
@@ -287,7 +287,8 @@ class PaymentwithpriceController extends Controller
             CASE WHEN coin_0_2 > 0 THEN coin_0_2 * 0.2 ELSE 0.00 END +
             CASE WHEN coin_0_1 > 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
         ) AS total')->firstorfail();
-        $paymentwithprice->received = $received->total;
+        $paymentwithprice->received_physical = $received->total;
+        $paymentwithprice->received_digital = $paymentwithprice->denominations->digital_cash;
         $returned = Denomination::where('denomination_uuid', $denomination_uuid)
             ->selectRaw('SUM(
             CASE WHEN bill_200 < 0 THEN bill_200 * 200 ELSE 0.00 END +
@@ -303,8 +304,6 @@ class PaymentwithpriceController extends Controller
             CASE WHEN coin_0_1 < 0 THEN coin_0_1 * 0.1 ELSE 0.00 END
         ) AS total')->first();
         $paymentwithprice->returned = $returned->total;
-        $methodUuids = json_decode($paymentwithprice->transactionmethod_uuids, true);
-        $paymentwithprice->methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name');
         $data = [
             'paymentwithprice'=>$paymentwithprice
         ];
@@ -317,21 +316,15 @@ class PaymentwithpriceController extends Controller
             'Content-Disposition' => 'inline; filename="factura.pdf"'
         ]);
     }
-
     public function export(){
         $paymentwithprices = Paymentwithprice::where('user_id',Auth::id())->get();
         $paymentwithprices->each(function ($paymentwithprice) {
-            $serviceUuids = json_decode($paymentwithprice->servicewithoutprice_uuids, true);
-            $methodUuids = json_decode($paymentwithprice->transactionmethod_uuids, true);
-            $services = Servicewithoutprice::whereIn('servicewithoutprice_uuid', $serviceUuids)->pluck('name')->toArray();
-            $methods = Transactionmethod::whereIn('transactionmethod_uuid', $methodUuids)->pluck('name')->toArray();
-            $names = json_decode($paymentwithprice->names, true);
-            $amounts = json_decode($paymentwithprice->amounts, true);
-            $commissions = json_decode($paymentwithprice->commissions, true);
+            $services = Servicewithoutprice::whereIn('servicewithoutprice_uuid', $paymentwithprice->servicewithoutprice_uuids)->pluck('name')->toArray();
+            $methods = Transactionmethod::whereIn('transactionmethod_uuid', $paymentwithprice->transactionmethod_uuids)->pluck('name')->toArray();
             $paymentwithprice->format_paymentwithprice_uuids = implode(', ', $services);
-            $paymentwithprice->format_names = implode(', ', $names);
-            $paymentwithprice->format_amounts = implode(', ', $amounts);
-            $paymentwithprice->format_commissions = implode(', ', $commissions);
+            $paymentwithprice->format_names = implode(', ', $paymentwithprice->names);
+            $paymentwithprice->format_amounts = implode(', ', $paymentwithprice->amounts);
+            $paymentwithprice->format_commissions = implode(', ', $paymentwithprice->commissions);
             $paymentwithprice->format_servicewithoutprice_uuids = implode(', ', $methods);
             $paymentwithprice->format_user_id = $paymentwithprice->user->name;
             $paymentwithprice->format_created_at = $paymentwithprice->created_at->format('d-m-Y H:i:s');
@@ -347,6 +340,8 @@ class PaymentwithpriceController extends Controller
             $paymentwithprice->format_coin_0_5 = $paymentwithprice->denominations->coin_0_5;
             $paymentwithprice->format_coin_0_2 = $paymentwithprice->denominations->coin_0_2;
             $paymentwithprice->format_coin_0_1 = $paymentwithprice->denominations->coin_0_1;
+            $paymentwithprice->format_physical_cash = $paymentwithprice->denominations->physical_cash;
+            $paymentwithprice->format_digital_cash = $paymentwithprice->denominations->digital_cash;
             $paymentwithprice->format_total = $paymentwithprice->denominations->total;
         });
         return Excel::download(new PaymentwithpriceExport($paymentwithprices), 'transacciones_servicios_basicos.xlsx');
