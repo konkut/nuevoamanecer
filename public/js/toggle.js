@@ -1,5 +1,6 @@
 "use strict";
 const toggleStatus = () => {
+
     const statusText = document.getElementById("toggleStatus");
     const toggleButton = document.getElementById("toggleButton");
     const hiddenInput = document.getElementById("status");

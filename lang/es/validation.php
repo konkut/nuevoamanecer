@@ -196,6 +196,7 @@ return [
         'amount' => 'monto',
         'commission' => 'comisión',
         "service_uuid" => "servicio",
+            "balance" => "saldo",
 
         /*FORM DENOMINATION */
         "bill_200" => "billete de 200",

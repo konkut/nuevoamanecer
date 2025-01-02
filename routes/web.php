@@ -34,6 +34,11 @@ Route::middleware([
 ])->group(function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
     Route::put('/dashboard/{cashshift_uuid}', [DashboardController::class, 'state'])->name('dashboards.state');
+    Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboards.search');
+    Route::get('/dashboard/sesions/', [DashboardController::class, 'all_sesions'])->name('dashboards.sesions');
+    Route::get('/dashboard/sesion/{cashshift_uuid}', [DashboardController::class, 'one_sesion'])->name('dashboards.sesion');
+
+
     /* USERS */
     Route::get("/users", [UserController::class, "index"])->name("users.index")->middleware('can:users.index');
     Route::get("/users/create", [UserController::class, "create"])->name("users.create")->middleware('can:users.create');

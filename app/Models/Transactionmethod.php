@@ -19,6 +19,7 @@ class Transactionmethod extends Model
       'transactionmethod_uuid',
       'name',
       'description',
+        'balance',
       'status',
     ];
 

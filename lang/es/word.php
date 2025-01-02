@@ -116,8 +116,8 @@ return [
     ],
 
     'service' => [
-        'title_service_with_price' => 'Otros servicios',
-        'title_service_without_price' => 'Servicios básicos',
+        'title_service_with_price' => 'Servicio financiero',
+        'title_service_without_price' => 'Servicio transaccional',
         'title'=>'Servicios',
         'delete_confirmation' => '¿Está seguro de eliminar el servicio',
         'select_category' => 'Seleccionar una categoría',
@@ -190,6 +190,7 @@ return [
             "name" => "Nombre",
             "description" => "Descripción",
             "status" => "Estado",
+            'balance' => "Saldo",
             "created_at" => "Fecha Registro",
             "updated_at" => "Últ. Act.",
         ],
@@ -239,8 +240,8 @@ return [
 
     'payment' => [
         'panel' => 'Transacciones',
-        'title' => 'Otros ingresos',
-        'title_others' => 'Ingresos servicios básicos',
+        'title' => 'Ingresos financiero',
+        'title_others' => 'Ingreso transaccional',
         'delete_confirmation' => '¿Está seguro de eliminar el ingreso de pago',
         'select_service' => 'Seleccionar un servicio',
         'select_method' => 'Seleccionar un método',

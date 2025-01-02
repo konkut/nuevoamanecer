@@ -1,0 +1,21 @@
+
+
+.scrollbar-custom::-webkit-scrollbar {
+    /* Chrome, Edge, Safari */
+    width: 12px;
+    height: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}

@@ -66,11 +66,13 @@
                             <tr class="bg-[#d1d5db]" title="Buscar">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.service.attribute.name') }}</th>
+                                    onclick="enableSearch(this, 'nombre')">{{ __('word.transactionmethod.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.service.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, 'saldo')">{{ __('word.transactionmethod.attribute.balance') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.service.attribute.status') }}</th>
+                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.transactionmethod.attribute.created_at') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'estado')">{{ __('word.transactionmethod.attribute.status') }}</th>
                                 @can('transactionmethods.create')
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1" title="">{{ __('word.general.actions') }}</th>
                                 @endcan
@@ -81,6 +83,7 @@
                                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->balance??'0.00' }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                     @can('transactionmethods.create')

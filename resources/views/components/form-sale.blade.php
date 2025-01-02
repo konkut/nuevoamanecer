@@ -21,31 +21,48 @@
                 $transactionmethod_uuid = $old_transactionmethod_uuids[$index] ?? null;
             @endphp
             <div class="flex flex-col md:flex-row md:space-x-4 row-template">
-                <div class="mt-4 w-full md:w-1/2">
-                    <x-label for="product_uuid_{{ $product_uuid }}"
-                             value="{{ __('word.sale.attribute.product_uuid') }} *"/>
-                    <div class="relative">
-                        <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select id="product_uuid_{{ $product_uuid }}"
-                                class="product-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                name="product_uuids[]"
-                                onchange="update_sale_charge()">
-                            <option value=""
-                                    disabled {{ (!isset($product_uuid))?'selected' : '' }}>{{ __('word.sale.select_product') }}</option>
-                            @foreach ($products as $item)
-                                <option value="{{ $item->product_uuid }}"
-                                        data-price="{{ $item->price }}"
-                                        data-stock="{{ $item->stock }}"
-                                @if(isset($product_uuid))
-                                    {{ $item->product_uuid === $product_uuid ? 'selected' : '' }}
-                                    @endif>
-                                    {{ $item->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                @if($page === 'CREATE')
+                    <div class="mt-4 w-full md:w-2/5">
+                        <x-label for="product_uuid_{{ $product_uuid }}"
+                                 value="{{ __('word.sale.attribute.product_uuid') }} *"/>
+                        <div class="relative">
+                            <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                            <select id="product_uuid_{{ $product_uuid }}"
+                                    class="product-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
+                                    name="product_uuids[]"
+                                    onchange="update_sale_charge()">
+                                <option value=""
+                                        disabled {{ (!isset($product_uuid))?'selected' : '' }}>{{ __('word.sale.select_product') }}</option>
+                                @foreach ($products as $item)
+                                    <option value="{{ $item->product_uuid }}"
+                                            data-price="{{ $item->price }}"
+                                            data-stock="{{ $item->stock }}"
+                                    @if(isset($product_uuid))
+                                        {{ $item->product_uuid === $product_uuid ? 'selected' : '' }}
+                                        @endif>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-4 w-full md:w-1/2">
+                @else
+                    <div class="mt-4 w-full md:w-2/5">
+                        <x-label for="product_uuid_{{$product_uuid}}" value="{{ __('word.sale.attribute.product_uuid') }} *"/>
+                        <div class="relative">
+                            <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                            <div class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg bg-gray-100">
+                                {{ $products->firstWhere('product_uuid', $product_uuid)->name ?? __('word.sale.select_product') }}
+                            </div>
+                            <input type="hidden"
+                                   class="product-input"
+                                   name="product_uuids[]"
+                                   data-price="{{$products->firstWhere('product_uuid', $product_uuid)->price}}"
+                                   value="{{ $product_uuid }}">
+                        </div>
+                    </div>
+                @endif
+                <div class="mt-4 w-full md:w-1/5">
                     <x-label for="quantities_{{ $quantities }}" value="{{ __('word.sale.attribute.quantities') }} *"/>
                     <div class="relative">
                         <i class="bi bi-grid-3x3-gap-fill absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -57,7 +74,7 @@
                                  value="{{ $quantities ?? '' }}"/>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="transactionmethod_uuid_{{ $transactionmethod_uuid }}"
                              value="{{ __('word.sale.attribute.transactionmethod_uuid') }} *"/>
                     <div class="relative">
@@ -99,29 +116,21 @@
                     $transactionmethod_uuid = $array_methods[$index] ?? null;
                 @endphp
                 <div class="flex flex-col md:flex-row md:space-x-4 row-template">
-                    <div class="mt-4 w-full md:w-1/2">
+                    <div class="mt-4 w-full md:w-2/5">
                         <x-label for="product_uuid_{{$product_uuid}}" value="{{ __('word.sale.attribute.product_uuid') }} *"/>
                         <div class="relative">
                             <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <select id="product_uuid_{{$product_uuid}}"
-                                    class="product-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                    name="product_uuids[]"
-                                    onchange="update_sale_charge()">
-                                <option value="" disabled {{ (!isset($product_uuid))?'selected' : '' }}>{{ __('word.sale.select_product') }}</option>
-                                @foreach ($products as $item)
-                                    <option value="{{ $item->product_uuid }}"
-                                            data-price="{{ $item->price }}"
-                                            data-stock="{{ $item->stock }}"
-                                    @if(isset($product_uuid))
-                                        {{ $item->product_uuid === $product_uuid ? 'selected' : '' }}
-                                        @endif>
-                                        {{ $item->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg bg-gray-100">
+                                {{ $products->firstWhere('product_uuid', $product_uuid)->name ?? __('word.sale.select_product') }}
+                            </div>
+                            <input type="hidden"
+                                   class="product-input"
+                                   name="product_uuids[]"
+                                   data-price="{{$products->firstWhere('product_uuid', $product_uuid)->price}}"
+                                   value="{{ $product_uuid }}">
                         </div>
                     </div>
-                    <div class="mt-4 w-full md:w-1/2">
+                    <div class="mt-4 w-full md:w-1/5">
                         <x-label for="quantities_{{$quantity}}" value="{{ __('word.sale.attribute.quantities') }} *"/>
                         <div class="relative">
                             <i class="bi bi-grid-3x3-gap-fill absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -132,7 +141,7 @@
                                      value="{{ $quantity ?? '' }}"/>
                         </div>
                     </div>
-                    <div class="mt-4 w-full sm:w-1/2">
+                    <div class="mt-4 w-full sm:w-2/5">
                         <x-label for="transactionmethod_uuid_{{ $transactionmethod_uuid }}"
                                  value="{{ __('word.sale.attribute.transactionmethod_uuid') }} *"/>
                         <div class="relative">
@@ -160,7 +169,7 @@
             @endfor
         @else
             <div class="flex flex-col md:flex-row md:space-x-4 row-template">
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="product_uuid" value="{{ __('word.sale.attribute.product_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -179,7 +188,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-1/5">
                     <x-label for="quantities" value="{{ __('word.sale.attribute.quantities') }} *"/>
                     <div class="relative">
                         <i class="bi bi-grid-3x3-gap-fill absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -190,7 +199,7 @@
                                  value="{{ $sale->quantities?? '' }}"/>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="transactionmethod_uuid" value="{{ __('word.sale.attribute.transactionmethod_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -212,45 +221,50 @@
     @endif
 </div>
 
-<div class="flex flex-col md:flex-row md:justify-evenly mt-6 space-y-4 md:space-y-0">
-    <div class="flex justify-center">
-        <button type="button" id="add-row"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-lg">
-            <i class="bi bi-plus mr-2"></i>{{ __('Agregar Fila') }}
-        </button>
+@if($page === "CREATE")
+    <div class="flex flex-col md:flex-row md:justify-evenly mt-6 space-y-4 md:space-y-0">
+        <div class="flex justify-center">
+            <button type="button" id="add-row"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-lg">
+                <i class="bi bi-plus mr-2"></i>{{ __('Agregar Fila') }}
+            </button>
+        </div>
+        <div class="flex justify-center">
+            <button type="button" id="remove-row"
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
+                    onclick="update_sale_charge()">
+                <i class="bi bi-dash mr-2"></i>{{ __('Quitar Fila') }}
+            </button>
+        </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('dynamic-rows-container');
+            const addRowButton = document.getElementById('add-row');
+            const removeRowButton = document.getElementById('remove-row');
 
-    <div class="flex justify-center">
-        <button type="button" id="remove-row"
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
-                onclick="update_sale_charge()">
-            <i class="bi bi-dash mr-2"></i>{{ __('Quitar Fila') }}
-        </button>
-    </div>
-</div>
+            // Agregar una nueva fila
+            addRowButton.addEventListener('click', function () {
+                const template = document.querySelector('.row-template');
+                const newRow = template.cloneNode(true);
+                newRow.querySelectorAll('input').forEach(input => {
+                    input.value = '';
+                });
+                newRow.querySelectorAll('select').forEach(select => {
+                    select.value = '';
+                });
+                container.appendChild(newRow);
+            });
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('dynamic-rows-container');
-        const addRowButton = document.getElementById('add-row');
-        const removeRowButton = document.getElementById('remove-row');
-
-        // Agregar una nueva fila
-        addRowButton.addEventListener('click', function () {
-            const template = document.querySelector('.row-template');
-            const newRow = template.cloneNode(true);
-            newRow.querySelectorAll('select').forEach(select => select.value = '');
-            newRow.querySelectorAll('input').forEach(input => input.value = '');
-            container.appendChild(newRow);
+            // Quitar la última fila
+            removeRowButton.addEventListener('click', function () {
+                const rows = container.querySelectorAll('.row-template');
+                if (rows.length > 1) {
+                    rows[rows.length - 1].remove();
+                }
+                update_sale_charge();
+            });
         });
+    </script>
+@endif
 
-        // Quitar la última fila
-        removeRowButton.addEventListener('click', function () {
-            const rows = container.querySelectorAll('.row-template');
-            if (rows.length > 1) {
-                rows[rows.length - 1].remove();
-            }
-            update_sale_charge();
-        });
-    });
-</script>

@@ -12,13 +12,14 @@ return new class extends Migration
         Schema::create('transactionmethods', function (Blueprint $table) {
             $table->string('transactionmethod_uuid', 36)->unique();
             $table->string('name', 30)->unique();
+            $table->decimal('balance', 20, 2)->nullable();
             $table->string('description', 100)->nullable();
             $table->enum('status', ['1', '0'])->default('1');
             $table->timestamps();
             $table->softDeletes();
         });
     }
-    
+
     public function down(): void
     {
         Schema::dropIfExists('transactionmethods');

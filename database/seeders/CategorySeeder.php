@@ -20,7 +20,7 @@ class CategorySeeder extends Seeder
       Category::create(['name' => 'VENTA DE MATERIALES', 'description' => 'Venta de artículos como bolígrafos, formularios y otros materiales de oficina.']);
       Category::create(['name' => 'FOTOCOPIAS E IMPRESIONES', 'description' => 'Servicios de fotocopias, impresiones en diversos formatos y transcripciones de documentos.']);
       Category::create(['name' => 'PUBLICIDAD Y MARKETING', 'description' => 'Creación y distribución de material publicitario para promover servicios.']);
-      Category::create(['name' => 'DESAYUNOS Y COMIDAS', 'description' => 'Gastos relacionados con la provisión de alimentos como desayunos, almuerzos y refrigerios.']);
+      Category::create(['name' => 'DESAYUNOS Y ALMUERZOS', 'description' => 'Gastos relacionados con la provisión de alimentos como desayunos, almuerzos y refrigerios.']);
       Category::create(['name' => 'GASTOS ADMINISTRATIVOS', 'description' => 'Gastos generales de la empresa, como alquileres, mantenimiento, y servicios públicos.']);
       Category::create(['name' => 'GASTOS OPERATIVOS', 'description' => 'Gastos relacionados con la operación del negocio, como transporte o eventos corporativos.']);
     //Category::factory()->count(100)->create();

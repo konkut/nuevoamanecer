@@ -20,18 +20,17 @@ const update_sale_charge = () => {
         const selected_method = method.options[method.selectedIndex];
         const quantity_value = parseFloat(selected_quantity.value) || 0;
         const price = parseFloat(selected_product.getAttribute('data-price')) || 0;
-        const stock = parseFloat(selected_product.getAttribute('data-stock')) || 0;
         let name_select = selected_method.getAttribute('data-name');
-        if (name_select === 'Efectivo') {
+        if (name_select === 'EFECTIVO') {
             total_physical += (price * quantity_value);
         }
-        if (name_select !== 'Efectivo' && name_select !== 'None' ){
+        if (name_select !== 'EFECTIVO' && name_select !== 'None' ){
            total_digital += (price * quantity_value);
         }
        total_amount += (price * quantity_value);
     });
-    console.log('Total Digital:', total_digital);
-    console.log('Total Cash:', total_physical);
+    //console.log('Total Digital:', total_digital);
+    //console.log('Total Cash:', total_physical);
     if (digital_cash) {
         digital_cash.value = total_digital;
     }

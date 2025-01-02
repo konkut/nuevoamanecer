@@ -22,10 +22,10 @@ const updateCharge_paymentwithprice = () => {
         const amount_value = parseFloat(selected_amount.value) || 0;
         const commission_value = parseFloat(selected_commission.value) || 0;
         const name_select = selected_method.getAttribute('data-name');
-        if (name_select === 'Efectivo') {
+        if (name_select === 'EFECTIVO') {
             total_physical += (amount_value + commission_value);
         }
-        if (name_select !== 'Efectivo' && name_select !== 'None' ){
+        if (name_select !== 'EFECTIVO' && name_select !== 'None' ){
             total_digital += (amount_value + commission_value);
         }
         total_amount += (amount_value + commission_value);

@@ -21,7 +21,7 @@
                 $transactionmethod_uuid = $old_transactionmethod_uuids[$index] ?? null;
             @endphp
             <div class="flex flex-col md:flex-row md:space-x-4 row-template">
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="servicewithprice_uuid_{{ $servicewithprice_uuid }}"
                              value="{{ __('word.payment.attribute.servicewithprice_uuid') }} *"/>
                     <div class="relative">
@@ -46,7 +46,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-1/5">
                     <x-label for="quantities_{{ $quantities }}"
                              value="{{ __('word.payment.attribute.quantities') }} *"/>
                     <div class="relative">
@@ -59,7 +59,7 @@
                                  value="{{ $quantities ?? '' }}"/>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="transactionmethod_uuid_{{ $transactionmethod_uuid }}"
                              value="{{ __('word.payment.attribute.transactionmethod_uuid') }} *"/>
                     <div class="relative">
@@ -101,7 +101,7 @@
                     $transactionmethod_uuid = $array_methods[$index] ?? null;
                 @endphp
                 <div class="flex flex-col md:flex-row md:space-x-4 row-template">
-                    <div class="mt-4 w-full sm:w-1/2">
+                    <div class="mt-4 w-full sm:w-2/5">
                         <x-label for="servicewithprice_uuid_{{ $servicewithprice_uuid }}"
                                  value="{{ __('word.payment.attribute.servicewithprice_uuid') }} *"/>
                         <div class="relative">
@@ -126,7 +126,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mt-4 w-full md:w-1/2">
+                    <div class="mt-4 w-full md:w-1/5">
                         <x-label for="quantities_{{$quantity}}" value="{{ __('word.payment.attribute.quantities') }} *"/>
                         <div class="relative">
                             <i class="bi bi-grid-3x3-gap-fill absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -137,7 +137,7 @@
                                      value="{{ $quantity ?? '' }}"/>
                         </div>
                     </div>
-                    <div class="mt-4 w-full sm:w-1/2">
+                    <div class="mt-4 w-full sm:w-2/5">
                         <x-label for="transactionmethod_uuid_{{ $transactionmethod_uuid }}"
                                  value="{{ __('word.payment.attribute.transactionmethod_uuid') }} *"/>
                         <div class="relative">
@@ -166,7 +166,7 @@
             @endfor
         @else
             <div class="flex flex-col md:flex-row md:space-x-4 row-template">
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="servicewithprice_uuid"
                              value="{{ __('word.payment.attribute.servicewithprice_uuid') }} *"/>
                     <div class="relative">
@@ -186,7 +186,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-1/5">
                     <x-label for="quantities" value="{{ __('word.payment.attribute.quantities') }} *"/>
                     <div class="relative">
                         <i class="bi bi-grid-3x3-gap-fill absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
@@ -197,7 +197,7 @@
                                  value="{{ $paymentwithoutprice->quantities?? '' }}"/>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div class="mt-4 w-full md:w-2/5">
                     <x-label for="transactionmethod_uuid"
                              value="{{ __('word.payment.attribute.transactionmethod_uuid') }} *"/>
                     <div class="relative">

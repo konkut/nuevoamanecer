@@ -98,7 +98,7 @@
         </div>
     </div>
     @if($digital)
-        <div class="text-xl font-bold text-center mt-8 mb-4">INGRESO DIGITAL</div>
+        <div class="text-xl font-bold text-center mt-8 mb-4">@if($title === 'EGRESO') EGRESO DIGITAL @else INGRESO DIGITAL @endif</div>
         <hr class="mb-4">
         <div class="flex items-center justify-evenly">
             <x-label for="digital_cash" value="{{ __('word.denomination.attribute.digital_cash') }}"/>

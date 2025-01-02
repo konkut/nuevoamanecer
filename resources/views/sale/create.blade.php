@@ -18,7 +18,7 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/sale/ticketing_sale.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/sale/ticketing_sale_create.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
@@ -31,7 +31,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
                 <form method="POST" action="{{ route('sales.store') }}">
                     @csrf
@@ -42,7 +42,8 @@
                                                 :products="$products"
                                                 :dataquantities="[]"
                                                 :dataproducts="[]"
-                                                :datamethods="[]"/>
+                                                :datamethods="[]"
+                                                page="CREATE"/>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">

@@ -1,3 +1,66 @@
+ El problema probablemente se debe a que estás seleccionando solo el campo stock en tu consulta con ->select('stock'). Esto significa que el objeto $product devuelto es un modelo parcial, y Laravel no puede realizar una operación de actualización con un modelo incompleto, ya que no tiene el campo id o la clave primaria necesaria para identificar el registro a actualizar.
+
+ NO SOBREESCRIBIR LA VARIABLE $cashshift TAMPOCO $cashshifts
+ $cashshift = Cashshift::where('user_id', Auth::id())->where('status', '1')->with('cashregister')->first();
+
+array_merge($servicewithpriceCount, $servicewithoutpriceCount);
+
+$service = Servicewithprice::where('servicewithprice_uuid', $serviceUuid)->first();
+                if ($service) {
+                    if (isset($servicewithpriceCount[$service->name])) {
+                        $servicewithpriceCount[$service->name]['cantidad']++;
+                        $servicewithpriceCount[$service->name]['monto'] += $service->amount;
+                        $servicewithpriceCount[$service->name]['commission'] += $service->commission;
+                    } else {
+                        $servicewithpriceCount[$service->name] = ['cantidad' => 1, 'servicio' => $service->name, 'monto' => $service->amount, 'commission' => $service->commission];
+                    }
+                }
+
+$cashshift = Cashshift::where('start_time', now()->toDateString())->first();
+$paymentwithoutprices = Paymentwithoutprice::whereDate('created_at', now())->get();
+
+objeto eloquent ($opening->bill_200 ?? 0)
+
+$closing = (object) [
+
+{#1786 ▼ // app/Http/Controllers/DashboardController.php:82
+  +"bill_200": 6
+  +"bill_100": -1
+  +"bill_50": 0
+  +"bill_20": 1
+  +"bill_10": 1
+  +"coin_5": 0
+  +"coin_2": 0
+  +"coin_1": 0
+  +"coin_0_5": 1
+  +"coin_0_2": 0
+  +"coin_0_1": 0
+  +"physical_cash": "1130.50"
+  +"digital_cash": "1.00"
+  +"total": "1131.50"
+}
+
+
+
+array $difference['bill_200'] ?? 0,
+array:14 [▼ // app/Http/Controllers/DashboardController.php:82
+  "bill_200" => 6
+  "bill_100" => -1
+  "bill_50" => 0
+  "bill_20" => 1
+  "bill_10" => 1
+  "coin_5" => 0
+  "coin_2" => 0
+  "coin_1" => 0
+  "coin_0_5" => 1
+  "coin_0_2" => 0
+  "coin_0_1" => 0
+  "physical_cash" => "1130.50"
+  "digital_cash" => "1.00"
+  "total" => "1131.50"
+]
+
+
 si me equivoco de enlace que te avise una ventana que ese url no existe https://www.bcb.gob.bo/webdocs/nfb/billetes/nfb/moneda5.html
 
 

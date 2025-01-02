@@ -41,7 +41,7 @@
     @livewire('navigation-menu')
 
     <div class="flex flex-row w-full min-h-screen ">
-        <div class="justify-start hidden sm:w-[350px] bg-white" id="sidebar">
+        <div class="justify-start hidden min-w-72 bg-white" id="sidebar">
             <div>
                 <div class="shrink-0 flex items-center justify-center ">
                     <a href="{{ route('dashboard') }}">
@@ -50,12 +50,10 @@
                 </div>
                 <nav class="flex-1 overflow-y-auto">
                     <ul class="space-y-1">
-
                         <x-responsive-nav-link href="{{ route('dashboard') }}"
                                                :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-responsive-nav-link>
-
                         @can('cashregisters.index')
                             <x-responsive-nav-link href="{{ route('cashregisters.index') }}"
                                                    :active="request()->routeIs('cashregisters.index')">
@@ -127,7 +125,7 @@
                 </nav>
             </div>
         </div>
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full overflow-hidden">
             @if (isset($header))
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

@@ -31,7 +31,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
                 <form method="POST" action="{{ route('paymentwithoutprices.store') }}">
                     @csrf

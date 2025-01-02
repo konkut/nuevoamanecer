@@ -1,0 +1,79 @@
+$count_product_uuids_before = count($sale->product_uuids);
+        $count_product_uuids_after = count($request->product_uuids);
+        if ($count_product_uuids_before > $count_product_uuids_after) {
+            foreach ($sale->product_uuids as $key => $product_uuid) {
+                $product = Product::where('product_uuid', $product_uuid)->first();
+                if ($product) {
+                    if (isset($request->quantities[$key])) {
+                        if ($sale->quantities[$key] < $request->quantities[$key]) {
+                            $operation = $request->quantities[$key] - $sale->quantities[$key];
+                            $new_stock = $product->stock - $operation;
+                            $product->update([
+                                'stock' => $new_stock,
+                            ]);
+                        }
+                        if ($sale->quantities[$key] > $request->quantities[$key]) {
+                            $operation = $sale->quantities[$key] - $request->quantities[$key];
+                            $new_stock = $product->stock + $operation;
+                            $product->update([
+                                'stock' => $new_stock,
+                            ]);
+                        }
+                    } else {
+                        $new_stock = $product->stock + $sale->quantities[$key];
+                        $product->update([
+                            'stock' => $new_stock,
+                        ]);
+                    }
+                }
+            }
+        }
+        if ($count_product_uuids_before < $count_product_uuids_after) {
+            foreach ($request->product_uuids as $key => $product_uuid) {
+                $product = Product::where('product_uuid', $product_uuid)->first();
+                if ($product) {
+                    if (isset($sale->quantities[$key])) {
+                        if ($sale->quantities[$key] < $request->quantities[$key]) {
+                            $operation = $request->quantities[$key] - $sale->quantities[$key];
+                            $new_stock = $product->stock - $operation;
+                            $product->update([
+                                'stock' => $new_stock,
+                            ]);
+                        }
+                        if ($sale->quantities[$key] > $request->quantities[$key]) {
+                            $operation = $sale->quantities[$key] - $request->quantities[$key];
+                            $new_stock = $product->stock + $operation;
+                            $product->update([
+                                'stock' => $new_stock,
+                            ]);
+                        }
+                    } else {
+                        $new_stock = $product->stock - $request->quantities[$key];
+                        $product->update([
+                            'stock' => $new_stock,
+                        ]);
+                    }
+                }
+            }
+        }
+        if ($count_product_uuids_before == $count_product_uuids_after) {
+            foreach ($request->product_uuids as $key => $product_uuid) {
+                $product = Product::where('product_uuid', $product_uuid)->first();
+                if ($product) {
+                    if ($sale->quantities[$key] < $request->quantities[$key]) {
+                        $operation = $request->quantities[$key] - $sale->quantities[$key];
+                        $new_stock = $product->stock - $operation;
+                        $product->update([
+                            'stock' => $new_stock,
+                        ]);
+                    }
+                    if ($sale->quantities[$key] > $request->quantities[$key]) {
+                        $operation = $sale->quantities[$key] - $request->quantities[$key];
+                        $new_stock = $product->stock + $operation;
+                        $product->update([
+                            'stock' => $new_stock,
+                        ]);
+                    }
+                }
+            }
+        }

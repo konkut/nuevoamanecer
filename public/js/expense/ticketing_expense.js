@@ -15,10 +15,10 @@ const updateCharge_expense = () => {
     const method_select = document.querySelector('.method-select');
     const selected_method = method_select.options[method_select.selectedIndex];
     let name_select = selected_method.getAttribute('data-name');
-    if (name_select === 'Efectivo') {
+    if (name_select === 'EFECTIVO') {
         total_physical = parseFloat(amount.value) || 0;
     }
-    if (name_select !== 'Efectivo' && name_select !== 'None' ){
+    if (name_select !== 'EFECTIVO' && name_select !== 'None' ){
         total_digital = parseFloat(amount.value) || 0;
     }
     total_amount = parseFloat(amount.value) || 0;
