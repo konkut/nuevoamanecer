@@ -18,8 +18,7 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/cashshift/ticketing_physical.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/total_and_balance.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashregister/total_billcoin.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
     </x-slot>
@@ -31,12 +30,13 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
                 <form method="POST" action="{{ route('cashshifts.store_physical',$cashshift_uuid)  }}">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.cashshift.box_billcoin')}}</h1>
                             <x-form-cashcount :cashshift="$cashshift"></x-form-cashcount>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
@@ -51,7 +51,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination" :digital="false" :title="'BILLETAJE'"></x-form-billcoin>
+                            <x-form-billcoin :denomination="$denomination" :digital="false" :balance="false"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

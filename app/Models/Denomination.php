@@ -11,9 +11,8 @@ class Denomination extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
     protected $primaryKey = 'denomination_uuid';
-    protected $keyType = 'string'; // Asegura que Laravel trate el primaryKey como string
+    protected $keyType = 'string';
     public $incrementing = false;
     protected $table = 'denominations';
     protected $fillable = [
@@ -30,27 +29,33 @@ class Denomination extends Model
         'coin_0_5',
         'coin_0_2',
         'coin_0_1',
-        'physical_cash',
-        'digital_cash',
         'total',
+        'cashregister_uuid',
+        'reference_uuid',
     ];
-
+    protected $attributes = [
+        'bill_200' => 0.00,
+        'bill_100' => 0.00,
+        'bill_50' => 0.00,
+        'bill_20' => 0.00,
+        'bill_10' => 0.00,
+        'coin_5' => 0.00,
+        'coin_2' => 0.00,
+        'coin_1' => 0.00,
+        'coin_0_5' => 0.00,
+        'coin_0_2' => 0.00,
+        'coin_0_1' => 0.00,
+        'total' => 0.00,
+    ];
+    public function cashregister()
+    {
+        return $this->belongsTo(Cashregister::class, 'cashregister_uuid', 'cashregister_uuid');
+    }
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            $model->denomination_uuid = (string)Str::uuid(); // Genera un UUID
+            $model->denomination_uuid = (string)Str::uuid();
         });
-        /*
-          static::deleting(function ($model) {
-              $model->paymentwithoutprice()->delete();
-          });*/
-        /*
-        static::restoring(function ($denomination) {
-          $denomination->services()->onlyTrashed()->each(function ($denomination) {
-            $denomination->restore();
-          });
-        });*/
     }
 }

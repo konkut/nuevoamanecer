@@ -19,6 +19,7 @@
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/ticketing.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_cash_register.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_bank_register.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/total_and_balance.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
@@ -32,7 +33,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
                 <form method="POST"
                       action="{{route('cashshifts.update', $cashshift->cashshift_uuid)}}">
@@ -40,7 +41,13 @@
                     @method("PUT" )
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <x-form-cashshift :cashshift="$cashshift" :cashregisters="$cashregisters" :users="$users" :allfields="$allfields"></x-form-cashshift>
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.cashshift.box_session')}}</h1>
+                            <x-form-cashshift
+                                :cashshift="$cashshift"
+                                :cashregisters="$cashregisters"
+                                :bankregisters="$bankregisters"
+                                :users="$users"
+                                :allfields="false"></x-form-cashshift>
                             <div class="mt-4">
                                 <x-label for="status" value="{{ __('word.cashshift.attribute.status') }}"/>
                                 <div class="relative flex items-center"><span id="toggleStatus" class="mr-2 text-gray-700 {{ $cashshift->status ? 'text-green-500' : 'text-red-500' }}">{{ $cashshift->status ? 'On' : 'Off' }}</span>
@@ -66,7 +73,6 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination" :digital="false" :title="'MONTO DE APERTURA'"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

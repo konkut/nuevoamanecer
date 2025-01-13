@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const update_sale_charge = () => {
     const charge = document.getElementById('charge');
     const digital_cash = document.getElementById('digital_cash');
-    const physical_cash = document.getElementById('physical_cash');
+    const physical_cash_digital = document.getElementById('physical_cash_digital');
     const product_select = document.querySelectorAll('.product-select');
     const method_select = document.querySelectorAll('.method-select');
     const quantities_input = document.querySelectorAll('.quantities-input');
@@ -25,17 +25,17 @@ const update_sale_charge = () => {
             total_physical += (price * quantity_value);
         }
         if (name_select !== 'EFECTIVO' && name_select !== 'None' ){
-           total_digital += (price * quantity_value);
+            total_digital += (price * quantity_value);
         }
-       total_amount += (price * quantity_value);
+        total_amount += (price * quantity_value);
     });
     //console.log('Total Digital:', total_digital);
     //console.log('Total Cash:', total_physical);
     if (digital_cash) {
-        digital_cash.value = total_digital;
+        digital_cash.value = total_digital.toFixed(2);
     }
-    if (physical_cash) {
-        physical_cash.value = total_physical;
+    if (physical_cash_digital) {
+        physical_cash_digital.value = total_physical.toFixed(2);
     }
     if (charge) {
         charge.value = total_amount.toFixed(2);

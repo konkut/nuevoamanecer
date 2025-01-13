@@ -119,7 +119,7 @@
                                 </tr>
                                 <!-- modal show -->
                                 <div id="details-modal-{{$item->category_uuid}}"
-                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto py-3">
+                                     class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                                     <div class="flex items-center justify-center min-h-screen">
                                         <div
                                             class="bg-white rounded-2xl shadow-2xl w-11/12 sm:w-3/4 md:w-1/3 transform transition-transform scale-100 opacity-100 duration-300">

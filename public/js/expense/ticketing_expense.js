@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const updateCharge_expense = () => {
     const charge = document.getElementById('charge');
     const digital_cash = document.getElementById('digital_cash');
-    const physical_cash = document.getElementById('physical_cash');
+    const physical_cash_digital = document.getElementById('physical_cash_digital');
     const amount = document.querySelector('#amount');
     let total_amount = 0;
     let total_digital = 0;
@@ -23,10 +23,10 @@ const updateCharge_expense = () => {
     }
     total_amount = parseFloat(amount.value) || 0;
     if (digital_cash) {
-        digital_cash.value = total_digital;
+        digital_cash.value = total_digital.toFixed(2);;
     }
-    if (physical_cash) {
-        physical_cash.value = total_physical;
+    if (physical_cash_digital) {
+        physical_cash_digital.value = total_physical.toFixed(2);
     }
     if (charge) {
         charge.value = total_amount.toFixed(2) ;

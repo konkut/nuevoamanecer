@@ -150,10 +150,11 @@ return [
     'uppercase' => 'El campo :attribute debe estar en mayúscula.',
     'url' => 'El campo :attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
-    'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga un método de transacción correspondiente.',
+    'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga una cantidad, método de ingreso correspondiente.',
     'custom_paymentwithprice'=> 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
     'custom_user_id'=> 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
     'custom_cashregister_uuid'=> 'La caja ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
+    'custom_bankregister_uuid' => 'Esta cuenta bancaria ya está en uso. Por favor, seleccione otra cuenta bancaria.',
     'custom_sale'=>'Por favor, complete el formulario asegúrese de que cada producto tenga una cantidad y método de transacción correspondiente.',
         'attributes' => [
         /*FORM USER */
@@ -171,32 +172,24 @@ return [
         'symbol' => 'simbolo',
         "exchange_rate" => "Tasa de cambio",
 
-        /*FORM PAYMENT WITHOUT PRICE */
-        "observation" => "observación",
-        'servicewithprice_uuids' => 'servicio',
-        'transactionmethod_uuids' => 'método',
-        'servicewithprice_uuids.*' => 'servicio',
-        'transactionmethod_uuids.*' => 'método',
-        'denomination_uuid' => 'denominación',
-
-        /*FORM PAYMENT WITH PRICE */
-        'names' => 'código',
-        'names.*' => 'código',
+        /*FORM INCOME */
+        "income_uuid"=>"ingreso",
+        'codes' => 'código',
+        'codes.*' => 'código',
+        'service_uuids' => 'servicio',
+        'service_uuids.*' => 'servicio',
         'amounts' => 'monto',
         'amounts.*' => 'monto',
         'commissions' => 'commission',
         'commissions.*' => 'commission',
-        'servicewithoutprice_uuids' => 'servicio',
-        'servicewithoutprice_uuids.*' => 'servicio',
-        'transactionmethod_uuids' => 'método',
-        'transactionmethod_uuids.*' => 'método',
+        'quantities' => 'cantidad',
+        'quantities.*' => 'cantidad',
+        'method_uuids' => 'medio de cobro',
+        'method_uuids.*' => 'medio de cobro',
+        'bankregister_uuids' => 'medio de pago',
+        'bankregister_uuids.*' => 'medio de pago',
+        "observation" => "observación",
 
-        /*FORM INCOME FROM TRANSFER */
-        'code' => 'código',
-        'amount' => 'monto',
-        'commission' => 'comisión',
-        "service_uuid" => "servicio",
-            "balance" => "saldo",
 
         /*FORM DENOMINATION */
         "bill_200" => "billete de 200",
@@ -213,19 +206,7 @@ return [
         "digital_cash" => "moneda digital",
         "physical_cash" => "moneda físico",
         "total" => "total",
-/*
-        "amounts.1" => "monto 2",
-        "amounts.2" => "monto 3",
-        "amounts.3" => "monto 4",
-        "amounts.4" => "monto 5",
-        "amounts.5" => "monto 6",
-        "amounts.6" => "monto 7",
-        "amounts.7" => "monto 8",
-        "amounts.8" => "monto 9",
-        "amounts.9" => "monto 10",
-        "amounts.10" => "monto 11",
-        "amounts.11" => "monto 12",
-*/
+
         /*cashcount */
         "physical_balance" => "Saldo en físico",
 
@@ -237,21 +218,28 @@ return [
         "start_time" => "fecha de apertura de caja",
         "end_time" => "fecha de cierre de caja",
         "cashregister_uuid" => "caja",
+        "bankregister_uuid" => "banco",
+        "digital_balance"=> "saldo",
         "user_id" => "cajero",
+        "balances" => "saldo",
+        "balances.*" => "saldo",
 
         /*expense */
         'expense_uuid' => 'gasto',
-        'transactionmethod_uuid' => 'método',
+        'method_uuid' => 'método',
         'cashshift_uuid' => 'sesión',
 
         /*expense */
         'price' => 'precio',
         'stock' => 'cantidad',
 
-            /*sale */
-            'quantities.*' => 'cantidad',
-            'product_uuids.*' => 'producto',
-            'quantities' => 'cantidad',
-            'product_uuids' => 'producto',
+        /*sale */
+        'product_uuids.*' => 'producto',
+        'product_uuids' => 'producto',
+
+        /*bankregister */
+        'account_number' => 'número de cuenta',
+        'owner_name' => 'nombre del propietario',
+        'bankregister_uuid' => 'banco',
     ]
 ];

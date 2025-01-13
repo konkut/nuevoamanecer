@@ -4,7 +4,7 @@ const updateTotalandBalance = () => {
     let balance = document.getElementById("balance");
 
     document.addEventListener('input', (event) => {
-        if (event.target.matches('#bill_200, #bill_100, #bill_50, #bill_20, #bill_10, #coin_5, #coin_2, #coin_1, #coin_0_5, #coin_0_2, #coin_0_1')) {
+        if (event.target.matches('#bill_200, #bill_100, #bill_50, #bill_20, #bill_10, #coin_5, #coin_2, #coin_1, #coin_0_5, #coin_0_2, #coin_0_1, #amount, #initial_balance, #physical_balance, .quantity-input, .amount-input, .commission-input, .balance-input')) {
             const input = event.target;
             const validRegex = /^-?\d*(\.\d{0,2})?$/;
             if (!validRegex.test(input.value)) {
@@ -24,9 +24,10 @@ const updateTotalandBalance = () => {
     let count_coin_0_5 = parseFloat(document.getElementById("coin_0_5").value) || 0;
     let count_coin_0_2 = parseFloat(document.getElementById("coin_0_2").value) || 0;
     let count_coin_0_1 = parseFloat(document.getElementById("coin_0_1").value) || 0;
-    let digitalCashElement = document.getElementById('digital_cash');
-    let digital_cash = digitalCashElement ? parseFloat(digitalCashElement.value) || 0 : 0;
-    total.value = (
+    let input_digital = document.getElementById('digital_cash');
+    let digital_cash = input_digital ? parseFloat(input_digital.value) || 0 : 0;
+    let input_physical = document.getElementById('physical_cash');
+    let physical_cash = (
         count_bill_200 * 200 +
         count_bill_100 * 100 +
         count_bill_50 * 50 +
@@ -37,9 +38,12 @@ const updateTotalandBalance = () => {
         count_coin_1 * 1 +
         count_coin_0_5 * 0.5 +
         count_coin_0_2 * 0.2 +
-        count_coin_0_1 * 0.1 +
-        digital_cash
+        count_coin_0_1 * 0.1
     ).toFixed(2);
+    if (input_physical) {
+        input_physical.value = physical_cash;
+    }
+    total.value = (parseFloat(physical_cash) + parseFloat(digital_cash)).toFixed(2);
     balance.value = (parseFloat(total.value) - parseFloat(charge.value || 0)).toFixed(2);
     updateChangeLabel(balance);
 }
@@ -55,4 +59,5 @@ const updateChangeLabel=(balance) =>{
         balance_label.innerHTML = "SALDO NIVELADO";
         balance.style.background = "#eab308";
     }
+
 }

@@ -1,151 +1,47 @@
-<div class="text-center pb-8 md:pb-0 flex flex-col h-full"
+<div class="text-center pb-8 md:pb-0 flex flex-col h-full bg-white overflow-hidden shadow-xl sm:rounded-lg"
      id="show-opening-modal">
     <p class="font-bold text-sm text-center py-4">{{$title}}</p>
     <hr class="py-2">
-    <div class="divide-y divide-[#f3f4f6]">
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/200.ico') }}" alt="Billete de 200 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-bill-200">{{$data->bill_200}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->bill_200==1?'Billete':'Billetes'}}</span>
+    <div class="">
+            <div class="space-y-4 px-8">
+                @foreach ([
+                    ['value' => $data->bill_200, 'label' => '200', 'type' => 'Billete'],
+                    ['value' => $data->bill_100, 'label' => '100', 'type' => 'Billete'],
+                    ['value' => $data->bill_50,  'label' => '50',  'type' => 'Billete'],
+                    ['value' => $data->bill_20,  'label' => '20',  'type' => 'Billete'],
+                    ['value' => $data->bill_10,  'label' => '10',  'type' => 'Billete'],
+                    ['value' => $data->coin_5,   'label' => '5',   'type' => 'Moneda'],
+                    ['value' => $data->coin_2,   'label' => '2',   'type' => 'Moneda'],
+                    ['value' => $data->coin_1,   'label' => '1',   'type' => 'Moneda'],
+                    ['value' => $data->coin_0_5, 'label' => '0.5', 'type' => 'Moneda'],
+                    ['value' => $data->coin_0_2, 'label' => '0.2', 'type' => 'Moneda'],
+                    ['value' => $data->coin_0_1, 'label' => '0.1', 'type' => 'Moneda'],
+                ] as $item)
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <div id="initial-balance-{{ $item['type'] }}-{{ $item['label'] }}" class="text-gray-800 font-semibold">
+                            {{ $item['value'] }}
+                        </div>
+                        <span class="text-sm text-gray-500">
+                {{ $item['value'] == 1 ? "{$item['type']} de {$item['label']}" : "{$item['type']}s de {$item['label']}" }}
+            </span>
+                    </div>
+                @endforeach
             </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/100.ico') }}" alt="Billete de 100 Bolivianos">
+
+       {{-- <div class="flex items-center justify-end pt-2 text-md px-4">
+            <p class="w-2/3 text-right italic text-rose-600 font-medium">Bs-F.:</p>
+            <p class="w-1/3 text-right font-semibold text-gray-800" id="initial-balance-total">
+                {{ number_format($data->physical_cash, 2) }}
             </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-bill-100">{{$data->bill_100}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->bill_100==1?'Billete':'Billetes'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/50.ico') }}" alt="Billete de 50 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-bill-50">{{$data->bill_50}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->bill_50==1?'Billete':'Billetes'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/20.ico') }}" alt="Billete de 20 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-bill-20">{{$data->bill_20}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->bill_20==1?'Billete':'Billetes'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/10.ico') }}" alt="Billete de 10 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-bill-10">{{$data->bill_10}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->bill_10==1?'Billete':'Billetes'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/5.ico') }}" alt="Moneda de 5 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-coin-5">{{$data->coin_5}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->coin_5==1?'Moneda':'Monedas'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/2.ico') }}" alt="Moneda de 2 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-coin-2">{{$data->coin_2}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->coin_2==1?'Moneda':'Monedas'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/1.ico') }}" alt="Moneda de 1 Bolivianos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-coin-1">{{$data->coin_1}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->coin_1==1?'Moneda':'Monedas'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/05.ico') }}" alt="Moneda de 50 Centavos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-coin-0-5">{{$data->coin_0_5}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->coin_0_5==1?'Moneda':'Monedas'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/02.ico') }}" alt="Moneda de 20 Centavos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-coin-0-2">{{$data->coin_0_2}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->coin_0_2==1?'Moneda':'Monedas'}}</span>
-            </div>
-        </div>
-        <div class="flex py-1">
-            <p class="flex flex-1 justify-end items-center pr-4">
-                <img src="{{ asset('images/panel/01.ico') }}" alt="Moneda de 10 Centavos">
-            </p>
-            <div class="flex flex-1 justify-start items-center pl-4"
-                 id="initial-balance-coin-0-1">{{$data->coin_0_1}}&nbsp;
-                <span
-                    class="text-sm text-gray-500">{{$data->coin_0_1==1?'Moneda':'Monedas'}}</span>
-            </div>
-        </div>
-        <div
-            class="flex pt-2 text-md justify-end items-center">
-            <p class="w-2/3 text-end italic text-rose-700">Bs-F.:</p>
-            <p class="w-1/3 text-end" id="initial-balance-total">{{number_format($data->physical_cash, 2) }}</p>
-        </div>
+        </div>--}}
     </div>
-    <div class="flex flex-col flex-1 justify-end">
-        <div class="divide-y divide-[#f3f4f6] pt-8">
-            @if($incomesdigital && $expensesdigital === false)
-                @foreach($incomesdigital as $key => $item)
-                    <div class="flex py-1 justify-end items-center">
-                        <p class="w-2/3 text-end">{{ \Illuminate\Support\Str::limit($key, 5, '...') }}</p>
-                        <p class="w-1/3 text-end">{{number_format($item, 2) }}</p>
-                    </div>
-                @endforeach
-            @endif
-            @if($expensesdigital && $incomesdigital === false)
-                @foreach($expensesdigital as $key => $item)
-                    <div class="flex py-1 justify-end items-center">
-                        <p class="w-2/3 text-end">{{ \Illuminate\Support\Str::limit($key, 5, '...') }}</p>
-                        <p class="w-1/3 text-end">{{number_format($item, 2) }}</p>
-                    </div>
-                @endforeach
-            @endif
-            <div
-                class="flex pt-2 text-md justify-end items-center">
-                <p class="w-2/3 text-end italic text-rose-700">Bs-D.:</p>
-                <p class="w-1/3 text-end" id="initial-balance-total"> {{number_format($data->digital_cash, 2) }}</p>
-            </div>
-        </div>
-        <div class="flex font-extrabold text-lg mt-8 p-2 justify-end items-center">
-            <p class="w-3/5 text-end italic text-rose-700">Bs Total:</p>
-            <div class="w-2/5 text-end" id="initial-balance-total">{{number_format($data->total, 2) }}</div>
+    <div class="flex flex-col flex-1 justify-end bg-white overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="flex font-extrabold text-lg mt-8 p-4 justify-end items-center bg-gray-50 rounded-b-lg">
+            <p class="w-3/5 text-right italic text-rose-600">Bs Total:</p>
+            <p class="w-2/5 text-right text-gray-900" id="initial-balance-total">
+                {{ number_format($data->total, 2) }}
+            </p>
         </div>
     </div>
 </div>
+

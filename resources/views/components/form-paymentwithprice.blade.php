@@ -32,7 +32,7 @@
                         <x-input id="name_{{ $name }}"
                                  class="focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                  type="text"
-                                 name="names[]"
+                                 name="names[{{ $index }}]"
                                  value="{{ $name ?? ''}}"/>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                                  onkeyup="updateCharge_paymentwithprice()"
                                  class="amount-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                  type="text"
-                                 name="amounts[]"
+                                 name="amounts[{{ $index }}]"
                                  value="{{ $amount ?? '' }}"/>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                                  onkeyup="updateCharge_paymentwithprice()"
                                  class="commission-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                  type="text"
-                                 name="commissions[]"
+                                 name="commissions[{{ $index }}]"
                                  value="{{ $commission ?? '' }}"/>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <select id="servicewithoutprice_uuid_{{ $servicewithoutprice_uuid }}"
                                 class="service-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                name="servicewithoutprice_uuids[]">
+                                name="servicewithoutprice_uuids[{{ $index }}]">
                             <option value="" disabled {{ (!isset($servicewithoutprice_uuid))?'selected' : '' }}>
                                 {{ __('word.payment.select_service') }}
                             </option>
@@ -89,7 +89,7 @@
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <select id="transactionmethod_uuid_{{ $transactionmethod_uuid }}"
                                 class="method-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                name="transactionmethod_uuids[]"
+                                name="transactionmethod_uuids[{{ $index }}]"
                                 onchange="updateCharge_paymentwithprice()">
                             <option value="" disabled data-name="None" {{ (!isset($transactionmethod_uuid))?'selected' : '' }}>
                                 {{ __('word.payment.select_method') }}
@@ -134,7 +134,7 @@
                             <x-input id="name_{{ $name }}"
                                      class="focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                      type="text"
-                                     name="names[]"
+                                     name="names[{{ $index }}]"
                                      value="{{ $name ?? ''}}"/>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                                      onkeyup="updateCharge_paymentwithprice()"
                                      class="amount-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                      type="text"
-                                     name="amounts[]"
+                                     name="amounts[{{ $index }}]"
                                      value="{{ $amount ?? '' }}"/>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                                      onkeyup="updateCharge_paymentwithprice()"
                                      class="commission-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                      type="text"
-                                     name="commissions[]"
+                                     name="commissions[{{ $index }}]"
                                      value="{{ $commission ?? '' }}"/>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                             <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                             <select id="servicewithoutprice_uuid_{{ $servicewithoutprice_uuid }}"
                                     class="focus-and-blur service-select border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                    name="servicewithoutprice_uuids[]">
+                                    name="servicewithoutprice_uuids[{{ $index }}]">
                                 <option value="" disabled {{ (!isset($servicewithoutprice_uuid))?'selected' : '' }}>
                                     {{ __('word.payment.select_service') }}
                                 </option>
@@ -191,7 +191,7 @@
                             <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                             <select id="transactionmethod_uuid_{{ $transactionmethod_uuid }}"
                                     class="method-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                    name="transactionmethod_uuids[]"
+                                    name="transactionmethod_uuids[{{ $index }}]"
                                     onchange="updateCharge_paymentwithprice()">
                                 <option value="" disabled data-name="None" {{ (!isset($transactionmethod_uuid))?'selected' : '' }}>
                                     {{ __('word.payment.select_method') }}
@@ -216,7 +216,7 @@
                     <x-label for="name" value="{{ __('word.payment.attribute.name') }} *" />
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input id="name" class="focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full" type="text" name="names[]" />
+                        <x-input id="name" class="focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full" type="text" name="names[0]" />
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
@@ -225,7 +225,7 @@
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input id="amount" onkeyup="updateCharge_paymentwithprice()"
                                  class="amount-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
-                                 type="text" name="amounts[]"
+                                 type="text" name="amounts[0]"
                                  value="{{ $paymentwithprice->amounts?? '' }}" />
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input id="commission" onkeyup="updateCharge_paymentwithprice()"
                                  class="commission-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
-                                 type="text" name="commissions[]"
+                                 type="text" name="commissions[0]"
                                  value="{{ $paymentwithprice->commissions?? '' }}" />
                     </div>
                 </div>
@@ -243,7 +243,9 @@
                     <x-label for="servicewithoutprice_uuid" value="{{ __('word.payment.attribute.servicewithoutprice_uuid') }} *" />
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select id="servicewithoutprice_uuid" onchange="updateCharge_paymentwithprice()" class="focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="servicewithoutprice_uuids[]">
+                        <select id="servicewithoutprice_uuid" onchange="updateCharge_paymentwithprice()"
+                                class="focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
+                                name="servicewithoutprice_uuids[0]">
                             <option value="" disabled selected>{{ __('word.payment.select_service') }}</option>
                             @foreach($servicewithoutprices as $item)
                                 <option value="{{ $item->servicewithoutprice_uuid }}">
@@ -259,7 +261,7 @@
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <select id="transactionmethod_uuid"
                                 class="method-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
-                                name="transactionmethod_uuids[]"
+                                name="transactionmethod_uuids[0]"
                                 onchange="updateCharge_paymentwithprice()">
                             <option value="" disabled selected data-name="None">{{ __('word.payment.select_method') }}</option>
                             @foreach($transactionmethods as $item)
@@ -297,12 +299,23 @@
         const removeRowButton = document.getElementById('remove-row');
         addRowButton.addEventListener('click', function () {
             const template = document.querySelector('.row-template');
+            const newIndex = container.children.length;
             const newRow = template.cloneNode(true);
-            newRow.querySelectorAll('input').forEach(input => {
-                input.value = '';
-            });
             newRow.querySelectorAll('select').forEach(select => {
                 select.value = '';
+                const name = select.getAttribute('name');
+                if (name) {
+                    const updatedName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                    select.setAttribute('name', updatedName);
+                }
+            });
+            newRow.querySelectorAll('input').forEach(input => {
+                input.value = ''
+                const name = input.getAttribute('name');
+                if (name) {
+                    const updatedName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                    input.setAttribute('name', updatedName);
+                }
             });
             container.appendChild(newRow);
         });

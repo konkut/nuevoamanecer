@@ -17,8 +17,7 @@
 
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/cashregister/ticketing.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/total_and_balance.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashregister/total_billcoin.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/toggle.js?v='.time()) }}"></script>
@@ -39,10 +38,10 @@
                     @method("PUT" )
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.cashregister.box_modified')}}</h1>
                             <x-form-cashregister :cashregister="$cashregister"></x-form-cashregister>
-                            <div class="mt-4">
-                                <x-label for="status" value="{{ __('word.cashregister.attribute.status') }}"/>
-                                <div class="relative flex items-center"><span id="toggleStatus" class="mr-2 text-gray-700 {{ $cashregister->status ? 'text-green-500' : 'text-red-500' }}">{{ $cashregister->status ? 'On' : 'Off' }}</span>
+                            <div class="mt-6">
+                                <div class="relative flex items-center"><span id="toggleStatus" class="mr-2 text-gray-700 {{ $cashregister->status ? 'text-green-500' : 'text-red-500' }}">{{ $cashregister->status ? 'Habilitado' : 'Deshabilitado' }}</span>
                                     <button type="button" id="toggleButton"
                                             class="bg-gray-300 rounded-full w-12 h-6 relative focus:outline-none transition-colors duration-200 {{ $cashregister->status ? 'bg-green-500' : 'bg-red-500' }}"
                                             onclick="toggleStatus()">
@@ -65,7 +64,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination" :digital="false" :title="'MONTO DE APERTURA'"></x-form-billcoin>
+                            <x-form-billcoin :denomination="$denomination" :digital="false" :balance="false"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

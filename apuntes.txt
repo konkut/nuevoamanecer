@@ -1,3 +1,78 @@
+data-price="{{$products->firstWhere('product_uuid', $product_uuid)->price}}"
+
+
+  php artisan config:clear
+  php artisan view:clear
+  php artisan route:clear
+  php artisan cache:clear
+  php artisan optimize
+
+
+  $collection = collect([1, 2, 2, 3, 4, 4, 5]);
+  $unique = $collection->unique();
+  dd($unique);
+  Resultado:
+  php
+  Copiar código
+  Illuminate\Support\Collection {#items: [1, 2, 3, 4, 5]}
+
+
+  $transactions = Transaction::pluck('name', 'total')->map(function ($value, $key) {
+      return [
+          'name' => $key,
+          'total' => $value,
+      ];
+  })->toArray();
+
+
+
+  $transactions = Transaction::all()->map(function ($transaction) {
+      return [
+          'name' => $transaction->name,
+          'total' => $transaction->total,
+          'description' => $transaction->description,
+      ];
+  });
+
+
+  ->whereNotNull('cashregister_id')
+
+   public function index(Request $request)
+      {
+          $perPage = $request->input('perPage', 10);
+          $bankregisters_query = Bankregister::orderBy('created_at', 'desc');
+          $bankregisters_query->where('name', '!=', 'EFECTIVO');
+          $bankregisters = $bankregisters_query->paginate($perPage);
+          foreach ($bankregisters as $item) {
+              $item->total = Transaction::where('reference_uuid', $item->bankregister_uuid)->value('total');
+          }
+          return view("bankregister.index", compact('bankregisters', 'perPage'));
+      }
+
+
+
+   echo '<pre>';
+    print_r($old_quantities);
+    print_r($old_servicewithprice_uuids);
+    print_r($old_bankregister_uuids_alls);
+    print_r($old_bankregister_uuids_session);
+    echo '</pre>';
+
+
+@php
+    $validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+@endphp
+
+
+Se aplico enmascaramiento en los 4 primeros letras de cuenta de banco
+
+
+
+
+// $amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
+       // $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
+
+
  El problema probablemente se debe a que estás seleccionando solo el campo stock en tu consulta con ->select('stock'). Esto significa que el objeto $product devuelto es un modelo parcial, y Laravel no puede realizar una operación de actualización con un modelo incompleto, ya que no tiene el campo id o la clave primaria necesaria para identificar el registro a actualizar.
 
  NO SOBREESCRIBIR LA VARIABLE $cashshift TAMPOCO $cashshifts

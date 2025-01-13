@@ -1,3 +1,40 @@
+class="cursor-default text-center w-full sm:w-20 px-3 py-1 mt-1 font-bold text-lime-800 bg-lime-300 border border-lime-100 rounded-lg shadow-md hover:bg-lime-400 active:bg-lime-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-lime-300 focus:ring-offset-2 transition-all ease-in-out"
+
+
+
+    $validator->after(function ($validator) use ($request) {
+    $balances = [];
+    foreach ($request->transactionmethod_uuids as $key => $transactionmethod_uuid) {
+        $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->select('balance', 'name')->first();
+        $product = Product::where('product_uuid', $request->product_uuids[$key] )->select('price', 'name')->first();
+        if ($transactionmethod && $product) {
+            if (!isset($balances[$transactionmethod->name])) {
+                $balances[$transactionmethod->name] = [
+                    'balance' => $transactionmethod->balance,
+                    'requested' => 0,
+            ];
+            }
+            $quantity = $request->quantities[$key] ?? 0;
+            $amount = $quantity * $product->price;
+            $balances[$transactionmethod->name]['requested'] += $amount;
+            if ($amount > $transactionmethod->balance && $transactionmethod->name !== "EFECTIVO") {
+                $validator->errors()->add('transactionmethod_uuids',__("El saldo disponible en {$transactionmethod->name} no es suficiente. Solicitado: Bs. {$amount}, Disponible: Bs. {$transactionmethod->balance}"));
+                return;
+            }
+        } else {
+            $validator->errors()->add('transactionmethod_uuids',__("El método de transacción {$transactionmethod->name} no fue encontrado."));
+        }
+    }
+    foreach ($balances as $name => $data) {
+        if ($data['requested'] > $data['balance'] && $name !== "EFECTIVO") {
+            $validator->errors()->add('transactionmethod_uuids',__("El saldo total disponible en {$name} no es suficiente. Solicitado: Bs. {$data['requested']}, Disponible: Bs. {$data['balance']}"));
+        }
+    }
+});
+
+
+
+
 "use strict";
 
 (() => {
@@ -218,7 +255,7 @@ const enableSearch = (th, placeholder) => {
     // Al perder el foco, restaurar el contenido original
     input.addEventListener("blur", function () {
         th.innerHTML = originalContent;
-        
+
     });
 };
 

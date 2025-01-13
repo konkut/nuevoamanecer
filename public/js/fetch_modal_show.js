@@ -16,24 +16,27 @@ function fetchDetails(uuid) {
             return response.json();
         })
         .then(data => {
-            document.querySelector(`#initial-balance-bill-200-${uuid}`).textContent = data.denomination.bill_200 ?? 0;
-            document.querySelector(`#initial-balance-bill-100-${uuid}`).textContent = data.denomination.bill_100 ?? 0;
-            document.querySelector(`#initial-balance-bill-50-${uuid}`).textContent = data.denomination.bill_50 ?? 0;
-            document.querySelector(`#initial-balance-bill-20-${uuid}`).textContent = data.denomination.bill_20 ?? 0;
-            document.querySelector(`#initial-balance-bill-10-${uuid}`).textContent = data.denomination.bill_10 ?? 0;
-            document.querySelector(`#initial-balance-coin-5-${uuid}`).textContent = data.denomination.coin_5 ?? 0;
-            document.querySelector(`#initial-balance-coin-2-${uuid}`).textContent = data.denomination.coin_2 ?? 0;
-            document.querySelector(`#initial-balance-coin-1-${uuid}`).textContent = data.denomination.coin_1 ?? 0;
-            document.querySelector(`#initial-balance-coin-0-5-${uuid}`).textContent = data.denomination.coin_0_5 ?? 0;
-            document.querySelector(`#initial-balance-coin-0-2-${uuid}`).textContent = data.denomination.coin_0_2 ?? 0;
-            document.querySelector(`#initial-balance-coin-0-1-${uuid}`).textContent = data.denomination.coin_0_1 ?? 0;
+            if (document.querySelector(`#modal-show-${uuid}`)) {
+                document.querySelector(`#initial-balance-bill-200-${uuid}`).textContent = data.denomination.bill_200 ?? 0;
+                document.querySelector(`#initial-balance-bill-100-${uuid}`).textContent = data.denomination.bill_100 ?? 0;
+                document.querySelector(`#initial-balance-bill-50-${uuid}`).textContent = data.denomination.bill_50 ?? 0;
+                document.querySelector(`#initial-balance-bill-20-${uuid}`).textContent = data.denomination.bill_20 ?? 0;
+                document.querySelector(`#initial-balance-bill-10-${uuid}`).textContent = data.denomination.bill_10 ?? 0;
+                document.querySelector(`#initial-balance-coin-5-${uuid}`).textContent = data.denomination.coin_5 ?? 0;
+                document.querySelector(`#initial-balance-coin-2-${uuid}`).textContent = data.denomination.coin_2 ?? 0;
+                document.querySelector(`#initial-balance-coin-1-${uuid}`).textContent = data.denomination.coin_1 ?? 0;
+                document.querySelector(`#initial-balance-coin-0-5-${uuid}`).textContent = data.denomination.coin_0_5 ?? 0;
+                document.querySelector(`#initial-balance-coin-0-2-${uuid}`).textContent = data.denomination.coin_0_2 ?? 0;
+                document.querySelector(`#initial-balance-coin-0-1-${uuid}`).textContent = data.denomination.coin_0_1 ?? 0;
+                document.querySelector(`#initial-balance-total-${uuid}`).textContent = data.denomination.total ?? 0;
+            }
             if (document.querySelector(`#initial-balance-physical-${uuid}`)){
                 document.querySelector(`#initial-balance-physical-${uuid}`).textContent = data.denomination.physical_cash ?? 0;
             }
             if (document.querySelector(`#initial-balance-digital-${uuid}`)){
                 document.querySelector(`#initial-balance-digital-${uuid}`).textContent = data.denomination.digital_cash ?? 0;
             }
-            document.querySelector(`#initial-balance-total-${uuid}`).textContent = data.denomination.total ?? 0;
+
             if (document.querySelector(`#show-incomes-modal-${uuid}`)) {
                 document.querySelector(`#incomes-balance-bill-200-${uuid}`).textContent = data.denomination_incomes.bill_200 ?? 0;
                 document.querySelector(`#incomes-balance-bill-100-${uuid}`).textContent = data.denomination_incomes.bill_100 ?? 0;
@@ -170,10 +173,10 @@ function fetchDetails(uuid) {
                     }
                 }
             }*/
-
+/*
             if (document.querySelector(`#closing-balance-${uuid}`)) {
                 document.querySelector(`#closing-balance-${uuid}`).textContent = parseFloat(data.denomination_closing.total).toFixed(2) ?? 0;
-            }
+            }*/
             openDetailsModal(uuid);
         })
         .catch(error => {

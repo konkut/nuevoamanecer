@@ -25,7 +25,7 @@ class TransactionmethodController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|unique:transactionmethods,name|string|max:30|regex:/^[a-zA-Z0-9\s]+$/',
+            'name' => 'required|unique:transactionmethods,name|string|max:30',
             'description' => 'nullable|string|max:100',
             'balance' => 'nullable|numeric|regex:/^\d{1,20}(\.\d{1,2})?$/',
         ];
@@ -53,7 +53,7 @@ class TransactionmethodController extends Controller
     {
         $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->firstOrFail();
         $rules = [
-            'name' => 'required|string|max:30|regex:/^[a-zA-Z0-9\s]+$/|unique:transactionmethods,name,' . $transactionmethod->transactionmethod_uuid . ',transactionmethod_uuid',
+            'name' => 'required|string|max:30|unique:transactionmethods,name,' . $transactionmethod->transactionmethod_uuid . ',transactionmethod_uuid',
             'description' => 'nullable|string|max:100',
             'balance' => 'nullable|numeric|regex:/^\d{1,20}(\.\d{1,2})?$/',
             'status' => 'required|integer',

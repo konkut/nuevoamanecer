@@ -44,7 +44,7 @@
                                     d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"/>
                             </svg>
                         </a>
-                        @if($cashshiftsvalidated)
+                        @if($cashshifts)
                             <a href="{{ route('expenses.create') }}"
                                title="Agregar"
                                class="bg-blue-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm">
@@ -73,7 +73,7 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'monto')">{{ __('word.expense.attribute.amount') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'método')">{{ __('word.expense.attribute.transactionmethod_uuid') }}</th>
+                                    onclick="enableSearch(this, 'método')">{{ __('word.expense.attribute.method_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'registrado por')">{{ __('word.expense.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -92,7 +92,7 @@
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->category->name }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->amount }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->transactionmethod->name }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->method->name }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
@@ -159,7 +159,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                                                         <div class="text-center">
                                                             <div class="mt-4">
                                                                 <p class="text-sm font-semibold">{{ __('word.expense.attribute.category_uuid') }}</p>
@@ -190,7 +190,7 @@
                                                                 <p>{{ $item->user->name }}</p>
                                                             </div>
                                                         </div>
-                                                        <div class="text-center pb-8 md:pb-0"
+                                                        {{--<div class="text-center pb-8 md:pb-0"
                                                              id="modal-show-{{$item->expense_uuid}}">
                                                             <div class="bg-[#f3f4f6] p-2">
                                                                 <div class="font-bold py-1 text-sm text-center">EGRESO FÍSICO
@@ -308,7 +308,7 @@
                                                                          id="initial-balance-total-{{$item->expense_uuid}}"></div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
                                                     </div>
                                                 </div>
                                             </div>

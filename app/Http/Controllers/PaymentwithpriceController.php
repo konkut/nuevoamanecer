@@ -51,8 +51,8 @@ class PaymentwithpriceController extends Controller
     {
         $paymentwithprice = new Paymentwithprice();
         $denomination = new Denomination();
-        $transactionmethods = Transactionmethod::all();
-        $servicewithoutprices = Servicewithoutprice::all();
+        $transactionmethods = Transactionmethod::where("status",'1')->get();
+        $servicewithoutprices = Servicewithoutprice::where("status",'1')->get();
         return view("paymentwithprice.create", compact('paymentwithprice', 'denomination', 'transactionmethods', 'servicewithoutprices'));
     }
     public function store(Request $request)
@@ -82,9 +82,14 @@ class PaymentwithpriceController extends Controller
             'coin_0_1' => 'nullable|integer',
             'physical_cash' => 'nullable|numeric',
             'digital_cash' => 'nullable|numeric',
-            'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
+            'total' => 'required|numeric',
         ];
         $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         $validator->after(function ($validator) use ($request) {
             $nameCount = count($request->input('names', []));
             $amountCount = count($request->input('amounts', []));
@@ -99,14 +104,20 @@ class PaymentwithpriceController extends Controller
                 $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithprice'));
             }
         });
+        $validator->after(function ($validator) use ($request) {
+            if ($request->total !== $request->charge) {
+                $validator->errors()->add(
+                    'transactionmethod_uuids',
+                    __("Total calculado: Bs. {$request->charge}. Total ingresado: Bs. {$request->total}. Por favor, revise los datos e intente nuevamente.")
+                );
+            }
+        });
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-       // $amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
-       // $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
         $denomination = Denomination::create([
             'type'=>1,
             'bill_200' => $request->bill_200 ?? 0,
@@ -135,14 +146,24 @@ class PaymentwithpriceController extends Controller
             'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
             'denomination_uuid'=> $denomination->denomination_uuid,
         ]);
+        foreach ($request->transactionmethod_uuids as $key => $transactionmethod_uuid) {
+            $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->first();
+            if ($transactionmethod && $transactionmethod->name !== "EFECTIVO") {
+                $amount = ($request->amounts[$key] + ($request->commissions[$key] ?? 0));
+                $new_balance = $transactionmethod->balance + $amount;
+                $transactionmethod->update([
+                    'balance' => $new_balance,
+                ]);
+            }
+        }
         return redirect("/paymentwithprices")->with('success', 'Ingreso registrado correctamente.');
     }
     public function edit(string $paymentwithprice_uuid)
     {
         $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->with('denominations')->firstOrFail();
         $denomination = $paymentwithprice->denominations;
-        $transactionmethods = Transactionmethod::all();
-        $servicewithoutprices = Servicewithoutprice::all();
+        $transactionmethods = Transactionmethod::where("status",'1')->get();
+        $servicewithoutprices = Servicewithoutprice::where("status",'1')->get();
         $names = $paymentwithprice->names;
         $commissions = $paymentwithprice->commissions;
         $amounts = $paymentwithprice->amounts;
@@ -179,9 +200,14 @@ class PaymentwithpriceController extends Controller
             'coin_0_1' => 'nullable|integer',
             'physical_cash' => 'nullable|numeric',
             'digital_cash' => 'nullable|numeric',
-            'total' => 'required|numeric|regex:/^(?!0(\.0{1,2})?$)\d{1,20}(\.\d{1,2})?$/',
+            'total' => 'required|numeric',
         ];
         $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         $validator->after(function ($validator) use ($request) {
             $nameCount = count($request->input('names', []));
             $amountCount = count($request->input('amounts', []));
@@ -196,24 +222,20 @@ class PaymentwithpriceController extends Controller
                 $validator->errors()->add('transactionmethod_uuids', __('validation.custom_paymentwithprice'));
             }
         });
+        $validator->after(function ($validator) use ($request) {
+            if ($request->total !== $request->charge) {
+                $validator->errors()->add(
+                    'transactionmethod_uuids',
+                    __("Total calculado: Bs. {$request->charge}. Total ingresado: Bs. {$request->total}. Por favor, revise los datos e intente nuevamente.")
+                );
+            }
+        });
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
         $cashshiftsvalidated = Cashshift::where('user_id', auth::id())->where('status', 1)->first();
-        //$amounts = array_map(fn($amount) => number_format((float) $amount, 2, '.', ''), $request->amounts ?? []);
-       // $commissions = array_map(fn($commission) => number_format((float) $commission, 2, '.', ''), $request->commissions ?? []);
-        $paymentwithprice->update([
-            'names' => $request->names,
-            'observation' => $request->observation,
-            'amounts' => $request->amounts,
-            'commissions' => $request->commissions,
-            'servicewithoutprice_uuids' => $request->servicewithoutprice_uuids,
-            'transactionmethod_uuids' => $request->transactionmethod_uuids,
-            'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
-            'user_id' => Auth::id(),
-        ]);
         $denomination->update([
             'bill_200' => $request->bill_200 ?? 0,
             'bill_100' => $request->bill_100 ?? 0,
@@ -230,11 +252,79 @@ class PaymentwithpriceController extends Controller
             'digital_cash' => $request->digital_cash ?? 0,
             'total' => $request->total ?? 0,
         ]);
+        foreach ($request->transactionmethod_uuids as $key => $transactionmethod_uuid) {
+            $transactionmethod_before = Transactionmethod::where('transactionmethod_uuid', $paymentwithprice->transactionmethod_uuids[$key])->first();
+            $transactionmethod_after = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->first();
+            if ($transactionmethod_before && $transactionmethod_after) {
+                $price_before = ($paymentwithprice->amounts[$key] + $paymentwithprice->commissions[$key]);
+                $price_after = ($request->amounts[$key] + ($request->commissions[$key] ?? 0));
+                if ($transactionmethod_after->name === "EFECTIVO" || $transactionmethod_before->name === "EFECTIVO"){
+                    if ($transactionmethod_before->name !== "EFECTIVO" && $transactionmethod_after->name === "EFECTIVO") {
+                        $balance_fixed = $transactionmethod_before->balance - $price_before;
+                        $transactionmethod_before->update([
+                            'balance' => $balance_fixed,
+                        ]);
+                    }
+                    if ($transactionmethod_before->name === "EFECTIVO" && $transactionmethod_after->name !== "EFECTIVO") {
+                        $new_balance = $transactionmethod_after->balance + $price_after;
+                        $transactionmethod_after->update([
+                            'balance' => $new_balance,
+                        ]);
+                    }
+                }else{
+                    if ($transactionmethod_before->name == $transactionmethod_after->name) {
+                        if ($price_before < $price_after) {
+                            $operation = $price_after - $price_before;
+                            $new_balance = $transactionmethod_after->balance + $operation;
+                            $transactionmethod_after->update([
+                                'balance' => $new_balance,
+                            ]);
+                        }
+                        if ($price_before > $price_after) {
+                            $operation = $price_before - $price_after;
+                            $new_balance = $transactionmethod_after->balance - $operation;
+                            $transactionmethod_after->update([
+                                'balance' => abs($new_balance),
+                            ]);
+                        }
+                    }else{
+                        $balance_fixed = $transactionmethod_before->balance - $price_before;
+                        $transactionmethod_before->update([
+                            'balance' => $balance_fixed,
+                        ]);
+                        $new_balance = $transactionmethod_after->balance + $price_after;
+                        $transactionmethod_after->update([
+                            'balance' => $new_balance,
+                        ]);
+                    }
+                }
+            }
+        }
+        $paymentwithprice->update([
+            'names' => $request->names,
+            'observation' => $request->observation,
+            'amounts' => $request->amounts,
+            'commissions' => $request->commissions,
+            'servicewithoutprice_uuids' => $request->servicewithoutprice_uuids,
+            'transactionmethod_uuids' => $request->transactionmethod_uuids,
+            'cashshift_uuid'=> $cashshiftsvalidated->cashshift_uuid,
+            'user_id' => Auth::id(),
+        ]);
         return redirect("/paymentwithprices")->with('success', 'Ingreso actualizado correctamente.');
     }
     public function destroy(string $paymentwithprice_uuid)
     {
         $paymentwithprice = Paymentwithprice::where('paymentwithprice_uuid', $paymentwithprice_uuid)->firstOrFail();
+        foreach ($paymentwithprice->transactionmethod_uuids as $key => $transactionmethod_uuid) {
+            $transactionmethod = Transactionmethod::where('transactionmethod_uuid', $transactionmethod_uuid)->first();
+            if ($transactionmethod && $transactionmethod->name !== "EFECTIVO") {
+                $amount = ($paymentwithprice->amounts[$key] + ($paymentwithprice->commissions[$key] ?? 0));
+                $new_balance = $transactionmethod->balance - $amount;
+                $transactionmethod->update([
+                    'balance' => $new_balance,
+                ]);
+            }
+        }
         $paymentwithprice->delete();
         return redirect("/paymentwithprices")->with('success', 'Ingreso eliminado correctamente.');
     }

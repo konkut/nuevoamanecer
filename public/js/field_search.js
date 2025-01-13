@@ -1,6 +1,4 @@
 "use strict";
-
-/*SEARCH TABLE LIST */
 const enableSearch = (th, placeholder) => {
     if (th.querySelector("input")) return;
     const originalContent = th.innerHTML;
@@ -24,8 +22,7 @@ const enableSearch = (th, placeholder) => {
 };
 const filterTable = (columnIndex, searchValue) => {
     const table = document.querySelector("table");
-    //TODAS LAS FILAS DE LA TABLA
-    const rows = table.querySelectorAll("tbody tr");
+    let rows = table.querySelectorAll("tbody tr");
     rows.forEach((row) => {
         const cell = row.querySelectorAll("td")[columnIndex]; // Ajusta el índice para comenzar desde 0
         if (cell) {

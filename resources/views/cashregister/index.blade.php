@@ -64,11 +64,15 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'nombre')">{{ __('word.cashregister.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'monto inicial')">{{ __('word.cashregister.attribute.initial_balance') }}</th>
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.cashregister.attribute.status') }}</th>
+                                    onclick="enableSearch(this, 'total')">{{ __('word.cashregister.attribute.total') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'registrado por')">{{ __('word.cashregister.attribute.user_id') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.cashregister.attribute.created_at') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'fecha de actualización')">{{ __('word.cashregister.attribute.updated_at') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'estado')">{{ __('word.cashregister.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -78,14 +82,16 @@
                                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name}}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->initial_balance, 2) }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->total }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
                                             <form id="details-form-{{$item->cashregister_uuid}}"
                                                   title="Visualizar"
-                                                  action="{{ route('cashregisters.showdetail', $item->cashregister_uuid) }}"
+                                                  action="{{ route('cashregisters.detail', $item->cashregister_uuid) }}"
                                                   method="POST" style="display: inline;">
                                                 @csrf
                                                 <button type="button"
@@ -115,9 +121,7 @@
                                             </button>
                                         </div>
                                     </td>
-
                                 </tr>
-
                                 <div id="details-modal-{{$item->cashregister_uuid}}"
                                      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                                     <div class="flex items-center justify-center min-h-screen">
@@ -140,12 +144,16 @@
                                                             <p>{{ $item->name }}</p>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.initial_balance') }}</p>
-                                                            <p>{{ $item->initial_balance }}</p>
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.total') }}</p>
+                                                            <p>{{ $item->total }}</p>
                                                         </div>
                                                         <div class="mt-4">
                                                             <p class="text-sm font-semibold ">{{ __('word.cashregister.attribute.status') }}</p>
                                                             <p>{{ $item->status ? '🟢' : '🔴' }}</p>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.user_id') }}</p>
+                                                            <p>{{ $item->user->name }}</p>
                                                         </div>
                                                         <div class="mt-4">
                                                             <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.created_at') }}</p>
@@ -154,10 +162,6 @@
                                                         <div class="mt-4">
                                                             <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.updated_at') }}</p>
                                                             <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
-                                                        </div>
-                                                        <div class="mt-4">
-                                                            <p class="text-sm font-semibold">{{ __('word.cashregister.attribute.user_id') }}</p>
-                                                            <p>{{ $item->user->name }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="text-center pb-8 md:pb-0"

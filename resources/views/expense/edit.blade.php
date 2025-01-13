@@ -38,8 +38,9 @@
                     @method("PUT" )
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.general.transaction')}}</h1>
                             <x-form-expense :expense="$expense"
-                                                   :transactionmethods="$transactionmethods"
+                                                   :methods="$methods"
                                                    :categories="$categories" />
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
@@ -54,7 +55,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <x-form-billcoin :denomination="$denomination" :digital="true" :title="'EGRESO'"></x-form-billcoin>
+                            <x-form-billcoin :denomination="$denomination" :digital="true" :balance="true"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
                                     {{ __('Save') }}

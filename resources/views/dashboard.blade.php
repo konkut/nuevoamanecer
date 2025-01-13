@@ -18,6 +18,7 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Dashboard') }}
             </h2>
+            {{--
             <div class="flex justify-end flex-1 items-center">
                 <x-label for="observation" value="Arqueo del día: "/>
                 <form action="{{ route('dashboards.search') }}" method="GET" id="dateForm">
@@ -29,6 +30,7 @@
                         onchange="document.getElementById('dateForm').submit()">
                 </form>
             </div>
+            --}}
         </div>
     </x-slot>
     @if (session('success'))
@@ -39,30 +41,50 @@
             <div class="bg-white shadow-xl rounded-lg mt-8">
                 <div class="p-6 text-gray-800">
                     <div class="text-center mb-6">
-                        <h2 class="text-md font-bold text-gray-700">Medios de Transacción</h2>
-                        <p class="text-sm text-gray-500">Estado general de saldos en el sistema</p>
+                        <h2 class="text-lg font-bold text-gray-700">Control de Operaciones</h2>
+                        <p class="text-sm text-gray-500">Información adicional sobre las operaciones</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <a href="{{ route('control') }}" class="flex justify-center items-center bg-gray-200 text-dark text-sm font-medium py-2  rounded-lg hover:bg-gray-300 transition duration-200">
+                            <i class="bi bi-gear-fill mr-2"></i>
+                            Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white shadow-xl rounded-lg mt-8">
+                <div class="p-6 text-gray-800">
+                    <div class="text-center mb-6">
+                        <h2 class="text-lg font-bold text-gray-700">Cuentas bancarias</h2>
+                        <p class="text-sm text-gray-500">Estado general de saldos de cuentas en el sistema</p>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-100">
                             <tr>
                                 <th class="px-3 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                                    Medio
+                                    Cuenta
                                 </th>
                                 <th class="px-3 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
-                                    Saldo
+                                    Débito
+                                </th>
+                                <th class="px-3 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
+                                    Crédito
+                                </th>
+                                <th class="px-3 py-3 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
+                                    Total
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($methods as $item)
+                            {{--@foreach($methods as $item)
                                 @if($item->name !== "EFECTIVO")
                                     <tr>
                                         <td class="px-3 py-2 text-xs text-gray-700">{{ $item->name }}</td>
                                         <td class="px-3 py-2 text-xs text-gray-700 text-right">{{ $item->balance }}</td>
                                     </tr>
                                 @endif
-                            @endforeach
+                            @endforeach--}}
                             </tbody>
                         </table>
                     </div>
@@ -155,7 +177,7 @@
                                 <div
                                     class="flex-1 rounded-lg p-4 text-center text-xs text-gray-600 space-y-3">
                                     <p><span
-                                            class="font-semibold text-gray-700">Caja asignada:</span> {{$cashshift->cashregister->name}}
+                                            class="font-semibold text-gray-700">Caja asignada:</span> {{$cashregister_name}}
                                     </p>
                                     <p><span
                                             class="font-semibold text-gray-700">Responsable:</span> {{$cashshift->user->name}}
@@ -218,23 +240,38 @@
                                     <div class="text-4xl"><i class="bi bi-box"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg">{{$total_cashregisters}} {{ __('word.cashregister.title') }}</p>
-                                <div class="mt-4 h-1 bg-green-200 rounded-full">
-                                    <div class="w-2/3 h-full bg-green-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            <a href="{{ route('cashflowdailies.index') }}"
-                               :active="request()->routeIs('cashflowdailies.index')"
-                               class="bg-gradient-to-r from-slate-700 via-slate-500 to-slate-300 text-white p-6 rounded-lg shadow-lg">
+                            <a href="{{ route('bankregisters.index') }}"
+                               :active="request()->routeIs('bankregisters.index')"
+                               class="bg-gradient-to-r from-[#D97941] via-[#F0A865] to-[#FDD5A5] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
-                                        class="text-2xl font-semibold">{{ __('word.general.total_cashflowdaily') }}</div>
-                                    <div class="text-4xl"><i class="bi bi-graph-up-arrow"></i></div>
+                                        class="text-2xl font-semibold">{{ __('word.general.total_bankregister') }}</div>
+                                    <div class="text-4xl"><i class="bi-cash-stack"></i></div>
                                 </div>
-                                <p class="mt-2 text-lg">{{$total_cashflowdailies}} {{ __('word.cashflowdaily.title') }}</p>
-                                <div class="mt-4 h-1 bg-green-200 rounded-full">
-                                    <div class="w-2/3 h-full bg-green-600"></div>
+                                <p class="mt-2 text-lg">{{$total_bankregisters}} {{ __('word.bankregister.title') }}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
+                            {{--
+                             <a href="{{ route('cashflowdailies.index') }}"
+                                :active="request()->routeIs('cashflowdailies.index')"
+                                class="bg-gradient-to-r from-slate-700 via-slate-500 to-slate-300 text-white p-6 rounded-lg shadow-lg">
+                                 <div class="flex items-center justify-between">
+                                     <div
+                                         class="text-2xl font-semibold">{{ __('word.general.total_cashflowdaily') }}</div>
+                                     <div class="text-4xl"><i class="bi bi-graph-up-arrow"></i></div>
+                                 </div>
+                                 <p class="mt-2 text-lg">{{$total_cashflowdailies}} {{ __('word.cashflowdaily.title') }}</p>
+                                 <div class="mt-4 h-1 bg-green-200 rounded-full">
+                                     <div class="w-2/3 h-full bg-green-600"></div>
+                                 </div>
+                             </a>
+                            --}}
                             <a href="{{ route('cashshifts.index') }}"
                                :active="request()->routeIs('cashshifts.index')"
                                class="bg-gradient-to-r from-[#F9A602] via-[#F9D835] to-[#FFED85] text-white p-6 rounded-lg shadow-lg">
@@ -243,34 +280,35 @@
                                         class="text-2xl font-semibold">{{ __('word.general.total_cashshift') }}</div>
                                     <div class="text-4xl"><i class="bi bi-person-circle"></i></div>
                                 </div>
-                                <p class="mt-2 text-lg">{{$total_cashshifts}}{{ __('word.cashshift.title') }}</p>
-                                <div class="mt-4 h-1 bg-yellow-200 rounded-full">
-                                    <div class="w-1/2 h-full bg-yellow-600"></div>
+                                <p class="mt-2 text-lg">{{$total_cashshifts}} {{ __('word.cashshift.title') }}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            <a href="{{ route('paymentwithprices.index') }}"
-                               :active="request()->routeIs('paymentwithprices.index')"
+                            <a href="{{ route('incomes.index') }}"
+                               :active="request()->routeIs('incomes.index')"
                                class="bg-gradient-to-r from-[#6A0572] via-[#AB47BC] to-[#E1BEE7] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
                                         class="text-2xl font-semibold">{{__('word.general.total_transaction')}}</div>
                                     <div class="text-4xl"><i class="bi bi-receipt"></i></div>
                                 </div>
-                                <p class="mt-2 text-lg">{{$total_payments}}{{__('word.payment.panel')}}</p>
-                                <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                    <div class="w-5/6 h-full bg-pink-600"></div>
+                                <p class="mt-2 text-lg">{{$total_incomes}} {{__('word.income.title')}}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            <a href="{{ route('sales.index') }}" :active="request()->routeIs('sales.index')"
+                            <a href="{{ route('sales.index') }}"
+                               :active="request()->routeIs('sales.index')"
                                class="bg-gradient-to-r from-[#A8E063] via-[#58D68D] to-[#2ECC71] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
-                                        class="text-2xl font-semibold">{{ __('word.general.total_sales') }}</div>
+                                        class="text-2xl font-semibold"> {{ __('word.general.total_sales') }}</div>
                                     <div class="text-4xl"><i class="bi bi-cash-stack"></i></div>
                                 </div>
-                                <p class="mt-2 text-lg"> {{$total_sales}}{{ __('word.sale.title') }}</p>
-                                <div class="mt-4 h-1 bg-red-200 rounded-full">
-                                    <div class="w-3/4 h-full bg-red-600"></div>
+                                <p class="mt-2 text-lg"> {{$total_sales}} {{ __('word.sale.title') }}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
                             <a href="{{ route('expenses.index') }}"
@@ -278,45 +316,43 @@
                                class="bg-gradient-to-r from-[#C92A2A] via-[#E63946] to-[#f79f96] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
-                                        class="text-2xl font-semibold">{{ __('word.general.total_expenses') }}</div>
+                                        class="text-2xl font-semibold"> {{ __('word.general.total_expenses') }}</div>
                                     <div class="text-4xl"><i class="bi bi-cash-stack"></i></div>
                                 </div>
-                                <p class="mt-2 text-lg">{{$total_expenses}}{{ __('word.expense.title') }}</p>
-                                <div class="mt-4 h-1 bg-red-200 rounded-full">
-                                    <div class="w-3/4 h-full bg-red-600"></div>
+                                <p class="mt-2 text-lg">{{$total_expenses}} {{ __('word.expense.title') }}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            @if(auth()->user()->hasRole('Administrador'))
-                                <a href="{{ route('users.index') }}"
-                                   :active="request()->routeIs('users.index')"
-                                   class="bg-gradient-to-r from-[#FF7EB3] via-[#FF758C] to-[#FEB47B] text-white p-6 rounded-lg shadow-lg">
-                                    <div class="flex items-center justify-between">
-                                        <div
-                                            class="text-2xl font-semibold">{{__('word.general.total_user')}}</div>
-                                        <div class="text-4xl"><i class="bi bi-file-earmark-person"></i>
-                                        </div>
+                            <a href="{{ route('users.index') }}"
+                               :active="request()->routeIs('users.index')"
+                               class="bg-gradient-to-r from-[#FF7EB3] via-[#FF758C] to-[#FEB47B] text-white p-6 rounded-lg shadow-lg">
+                                <div class="flex items-center justify-between">
+                                    <div
+                                        class="text-2xl font-semibold">{{__('word.general.total_user')}}</div>
+                                    <div class="text-4xl"><i class="bi bi-file-earmark-person"></i>
                                     </div>
-                                    <p class="mt-2 text-lg">{{$total_users}} {{__('word.user.title')}}</p>
-                                    <div class="mt-4 h-1 bg-green-200 rounded-full">
-                                        <div class="w-2/3 h-full bg-green-600"></div>
-                                    </div>
-                                </a>
-                                <a href="{{ route('categories.index') }}"
-                                   :active="request()->routeIs('categories.index')"
-                                   class="bg-gradient-to-r from-[#6A11CB] via-[#2575FC] to-[#a1c3fb] text-white p-6 rounded-lg shadow-lg">
-                                    <div class="flex items-center justify-between">
-                                        <div
-                                            class="text-2xl font-semibold">{{__('word.general.total_category')}}</div>
-                                        <div class="text-4xl"><i class="bi bi-folder"></i></div>
-                                    </div>
-                                    <p class="mt-2 text-lg">{{$total_categories}} {{__('word.category.title')}}</p>
-                                    <div class="mt-4 h-1 bg-blue-200 rounded-full">
-                                        <div class="w-3/4 h-full bg-blue-600"></div>
-                                    </div>
-                                </a>
-                            @endif
-                            <a href="{{ route('serviceswithoutprices.index') }}"
-                               :active="request()->routeIs('serviceswithoutprices.index')"
+                                </div>
+                                <p class="mt-2 text-lg">{{$total_users}} {{__('word.user.title')}}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
+                                </div>
+                            </a>
+                            <a href="{{ route('categories.index') }}"
+                               :active="request()->routeIs('categories.index')"
+                               class="bg-gradient-to-r from-[#6A11CB] via-[#2575FC] to-[#a1c3fb] text-white p-6 rounded-lg shadow-lg">
+                                <div class="flex items-center justify-between">
+                                    <div
+                                        class="text-2xl font-semibold">{{__('word.general.total_category')}}</div>
+                                    <div class="text-4xl"><i class="bi bi-folder"></i></div>
+                                </div>
+                                <p class="mt-2 text-lg">{{$total_categories}} {{__('word.category.title')}}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
+                                </div>
+                            </a>
+                            <a href="{{ route('services.index') }}"
+                               :active="request()->routeIs('services.index')"
                                class="bg-gradient-to-r from-[#0F9B0F] via-[#00B09B] to-[#96FBC4] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
@@ -324,8 +360,8 @@
                                     <div class="text-4xl"><i class="bi bi-grid"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg">{{$total_services}} {{__('word.service.title')}}</p>
-                                <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                    <div class="w-5/6 h-full bg-pink-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
                             <a href="{{ route('products.index') }}"
@@ -337,25 +373,23 @@
                                     <div class="text-4xl"><i class="bi bi-grid"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg">{{$total_products}} {{__('word.product.title')}}</p>
-                                <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                    <div class="w-5/6 h-full bg-pink-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            @if(auth()->user()->hasRole('Administrador'))
-                                <a href="{{ route('transactionmethods.index') }}"
-                                   :active="request()->routeIs('transactionmethods.index')"
-                                   class="bg-gradient-to-r from-[#078aad] via-[#2da3c3] to-[#65d5f3] text-white p-6 rounded-lg shadow-lg">
-                                    <div class="flex items-center justify-between">
-                                        <div
-                                            class="text-2xl font-semibold">{{__('word.general.total_method')}}</div>
-                                        <div class="text-4xl"><i class="bi bi-cash"></i></div>
-                                    </div>
-                                    <p class="mt-2 text-lg">{{$total_transactionmethods}} {{__('word.transactionmethod.title')}}</p>
-                                    <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                        <div class="w-5/6 h-full bg-pink-600"></div>
-                                    </div>
-                                </a>
-                            @endif
+                            <a href="{{ route('methods.index') }}"
+                               :active="request()->routeIs('methods.index')"
+                               class="bg-gradient-to-r from-[#078aad] via-[#2da3c3] to-[#65d5f3] text-white p-6 rounded-lg shadow-lg">
+                                <div class="flex items-center justify-between">
+                                    <div
+                                        class="text-2xl font-semibold">{{__('word.general.total_method')}}</div>
+                                    <div class="text-4xl"><i class="bi bi-cash"></i></div>
+                                </div>
+                                <p class="mt-2 text-lg">{{$total_methods}} {{__('word.method.title')}}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

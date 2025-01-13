@@ -1,5 +1,4 @@
 function fetch_one_sesion(event,uuid, element) {
-    //event.preventDefault();
     const url = document.getElementById(`state-session-form-${uuid}`).href;
     const allCards = document.querySelectorAll('#cards-container div');
     allCards.forEach(card => {

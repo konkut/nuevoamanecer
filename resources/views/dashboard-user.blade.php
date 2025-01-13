@@ -118,7 +118,7 @@
                             <div
                                 class="flex-1 rounded-lg p-4 text-center text-xs text-gray-600 space-y-3">
                                 <p><span
-                                        class="font-semibold text-gray-700">Caja asignada:</span> {{$cashshift->cashregister->name}}
+                                        class="font-semibold text-gray-700">Caja asignada:</span> {{$cashregister_name}}
                                 </p>
                                 <p><span
                                         class="font-semibold text-gray-700">Responsable:</span> {{$cashshift->user->name}}
@@ -182,21 +182,21 @@
                                     <div class="text-4xl"><i class="bi bi-person-circle"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg">{{$total_cashshifts_by_user}} {{ __('word.cashshift.title') }}</p>
-                                <div class="mt-4 h-1 bg-yellow-200 rounded-full">
-                                    <div class="w-1/2 h-full bg-yellow-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            <a href="{{ route('paymentwithprices.index') }}"
-                               :active="request()->routeIs('paymentwithprices.index')"
+                            <a href="{{ route('incomes.index') }}"
+                               :active="request()->routeIs('incomes.index')"
                                class="bg-gradient-to-r from-[#6A0572] via-[#AB47BC] to-[#E1BEE7] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
                                         class="text-2xl font-semibold">{{__('word.general.total_transaction')}}</div>
                                     <div class="text-4xl"><i class="bi bi-receipt"></i></div>
                                 </div>
-                                <p class="mt-2 text-lg"> {{$total_payments_by_user}}  {{__('word.payment.panel')}}</p>
-                                <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                    <div class="w-5/6 h-full bg-pink-600"></div>
+                                <p class="mt-2 text-lg"> {{$total_incomes_by_user}}  {{__('word.income.title')}}</p>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
                             <a href="{{ route('sales.index') }}" :active="request()->routeIs('sales.index')"
@@ -220,12 +220,12 @@
                                     <div class="text-4xl"><i class="bi bi-cash-stack"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg"> {{$total_expenses_by_user}} {{ __('word.expense.title') }}</p>
-                                <div class="mt-4 h-1 bg-red-200 rounded-full">
-                                    <div class="w-3/4 h-full bg-red-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
-                            <a href="{{ route('serviceswithoutprices.index') }}"
-                               :active="request()->routeIs('serviceswithoutprices.index')"
+                            <a href="{{ route('services.index') }}"
+                               :active="request()->routeIs('services.index')"
                                class="bg-gradient-to-r from-[#0F9B0F] via-[#00B09B] to-[#96FBC4] text-white p-6 rounded-lg shadow-lg">
                                 <div class="flex items-center justify-between">
                                     <div
@@ -233,8 +233,8 @@
                                     <div class="text-4xl"><i class="bi bi-grid"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg">{{$total_services}} {{__('word.service.title')}}</p>
-                                <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                    <div class="w-5/6 h-full bg-pink-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
                             <a href="{{ route('products.index') }}"
@@ -246,8 +246,8 @@
                                     <div class="text-4xl"><i class="bi bi-grid"></i></div>
                                 </div>
                                 <p class="mt-2 text-lg">{{$total_products}} {{__('word.product.title')}}</p>
-                                <div class="mt-4 h-1 bg-pink-200 rounded-full">
-                                    <div class="w-5/6 h-full bg-pink-600"></div>
+                                <div class="mt-4 h-1 bg-gray-200 rounded-full">
+                                    <div class="w-2/3 h-full bg-gray-400"></div>
                                 </div>
                             </a>
                         </div>

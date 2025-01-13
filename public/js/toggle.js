@@ -9,7 +9,7 @@ const toggleStatus = () => {
     // Cambia el estado del toggle
     if (hiddenInput.value === "1") {
         hiddenInput.value = "0"; // Cambia a Off
-        statusText.innerText = "Off";
+        statusText.innerText = "Deshabilitado";
         statusText.classList.remove("text-green-500");
         statusText.classList.add("text-red-500");
         toggleButton.classList.remove("bg-green-500");
@@ -18,7 +18,7 @@ const toggleStatus = () => {
         toggleCircle.classList.add("bg-red-600");
     } else {
         hiddenInput.value = "1"; // Cambia a On
-        statusText.innerText = "On";
+        statusText.innerText = "Habilitado";
         statusText.classList.remove("text-red-500");
         statusText.classList.add("text-green-500");
         toggleButton.classList.remove("bg-red-500");
