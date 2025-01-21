@@ -14,9 +14,7 @@
     <x-slot name="metaOgDescription">
         {{ __('word.cashshift.meta.index.description')}}
     </x-slot>
-
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
@@ -25,14 +23,11 @@
         <script type="text/javascript" src="{{ asset('/js/cashshift/unlock_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_cash_shift.js?v='.time()) }}"></script>
     </x-slot>
-
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('word.cashshift.resource.index') }}
         </h2>
     </x-slot>
-
     @if (session('success'))
         <x-alert :message="session('success')"/>
     @endif
@@ -143,7 +138,6 @@
                                                         </form>
                                                     @endif
                                                 @endif
-
                                                 @if(!$item->cashcount)
                                                     <a href="{{ route('cashshifts.create_physical',$item->cashshift_uuid) }}"
                                                        class="bg-pink-500 text-white px-2 py-1 rounded text-xs"
@@ -213,10 +207,11 @@
                                         </td>
                                     </tr>
                                     <div id="details-modal-{{$item->cashshift_uuid}}"
-                                         class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto py-3">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-modal-{{$item->cashshift_uuid}}">
                                             <div
-                                                class="bg-white rounded-2xl shadow-2xl w-11/12 sm:w-3/4 md:w-1/3 transform transition-transform scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 transform transition-transform scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 bg-[#d1d5db] text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                                     <button type="button"
@@ -227,51 +222,51 @@
                                                     <h1 class="text-lg font-semibold mx-auto">{{__('word.cashshift.resource.show')}}</h1>
                                                 </div>
                                                 <div
-                                                    class="py-12 px-4 text-slate-600 rounded-b-2xl shadow-inner md:max-w-2xl p-8">
+                                                    class="py-12 px-4 text-slate-600 rounded-b-2xl shadow-inner md:max-w-2xl">
                                                     <div class="text-center">
                                                         <div>
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.start_time') }}</p>
                                                             <p>{{ $item->start_time }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.end_time') }}</p>
                                                             <p>{{ $item->end_time ?? "Pendiente" }}</p>
                                                         </div>
                                                         @if($item->observation)
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.observation') }}</p>
                                                                 <p>{{ $item->observation }}</p>
                                                             </div>
                                                         @endif
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.cashregister_uuid') }}</p>
                                                             <p>{{ $item->cash_name }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.initial_balance') }}</p>
                                                             <p>{{ $item->cash_total }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.bankregister_uuids') }}</p>
                                                             <p>{{ implode(', ', $item->bank_name) }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.bank_balance') }}</p>
                                                             <p>{{ implode(', ', $item->bank_total) }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold ">{{ __('word.cashshift.attribute.status') }}</p>
                                                             <p>{{ $item->status ? '🟢' : '🔴' }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.user_id') }}</p>
                                                             <p>{{ $item->user->name }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.created_at') }}</p>
                                                             <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.cashshift.attribute.updated_at') }}</p>
                                                             <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                         </div>
@@ -280,17 +275,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal Delete -->
                                     <div id="modal-{{$item->cashshift_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-delete-{{$item->cashshift_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 border-b flex justify-between items-center">
                                                     <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                     <button type="button"
-                                                            class="close-modal text-gray-500 hover:text-gray-700"
+                                                            class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
                                                             onclick="closeModal('{{$item->cashshift_uuid}}')">
                                                         &times;
                                                     </button>
@@ -322,8 +317,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Paginaci車n -->
                     <div class="pagination-wrapper mt-4">
                         {!! $cashshifts->appends(['perPage' => $perPage])->links() !!}
                     </div>

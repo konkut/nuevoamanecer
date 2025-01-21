@@ -14,9 +14,7 @@
     <x-slot name="metaOgDescription">
         {{ __('word.income.meta.index.description')}}
     </x-slot>
-
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
@@ -90,7 +88,8 @@
                             <tbody>
                             @foreach($incomes as $item)
                                 @php
-                                    $validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+                                    //$validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+                                $validation = true;
                                 @endphp
                                 @if(auth()->user()->hasRole('Administrador') || $item->user_id == Auth::id())
                                     <tr class="hover:bg-[#d1d5db44] transition duration-200">
@@ -168,10 +167,11 @@
                                         </td>
                                     </tr>
                                     <div id="details-modal-{{$item->income_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto py-3">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto py-3">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-modal-{{$item->income_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
                                                     <h1 class="text-lg font-semibold mx-auto">{{ __('word.income.resource.show') }}</h1>
@@ -184,36 +184,38 @@
                                                 <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                         <div class="text-center">
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.income.attribute.service_uuid') }}</p>
                                                                 {{ implode(', ', $item->services) }}
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.income.attribute.amount') }}</p>
                                                                 {{ implode(', ', $item->amounts) }}
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.income.attribute.commission') }}</p>
 
                                                             </div>
                                                             @if($item->observation)
-                                                                <div class="mt-4">
+                                                                <div class="mt-2">
                                                                     <p class="text-sm font-semibold">{{ __('word.income.attribute.observation') }}</p>
                                                                     <p>{{ $item->observation }}</p>
                                                                 </div>
                                                             @endif
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.income.attribute.created_at') }}</p>
                                                                 <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.income.attribute.updated_at') }}</p>
                                                                 <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                             </div>
-                                                            <div class="mt-4">
-                                                                <p class="text-sm font-semibold">{{ __('word.income.attribute.user_id') }}</p>
-                                                                <p>{{ $item->user->name }}</p>
-                                                            </div>
+                                                            @if(auth()->user()->hasRole('Administrador'))
+                                                                <div class="mt-2">
+                                                                    <p class="text-sm font-semibold">{{ __('word.income.attribute.user_id') }}</p>
+                                                                    <p>{{ $item->user->name }}</p>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                         <div class="text-center pb-8 md:pb-0"
                                                              id="modal-show-{{$item->income_uuid}}">
@@ -343,17 +345,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal -->
                                     <div id="modal-{{$item->income_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-delete-{{$item->income_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 border-b flex justify-between items-center">
                                                     <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                     <button type="button"
-                                                            class="close-modal text-gray-500 hover:text-gray-700"
+                                                            class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
                                                             onclick="closeModal('{{$item->income_uuid}}')">
                                                         &times;
                                                     </button>
@@ -385,8 +387,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Paginaci車n -->
                     <div class="pagination-wrapper mt-4">
                         {!! $incomes->appends(['perPage' => $perPage])->links() !!}
                     </div>

@@ -31,7 +31,10 @@ class Denomination extends Model
         'coin_0_1',
         'total',
         'cashregister_uuid',
-        'reference_uuid',
+        'cashshift_uuid',
+        'income_uuid',
+        'expense_uuid',
+        'sale_uuid',
     ];
     protected $attributes = [
         'bill_200' => 0.00,
@@ -50,6 +53,23 @@ class Denomination extends Model
     public function cashregister()
     {
         return $this->belongsTo(Cashregister::class, 'cashregister_uuid', 'cashregister_uuid');
+    }
+
+    public function cashshift()
+    {
+        return $this->belongsTo(Cashshift::class, 'cashshift_uuid', 'cashshift_uuid');
+    }
+    public function income()
+    {
+        return $this->belongsTo(Income::class, 'income_uuid', 'income_uuid');
+    }
+    public function expense()
+    {
+        return $this->belongsTo(Expense::class, 'expense_uuid', 'expense_uuid');
+    }
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class, 'sale_uuid', 'sale_uuid');
     }
     protected static function boot()
     {

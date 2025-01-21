@@ -47,7 +47,7 @@
                 <select id="cashregister_uuid"
                         class="focus-and-blur w-full border-t border-b border-[#d1d5db] pl-9 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400"
                         name="cashregister_uuid"
-                        onchange="fetchData(this.value)">
+                        onchange="fetch_data(this.value)">
                     <option value=""
                             disabled {{ old('cashregister_uuid', $cashshift->cashregister_uuid) ? '' : 'selected' }}>
                         {{__('word.cashshift.select_cashregister')}}

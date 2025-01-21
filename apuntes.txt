@@ -1,3 +1,18 @@
+Log::info("data_initial_session", ['date' => $this->date]);
+
+msgs: JSON.stringify(['mensaje #1', 'mensaje #2', 'mensaje #3']
+messages = JSON.parse(data.msgs);
+(3) ['mensaje #1', 'mensaje #2', 'mensaje #3']
+
+
+
+El problema ocurre porque ambas tablas tienen una columna user_id, y al incluir 'cashregisters.*', se sobrescribe el valor de cashshifts.user_id con el de cashregisters.user_id. Para evitarlo:
+
+Usa alias (as) para diferenciar las columnas.
+Selecciona explícitamente las columnas necesarias.
+
+en lugar de la consulta esperada con JOIN es porque Eloquent, al trabajar con soft deletes, automáticamente aplica una cláusula WHERE deleted_at IS NULL en las tablas involucradas.
+
 data-price="{{$products->firstWhere('product_uuid', $product_uuid)->price}}"
 
 

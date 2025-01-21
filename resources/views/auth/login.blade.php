@@ -2,7 +2,6 @@
 
   <x-slot name="js_files">
       <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
-    <script type="text/javascript" src="{{ asset('js/lang/es.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ asset('js/components/show-password.js?v='.time()) }}"></script>
   </x-slot>
 

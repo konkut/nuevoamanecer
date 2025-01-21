@@ -1,1 +1,0 @@
-<div>{{$expense}}</div>

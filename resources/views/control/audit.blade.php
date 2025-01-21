@@ -38,7 +38,6 @@
                             </select>
                         </form>
                     </div>
-                    <!-- Tabla de datos -->
                     <div class="text-black grid grid-cols-1 md:grid-cols-[74%_25%] gap-4">
                         <div class="overflow-x-auto md:overflow-x-hidden">
                             <table id="table_cash" class="w-full border-collapse border-[#2563eb] text-center text-xs">
@@ -77,25 +76,28 @@
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                         title="">{{ __('word.general.actions') }}</th>
                                     --}}
-
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 @foreach($denominations as $item)
-                                    <tr class="hover:bg-[#d1d5db44] transition duration-200 {{ $last_record->reference_uuid == $item->reference_uuid ? 'bg-yellow-200' : '' }}">
+                                    <tr class="hover:bg-[#d1d5db44] transition duration-200
+                                    {{ $last_record->cash_income_uuid === $item->income_uuid && $last_record->cash_income_uuid ||
+                                        $last_record->cash_expense_uuid === $item->expense_uuid && $last_record->cash_expense_uuid ||
+                                        $last_record->cash_sale_uuid === $item->sale_uuid && $last_record->cash_sale_uuid ? 'bg-yellow-200' : '' }}">
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->cashregister->name ?? "" }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                            @if($item->type == 1)
+                                            @if($item->type == 2)
                                                 APERTURA
-                                            @elseif($item->type == 2)
-                                                SESIÓN
                                             @elseif($item->type == 3)
                                                 INGRESO
                                             @elseif($item->type == 4)
                                                 EGRESO
                                             @elseif($item->type == 5)
                                                 ARQUEO
+                                            @elseif($item->type == 6)
+                                                CIERRE
                                             @endif</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->total }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->bill_200 }}</td>
@@ -192,20 +194,23 @@
                                 </thead>
                                 <tbody>
                                 @foreach($transactions as $item)
-                                    <tr class="hover:bg-[#d1d5db44] transition duration-200 {{ $last_record->reference_uuid == $item->reference_uuid ? 'bg-yellow-200' : '' }}">
+                                    <tr class="hover:bg-[#d1d5db44] transition duration-200
+                                    {{ $last_record->bank_income_uuid === $item->income_uuid && $last_record->bank_income_uuid ||
+                                        $last_record->bank_expense_uuid === $item->expense_uuid && $last_record->bank_expense_uuid ||
+                                        $last_record->bank_sale_uuid === $item->sale_uuid && $last_record->bank_sale_uuid ? 'bg-yellow-200' : '' }}">
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->bankregister->name ?? "Sin asignar"}}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
-                                            @if($item->type == 1)
+                                            @if($item->type == 2)
                                                 APERTURA
-                                            @elseif($item->type == 2)
-                                                SESIÓN
                                             @elseif($item->type == 3)
                                                 CRÉDITO
                                             @elseif($item->type == 4)
                                                 DÉBITO
                                             @elseif($item->type == 5)
                                                 ARQUEO
+                                            @elseif($item->type == 6)
+                                                CIERRE
                                             @endif</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->total }}</td>
                                         {{--
@@ -271,7 +276,6 @@
                             </table>
                         </div>
                     </div>
-                    <!-- Paginaci車n -->
                     <div class="pagination-wrapper mt-4">
                         {!! $denominations->appends(['perPage' => $perPage])->links() !!}
                     </div>

@@ -15,10 +15,8 @@
         {{ __('word.product.meta.index.description')}}
     </x-slot>
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
@@ -72,7 +70,8 @@
                                 @endif
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'estado')">{{ __('word.product.attribute.status') }}</th>
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1" title="">{{ __('word.general.actions') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1"
+                                    title="">{{ __('word.general.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -94,9 +93,12 @@
                                                    title="Visualizar"
                                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                    onclick="openDetailsModal('{{$item->product_uuid}}')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                        <path
+                                                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                                     </svg>
                                                 </a>
                                             @endcan
@@ -104,8 +106,11 @@
                                                 <a href="{{ route('products.edit',$item->product_uuid) }}"
                                                    class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
                                                    title="Modificar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eyedropper" viewBox="0 0 16 16">
-                                                        <path d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-eyedropper"
+                                                         viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
                                                     </svg>
                                                 </a>
                                             @endcan
@@ -114,21 +119,24 @@
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                         onclick="openModal('{{ $item->product_uuid }}', '{{ $item->name }}')"
                                                         title="Eliminar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                        <path
+                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                                     </svg>
                                                 </button>
                                             @endcan
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- modal show -->
                                 <div id="details-modal-{{$item->product_uuid}}"
-                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto py-3">
-                                    <div class="flex items-center justify-center min-h-screen">
+                                     class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto py-3">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-modal-{{$item->product_uuid}}">
                                         <div
-                                            class="bg-white rounded-2xl shadow-2xl w-11/12 sm:w-3/4 md:w-1/3 transform transition-transform scale-100 opacity-100 duration-300">
+                                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 transform transition-transform scale-100 opacity-100 duration-300">
                                             <div
                                                 class="modal-header p-4 bg-[#d1d5db] text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                                 <button type="button"
@@ -139,64 +147,61 @@
                                                 <h1 class="text-lg font-semibold mx-auto">{{ __('word.product.resource.show') }}</h1>
                                             </div>
                                             <div
-                                                class="py-12 px-4 text-slate-600 rounded-b-2xl shadow-inner md:max-w-2xl p-8">
-                                                <div class="text-center">
-                                                    <div>
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.name') }}</p>
-                                                        <p>{{ $item->name }}</p>
-                                                    </div>
-                                                    @if($item->description)
-                                                        <div class="mt-6">
-                                                            <p class="text-sm font-semibold ">{{ __('word.product.attribute.description') }}</p>
-                                                            <p>{{ $item->description }}</p>
-                                                        </div>
-                                                    @endif
-                                                    <div class="mt-6">
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.price') }}</p>
-                                                        <p>{{ $item->price }}</p>
-                                                    </div>
-                                                    <div class="mt-6">
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.stock') }}</p>
-                                                        <p>{{ $item->stock }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.category_uuid') }}</p>
-                                                        <p>{{ $item->category->name }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.status') }}</p>
-                                                        <p>{{ $item->status ? '🟢' : '🔴' }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold">{{ __('word.product.attribute.created_at') }}</p>
-                                                        <p> {{ $item->created_at->format('H:i d/m/Y') }}</p>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.updated_at') }}</p>
-                                                        <p> {{ $item->updated_at->format('H:i d/m/Y') }}</p>
-                                                    </div>
-                                                    @if(auth()->user()->hasRole('Administrador'))
-                                                        <div class="mt-4">
-                                                            <p class="text-sm font-semibold ">{{ __('word.product.attribute.user_id') }}</p>
-                                                            <p> {{ $item->user->name }}</p>
-                                                        </div>
-                                                    @endif
+                                                class="py-12 px-4 text-slate-600 rounded-b-2xl shadow-inner md:max-w-2xl text-center">
+                                                <div>
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.name') }}</p>
+                                                    <p>{{ $item->name }}</p>
                                                 </div>
+                                                @if($item->description)
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.description') }}</p>
+                                                        <p>{{ $item->description }}</p>
+                                                    </div>
+                                                @endif
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.price') }}</p>
+                                                    <p>{{ $item->price }}</p>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.stock') }}</p>
+                                                    <p>{{ $item->stock }}</p>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.category_uuid') }}</p>
+                                                    <p>{{ $item->category->name }}</p>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.status') }}</p>
+                                                    <p>{{ $item->status ? '🟢' : '🔴' }}</p>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold">{{ __('word.product.attribute.created_at') }}</p>
+                                                    <p> {{ $item->created_at->format('H:i d/m/Y') }}</p>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.updated_at') }}</p>
+                                                    <p> {{ $item->updated_at->format('H:i d/m/Y') }}</p>
+                                                </div>
+                                                @if(auth()->user()->hasRole('Administrador'))
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.user_id') }}</p>
+                                                        <p> {{ $item->user->name }}</p>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Modal -->
                                 <div id="modal-{{$item->product_uuid}}"
-                                     class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-                                    <div class="flex items-center justify-center min-h-screen">
+                                     class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-delete-{{$item->product_uuid}}">
                                         <div
-                                            class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                 <button type="button"
-                                                        class="close-modal text-gray-500 hover:text-gray-700"
+                                                        class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
                                                         onclick="closeModal('{{$item->product_uuid}}')">&times;
                                                 </button>
                                             </div>
@@ -226,8 +231,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Paginaci車n -->
                     <div class="pagination-wrapper mt-4">
                         {!! $products->appends(['perPage' => $perPage])->links() !!}
                     </div>

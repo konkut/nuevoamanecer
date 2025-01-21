@@ -1,6 +1,5 @@
 <x-guest-layout>
   <x-slot name="js_files">
-
       <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
   </x-slot>
   <x-authentication-card>

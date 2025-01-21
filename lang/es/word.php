@@ -16,9 +16,13 @@ return [
     'general' => [
         "app" => "Nuevo amanecer",
         "author" => "Pedro Luis Condori Cutile",
+        "close_md_alert"=>"Cerrar",
         "show_password" => "Mostrar contraseña",
         'loader' => 'Procesando tu solicitud...',
         'error' => 'Ha ocurrido un error',
+        'success' => 'Petición exitosa',
+        'not_found' => 'El registro relacionado no existe o ha sido eliminado.',
+        'bad_request' => 'Ocurrio un error, porfavor intente nuevamente.',
         'error_validation' => 'Fallo de validación',
         '10_items' => '10 registros',
         '20_items' => '20 registros',
@@ -26,6 +30,7 @@ return [
         '100_items' => '100 registros',
         'delete_title' => 'Confirmar eliminación',
         'delete_warning' => '? Esta acción también eliminará todas las tareas relacionadas y no se puede deshacer.',
+        'validation'=> "¡Ups! Algo salió mal:",
         'actions' => 'Acciones',
         'total_category'=>'Total categorias',
         'total_service'=>'Total servicios',
@@ -439,6 +444,7 @@ return [
         'delete_confirmation' => '¿Está seguro de eliminar la caja',
         'box_register'=>'REGISTRO DE CAJA',
         'box_modified'=>'ACTUALIZACIÓN DE CAJA',
+        'denomination'=>'Monto de apertura',
         'meta' => [
             'create' => [
                 'title' => 'Nueva caja',
@@ -699,7 +705,7 @@ return [
             'edit' => [
                 'title' => 'Actualizar banco',
                 'description' => 'Edita y actualiza una banco existente.',
-                'keywords' => 'editar caja, actualizar banco, plataforma',
+                'keywords' => 'editar banco, actualizar banco, plataforma',
             ],
             'index' => [
                 'title' => 'Lista de bancos',
@@ -709,10 +715,10 @@ return [
             "author" => 'Pedro Luis Condori Cutile',
         ],
         'resource' => [
-            "create" => "Nueva banco",
+            "create" => "Nuevo banco",
             "edit" => "Actualizar banco",
-            "show" => "Detalles de la banco",
-            "index" => "Lista de banco",
+            "show" => "Detalles del banco",
+            "index" => "Lista de bancos",
         ],
         'attribute' => [
             "name" => "Nombre",
@@ -756,6 +762,77 @@ return [
             "cash_uuid" => "CAJA",
             "bank_uuid" => "BANCO",
             "reference_uuid" => "MODELO",
+        ],
+    ],
+
+    'panel' => [
+        'error' => [
+            'fetch'=>'Ocurrió un error al generar las vistas.'
+        ],
+        'inventory' => [
+            "title"=>"Inventario Total de Productos",
+            "subtitle"=>"Estado general del stock en el sistema",
+            "product"=>"Producto",
+            "quantity"=>"Cantidad",
+            "price"=>"Precio",
+        ],
+        'session' => [
+            "title" => 'Estado de la Sesión de Caja',
+            "subtitle" => 'Detalles de la sesión actual',
+            "box" => 'Caja asignada:',
+            "user" => 'Responsable:',
+            "start_time" => 'Fecha de apertura:',
+            "end_time" => 'Fecha de cierre:',
+            "observation" => 'Observaciones:',
+        ],
+        'control' => [
+            "title" => "Control de Operaciones",
+            "subtitle" => "Información adicional sobre las operaciones",
+            "detail" => "Ver detalles",
+        ],
+        'off-session' => [
+            "title" => "No tienes una sesión de caja activa",
+            "subtitle" => "Por favor, solicita la activación de una nueva sesión de caja para continuar con tus operaciones.",
+        ],
+        'date-session' => [
+            "title" => "Sin registros de sesión",
+            "subtitle" => "Por favor, asegúrese de elegir otra fecha con registros disponibles.",
+        ],
+        'without-session' => [
+            "title" => "No hay sesiones de caja activas",
+            "subtitle" => "Por favor, intente buscar en otra fecha.",
+        ],
+        'all-sessions' => [
+            "title" => "Ver todas las sesiones",
+            "subtitle" => "Haz clic para explorar el historial completo de sesiones activas.",
+        ],
+        'summary' => [
+            "cash" => "Caja",
+            "bank" => "Banco",
+            "total" => "Total",
+            "account" => "Cuenta",
+            "current" => "Cantidad del día actual",
+            "subtitle" => "No se registraron movimientos en este día.",
+        ],
+        'income' => [
+            "title" => "Total de Ingresos",
+            "title_cash" => "Ingresos en Efectivo",
+            "title_bank" => "Ingresos en Banco",
+        ],
+        'expense' => [
+            "title" => "Total de Egresos",
+            "title_cash" => "Egresos en Efectivo",
+            "title_bank" => "Egresos en Banco",
+        ],
+        'opening' => [
+            "title" => "Apertura",
+            "title_cash" => "Efectivo Inicial",
+            "title_bank" => "Saldo Inicial Banco",
+        ],
+        'closing' => [
+            "title" => "Cierre",
+            "title_cash" => "Saldo Final Efectivo",
+            "title_bank" => "Saldo Final Banco",
         ],
     ],
 ];

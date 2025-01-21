@@ -14,9 +14,7 @@
     <x-slot name="metaOgDescription">
         {{ __('word.expense.meta.index.description')}}
     </x-slot>
-
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
@@ -85,7 +83,8 @@
                             <tbody>
                             @foreach($expenses as $item)
                                 @php
-                                    $validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+                                    //$validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', 1)->exists();
+                                $validation = true;
                                 @endphp
                                 @if(auth()->user()->hasRole('Administrador') || $item->user_id == Auth::id())
                                     <tr class="hover:bg-[#d1d5db44] transition duration-200">
@@ -141,14 +140,13 @@
                                                 @endif
                                             </div>
                                         </td>
-
                                     </tr>
-
                                     <div id="details-modal-{{$item->expense_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-modal-{{$item->expense_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
                                                     <h1 class="text-lg font-semibold mx-auto">{{ __('word.expense.resource.show') }}</h1>
@@ -158,37 +156,39 @@
                                                         &times;
                                                     </button>
                                                 </div>
-                                                <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
+                                                <div class="modal-body py-12 px-4 sm:px-6 text-gray-700 overflow-hidden">
                                                     <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                                                         <div class="text-center">
-                                                            <div class="mt-4">
+                                                            <div>
                                                                 <p class="text-sm font-semibold">{{ __('word.expense.attribute.category_uuid') }}</p>
                                                                 <p>{{ $item->category->name }}</p>
                                                             </div>
                                                             @if($item->amount)
-                                                                <div class="mt-4">
+                                                                <div class="mt-2">
                                                                     <p class="text-sm font-semibold">{{ __('word.expense.attribute.amount') }}</p>
                                                                     <p>{{ $item->amount }}</p>
                                                                 </div>
                                                             @endif
                                                             @if($item->observation)
-                                                                <div class="mt-4">
+                                                                <div class="mt-2">
                                                                     <p class="text-sm font-semibold">{{ __('word.expense.attribute.observation') }}</p>
                                                                     <p>{{ $item->observation }}</p>
                                                                 </div>
                                                             @endif
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.expense.attribute.created_at') }}</p>
                                                                 <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.expense.attribute.updated_at') }}</p>
                                                                 <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                             </div>
-                                                            <div class="mt-4">
-                                                                <p class="text-sm font-semibold">{{ __('word.expense.attribute.user_id') }}</p>
-                                                                <p>{{ $item->user->name }}</p>
-                                                            </div>
+                                                            @if(auth()->user()->hasRole('Administrador'))
+                                                                <div class="mt-2">
+                                                                    <p class="text-sm font-semibold">{{ __('word.expense.attribute.user_id') }}</p>
+                                                                    <p>{{ $item->user->name }}</p>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                         {{--<div class="text-center pb-8 md:pb-0"
                                                              id="modal-show-{{$item->expense_uuid}}">
@@ -314,17 +314,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal -->
                                     <div id="modal-{{$item->expense_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-delete-{{$item->expense_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 border-b flex justify-between items-center">
                                                     <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                     <button type="button"
-                                                            class="close-modal text-gray-500 hover:text-gray-700"
+                                                            class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
                                                             onclick="closeModal('{{$item->expense_uuid}}')">
                                                         &times;
                                                     </button>

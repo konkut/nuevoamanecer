@@ -1,33 +1,7 @@
-/*body, html{
-    padding: 0px;
-    margin: 0px;
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
-}*/
-.css-page{
-    background: linear-gradient(270deg, #00b2ee, #0088b6, #58c5ea);
-    background-size: 600% 600%;
-    -webkit-animation: AnimationName 20s ease infinite;
-    -moz-animation: AnimationName 20s ease infinite;
-    animation: AnimationName 20s ease infinite;
+.blur-sm {
+    backdrop-filter: blur(4px); !important; /* Nivel de desenfoque */
+    -webkit-backdrop-filter: blur(4px); !important;/* Compatibilidad con navegadores WebKit */
 }
-
-@-webkit-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-moz-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-
 /*Loader*/
 .loader_action_animation_show{
     animation-timing-function: ease-in-out;
@@ -38,8 +12,8 @@
     animation: loader_hide 0.5s forwards;
 }
 .scale_animation{
-  animation-timing-function: ease;
-  animation: scale 0.7s forwards;
+    animation-timing-function: ease;
+    animation: scale 0.7s forwards;
 }
 @keyframes loader_show{
     0%{
@@ -62,6 +36,6 @@
         transform: scale(0.7);
     }
     100%{
-        transform: scale(1);                
+        transform: scale(1);
     }
 }

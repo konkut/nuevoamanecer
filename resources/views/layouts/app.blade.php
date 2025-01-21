@@ -9,9 +9,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"> <!--AQUI-->
     <meta name="routeName" content="{{ Route::currentRouteName() }}">
     <link rel="shortcut icon" href="{{url('images/icono.ico')}}" type="image/x-icon">
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <link rel="stylesheet" href="{{ url('css/components/alert.css?v='.time()) }}">
+    <script type="text/javascript" src="{{ url('js/lang/es.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ url('js/app.js?v='.time()) }}"></script>
+    <script type="text/javascript" src="{{ url('js/loader.js?v='.time()) }}"></script>
+    <script type="text/javascript" src="{{ url('js/md_alert.js?v='.time()) }}"></script>
 
     <!--Meta -->
     <title>{{ $title ?? __('word.general.app') }} - {{__('word.general.app')}}</title>
@@ -36,7 +38,8 @@
 
 <body class="font-sans antialiased">
 <x-banner/>
-
+<x-loader/>
+<x-md_alert />
 <div class="min-h-screen bg-gray-100">
     @livewire('navigation-menu')
 

@@ -33,9 +33,10 @@ Route::middleware([
 ])->group(function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
     Route::put('/dashboard/{cashshift_uuid}', [DashboardController::class, 'state'])->name('dashboards.state');
-    Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboards.search');
-    Route::get('/dashboard/sesions/', [DashboardController::class, 'all_sesions'])->name('dashboards.sesions');
-    Route::get('/dashboard/sesion/{cashshift_uuid}', [DashboardController::class, 'one_sesion'])->name('dashboards.sesion');
+    Route::get('/dashboard/search/sessions', [DashboardController::class, 'search_sessions'])->name('dashboards.search_sessions');
+    Route::get('/dashboard/search/session', [DashboardController::class, 'search_session'])->name('dashboards.search_session');
+    //Route::get('/dashboard/sesions/', [DashboardController::class, 'all_sesions'])->name('dashboards.sesions');
+    Route::get('/dashboard/session/{cashshift_uuid}', [DashboardController::class, 'one_session'])->name('dashboards.session');
 
     /*CONTROL*/
     Route::get("/control", [ControlController::class, "control"])->name("control");

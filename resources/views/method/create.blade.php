@@ -15,7 +15,6 @@
         {{ __('word.method.meta.create.description')}}
     </x-slot>
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/validation_input.js?v='.time()) }}"></script>
     </x-slot>
@@ -24,7 +23,6 @@
             {{ __('word.method.resource.create') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-4">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full sm:w-1/3 mx-auto p-8">

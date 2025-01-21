@@ -5,14 +5,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}"> <!--AQUI-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="routeName" content="{{ Route::currentRouteName() }}">
     <link rel="shortcut icon" href="{{url('images/icono.ico')}}" type="image/x-icon">
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="{{ url('css/components/alert.css?v='.time()) }}">
-    <script type="text/javascript" src="{{ url('js/app.js?v='.time()) }}"></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
     <title>Comprobante de pago - {{__('word.general.app') }}</title>
 </head>
 <body>

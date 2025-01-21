@@ -15,10 +15,8 @@
         {{ __('word.sale.meta.index.description')}}
     </x-slot>
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/lang/es.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/fetch_modal_show.js?v='.time()) }}"></script>
     </x-slot>
@@ -78,15 +76,17 @@
                                     onclick="enableSearch(this, 'método')">{{ __('word.sale.attribute.method_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, 'fecha de registro')">{{ __('word.sale.attribute.created_at') }}</th>
-                                    <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enableSearch(this, 'registrado por')">{{ __('word.sale.attribute.user_id') }}</th>
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1" title="">{{ __('word.general.actions') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.sale.attribute.user_id') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1"
+                                    title="">{{ __('word.general.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($sales as $item)
                                 @php
-                                    $validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+                                    //$validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
+                                    $validation = true;
                                 @endphp
                                 @if(auth()->user()->hasRole('Administrador') || $item->user_id == Auth::id())
                                     <tr class="hover:bg-[#d1d5db44] transition duration-200">
@@ -121,38 +121,49 @@
                                                     <button type="button"
                                                             onclick="fetchDetails('{{$item->sale_uuid}}')"
                                                             class="bg-green-500 text-white px-2 py-1 rounded text-xs">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                            <path
+                                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                                         </svg>
                                                     </button>
                                                 </form>
                                                 @if($validation)
-                                                <a href="{{ route('sales.edit',$item->sale_uuid) }}"
-                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                   title="Modificar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eyedropper" viewBox="0 0 16 16">
-                                                        <path d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
-                                                    </svg>
-                                                </a>
-                                                <button type="button"
-                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="openModal('{{ $item->sale_uuid }}', '{{ implode(', ', $item->products->toArray()) }}')"
-                                                        title="Eliminar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                    </svg>
-                                                </button>
+                                                    <a href="{{ route('sales.edit',$item->sale_uuid) }}"
+                                                       class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                                       title="Modificar">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-eyedropper"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
+                                                        </svg>
+                                                    </a>
+                                                    <button type="button"
+                                                            class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="openModal('{{ $item->sale_uuid }}', '{{ implode(', ', $item->products->toArray()) }}')"
+                                                            title="Eliminar">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-trash"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                            <path
+                                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                        </svg>
+                                                    </button>
                                                 @endif
                                             </div>
                                         </td>
                                     </tr>
                                     <div id="details-modal-{{$item->sale_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto py-3">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto py-3">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-modal-{{$item->sale_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 max-w-3xl mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
                                                     <h1 class="text-lg font-semibold mx-auto">{{ __('word.sale.resource.show') }}</h1>
@@ -165,158 +176,160 @@
                                                 <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
                                                     <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                                                         <div class="text-center">
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.sale.attribute.product_uuid') }}</p>
                                                                 {{ implode(', ', $item->products->toArray()) }}
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.sale.attribute.quantities') }}</p>
                                                                 {{ implode(', ', $item->quantities) }}
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.sale.attribute.amount_total') }}</p>
                                                                 {{ $item->total_price }}
                                                             </div>
                                                             @if($item->observation)
-                                                                <div class="mt-4">
+                                                                <div class="mt-2">
                                                                     <p class="text-sm font-semibold">{{ __('word.sale.attribute.observation') }}</p>
                                                                     <p>{{ $item->observation }}</p>
                                                                 </div>
                                                             @endif
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.sale.attribute.created_at') }}</p>
                                                                 <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
                                                             </div>
-                                                            <div class="mt-4">
+                                                            <div class="mt-2">
                                                                 <p class="text-sm font-semibold">{{ __('word.sale.attribute.updated_at') }}</p>
                                                                 <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                             </div>
-                                                            <div class="mt-4">
-                                                                <p class="text-sm font-semibold">{{ __('word.sale.attribute.user_id') }}</p>
-                                                                <p>{{ $item->user->name }}</p>
-                                                            </div>
+                                                            @if(auth()->user()->hasRole('Administrador'))
+                                                                <div class="mt-2">
+                                                                    <p class="text-sm font-semibold">{{ __('word.sale.attribute.user_id') }}</p>
+                                                                    <p>{{ $item->user->name }}</p>
+                                                                </div>
+                                                            @endif
                                                         </div>
-                                                       {{--
-                                                        <div class="text-center pb-8 md:pb-0"
-                                                             id="modal-show-{{$item->sale_uuid}}">
-                                                            <div class="bg-[#f3f4f6] p-2">
-                                                                <div class="font-bold py-1 text-sm text-center">INGRESO FÍSICO
-                                                                </div>
-                                                            </div>
-                                                            <div class="divide-y divide-[#f3f4f6]">
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">200</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-bill-200-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">100</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-bill-100-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">50</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-bill-50-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">20</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-bill-20-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">10</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-bill-10-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">5</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-coin-5-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">2</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-coin-2-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">1</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-coin-1-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">0.5</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-coin-0-5-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">0.2</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-coin-0-2-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">0.1</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-coin-0-1-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">Total</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-physical-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="bg-[#f3f4f6] p-2">
-                                                                <div class="font-bold py-1 text-sm text-center">INGRESO DIGITAL
-                                                                </div>
-                                                            </div>
-                                                            <div class="divide-y divide-[#f3f4f6]">
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs</div>
-                                                                    <div class="w-1/3 text-start">-D</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-digital-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="bg-[#f3f4f6] p-2">
-                                                                <div class="font-bold py-1 text-sm text-center">TOTAL INGRESO
-                                                                </div>
-                                                            </div>
-                                                            <div class="divide-y divide-[#f3f4f6] font-extrabold text-red-500">
-                                                                <div
-                                                                    class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                    <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                    <div class="w-1/3 text-start">Total</div>
-                                                                    <div class="w-1/2 text-start"
-                                                                         id="initial-balance-total-{{$item->sale_uuid}}"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                       --}}
+                                                        {{--
+                                                         <div class="text-center pb-8 md:pb-0"
+                                                              id="modal-show-{{$item->sale_uuid}}">
+                                                             <div class="bg-[#f3f4f6] p-2">
+                                                                 <div class="font-bold py-1 text-sm text-center">INGRESO FÍSICO
+                                                                 </div>
+                                                             </div>
+                                                             <div class="divide-y divide-[#f3f4f6]">
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">200</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-bill-200-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">100</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-bill-100-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">50</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-bill-50-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">20</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-bill-20-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">10</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-bill-10-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">5</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-coin-5-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">2</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-coin-2-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">1</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-coin-1-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">0.5</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-coin-0-5-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">0.2</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-coin-0-2-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">0.1</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-coin-0-1-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">Total</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-physical-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                             </div>
+                                                             <div class="bg-[#f3f4f6] p-2">
+                                                                 <div class="font-bold py-1 text-sm text-center">INGRESO DIGITAL
+                                                                 </div>
+                                                             </div>
+                                                             <div class="divide-y divide-[#f3f4f6]">
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs</div>
+                                                                     <div class="w-1/3 text-start">-D</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-digital-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                             </div>
+                                                             <div class="bg-[#f3f4f6] p-2">
+                                                                 <div class="font-bold py-1 text-sm text-center">TOTAL INGRESO
+                                                                 </div>
+                                                             </div>
+                                                             <div class="divide-y divide-[#f3f4f6] font-extrabold text-red-500">
+                                                                 <div
+                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
+                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
+                                                                     <div class="w-1/3 text-start">Total</div>
+                                                                     <div class="w-1/2 text-start"
+                                                                          id="initial-balance-total-{{$item->sale_uuid}}"></div>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                        --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -324,15 +337,16 @@
                                     </div>
                                     <!-- Modal -->
                                     <div id="modal-{{$item->sale_uuid}}"
-                                         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-                                        <div class="flex items-center justify-center min-h-screen">
+                                         class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                        <div class="flex items-center justify-center min-h-screen"
+                                             id="scale-delete-{{$item->sale_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 transform transition-all scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 border-b flex justify-between items-center">
                                                     <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                     <button type="button"
-                                                            class="close-modal text-gray-500 hover:text-gray-700"
+                                                            class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
                                                             onclick="closeModal('{{$item->sale_uuid}}')">
                                                         &times;
                                                     </button>
@@ -364,8 +378,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Paginaci車n -->
                     <div class="pagination-wrapper mt-4">
                         {!! $sales->appends(['perPage' => $perPage])->links() !!}
                     </div>

@@ -24,7 +24,14 @@ return new class extends Migration {
             $table->decimal('total', 20, 2)->default(0);
             $table->string('cashregister_uuid', 36)->nullable();
             $table->foreign('cashregister_uuid')->references('cashregister_uuid')->on('cashregisters');
-            $table->string('reference_uuid', 36);
+            $table->string('cashshift_uuid', 36)->nullable();
+            $table->foreign('cashshift_uuid')->references('cashshift_uuid')->on('cashshifts');
+            $table->string('income_uuid', 36)->nullable();
+            $table->foreign('income_uuid')->references('income_uuid')->on('incomes');
+            $table->string('expense_uuid', 36)->nullable();
+            $table->foreign('expense_uuid')->references('expense_uuid')->on('expenses');
+            $table->string('sale_uuid', 36)->nullable();
+            $table->foreign('sale_uuid')->references('sale_uuid')->on('sales');
             $table->timestamps();
             $table->softDeletes();
         });
