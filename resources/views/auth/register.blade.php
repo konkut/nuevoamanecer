@@ -24,7 +24,6 @@
           <x-input id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
         </div>
       </div>
-
       <div class="mt-4">
         <x-label for="email" value="{{ __('Email') }}" />
         <div class="relative">

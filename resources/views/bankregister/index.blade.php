@@ -35,7 +35,7 @@
                     <div class="flex justify-end space-x-2 items-center mb-4">
                         <a href="{{ route('bankregisters.create') }}"
                            class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                           title="Agregar">
+                           title="{{__('word.general.title_icon_create')}}">
                             <i class="bi bi-plus"></i>
                         </a>
                         <form method="GET" action="{{ route('bankregisters.index') }}" onchange="this.submit()"
@@ -53,20 +53,20 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.bankregister.attribute.name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.bankregister.filter.name') }}')">{{ __('word.bankregister.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'monto inicial')">{{ __('word.bankregister.attribute.total') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.bankregister.filter.total') }}')">{{ __('word.bankregister.attribute.total') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.bankregister.attribute.user_id') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.bankregister.filter.user_id') }}')">{{ __('word.bankregister.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.cashregister.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.bankregister.filter.created_at') }}')">{{ __('word.cashregister.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de actualización')">{{ __('word.cashregister.attribute.updated_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.bankregister.filter.updated_at') }}')">{{ __('word.cashregister.attribute.updated_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.bankregister.attribute.status') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.bankregister.filter.status') }}')">{{ __('word.bankregister.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -85,7 +85,7 @@
                                         <div class="flex justify-center space-x-1">
                                             @can('bankregisters.index')
                                                 <a href="javascript:void(0);"
-                                                   title="Visualizar"
+                                                   title="{{__('word.general.title_icon_show')}}"
                                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                    onclick="openDetailsModal('{{$item->bankregister_uuid}}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -99,7 +99,7 @@
                                             @endcan
                                             <a href="{{ route('bankregisters.edit',$item->bankregister_uuid) }}"
                                                class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                               title="Modificar">
+                                               title="{{__('word.general.title_icon_update')}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-eyedropper" viewBox="0 0 16 16">
                                                     <path
@@ -109,7 +109,7 @@
                                             <button type="button"
                                                     class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                     onclick="openModal('{{ $item->bankregister_uuid }}', '{{$item->name }}')"
-                                                    title="Eliminar">
+                                                    title="{{__('word.general.title_icon_delete')}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                     <path

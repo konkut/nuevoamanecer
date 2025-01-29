@@ -1,4 +1,4 @@
-<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-8">
     <div class="p-6 text-center text-gray-800 rounded-lg shadow-md">
         <div class="flex flex-col items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-yellow-500 mb-4"

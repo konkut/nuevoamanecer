@@ -20,6 +20,7 @@
         <script type="text/javascript" src="{{ asset('/js/assign_role_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/fetch_modal_show.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('js/components/filter_excel.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -33,25 +34,53 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
-                    <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('incomes.export') }}"
-                           class="bg-lime-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm"
-                           title="Generar excel">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
-                                <path
-                                    d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"/>
-                            </svg>
-                        </a>
-                        @if($cashshift)
+                    <div class="flex justify-end gap-4 items-end mb-4 flex-wrap flex-col sm:flex-row">
+                        @if($has_active_session)
                             <a href="{{ route('incomes.create') }}"
-                               title="Agregar"
+                               title="{{__('word.general.title_icon_create')}}"
                                class="bg-blue-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm">
                                 <i class="bi bi-plus"></i>
                             </a>
                         @endif
+                        <form method="GET" action="{{ route('incomes.export') }}"
+                              class="flex flex-row justify-end items-center gap-4 flex-wrap">
+                            <label for="filter"
+                                   class="text-sm text-gray-600">{{__('word.general.filter_excel')}}</label>
+                            <select name="filter" id="filter"
+                                    class="border border-gray-300 rounded text-sm pr-8 w-36">
+                                <option value="day">{{__('word.general.filter_today')}}</option>
+                                <option value="week">{{__('word.general.filter_week')}}</option>
+                                <option value="month">{{__('word.general.filter_month')}}</option>
+                                <option value="custom">{{__('word.general.filter_range')}}</option>
+                            </select>
+                            <div id="custom-range" style="display: none;"
+                                 class="flex-wrap flex-col sm:flex-row items-end gap-4">
+                                <div class="space-x-4">
+                                    <label for="start_date"
+                                           class="text-sm text-gray-600">{{__('word.general.filter_range_start')}}</label>
+                                    <input type="date" name="start_date" id="start_date"
+                                           class="border border-gray-300 p-2 rounded text-gray-600">
+                                </div>
+                                <div class="space-x-4">
+                                    <label for="end_date"
+                                           class="text-sm text-gray-600">{{__('word.general.filter_range_end')}}</label>
+                                    <input type="date" name="end_date" id="end_date"
+                                           class="border border-gray-300 p-2 rounded text-gray-600">
+                                </div>
+                            </div>
+                            <button type="submit" title="{{__('word.general.title_icon_excel_generate')}}"
+                                    class="bg-lime-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+                                    <path
+                                        d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"/>
+                                </svg>
+                            </button>
+                        </form>
                         <form method="GET" action="{{ route('incomes.index') }}" onchange="this.submit()"
-                              class="inline-block">
+                              class="flex flex-row justify-center items-center gap-4 flex-wrap">
+                            <label for="perPage"
+                                   class="text-sm text-gray-600">{{__('word.general.filter_show')}}</label>
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
                                 <option
                                     value="10" {{ $perPage == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
@@ -65,22 +94,22 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'servicio')">{{ __('word.income.attribute.service_uuid') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.service_uuid') }}')">{{ __('word.income.attribute.service_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'medio de cobro')">{{ __('word.income.attribute.input_name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.input_name') }}')">{{ __('word.income.attribute.input_name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'total de cobro')">{{ __('word.income.attribute.input_amount') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.input_amount') }}')">{{ __('word.income.attribute.input_amount') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'plataforma de pago')">{{ __('word.income.attribute.output_name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.output_name') }}')">{{ __('word.income.attribute.output_name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'total de pago')">{{ __('word.income.attribute.output_amount') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.output_amount') }}')">{{ __('word.income.attribute.output_amount') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.income.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.created_at') }}')">{{ __('word.income.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.income.attribute.user_id') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.income.filter.user_id') }}')">{{ __('word.income.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -111,7 +140,7 @@
                                             <div class="flex justify-center space-x-1">
                                                 <a href="{{ route('incomes.tax', $item->income_uuid) }}"
                                                    target="_blank"
-                                                   title="Generar comprobante"
+                                                   title="{{__('word.general.title_icon_tax_generate')}}"
                                                    class="bg-sky-400 text-white px-2 py-1 rounded text-xs">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
@@ -122,7 +151,7 @@
                                                     </svg>
                                                 </a>
                                                 <form id="details-form-{{$item->income_uuid}}"
-                                                      title="Visualizar"
+                                                      title="{{__('word.general.title_icon_show')}}"
                                                       action="{{ route('incomes.detail', $item->income_uuid) }}"
                                                       method="POST" style="display: inline;">
                                                     @csrf
@@ -141,7 +170,7 @@
                                                 @if($validation)
                                                     <a href="{{ route('incomes.edit',$item->income_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                       title="Modificar">
+                                                       title="{{__('word.general.title_icon_update')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-eyedropper"
                                                              viewBox="0 0 16 16">
@@ -152,7 +181,7 @@
                                                     <button type="button"
                                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                             onclick="openModal('{{ $item->income_uuid }}', '{{ implode(', ', $item->services) }}')"
-                                                            title="Eliminar">
+                                                            title="{{__('word.general.title_icon_delete')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-trash"
                                                              viewBox="0 0 16 16">

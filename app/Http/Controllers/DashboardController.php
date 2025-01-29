@@ -23,13 +23,10 @@ use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
-    private $date;
-
     public function __construct()
     {
-        $this->date = now()->toDateString();
+        session(['date' => session('date' ) ?? now()->toDateString()]);
     }
-
     public function index()
     {
         $total_users = User::count();
@@ -48,10 +45,10 @@ class DashboardController extends Controller
         $total_sales_by_user = Sale::where("user_id", Auth::id())->count();
         $inventory = Product::select('name', 'stock', 'price')->get();
         $total_bankregisters = Bankregister::count();
-        $cashshift = $this->cashshift($this->date);
-        $cashshifts = $this->cashshifts($this->date);
-        $data_initial_sessions = $this->data_initial_sessions($this->date);
-        $data_initial_session = $this->data_initial_session($this->date);
+        $cashshift = $this->cashshift();
+        $cashshifts = $this->cashshifts();
+        $data_initial_sessions = $this->data_initial_sessions();
+        $data_initial_session = $this->data_initial_session();
         if (auth()->user()->hasRole('Administrador')) {
             return view('dashboard', compact('total_users', 'total_categories', 'total_services', 'total_methods', 'total_incomes', 'total_cashregisters', 'total_bankregisters', 'total_cashshifts', 'total_cashshifts_by_user', 'total_expenses', 'total_products', 'total_sales', 'cashshifts', 'inventory', 'data_initial_sessions'));
         } else {
@@ -102,7 +99,7 @@ class DashboardController extends Controller
         return redirect("/dashboard")->with('success', 'Arqueo cerrado exitosamente');
     }
 
-    public function data_initial_sessions($date)
+    public function data_initial_sessions()
     {
         //CASH
         $array_cash_opening = Cashshift::join('denominations', 'denominations.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
@@ -110,7 +107,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 2)
             //->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->selectRaw('denominations.total as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
         $array_cash_income = Cashshift::join('denominations', 'denominations.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
@@ -118,7 +115,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 3)
             //->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('denominations.cashregister_uuid', 'cashregisters.name', 'cashregisters.cashregister_uuid')
             ->selectRaw('COALESCE(SUM(denominations.total), 0) as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
@@ -127,7 +124,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 4)
             //->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('denominations.cashregister_uuid', 'cashregisters.name', 'cashregisters.cashregister_uuid')
             ->selectRaw('COALESCE(SUM(denominations.total), 0) as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
@@ -170,7 +167,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 2)
             //->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->selectRaw('transactions.total as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
         $array_bank_income = Cashshift::join('transactions', 'transactions.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
@@ -178,7 +175,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 3)
             // ->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('transactions.bankregister_uuid', 'bankregisters.name', 'bankregisters.bankregister_uuid')
             ->selectRaw('COALESCE(SUM(transactions.total), 0) as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
@@ -187,7 +184,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 4)
             //->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('transactions.bankregister_uuid', 'bankregisters.name', 'bankregisters.bankregister_uuid')
             ->selectRaw('COALESCE(SUM(transactions.total), 0) as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
@@ -243,7 +240,7 @@ class DashboardController extends Controller
         ];
     }
 
-    public function data_initial_session($date)
+    public function data_initial_session()
     {
         //CASH
         $array_cash_opening = Cashshift::join('denominations', 'denominations.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
@@ -251,7 +248,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 2)
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->selectRaw('denominations.total as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
         $array_cash_income = Cashshift::join('denominations', 'denominations.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
@@ -259,7 +256,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 3)
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('denominations.cashregister_uuid', 'cashregisters.name', 'cashregisters.cashregister_uuid')
             ->selectRaw('COALESCE(SUM(denominations.total), 0) as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
@@ -268,7 +265,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 4)
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('denominations.cashregister_uuid', 'cashregisters.name', 'cashregisters.cashregister_uuid')
             ->selectRaw('COALESCE(SUM(denominations.total), 0) as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
@@ -311,7 +308,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 2)
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->selectRaw('transactions.total as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
         $array_bank_income = Cashshift::join('transactions', 'transactions.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
@@ -319,7 +316,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 3)
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('transactions.bankregister_uuid', 'bankregisters.name', 'bankregisters.bankregister_uuid')
             ->selectRaw('COALESCE(SUM(transactions.total), 0) as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
@@ -328,7 +325,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 4)
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->groupBy('transactions.bankregister_uuid', 'bankregisters.name', 'bankregisters.bankregister_uuid')
             ->selectRaw('COALESCE(SUM(transactions.total), 0) as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
@@ -393,7 +390,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 2)
             ->where('cashshifts.user_id', $user_id)
-            ->whereDate('cashshifts.start_time', '=', $this->date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereDate('cashshifts.cashshift_uuid', '=', $cashshift_uuid)
             ->selectRaw('denominations.total as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
             ->get()->toArray();
@@ -402,7 +399,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 3)
             ->where('cashshifts.user_id', $user_id)
-            ->whereDate('cashshifts.start_time', '=', $this->date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereDate('cashshifts.cashshift_uuid', '=', $cashshift_uuid)
             ->groupBy('denominations.cashregister_uuid', 'cashregisters.name', 'cashregisters.cashregister_uuid')
             ->selectRaw('COALESCE(SUM(denominations.total), 0) as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
@@ -412,7 +409,7 @@ class DashboardController extends Controller
             ->whereNull('denominations.deleted_at')
             ->where('denominations.type', 4)
             ->where('cashshifts.user_id', $user_id)
-            ->whereDate('cashshifts.start_time', '=', $this->date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereDate('cashshifts.cashshift_uuid', '=', $cashshift_uuid)
             ->groupBy('denominations.cashregister_uuid', 'cashregisters.name', 'cashregisters.cashregister_uuid')
             ->selectRaw('COALESCE(SUM(denominations.total), 0) as total, cashregisters.name as name, cashregisters.cashregister_uuid as cashregister_uuid')
@@ -456,7 +453,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 2)
             ->where('cashshifts.user_id', $user_id)
-            ->whereDate('cashshifts.start_time', '=', $this->date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereDate('cashshifts.cashshift_uuid', '=', $cashshift_uuid)
             ->selectRaw('transactions.total as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
             ->get()->toArray();
@@ -465,7 +462,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 3)
             ->where('cashshifts.user_id', $user_id)
-            ->whereDate('cashshifts.start_time', '=', $this->date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereDate('cashshifts.cashshift_uuid', '=', $cashshift_uuid)
             ->groupBy('transactions.bankregister_uuid', 'bankregisters.name', 'bankregisters.bankregister_uuid')
             ->selectRaw('COALESCE(SUM(transactions.total), 0) as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
@@ -475,7 +472,7 @@ class DashboardController extends Controller
             ->whereNull('transactions.deleted_at')
             ->where('transactions.type', 4)
             ->where('cashshifts.user_id', $user_id)
-            ->whereDate('cashshifts.start_time', '=', $this->date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereDate('cashshifts.cashshift_uuid', '=', $cashshift_uuid)
             ->groupBy('transactions.bankregister_uuid', 'bankregisters.name', 'bankregisters.bankregister_uuid')
             ->selectRaw('COALESCE(SUM(transactions.total), 0) as total, bankregisters.name as name, bankregisters.bankregister_uuid as bankregister_uuid')
@@ -532,25 +529,25 @@ class DashboardController extends Controller
         ];
     }
 
-    public function cashshift($date)
+    public function cashshift()
     {
         $cashshift = Denomination::join('cashshifts', 'cashshifts.cashshift_uuid', '=', 'denominations.cashshift_uuid')
             ->join('cashregisters', 'denominations.cashregister_uuid', '=', 'cashregisters.cashregister_uuid')
             ->join('users', 'cashshifts.user_id', '=', 'users.id')
             ->where('cashshifts.user_id', Auth::id())
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->whereNotNull('denominations.cashshift_uuid')
             ->select('cashshifts.*', 'denominations.*', 'cashregisters.name as cash', 'users.name as user')
             ->first();
         return $cashshift;
     }
-    public function cashshifts($date)
+    public function cashshifts()
     {
         $cashshifts = Denomination::join('cashshifts', 'cashshifts.cashshift_uuid', '=', 'denominations.cashshift_uuid')
             ->join('cashregisters', 'denominations.cashregister_uuid', '=', 'cashregisters.cashregister_uuid')
             ->join('users', 'cashshifts.user_id', '=', 'users.id')
             //->where('cashshifts.status', 1)
-            ->whereDate('cashshifts.start_time', '=', $date)
+            ->whereDate('cashshifts.start_time', '=', session('date'))
             ->where('denominations.type', 2)
             ->whereNotNull('denominations.cashshift_uuid')
             ->select('cashshifts.*', 'denominations.*', 'cashregisters.name as cash', 'users.name as user')
@@ -559,10 +556,7 @@ class DashboardController extends Controller
     }
     public function one_session($cashshift_uuid)
     {
-        $this->date = session('date') ?? $this->date;
-        $cashshift = Cashshift::where('cashshift_uuid', $cashshift_uuid)->first();
-        if ($cashshift) $data = $this->data_session($cashshift->cashshift_uuid);
-        else $data = false;
+        $data = $this->data_session($cashshift_uuid);
         if (request()->ajax()) {
             try {
                 $view_summary = view('components.panel-box-all-summary', compact('data'))->render();
@@ -583,10 +577,9 @@ class DashboardController extends Controller
 
     public function search_sessions(Request $request)
     {
-        $this->date = $request->query('date');
-        session(['date' => $this->date]);
-        $data = $this->data_initial_sessions($this->date);
-        $cashshifts = $this->cashshifts($this->date);
+        session(['date' => $request->query('date')]);
+        $data = $this->data_initial_sessions();
+        $cashshifts = $this->cashshifts();
         if ($request->ajax()) {
             try {
                 $view_summary = view('components.panel-box-all-summary', compact('data'))->render();
@@ -611,10 +604,9 @@ class DashboardController extends Controller
 
     public function search_session(Request $request)
     {
-        $this->date = $request->query('date');
-        session(['date' => $this->date]);
-        $data = $this->data_initial_session($this->date);
-        $cashshift = $this->cashshift($this->date);
+        session(['date' => $request->query('date')]);
+        $data = $this->data_initial_session();
+        $cashshift = $this->cashshift();
         if ($request->ajax()) {
             try {
                 $view_summary = view('components.panel-box-all-summary', compact('data'))->render();
@@ -852,7 +844,7 @@ class DashboardController extends Controller
     public function all_sesions()
     {
         //EFECTIVO SESIONES
-        $cashshifts = Cashshift::where('status', 1)->orderBy('created_at', 'asc')->get();
+
         $array_data = [];
         if (!$cashshifts->isEmpty()) {
             foreach ($cashshifts as $item) {

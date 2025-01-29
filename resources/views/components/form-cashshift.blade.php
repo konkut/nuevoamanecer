@@ -72,6 +72,7 @@
             <div class="relative">
                 <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                 <x-input id="initial_balance" onkeyup="updateChargeFromCashshift()"
+                         inputmode="decimal" autocomplete="one-time-code"
                          class="focus-and-blur pl-9 w-full" type="text" name="initial_balance"
                          value="{{ old('initial_balance', $cashshift->initial_balance?? '') }}"/>
             </div>
@@ -130,6 +131,7 @@
                             <x-input id="balances_{{ $balances }}"
                                      class="balance-input focus-and-blur pl-9 w-full"
                                      type="text"
+                                     inputmode="decimal" autocomplete="one-time-code"
                                      name="balances[{{ $index }}]"
                                      value="{{ $balances ?? '' }}"/>
                         </div>
@@ -169,6 +171,7 @@
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input id="balances"
                                  class="balance-input focus-and-blur pl-9 w-full"
+                                 inputmode="decimal" autocomplete="one-time-code"
                                  type="text" name="balances[0]"
                                  value="{{ $cashshift->balances?? '' }}"/>
                     </div>

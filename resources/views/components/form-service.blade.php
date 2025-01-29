@@ -2,7 +2,8 @@
   <x-label for="name" value="{{ __('word.service.attribute.name') }} *" />
   <div class="relative">
     <i class="bi bi-tag absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-    <x-input id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="name" value="{{ old('name', $service->name?? '') }}" />
+    <x-input id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full"
+             inputmode="text" autocomplete="one-time-code" type="text" name="name" value="{{ old('name', $service->name?? '') }}" />
   </div>
   @error('name')
   <small class="font-bold text-red-500/80">{{ $message }}</small>
@@ -12,7 +13,8 @@
   <x-label for="description" value="{{ __('word.service.attribute.description') }}" />
   <div class="relative">
     <i class="bi bi-card-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-    <x-input id="description" class="focus-and-blur pl-9 block mt-1 w-full" type="text" name="description" value="{{ old('description', $service->description?? '') }}" />
+    <x-input id="description" class="focus-and-blur pl-9 block mt-1 w-full"
+             inputmode="text" autocomplete="one-time-code" type="text" name="description" value="{{ old('description', $service->description?? '') }}" />
   </div>
   @error('description')
   <small class="font-bold text-red-500/80">{{ $message }}</small>
@@ -22,7 +24,8 @@
   <x-label for="amount" value="{{ __('word.service.attribute.amount') }} *" />
   <div class="relative">
     <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-    <x-input id="amount" class="focus-and-blur pl-9 block mt-1 w-full" type="text" name="amount" value="{{ old('amount', $service->amount?? '') }}" />
+    <x-input id="amount" class="focus-and-blur pl-9 block mt-1 w-full"
+             inputmode="decimal" autocomplete="one-time-code" type="text" name="amount" value="{{ old('amount', $service->amount?? '') }}" />
   </div>
   @error('amount')
   <small class="font-bold text-red-500/80">{{ $message }}</small>
@@ -32,7 +35,8 @@
   <x-label for="commission" value="{{ __('word.service.attribute.commission') }}" />
   <div class="relative">
     <i class="bi bi-percent absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-    <x-input id="commission" class="focus-and-blur pl-9 block mt-1 w-full" type="text" name="commission" value="{{ old('commission', $service->commission?? '') }}" />
+    <x-input id="commission" class="focus-and-blur pl-9 block mt-1 w-full"
+             inputmode="decimal" autocomplete="one-time-code" type="text" name="commission" value="{{ old('commission', $service->commission?? '') }}" />
   </div>
   @error('commission')
   <small class="font-bold text-red-500/80">{{ $message }}</small>

@@ -4,14 +4,12 @@ let md_alert_content;
 let md_alert_inside;
 let md_alert_footer_other_btns;
 const base = location.protocol + "//" + location.host;
-// let base = `${location.protocol}//${location.host}`
 document.addEventListener('DOMContentLoaded',(e)=>{
     md_alert_dom = document.getElementById("md_alert_dom");
     md_alert_inside = document.getElementById("md_alert_inside");
     md_alert_btn_close = document.getElementById("md_alert_btn_close");
     md_alert_content = document.getElementById("md_alert_content");
     md_alert_footer_other_btns = document.getElementById("md_alert_footer_other_btns");
-
     if(md_alert_btn_close){
         md_alert_btn_close.addEventListener("click",(e)=>{
             e.preventDefault();
@@ -34,11 +32,10 @@ function mdalert(data){
         content += `<h5 class="block text-sm font-medium m-0 pb-0 text-center w-full mt-4">${msg}</h5>`
         if(data.msgs){
             messages = JSON.parse(data.msgs);
-            console.log(messages)
             if(messages.length > 0){
                 content += "<ul class='m-0 mt-4 p-0 text-center'>";
                 messages.forEach((element,index)=>{
-                    content += `<li class="mb-1"><i class='mr-1 text-red-300 bi bi-bullseye'></i>&nbsp;&nbsp;${element}</li>`;
+                    content += `<li style="font-size: 14px;"><i style="margin-right: 1px; color: red;" class='bi bi-bullseye'></i>&nbsp;&nbsp;${element}</li>`;
                 })
                 content += "</ul>";
             }

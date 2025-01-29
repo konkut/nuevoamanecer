@@ -150,16 +150,25 @@ return [
     'uppercase' => 'El campo :attribute debe estar en mayúscula.',
     'url' => 'El campo :attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
-    'custom_paymentwithoutprice'=> 'Por favor, complete el formulario asegúrese de que cada servicio tenga una cantidad, método de ingreso correspondiente.',
-    'custom_paymentwithprice'=> 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
-    'custom_user_id'=> 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
-    'custom_cashregister_uuid'=> 'La caja ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
+    'custom_paymentwithoutprice' => 'Por favor, complete el formulario asegúrese de que cada servicio tenga una cantidad, método de ingreso correspondiente.',
+    'custom_paymentwithprice' => 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
+    'custom_user_id' => 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
+    'custom_cashregister_uuid' => 'La caja ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
     'custom_bankregister_uuid' => 'Esta cuenta bancaria ya está en uso. Por favor, seleccione otra cuenta bancaria.',
-    'custom_sale'=>'Por favor, complete el formulario asegúrese de que cada producto tenga una cantidad y método de transacción correspondiente.',
-        'attributes' => [
+    'custom_sale' => 'Por favor, complete el formulario asegúrese de que cada producto tenga una cantidad y método de transacción correspondiente.',
+    'custom' => [
+        'password' => [
+            'regex' => 'La nueva contraseña debe incluir al menos: una letra mayúscula, una letra minúscula, un número y un carácter especial.',
+        ],
+    ],
+    'attributes' => [
         /*FORM USER */
         'email' => 'correo electrónico',
-        'password' => 'contraseña',
+        'passcode' => 'contraseña',
+        'password' => 'nueva contraseña',
+        'password_confirmation' => 'confirmar nueva contraseña',
+        'roles.required' => 'Debe seleccionar al menos un rol.',
+        'roles.*.exists' => 'El rol seleccionado no es válido.',
 
         /*FORM SERVICE */
         'name' => 'nombre',
@@ -173,7 +182,7 @@ return [
         "exchange_rate" => "Tasa de cambio",
 
         /*FORM INCOME */
-        "income_uuid"=>"ingreso",
+        "income_uuid" => "ingreso",
         'codes' => 'código',
         'codes.*' => 'código',
         'service_uuids' => 'servicio',
@@ -219,7 +228,7 @@ return [
         "end_time" => "fecha de cierre de caja",
         "cashregister_uuid" => "caja",
         "bankregister_uuid" => "banco",
-        "digital_balance"=> "saldo",
+        "digital_balance" => "saldo",
         "user_id" => "cajero",
         "balances" => "saldo",
         "balances.*" => "saldo",
@@ -241,5 +250,11 @@ return [
         'account_number' => 'número de cuenta',
         'owner_name' => 'nombre del propietario',
         'bankregister_uuid' => 'banco',
+
+        /*CODE AUTH*/
+        'auth_code' => 'código de autenticación',
+
+        /*FORCE PASSWORD CHANGED*/
+        'current_password' => 'contraseña asociada a tu cuenta',
     ]
 ];

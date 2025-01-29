@@ -4,6 +4,7 @@
         <i class="bi bi-tag absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <x-input id="name"
                  class="first-element focus-and-blur pl-9 block mt-1 w-full"
+                 inputmode="text" autocomplete="one-time-code"
                  type="text" name="name" value="{{ old('name', $bankregister->name?? '') }}" />
     </div>
 </div>
@@ -15,6 +16,7 @@
   <div class="relative">
     <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
     <x-input id="total"
+             inputmode="numeric" autocomplete="one-time-code"
              class="focus-and-blur pl-9 block mt-1 w-full"
              type="text" name="total" value="{{ old('total', $bankregister->total?? '') }}" />
   </div>
@@ -27,6 +29,7 @@
     <div class="relative">
         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <x-input id="owner_name"
+                 inputmode="text" autocomplete="one-time-code"
                  class="focus-and-blur pl-9 block mt-1 w-full"
                  type="text" name="owner_name" value="{{ old('owner_name', $bankregister->owner_name?? '') }}" />
     </div>
@@ -39,6 +42,7 @@
     <div class="relative">
         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <x-input id="account_number"
+                 inputmode="numeric" autocomplete="one-time-code"
                  class="focus-and-blur pl-9 block mt-1 w-full"
                  type="text" name="account_number" value="{{ old('account_number', $bankregister->account_number?? '') }}" />
     </div>

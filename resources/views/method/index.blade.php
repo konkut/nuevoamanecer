@@ -35,7 +35,7 @@
                         @can('methods.create')
                             <a href="{{ route('methods.create') }}"
                                class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                               title="Agregar">
+                               title="{{__('word.general.title_icon_create')}}">
                                 <i class="bi bi-plus"></i>
                             </a>
                         @endcan
@@ -54,16 +54,16 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.method.attribute.name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.method.filter.name') }}')">{{ __('word.method.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'banco')">{{ __('word.method.attribute.bankregister_uuid') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.method.filter.bankregister_uuid') }}')">{{ __('word.method.attribute.bankregister_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.method.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.method.filter.created_at') }}')">{{ __('word.method.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.method.attribute.status') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.method.filter.status') }}')">{{ __('word.method.attribute.status') }}</th>
                                 @can('methods.create')
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                         title="">{{ __('word.general.actions') }}</th>
@@ -83,7 +83,7 @@
                                             <div class="flex justify-center space-x-1">
                                                 @can('methods.index')
                                                     <a href="javascript:void(0);"
-                                                       title="Visualizar"
+                                                       title="{{__('word.general.title_icon_show')}}"
                                                        class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                        onclick="openDetailsModal('{{$item->method_uuid}}')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -98,7 +98,7 @@
                                                 @can('methods.edit')
                                                     <a href="{{ route('methods.edit',$item->method_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                       title="Modificar">
+                                                       title="{{__('word.general.title_icon_update')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-eyedropper"
                                                              viewBox="0 0 16 16">
@@ -111,7 +111,7 @@
                                                     <button type="button"
                                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                             onclick="openModal('{{ $item->method_uuid }}', '{{ $item->name }}')"
-                                                            title="Eliminar">
+                                                            title="{{__('word.general.title_icon_delete')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-trash"
                                                              viewBox="0 0 16 16">

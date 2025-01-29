@@ -50,6 +50,10 @@ class Denomination extends Model
         'coin_0_1' => 0.00,
         'total' => 0.00,
     ];
+    public function denomination_expense()
+    {
+        return $this->belongsTo(Expense::class, 'expense_uuid', 'expense_uuid');
+    }
     public function cashregister()
     {
         return $this->belongsTo(Cashregister::class, 'cashregister_uuid', 'cashregister_uuid');

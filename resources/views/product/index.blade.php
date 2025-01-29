@@ -35,7 +35,7 @@
                         @can('products.create')
                             <a href="{{ route('products.create') }}"
                                class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                               title="Agregar">
+                               title="{{__('word.general.title_icon_create')}}">
                                 <i class="bi bi-plus"></i>
                             </a>
                         @endcan
@@ -54,22 +54,22 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.product.attribute.name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.product.filter.name') }}')">{{ __('word.product.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'precio')">{{ __('word.product.attribute.price') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.product.filter.price') }}')">{{ __('word.product.attribute.price') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'cantidad')">{{ __('word.product.attribute.stock') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.product.filter.stock') }}')">{{ __('word.product.attribute.stock') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.product.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.product.filter.created_at') }}')">{{ __('word.product.attribute.created_at') }}</th>
                                 @if(auth()->user()->hasRole('Administrador'))
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enableSearch(this, 'registrado por')">{{ __('word.product.attribute.user_id') }}</th>
+                                        onclick="enableSearch(this, '{{ __('word.product.filter.user_id') }}')">{{ __('word.product.attribute.user_id') }}</th>
                                 @endif
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.product.attribute.status') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.product.filter.status') }}')">{{ __('word.product.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -90,7 +90,7 @@
                                         <div class="flex justify-center space-x-1">
                                             @can('products.index')
                                                 <a href="javascript:void(0);"
-                                                   title="Visualizar"
+                                                   title="{{__('word.general.title_icon_show')}}"
                                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                    onclick="openDetailsModal('{{$item->product_uuid}}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -105,7 +105,7 @@
                                             @can('products.edit')
                                                 <a href="{{ route('products.edit',$item->product_uuid) }}"
                                                    class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                   title="Modificar">
+                                                   title="{{__('word.general.title_icon_update')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-eyedropper"
                                                          viewBox="0 0 16 16">
@@ -118,7 +118,7 @@
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                         onclick="openModal('{{ $item->product_uuid }}', '{{ $item->name }}')"
-                                                        title="Eliminar">
+                                                        title="{{__('word.general.title_icon_delete')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                         <path

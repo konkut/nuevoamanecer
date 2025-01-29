@@ -35,7 +35,7 @@
                         @can('services.create')
                             <a href="{{ route('services.create') }}"
                                class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                               title="Agregar">
+                               title="{{__('word.general.title_icon_create')}}">
                                 <i class="bi bi-plus"></i>
                             </a>
                         @endcan
@@ -54,23 +54,22 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.service.attribute.name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.service.filter.name') }}')">{{ __('word.service.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'monto')">{{ __('word.service.attribute.amount') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.service.filter.amount') }}')">{{ __('word.service.attribute.amount') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'categoría')">{{ __('word.service.attribute.category_uuid') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.service.filter.category_uuid') }}')">{{ __('word.service.attribute.category_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.service.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.service.filter.created_at') }}')">{{ __('word.service.attribute.created_at') }}</th>
                                 @if(auth()->user()->hasRole('Administrador'))
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enableSearch(this, 'registrado por')">{{ __('word.service.attribute.user_id') }}</th>
+                                        onclick="enableSearch(this, '{{ __('word.service.filter.user_id') }}')">{{ __('word.service.attribute.user_id') }}</th>
                                 @endif
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.service.attribute.status') }}</th>
-
+                                    onclick="enableSearch(this, '{{ __('word.service.filter.status') }}')">{{ __('word.service.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1" title="">{{ __('word.general.actions') }}</th>
                             </tr>
                             </thead>
@@ -90,7 +89,7 @@
                                         <div class="flex justify-center space-x-1">
                                             @can('services.index')
                                                 <a href="javascript:void(0);"
-                                                   title="Visualizar"
+                                                   title="{{__('word.general.title_icon_show')}}"
                                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                    onclick="openDetailsModal('{{$item->service_uuid}}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -102,7 +101,7 @@
                                             @can('services.edit')
                                                 <a href="{{ route('services.edit',$item->service_uuid) }}"
                                                    class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                   title="Modificar">
+                                                   title="{{__('word.general.title_icon_update')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eyedropper" viewBox="0 0 16 16">
                                                         <path d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
                                                     </svg>
@@ -112,7 +111,7 @@
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                         onclick="openModal('{{ $item->service_uuid }}', '{{ $item->name }}')"
-                                                        title="Eliminar">
+                                                        title="{{__('word.general.title_icon_delete')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>

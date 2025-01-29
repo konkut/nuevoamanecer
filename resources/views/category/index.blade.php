@@ -35,7 +35,7 @@
                         @can('categories.create')
                             <a href="{{ route('categories.create') }}"
                                class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                               title="Agregar">
+                               title="{{__('word.general.title_icon_create')}}">
                                 <i class="bi bi-plus"></i>
                             </a>
                         @endcan
@@ -54,14 +54,14 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.category.attribute.name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.category.attribute.name') }}')">{{ __('word.category.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.category.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.category.attribute.created_at') }}')">{{ __('word.category.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.category.attribute.status') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.category.attribute.status') }}')">{{ __('word.category.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -77,7 +77,7 @@
                                         <div class="flex justify-center space-x-1">
                                             @can('categories.index')
                                                 <a href="javascript:void(0);"
-                                                   title="Visualizar"
+                                                   title="{{__('word.general.title_icon_show')}}"
                                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                    onclick="openDetailsModal('{{$item->category_uuid}}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -92,7 +92,7 @@
                                             @can('categories.edit')
                                                 <a href="{{ route('categories.edit',$item->category_uuid) }}"
                                                    class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                   title="Modificar">
+                                                   title="{{__('word.general.title_icon_update')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-eyedropper"
                                                          viewBox="0 0 16 16">
@@ -105,7 +105,7 @@
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                         onclick="openModal('{{ $item->category_uuid }}', '{{ $item->name }}')"
-                                                        title="Eliminar">
+                                                        title="{{__('word.general.title_icon_delete')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                         <path

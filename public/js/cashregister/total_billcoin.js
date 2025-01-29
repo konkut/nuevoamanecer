@@ -1,6 +1,5 @@
 const updateTotalandBalance = () => {
     let total = document.getElementById("total");
-
     document.addEventListener('input', (event) => {
         if (event.target.matches('#bill_200, #bill_100, #bill_50, #bill_20, #bill_10, #coin_5, #coin_2, #coin_1, #coin_0_5, #coin_0_2, #coin_0_1')) {
             const input = event.target;
@@ -10,7 +9,6 @@ const updateTotalandBalance = () => {
             }
         }
     });
-
     let count_bill_200 = parseFloat(document.getElementById("bill_200").value) || 0;
     let count_bill_100 = parseFloat(document.getElementById("bill_100").value) || 0;
     let count_bill_50 = parseFloat(document.getElementById("bill_50").value) || 0;

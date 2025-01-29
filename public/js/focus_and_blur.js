@@ -1,4 +1,4 @@
-"use strict";
+
 document.addEventListener("DOMContentLoaded", () => {
     const firsElement = document.querySelector(".first-element");
     if (firsElement) {
@@ -24,6 +24,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }, true);
-
-
 });

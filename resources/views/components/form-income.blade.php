@@ -2,7 +2,8 @@
     <x-label for="observation" value="{{ __('word.income.attribute.observation') }}"/>
     <div class="relative">
         <i class="bi-info-circle absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input id="observation" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text"
+        <x-input id="observation" class="first-element focus-and-blur pl-9 block mt-1 w-full"
+                 type="text" inputmode="text" autocomplete="one-time-code"
                  name="observation" value="{{ old('observation', $income->observation?? '') }}"/>
     </div>
 </div>
@@ -35,6 +36,7 @@
                     <div class="relative">
                         <i class="bi bi-123 absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input class="first-element focus-and-blur pl-9 pr-3 block w-full" type="text"
+                                 inputmode="text" autocomplete="one-time-code"
                                  name="codes[{{ $index }}]"
                                  value="{{ $code ?? '' }}"/>
                     </div>
@@ -68,6 +70,7 @@
                         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input onkeyup="update_amount()"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
+                                 inputmode="decimal" autocomplete="one-time-code"
                                  type="text" name="amounts[{{ $index }}]"
                                  value="{{ $amount ?? '' }}"/>
                     </div>
@@ -78,6 +81,7 @@
                         <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input onkeyup="update_amount()"
                                  class="commission-input focus-and-blur pl-9 pr-3 block w-full"
+                                 inputmode="decimal" autocomplete="one-time-code"
                                  type="text" name="commissions[{{ $index }}]"
                                  value="{{ $commission ?? '' }}"/>
                     </div>
@@ -88,6 +92,7 @@
                         <i class="bi bi-stack absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input onkeyup="update_amount()"
                                  class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
+                                 inputmode="numeric" autocomplete="one-time-code"
                                  type="text" name="quantities[{{ $index }}]"
                                  value="{{ $quantity ?? '' }}"/>
                     </div>
@@ -166,6 +171,7 @@
                             <i class="bi bi-123 absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                             <x-input class="first-element focus-and-blur pl-9 pr-3 block w-full" type="text"
                                      name="codes[{{ $index }}]"
+                                     inputmode="text" autocomplete="one-time-code"
                                      value="{{ $code ?? '' }}"/>
                         </div>
                     </div>
@@ -197,6 +203,7 @@
                             <x-input onkeyup="update_amount()"
                                      class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="amounts[{{ $index }}]"
+                                     inputmode="decimal" autocomplete="one-time-code"
                                      value="{{ $amount ?? '' }}"/>
                         </div>
                     </div>
@@ -207,6 +214,7 @@
                             <x-input onkeyup="update_amount()"
                                      class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="commissions[{{ $index }}]"
+                                     inputmode="decimal" autocomplete="one-time-code"
                                      value="{{ $commission ?? '' }}"/>
                         </div>
                     </div>
@@ -217,6 +225,7 @@
                             <x-input onkeyup="update_amount()"
                                      class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="quantities[{{ $index }}]"
+                                     inputmode="numeric" autocomplete="one-time-code"
                                      value="{{ $quantity ?? '' }}"/>
                         </div>
                     </div>
@@ -268,7 +277,7 @@
                     <div class="relative">
                         <i class="bi bi-123 absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input class="first-element focus-and-blur pl-9 pr-3 block w-full"
-                                 type="text" name="codes[0]"/>
+                                 inputmode="text" autocomplete="one-time-code" type="text" name="codes[0]"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
@@ -297,6 +306,7 @@
                         <x-input onkeyup="update_amount()"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="amounts[0]"
+                                 inputmode="decimal" autocomplete="one-time-code"
                                  value="{{ $income->amounts?? '' }}"/>
                     </div>
                 </div>
@@ -307,6 +317,7 @@
                         <x-input onkeyup="update_amount()"
                                  class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="commissions[0]"
+                                 inputmode="decimal" autocomplete="one-time-code"
                                  value="{{ $income->commissions?? '' }}"/>
                     </div>
                 </div>
@@ -317,6 +328,7 @@
                         <x-input onkeyup="update_amount()"
                                  class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="quantities[0]"
+                                 inputmode="numeric" autocomplete="one-time-code"
                                  value="{{ $income->quantities?? '' }}"/>
                     </div>
                 </div>
@@ -360,14 +372,12 @@
 @if($page === 'create')
     <div class="flex flex-wrap justify-evenly mt-6 space-y-4 sm:space-y-0">
         <div class="flex justify-center w-full sm:w-auto">
-            <!-- Botón para agregar fila -->
             <button type="button" id="add-row"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-lg">
                 <i class="bi bi-plus mr-2"></i>{{ __('Agregar Fila') }}
             </button>
         </div>
         <div class="flex justify-center w-full sm:w-auto">
-            <!-- Botón para quitar fila -->
             <button type="button" id="remove-row"
                     class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
                     onclick="update_input()">
@@ -375,13 +385,11 @@
             </button>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('dynamic-rows-container');
             const addRowButton = document.getElementById('add-row');
             const removeRowButton = document.getElementById('remove-row');
-            // Agregar una nueva fila
             addRowButton.addEventListener('click', function () {
                 const template = document.querySelector('.row-template');
                 const newIndex = container.children.length;
@@ -404,7 +412,6 @@
                 });
                 container.appendChild(newRow);
             });
-            // Quitar la última fila
             removeRowButton.addEventListener('click', function () {
                 const rows = container.querySelectorAll('.row-template');
                 if (rows.length > 1) {

@@ -115,7 +115,10 @@ return [
     */
 
     'limiters' => [
-        'login' => 'login',
+        //'login' => 'login',
+        'limiters' => [
+            'login' => '5,1', // Ejemplo de configuración válida
+        ],
         'two-factor' => 'two-factor',
     ],
 

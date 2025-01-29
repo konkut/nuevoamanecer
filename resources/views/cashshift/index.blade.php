@@ -21,7 +21,6 @@
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/lock_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/unlock_modal.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_cash_shift.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -39,7 +38,7 @@
                         @can('cashshifts.create')
                             <a href="{{ route('cashshifts.create') }}"
                                class="bg-blue-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm"
-                               title="Agregar">
+                               title="{{__('word.general.title_icon_create')}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                      class="bi bi-plus" viewBox="0 0 16 16">
                                     <path
@@ -62,24 +61,24 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de apertura')">{{ __('word.cashshift.attribute.start_time') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.start_time') }}')">{{ __('word.cashshift.attribute.start_time') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de cierre')">{{ __('word.cashshift.attribute.end_time') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.end_time') }}')">{{ __('word.cashshift.attribute.end_time') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'caja')">{{ __('word.cashshift.attribute.cashregister_uuid') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.cashregister_uuid') }}')">{{ __('word.cashshift.attribute.cashregister_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'monto')">{{ __('word.cashshift.attribute.initial_balance') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.initial_balance') }}')">{{ __('word.cashshift.attribute.initial_balance') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'banco')">{{ __('word.cashshift.attribute.bankregister_uuids') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.bankregister_uuids') }}')">{{ __('word.cashshift.attribute.bankregister_uuids') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'saldo')">{{ __('word.cashshift.attribute.bank_balance') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.bank_balance') }}')">{{ __('word.cashshift.attribute.bank_balance') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'cajero')">{{ __('word.cashshift.attribute.user_id') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.user_id') }}')">{{ __('word.cashshift.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.cashshift.attribute.status') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashshift.filter.status') }}')">{{ __('word.cashshift.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -109,7 +108,7 @@
                                                             @method('PUT')
                                                             <button type="submit"
                                                                     class="bg-violet-500 text-white px-2 py-1 rounded text-xs"
-                                                                    title="Deshabilitar arqueo">
+                                                                    title="{{__('word.general.title_icon_disabled')}}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                      height="16" fill="currentColor" class="bi bi-lock"
                                                                      viewBox="0 0 16 16">
@@ -127,7 +126,7 @@
                                                             @method('PUT')
                                                             <button type="submit"
                                                                     class="bg-violet-500 text-white px-2 py-1 rounded text-xs"
-                                                                    title="Habilitar arqueo">
+                                                                    title="{{__('word.general.title_icon_enabled')}}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                      height="16" fill="currentColor"
                                                                      class="bi bi-unlock" viewBox="0 0 16 16">
@@ -141,7 +140,7 @@
                                                 @if(!$item->cashcount)
                                                     <a href="{{ route('cashshifts.create_physical',$item->cashshift_uuid) }}"
                                                        class="bg-pink-500 text-white px-2 py-1 rounded text-xs"
-                                                       title="Asignar recuento final de efectivo">
+                                                       title="{{__('word.general.title_icon_create_cashcount')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-cash-stack"
                                                              viewBox="0 0 16 16">
@@ -154,7 +153,7 @@
                                                 @else
                                                     <a href="{{ route('cashshifts.edit_physical',$item->cashshift_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                       title="Modificar recuento final de efectivo">
+                                                       title="{{__('word.general.title_icon_update_cashcount')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-eyedropper"
                                                              viewBox="0 0 16 16">
@@ -164,7 +163,7 @@
                                                     </a>
                                                 @endif
                                                 <a href="javascript:void(0);"
-                                                   title="Visualizar"
+                                                   title="{{__('word.general.title_icon_show')}}"
                                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
                                                    onclick="openDetailsModal('{{$item->cashshift_uuid}}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -179,7 +178,7 @@
                                                 @can('cashshifts.edit')
                                                     <a href="{{ route('cashshifts.edit',$item->cashshift_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                                       title="Modificar">
+                                                       title="{{__('word.general.title_icon_update')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-eyedropper"
                                                              viewBox="0 0 16 16">
@@ -192,7 +191,7 @@
                                                     <button type="button"
                                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                             onclick="openModal('{{ $item->cashshift_uuid }}', '{{$item->cash_name}}')"
-                                                            title="Eliminar">
+                                                            title="{{__('word.general.title_icon_delete')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-trash"
                                                              viewBox="0 0 16 16">

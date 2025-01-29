@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\PaymentwithpriceExport;
+use App\Exports\IncomeExport;
 use App\Models\Cashcount;
 use App\Models\Cashshift;
 use App\Models\Denomination;
@@ -434,6 +434,6 @@ class PaymentwithpriceController extends Controller
             $paymentwithprice->format_digital_cash = $paymentwithprice->denominations->digital_cash;
             $paymentwithprice->format_total = $paymentwithprice->denominations->total;
         });
-        return Excel::download(new PaymentwithpriceExport($paymentwithprices), 'transacciones_servicios_basicos.xlsx');
+        return Excel::download(new IncomeExport($paymentwithprices), 'transacciones_servicios_basicos.xlsx');
     }
 }

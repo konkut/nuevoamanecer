@@ -1,53 +1,42 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Delete Account') }}
+        {{ __('word.user.disable_title') }}
     </x-slot>
-
     <x-slot name="description">
-        {{ __('Permanently delete your account.') }}
+        {{ __('word.user.disabled_text') }}
     </x-slot>
-
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </div>
-
-        <div class="mt-5">
-            <x-danger-button wire:click="confirmUserDeletion" wire:loading.attr="disabled">
-                {{ __('Delete Account') }}
-            </x-danger-button>
-        </div>
-
-        <!-- Delete User Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingUserDeletion">
-            <x-slot name="title">
-                {{ __('Delete Account') }}
-            </x-slot>
-
-            <x-slot name="content">
-                {{ __('Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-
-                <div class="mt-4" x-data="{}" x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-input type="password" class="mt-1 block w-3/4"
-                                autocomplete="current-password"
-                                placeholder="{{ __('Password') }}"
-                                x-ref="password"
-                                wire:model="password"
-                                wire:keydown.enter="deleteUser" />
-
-                    <x-input-error for="password" class="mt-2" />
+        <form action="{{ route('disable_account')}}" method="POST" onsubmit="fetch_disable_account(this, event)">
+            @csrf
+            <div class="grid grid-cols-6 gap-6 px-4 sm:px-6 sm:pt-6">
+                <div class="col-span-6 sm:col-span-5">
+                    <h3 id="title-status"
+                        class="text-lg font-medium text-gray-900">{{ __('word.user.disable_title') }}</h3>
+                    <p class="mt-6 text-sm text-gray-600">{{ __('word.user.disable_subtitle') }}</p>
                 </div>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-secondary-button wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
-
-                <x-danger-button class="ms-3" wire:click="deleteUser" wire:loading.attr="disabled">
-                    {{ __('Delete Account') }}
+                <div class="col-span-6 sm:col-span-5">
+                    <x-label for="password_disable_account" value="{{__('Confirm Password')}}"/>
+                    <div class="relative mt-4">
+                        <i class="bi bi-fingerprint absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                        <x-input id="password_disable_account"
+                                 class="focus-and-blur focus-and-blur pl-9 block mt-1 w-full"
+                                 type="password" name="password_disable_account" required
+                                 inputmode="text" autocomplete="current-password"
+                                 value="{{ old('password_disable_account') }}"/>
+                        <x-box-password></x-box-password>
+                    </div>
+                    <a href="javascript:void(0)"
+                       class="show_password outline-none flex justify-end py-4 text-xs text-gray-600"
+                       onclick="change_state_password(this)"
+                       data-state="hide" data-target="password_disable_account">{{ __('word.general.show_password') }}</a>
+                </div>
+            </div>
+            <div
+                class="flex items-center justify-end px-4 py-3 bg-gray-50 text-end sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
+                <x-danger-button>
+                    {{ __('word.user.disabled_button') }}
                 </x-danger-button>
-            </x-slot>
-        </x-dialog-modal>
+            </div>
+        </form>
     </x-slot>
 </x-action-section>

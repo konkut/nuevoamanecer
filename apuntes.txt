@@ -1,3 +1,35 @@
+$array_bankregister = [];
+            foreach ($bankregister_uuids as $bankregister_uuid) {
+                $bankregister = Bankregister::where('bankregister_uuid', $bankregister_uuid)->toArray();
+                if ($bankregister->name){
+                    $array_bankregister[] = $bankregister->name;
+                }
+            }
+
+
+ {{ $last_record->cash_income_uuid === $item->income_uuid && $last_record->cash_income_uuid ||
+                                        $last_record->cash_expense_uuid === $item->expense_uuid && $last_record->cash_expense_uuid ||
+                                        $last_record->cash_sale_uuid === $item->sale_uuid && $last_record->cash_sale_uuid ? 'bg-yellow-200' : '' }}"
+
+{{ $last_record->bank_income_uuid === $item->income_uuid && $last_record->bank_income_uuid ||
+                                        $last_record->bank_expense_uuid === $item->expense_uuid && $last_record->bank_expense_uuid ||
+                                        $last_record->bank_sale_uuid === $item->sale_uuid && $last_record->bank_sale_uuid ? 'bg-yellow-200' : '' }}
+protected function passwordRules(): array
+protected: Este método solo puede ser accedido desde la clase donde se define o sus subclases.
+passwordRules(): Es el nombre del método, generalmente usado para centralizar las reglas de validación de contraseñas.
+: array: Indica que el método devolverá un array.
+ASI LO USAMOS
+'password' => $this->passwordRules(),
+
+
+$user->forceFill([...]): Asigna valores al modelo User sin pasar por los métodos de protección contra asignación masiva (fillable).
+
+
+esto <a href="javascript:void(0)" en lugar de <a href="#" evitara que al hacer clic la pantalla suba al inicio
+
+
+__('word.two_factor',['app_name' => config('doris.app_name')])
+
 Log::info("data_initial_session", ['date' => $this->date]);
 
 msgs: JSON.stringify(['mensaje #1', 'mensaje #2', 'mensaje #3']

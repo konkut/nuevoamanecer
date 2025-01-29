@@ -39,7 +39,7 @@
                     <div class="flex justify-end space-x-2 items-center mb-4">
                         <a href="{{ route('cashregisters.create') }}"
                            class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                           title="Agregar">
+                           title="{{__('word.general.title_icon_create')}}">
                             <i class="bi bi-plus"></i>
                         </a>
                         <form method="GET" action="{{ route('cashregisters.index') }}" onchange="this.submit()"
@@ -57,20 +57,20 @@
                     <div class="overflow-x-auto text-black">
                         <table class="min-w-full border-collapse border-[#2563eb] text-center text-sm">
                             <thead>
-                            <tr class="bg-[#d1d5db]" title="Buscar">
+                            <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'nombre')">{{ __('word.cashregister.attribute.name') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashregister.filter.name') }}')">{{ __('word.cashregister.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'total')">{{ __('word.cashregister.attribute.total') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashregister.filter.total') }}')">{{ __('word.cashregister.attribute.total') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'registrado por')">{{ __('word.cashregister.attribute.user_id') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashregister.filter.user_id') }}')">{{ __('word.cashregister.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de registro')">{{ __('word.cashregister.attribute.created_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashregister.filter.created_at') }}')">{{ __('word.cashregister.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'fecha de actualización')">{{ __('word.cashregister.attribute.updated_at') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashregister.filter.updated_at') }}')">{{ __('word.cashregister.attribute.updated_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, 'estado')">{{ __('word.cashregister.attribute.status') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.cashregister.filter.status') }}')">{{ __('word.cashregister.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
@@ -88,7 +88,7 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
                                             <form id="details-form-{{$item->cashregister_uuid}}"
-                                                  title="Visualizar"
+                                                  title="{{__('word.general.title_icon_show')}}"
                                                   action="{{ route('cashregisters.detail', $item->cashregister_uuid) }}"
                                                   method="POST" style="display: inline;">
                                                 @csrf
@@ -106,7 +106,7 @@
                                             </form>
                                             <a href="{{ route('cashregisters.edit',$item->cashregister_uuid) }}"
                                                class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                               title="Modificar">
+                                               title="{{__('word.general.title_icon_update')}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-eyedropper" viewBox="0 0 16 16">
                                                     <path
@@ -116,7 +116,7 @@
                                             <button type="button"
                                                     class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                     onclick="openModal('{{ $item->cashregister_uuid }}', '{{$item->name }}')"
-                                                    title="Eliminar">
+                                                    title="{{__('word.general.title_icon_delete')}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                     <path

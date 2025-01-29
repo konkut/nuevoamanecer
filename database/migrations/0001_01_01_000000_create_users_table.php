@@ -17,17 +17,21 @@ return new class extends Migration
             $table->string('email',100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('auth_code')->nullable();
+            $table->boolean('status_two_factor')->default(false);
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
+            //$table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->timestamp('password_changed_at')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
+        /*Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
-        });
+        });*/
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();

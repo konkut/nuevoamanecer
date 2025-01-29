@@ -3,7 +3,7 @@
     <div class="relative">
         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <x-input id="amount" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="amount"
-                 onkeyup="updateCharge_expense()"
+                 onkeyup="updateCharge_expense()" inputmode="decimal" autocomplete="one-time-code"
                  value="{{ old('amount', $expense->amount?? '') }}"/>
     </div>
 </div>
@@ -11,11 +11,11 @@
     <x-label for="observation" value="{{ __('word.expense.attribute.observation') }}"/>
     <div class="relative">
         <i class="bi bi-card-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input id="observation" class="focus-and-blur pl-9 block mt-1 w-full" type="text" name="observation"
+        <x-input id="observation" class="focus-and-blur pl-9 block mt-1 w-full"
+                 type="text" name="observation" inputmode="text" autocomplete="one-time-code"
                  value="{{ old('observation', $expense->observation?? '') }}"/>
     </div>
 </div>
-
 <div class="mt-4">
     <x-label for="category_uuid" value="{{ __('word.expense.attribute.category_uuid') }} *"/>
     <div class="relative">
@@ -35,7 +35,6 @@
         </select>
     </div>
 </div>
-
 <div class="mt-4">
     <x-label for="method_uuid" value="{{ __('word.expense.attribute.method_uuid') }} *"/>
     <div class="relative">

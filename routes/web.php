@@ -16,8 +16,15 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\MethodController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TwoFactorController;
+use \App\Http\Middleware\ForcePasswordChange;
+use App\Http\Controllers\ForcePasswordChangeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\TwoFactor;
 use App\Livewire\Users;
 
 Route::get('/', function () {
@@ -25,17 +32,43 @@ Route::get('/', function () {
 });
 
 //Route::get('/liveusers',Users::class);
+//Route::get('/login', [OneFactorController::class, 'create'])->middleware(['guest:'.config('fortify.guard')])->name('login');
+Route::get('/forgot/password', [ForgotPasswordController::class, 'create'])
+    ->middleware(['guest:'.config('fortify.guard')])->name('password.request');
+Route::post('/forgot/password/update', [ForgotPasswordController::class, 'store'])
+    ->middleware(['guest:'.config('fortify.guard')])->name('password.email');
+
+Route::get('/reset/password/{id}', [ResetPasswordEmailController::class, 'edit'])
+    ->middleware(['guest:'.config('fortify.guard')])->name('password.link');
+Route::put('/reset/password/update', [ResetPasswordEmailController::class, 'update'])
+    ->middleware(['guest:'.config('fortify.guard')])->name('password.update');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'check_user_status',
+    'two_factor',
+    'force_password_change',
 ])->group(function () {
+    Route::get('/two/factor', [TwoFactorController::class, 'get_code'])->name('connect_two_factor')->withoutMiddleware([ForcePasswordChange::class]);
+    Route::post('/two/factor/verify', [TwoFactorController::class, 'get_verify'])->name('verify_two_factor')->withoutMiddleware([ForcePasswordChange::class]);
+
+    Route::get('/password/change', [ForcePasswordChangeController::class, 'edit'])->name('password.change');
+    Route::post('/password/change', [ForcePasswordChangeController::class, 'update'])->name('password.change.update');
+
+    /*SETTING*/
+    Route::put('/user/data', [SettingController::class, 'update_user'])->name('update_user');
+    Route::put('/user/password', [SettingController::class, 'update_password'])->name('update_password');
+    Route::post('/two/factor/status', [SettingController::class, 'two_factor'])->name('status_two_factor');
+    Route::post('/logout/session', [SettingController::class, 'logout_session'])->name('logout_session');
+    Route::post('/disable/account', [SettingController::class, 'disable_account'])->name('disable_account');
+
+    /*DASHBOARD*/
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
     Route::put('/dashboard/{cashshift_uuid}', [DashboardController::class, 'state'])->name('dashboards.state');
     Route::get('/dashboard/search/sessions', [DashboardController::class, 'search_sessions'])->name('dashboards.search_sessions');
     Route::get('/dashboard/search/session', [DashboardController::class, 'search_session'])->name('dashboards.search_session');
-    //Route::get('/dashboard/sesions/', [DashboardController::class, 'all_sesions'])->name('dashboards.sesions');
     Route::get('/dashboard/session/{cashshift_uuid}', [DashboardController::class, 'one_session'])->name('dashboards.session');
 
     /*CONTROL*/
@@ -48,6 +81,8 @@ Route::middleware([
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('can:users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update')->middleware('can:users.edit');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('can:users.destroy');
+    Route::put('/users/enable/{id}', [UserController::class, 'enable'])->name('users.enable');
+    Route::put('/users/disable/{id}', [UserController::class, 'disable'])->name('users.disable');
     Route::post('/users/{id}', [UserController::class, 'roles'])->name('users.roles')->middleware('can:users.roles');
 
     /*CATEGORIES */
@@ -74,15 +109,17 @@ Route::middleware([
     Route::put('/methods/{method_uuid}', [MethodController::class, 'update'])->name('methods.update')->middleware('can:methods.edit');
     Route::delete('/methods/{method_uuid}', [MethodController::class, 'destroy'])->name('methods.destroy')->middleware('can:methods.destroy');
 
-    /*PAYMENT WITHOUT PRICE */
+    /*INCOMES */
     Route::get("/incomes", [IncomeController::class, "index"])->name("incomes.index")->middleware('can:incomes.index');
-    Route::get("/incomes/create", [IncomeController::class, "create"])->name("incomes.create")->middleware('can:incomes.create');
-    Route::post("/incomes", [IncomeController::class, "store"])->name("incomes.store")->middleware('can:incomes.create');
     Route::get('/incomes/export', [IncomeController::class, 'export'])->name('incomes.export');
+    Route::middleware(['cashshift_session'])->group(function () {
+        Route::get("/incomes/create", [IncomeController::class, "create"])->name("incomes.create")->middleware('can:incomes.create');
+        Route::post("/incomes", [IncomeController::class, "store"])->name("incomes.store")->middleware('can:incomes.create');
+        Route::get('/incomes/{income_uuid}/edit', [IncomeController::class, 'edit'])->name('incomes.edit')->middleware('can:incomes.edit');
+        Route::put('/incomes/{income_uuid}', [IncomeController::class, 'update'])->name('incomes.update')->middleware('can:incomes.edit');
+    });
     Route::get('/incomes/tax/{income_uuid}', [IncomeController::class, 'tax'])->name('incomes.tax');
-    Route::get('/incomes/{income_uuid}/edit', [IncomeController::class, 'edit'])->name('incomes.edit')->middleware('can:incomes.edit');
     Route::post('/incomes/detail/{income_uuid}', [IncomeController::class, 'detail'])->name('incomes.detail');
-    Route::put('/incomes/{income_uuid}', [IncomeController::class, 'update'])->name('incomes.update')->middleware('can:incomes.edit');
     Route::delete('/incomes/{income_uuid}', [IncomeController::class, 'destroy'])->name('incomes.destroy')->middleware('can:incomes.destroy');
 
     /*DENOMINATIONS */
@@ -121,12 +158,14 @@ Route::middleware([
 
     /*EXPENSES */
     Route::get("/expenses", [ExpenseController::class, "index"])->name("expenses.index")->middleware('can:expenses.index');
-    Route::get("/expenses/create", [ExpenseController::class, "create"])->name("expenses.create")->middleware('can:expenses.create');
-    Route::post("/expenses", [ExpenseController::class, "store"])->name("expenses.store")->middleware('can:expenses.create');
+    Route::middleware(['cashshift_session'])->group(function () {
+        Route::get("/expenses/create", [ExpenseController::class, "create"])->name("expenses.create")->middleware('can:expenses.create');
+        Route::post("/expenses", [ExpenseController::class, "store"])->name("expenses.store")->middleware('can:expenses.create');
+        Route::get('/expenses/{expense_uuid}/edit', [ExpenseController::class, 'edit'])->name('expenses.edit')->middleware('can:expenses.edit');
+        Route::put('/expenses/{expense_uuid}', [ExpenseController::class, 'update'])->name('expenses.update')->middleware('can:expenses.edit');
+    });
     Route::get('/expenses/export', [ExpenseController::class, 'export'])->name('expenses.export');
-    Route::get('/expenses/{expense_uuid}/edit', [ExpenseController::class, 'edit'])->name('expenses.edit')->middleware('can:expenses.edit');
     Route::post('/expenses/{expense_uuid}', [ExpenseController::class, 'detail'])->name('expenses.detail');
-    Route::put('/expenses/{expense_uuid}', [ExpenseController::class, 'update'])->name('expenses.update')->middleware('can:expenses.edit');
     Route::delete('/expenses/{expense_uuid}', [ExpenseController::class, 'destroy'])->name('expenses.destroy')->middleware('can:expenses.destroy');
 
     /*PRODUCTS */
@@ -139,13 +178,14 @@ Route::middleware([
 
     /*SALES */
     Route::get("/sales", [SaleController::class, "index"])->name("sales.index")->middleware('can:sales.index');
-    Route::get("/sales/create", [SaleController::class, "create"])->name("sales.create")->middleware('can:sales.create');
-    Route::post("/sales", [SaleController::class, "store"])->name("sales.store")->middleware('can:sales.create');
+    Route::middleware(['cashshift_session'])->group(function () {
+        Route::get("/sales/create", [SaleController::class, "create"])->name("sales.create")->middleware('can:sales.create');
+        Route::post("/sales", [SaleController::class, "store"])->name("sales.store")->middleware('can:sales.create');
+        Route::get('/sales/{sale_uuid}/edit', [SaleController::class, 'edit'])->name('sales.edit')->middleware('can:sales.edit');
+        Route::put('/sales/{sale_uuid}', [SaleController::class, 'update'])->name('sales.update')->middleware('can:sales.edit');
+    });
     Route::get('/sales/export', [SaleController::class, 'export'])->name('sales.export');
-    Route::get('/sales/tax/{sale_uuid}', [SaleController::class, 'tax'])->name('sales.tax');
-    Route::get('/sales/{sale_uuid}/edit', [SaleController::class, 'edit'])->name('sales.edit')->middleware('can:sales.edit');
     Route::post('/sales/detail/{sale_uuid}', [SaleController::class, 'detail'])->name('sales.detail');
-    Route::put('/sales/{sale_uuid}', [SaleController::class, 'update'])->name('sales.update')->middleware('can:sales.edit');
     Route::delete('/sales/{sale_uuid}', [SaleController::class, 'destroy'])->name('sales.destroy')->middleware('can:sales.destroy');
 
     /*BANKREGISTERS */
@@ -158,37 +198,24 @@ Route::middleware([
     Route::delete('/bankregisters/{bankregister_uuid}', [BankregisterController::class, 'destroy'])->name('bankregisters.destroy')->middleware('can:bankregisters.destroy');
 
     /*CASHFLOWDAILY */
-    Route::get("/cashflowdailies", [CashflowdailyController::class, "index"])->name("cashflowdailies.index")->middleware('can:cashflowdailies.index');
-    Route::get("/cashflowdailies/summary", [CashflowdailyController::class, "summary"])->name("cashflowdailies.summary");
-    Route::post('/cashflowdailies/{cashflowdaily_uuid}', [CashflowdailyController::class, 'detail'])->name('cashflowdailies.detail');
-    Route::get('/cashflowdailies/report/{cashflowdaily_uuid}', [CashflowdailyController::class, 'report'])->name('cashflowdailies.report');
-   // Route::post('/cashflowdailies/data/', [CashflowdailyController::class, 'data'])->name('cashflowdailies.data');
-   // Route::post('/cashflowdailies/close/{cashflowdaily_uuid}', [CashflowdailyController::class, 'close'])->name('cashflowdailies.close');
-   // Route::post('/cashflowdailies/open/{cashflowdaily_uuid}', [CashflowdailyController::class, 'open'])->name('cashflowdailies.open');
-   //
-   // Route::delete('/cashflowdailies/{cashflowdaily_uuid}', [CashflowdailyController::class, 'destroy'])->name('cashflowdailies.destroy')->middleware('can:cashshifts.destroy');
-
-
-
+    //Route::get("/cashflowdailies", [CashflowdailyController::class, "index"])->name("cashflowdailies.index")->middleware('can:cashflowdailies.index');
+    // Route::get("/cashflowdailies/summary", [CashflowdailyController::class, "summary"])->name("cashflowdailies.summary");
+    // Route::post('/cashflowdailies/{cashflowdaily_uuid}', [CashflowdailyController::class, 'detail'])->name('cashflowdailies.detail');
+    //Route::get('/cashflowdailies/report/{cashflowdaily_uuid}', [CashflowdailyController::class, 'report'])->name('cashflowdailies.report');
+    // Route::post('/cashflowdailies/data/', [CashflowdailyController::class, 'data'])->name('cashflowdailies.data');
+    // Route::post('/cashflowdailies/close/{cashflowdaily_uuid}', [CashflowdailyController::class, 'close'])->name('cashflowdailies.close');
+    // Route::post('/cashflowdailies/open/{cashflowdaily_uuid}', [CashflowdailyController::class, 'open'])->name('cashflowdailies.open');
+    // Route::delete('/cashflowdailies/{cashflowdaily_uuid}', [CashflowdailyController::class, 'destroy'])->name('cashflowdailies.destroy')->middleware('can:cashshifts.destroy');
 
     /*CURRENCIES */
-    Route::get("/currencies", [CurrencyController::class, "index"])->name("currencies.index");
+    /*Route::get("/currencies", [CurrencyController::class, "index"])->name("currencies.index");
     Route::get("/currencies/create", [CurrencyController::class, "create"])->name("currencies.create");
     Route::post("/currencies", [CurrencyController::class, "store"])->name("currencies.store");
     Route::get('/currencies/{currency_id}', [CurrencyController::class, 'show'])->name('currencies.show');
     Route::get('/currencies/{currency_id}/edit', [CurrencyController::class, 'edit'])->name('currencies.edit');
     Route::put('/currencies/{currency_id}', [CurrencyController::class, 'update'])->name('currencies.update');
-    Route::delete('/currencies/{currency_id}', [CurrencyController::class, 'destroy'])->name('currencies.destroy');
+    Route::delete('/currencies/{currency_id}', [CurrencyController::class, 'destroy'])->name('currencies.destroy');*/
 
-    /*
-    Route::get("/servicesprices", [ServicepriceController::class, "index"])->name("servicesprices.index")->middleware('can:servicesprices.index');
-    Route::get("/servicesprices/create", [ServicepriceController::class, "create"])->name("servicesprices.create")->middleware('can:servicesprices.create');
-    Route::post("/servicesprices", [ServicepriceController::class, "store"])->name("servicesprices.store")->middleware('can:servicesprices.create');
-    Route::get('/servicesprices/{service_uuid}', [ServicepriceController::class, 'show'])->name('servicesprices.show')->middleware('can:servicesprices.show');
-    Route::get('/servicesprices/{service_uuid}/edit', [ServicepriceController::class, 'edit'])->name('servicesprices.edit')->middleware('can:servicesprices.edit');
-    Route::put('/servicesprices/{service_uuid}', [ServicepriceController::class, 'update'])->name('servicesprices.update')->middleware('can:servicesprices.edit');
-    Route::delete('/servicesprices/{service_uuid}', [ServicepriceController::class, 'destroy'])->name('servicesprices.destroy')->middleware('can:servicesprices.destroy');
-    */
 });
 
 Route::prefix('/api')->group(function () {

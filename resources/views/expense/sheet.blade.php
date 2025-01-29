@@ -1,47 +1,27 @@
 <table>
     <thead>
     <tr>
-        <th>Categoria</th>
-        <th>Monto</th>
-        <th>Observación</th>
-        <th>Método de transacción</th>
-        <th>Bs 200</th>
-        <th>Bs 100</th>
-        <th>Bs 50</th>
-        <th>Bs 20</th>
-        <th>Bs 10</th>
-        <th>Bs 5</th>
-        <th>Bs 2</th>
-        <th>Bs 1</th>
-        <th>Bs 0.5</th>
-        <th>Bs 0.2</th>
-        <th>Bs 0.1</th>
-        <th>Total</th>
-        <th>Usuario</th>
-        <th>Fecha de registro</th>
-        <th>Fecha de actualización</th>
+        <th>{{__('word.expense.sheet.name')}}</th>
+        <th>{{__('word.expense.sheet.observation')}}</th>
+        <th>{{__('word.expense.sheet.user')}}</th>
+        <th>{{__('word.expense.sheet.method')}}</th>
+        <th>{{__('word.expense.sheet.cash')}}</th>
+        <th>{{__('word.expense.sheet.bank')}}</th>
+        <th>{{__('word.expense.sheet.total')}}</th>
+        <th>{{__('word.expense.sheet.created_at')}}</th>
+        <th>{{__('word.expense.sheet.updated_at')}}</th>
     </tr>
     </thead>
     <tbody>
     @foreach($expenses as $item)
         <tr>
-            <td>{{$item->format_category}}</td>
-            <td>{{$item->format_amount}}</td>
+            <td>{{$item->format_name}}</td>
             <td>{{$item->format_observation}}</td>
-            <td>{{$item->format_transactionmethod_uuid}}</td>
-            <td>{{$item->format_bill_200}}</td>
-            <td>{{$item->format_bill_100}}</td>
-            <td>{{$item->format_bill_50}}</td>
-            <td>{{$item->format_bill_20}}</td>
-            <td>{{$item->format_bill_10}}</td>
-            <td>{{$item->format_coin_5}}</td>
-            <td>{{$item->format_coin_2}}</td>
-            <td>{{$item->format_coin_1}}</td>
-            <td>{{$item->format_coin_0_5}}</td>
-            <td>{{$item->format_coin_0_2}}</td>
-            <td>{{$item->format_coin_0_1}}</td>
+            <td>{{$item->format_user}}</td>
+            <td>{{$item->format_method}}</td>
+            <td>{{$item->format_cash}}</td>
+            <td>{{$item->format_bank}}</td>
             <td>{{$item->format_total}}</td>
-            <td>{{$item->format_user_id}}</td>
             <td>{{$item->format_created_at}}</td>
             <td>{{$item->format_updated_at}}</td>
         </tr>

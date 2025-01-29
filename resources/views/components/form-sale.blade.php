@@ -3,7 +3,7 @@
     <div class="relative">
         <i class="bi-info-circle absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <x-input id="observation" class="focus-and-blur first-element pl-9 block mt-1 w-full" type="text"
-                 name="observation" value="{{ old('observation', $sale->observation ?? '') }}"/>
+                 inputmode="text" autocomplete="one-time-code" name="observation" value="{{ old('observation', $sale->observation ?? '') }}"/>
     </div>
 </div>
 <div id="dynamic-rows-container" class="flex flex-col space-y-4">
@@ -65,6 +65,7 @@
                         <i class="bi bi-grid-3x3-gap-fill absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <x-input onkeyup="update_sale_charge()"
                                  class="quantities-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
+                                 inputmode="numeric" autocomplete="one-time-code"
                                  type="text"
                                  name="quantities[{{ $index }}]"
                                  value="{{ $quantities ?? '' }}"/>
@@ -130,6 +131,7 @@
                             <x-input onkeyup="update_sale_charge()"
                                      class="quantities-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                      type="text" name="quantities[{{ $index }}]"
+                                     inputmode="numeric" autocomplete="one-time-code"
                                      value="{{ $quantity ?? '' }}"/>
                         </div>
                     </div>
@@ -184,6 +186,7 @@
                         <x-input onkeyup="update_sale_charge()"
                                  class="quantities-input focus-and-blur pl-9 pr-3 py-2 block mt-1 w-full"
                                  type="text" name="quantities[0]"
+                                 inputmode="numeric" autocomplete="one-time-code"
                                  value="{{ $sale->quantities?? '' }}"/>
                     </div>
                 </div>
@@ -208,7 +211,6 @@
         @endif
     @endif
 </div>
-
 @if($page === "CREATE")
     <div class="flex flex-col md:flex-row md:justify-evenly mt-6 space-y-4 md:space-y-0">
         <div class="flex justify-center">
@@ -230,7 +232,6 @@
             const container = document.getElementById('dynamic-rows-container');
             const addRowButton = document.getElementById('add-row');
             const removeRowButton = document.getElementById('remove-row');
-            // Agregar una nueva fila
             addRowButton.addEventListener('click', function () {
                 const template = document.querySelector('.row-template');
                 const newIndex = container.children.length;
@@ -253,7 +254,6 @@
                 });
                 container.appendChild(newRow);
             });
-            // Quitar la última fila
             removeRowButton.addEventListener('click', function () {
                 const rows = container.querySelectorAll('.row-template');
                 if (rows.length > 1) {

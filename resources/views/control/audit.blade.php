@@ -42,36 +42,36 @@
                         <div class="overflow-x-auto md:overflow-x-hidden">
                             <table id="table_cash" class="w-full border-collapse border-[#2563eb] text-center text-xs">
                                 <thead>
-                                <tr class="bg-[#d1d5db]" title="Buscar">
+                                <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'caja')">{{ __('word.control.attribute.cash_uuid') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.cash_uuid') }}')">{{ __('word.control.attribute.cash_uuid') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'tipo')">{{ __('word.control.attribute.type') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.type') }}')">{{ __('word.control.attribute.type') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'total')">{{ __('word.control.attribute.total') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.total') }}'">{{ __('word.control.attribute.total') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'billete 200')">{{ __('word.control.attribute.bill_200') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.bill_200') }}')">{{ __('word.control.attribute.bill_200') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'billete 100')">{{ __('word.control.attribute.bill_100') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.bill_100') }}')">{{ __('word.control.attribute.bill_100') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'billete 50')">{{ __('word.control.attribute.bill_50') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.bill_50') }}')">{{ __('word.control.attribute.bill_50') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'billete 20')">{{ __('word.control.attribute.bill_20') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.bill_20') }}')">{{ __('word.control.attribute.bill_20') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'billete 10')">{{ __('word.control.attribute.bill_10') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.bill_10') }}')">{{ __('word.control.attribute.bill_10') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'moneda 5')">{{ __('word.control.attribute.coin_5') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.coin_5') }}')">{{ __('word.control.attribute.coin_5') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'moneda 2')">{{ __('word.control.attribute.coin_2') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.coin_2') }}')">{{ __('word.control.attribute.coin_2') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'moneda 1')">{{ __('word.control.attribute.coin_1') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.coin_1') }}')">{{ __('word.control.attribute.coin_1') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'moneda 0.5')">{{ __('word.control.attribute.coin_0_5') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.coin_0_5') }}')">{{ __('word.control.attribute.coin_0_5') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'moneda 0.2')">{{ __('word.control.attribute.coin_0_2') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.coin_0_2') }}')">{{ __('word.control.attribute.coin_0_2') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_cash(this, 'moneda 0.1')">{{ __('word.control.attribute.coin_0_1') }}</th>
+                                        onclick="enable_seach_cash(this, '{{ __('word.control.filter.coin_0_1') }}')">{{ __('word.control.attribute.coin_0_1') }}</th>
                                     {{--
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                         title="">{{ __('word.general.actions') }}</th>
@@ -79,12 +79,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
                                 @foreach($denominations as $item)
-                                    <tr class="hover:bg-[#d1d5db44] transition duration-200
-                                    {{ $last_record->cash_income_uuid === $item->income_uuid && $last_record->cash_income_uuid ||
-                                        $last_record->cash_expense_uuid === $item->expense_uuid && $last_record->cash_expense_uuid ||
-                                        $last_record->cash_sale_uuid === $item->sale_uuid && $last_record->cash_sale_uuid ? 'bg-yellow-200' : '' }}">
+                                    <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->cashregister->name ?? "" }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
@@ -111,15 +107,13 @@
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->coin_0_5 }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->coin_0_2 }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->coin_0_1 }}</td>
-
-
                                         {{--
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                             <div class="flex justify-center space-x-1">
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                         onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ implode(', ', $item->services->toArray()) }}')"
-                                        title="Eliminar">
+                                        title="{{__('word.general.title_icon_delete')}}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-trash"
                                              viewBox="0 0 16 16">
@@ -178,14 +172,14 @@
                         <div class="overflow-x-auto md:overflow-x-hidden">
                             <table id="table_bank" class="w-full border-collapse border-[#2563eb] text-center text-xs">
                                 <thead>
-                                <tr class="bg-[#d1d5db]" title="Buscar">
+                                <tr class="bg-[#d1d5db]" title="{{__('word.general.title_icon_filter')}}">
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1">#</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_bank(this, 'banco')">{{ __('word.control.attribute.bank_uuid') }}</th>
+                                        onclick="enable_seach_bank(this, '{{ __('word.control.filter.bank_uuid') }}')">{{ __('word.control.attribute.bank_uuid') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_bank(this, 'tipo')">{{ __('word.control.attribute.type') }}</th>
+                                        onclick="enable_seach_bank(this, '{{ __('word.control.filter.type') }}')">{{ __('word.control.attribute.type') }}</th>
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enable_seach_bank(this, 'total')">{{ __('word.control.attribute.total') }}</th>
+                                        onclick="enable_seach_bank(this, '{{ __('word.control.filter.total') }}')">{{ __('word.control.attribute.total') }}</th>
                                     {{--
                                     <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                         title="">{{ __('word.general.actions') }}</th>
@@ -194,10 +188,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($transactions as $item)
-                                    <tr class="hover:bg-[#d1d5db44] transition duration-200
-                                    {{ $last_record->bank_income_uuid === $item->income_uuid && $last_record->bank_income_uuid ||
-                                        $last_record->bank_expense_uuid === $item->expense_uuid && $last_record->bank_expense_uuid ||
-                                        $last_record->bank_sale_uuid === $item->sale_uuid && $last_record->bank_sale_uuid ? 'bg-yellow-200' : '' }}">
+                                    <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->bankregister->name ?? "Sin asignar"}}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
@@ -219,7 +210,7 @@
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                         onclick="openModal('{{ $item->paymentwithoutprice_uuid }}', '{{ implode(', ', $item->services->toArray()) }}')"
-                                        title="Eliminar">
+                                        title="{{__('word.general.title_icon_delete')}}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-trash"
                                              viewBox="0 0 16 16">

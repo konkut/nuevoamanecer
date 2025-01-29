@@ -20,8 +20,11 @@
             </h2>
         </div>
     </x-slot>
-@if (session('success'))
+    @if (session('success'))
         <x-alert :message="session('success')"/>
+    @endif
+    @if (session('error'))
+        <x-alert-error :message="session('error')"/>
     @endif
     <div class="flex flex-row flex-wrap">
         <div class="w-full xl:w-80 sm:px-6 lg:px-8">
@@ -38,7 +41,7 @@
                 <x-panel-box-all-sessions :cashshifts="$cashshifts"></x-panel-box-all-sessions>
             </div>
         @else
-            <div class="w-full xl:w-72 sm:px-6 lg:px-0 pt-8" id="dashboard-session">
+            <div class="w-full xl:w-72 sm:px-6 lg:px-0" id="dashboard-session">
                 <x-panel-box-without-session></x-panel-box-without-session>
             </div>
         @endif
@@ -52,6 +55,7 @@
                                 type="date"
                                 name="date"
                                 id="date"
+                                value="{{ session('date', now()->format('Y-m-d')) }}"
                                 class="ml-8 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 onchange="fetch_date(event,this)">
                             <a id="session-date"
@@ -87,9 +91,3 @@
         </div>
     </div>
 </x-app-layout>
-<script>
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const formatted_date = today.toISOString().split('T')[0];
-    document.getElementById('date').value = formatted_date;
-</script>
