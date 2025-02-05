@@ -2,7 +2,7 @@
     <x-label for="name" value="{{ __('word.user.attribute.name') }} *"/>
     <div class="relative">
         <i class="bi bi-person-circle absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="name"
+        <x-input required id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="name"
                  inputmode="text" autocomplete="name" autofocus value="{{ old('name', $user->name?? '') }}"/>
     </div>
     @error('name')
@@ -14,7 +14,7 @@
     <x-label for="email" value="{{ __('word.user.attribute.email') }} *"/>
     <div class="relative">
         <i class="bi bi-envelope absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input id="email" class="focus-and-blur pl-9 block mt-1 w-full" type="text" name="email"
+        <x-input required id="email" class="focus-and-blur pl-9 block mt-1 w-full" type="text" name="email"
                  inputmode="email" autocomplete="username" value="{{ old('email', $user->email?? '') }}"/>
     </div>
     @error('email')
@@ -65,8 +65,8 @@
        data-state="hide" data-target="password_confirmation">{{ __('word.general.show_password') }}</a>
 </div>
 <div class="my-4">
-    <x-label for="roles" value="{{ __('word.user.attribute.roles') }}" />
-    <div class="flex flex-row flex-wrap justify-evenly mt-2">
+    <x-label for="roles" value="{{ __('word.user.attribute.roles') }} *" />
+    <div class="flex flex-row flex-wrap justify-evenly my-2">
         @foreach($roles as $role)
             <div class="flex items-center">
                 <input type="checkbox" name="roles[]"

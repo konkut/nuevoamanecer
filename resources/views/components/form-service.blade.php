@@ -2,7 +2,7 @@
   <x-label for="name" value="{{ __('word.service.attribute.name') }} *" />
   <div class="relative">
     <i class="bi bi-tag absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-    <x-input id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full"
+    <x-input required id="name" class="first-element focus-and-blur pl-9 block mt-1 w-full"
              inputmode="text" autocomplete="one-time-code" type="text" name="name" value="{{ old('name', $service->name?? '') }}" />
   </div>
   @error('name')
@@ -21,7 +21,7 @@
   @enderror
 </div>
 <div class="mt-4">
-  <x-label for="amount" value="{{ __('word.service.attribute.amount') }} *" />
+  <x-label for="amount" value="{{ __('word.service.attribute.amount') }} " />
   <div class="relative">
     <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
     <x-input id="amount" class="focus-and-blur pl-9 block mt-1 w-full"
@@ -46,7 +46,9 @@
   <x-label for="category_uuid" value="{{ __('word.service.attribute.category_uuid') }} *" />
   <div class="relative">
     <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-    <select id="category_uuid" class="focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full" name="category_uuid">
+    <select required id="category_uuid"
+            class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
+            name="category_uuid">
       <option value="" disabled {{ old('category_uuid', $service->category_uuid) ? '' : 'selected' }}>
         {{__('word.service.select_category')}}
       </option>

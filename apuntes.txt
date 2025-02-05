@@ -1,3 +1,135 @@
+ $bankregisters = Cashshift::join('transactions', 'transactions.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
+            ->join('bankregisters', 'bankregisters.bankregister_uuid', '=', 'transactions.bankregister_uuid')
+            ->where('transactions.type', 2)
+            ->where('cashshifts.user_id', $income->user_id)
+            ->pluck('bankregisters.name', 'bankregisters.bankregister_uuid')
+            ->map(function ($value, $key) {
+                return (object)[
+                    'bankregister_uuid' => $key,
+                    'name' => $value,
+                ];
+            })->toArray();
+
+
+No colocar 'user_id' => Auth::id(), en el update ya que se perdera quiern realizo el registro
+
+buscar la sesion por registro no por authenticado
+
+
+$cashshifts = Cashshift::where('status', 1)->whereNull('end_time')->whereDate('start_time', '<', $today)->get();
+
+$item->bank_name = $transaction->pluck('bankregister.name')->toArray();
+
+$array_banks_request_aux = array_filter($array_banks_request, function ($item) {
+                    return $item !== null;
+                });
+
+catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+        }
+
+
+TAILWIND
+A veces es necesario aplicar estilo a un elemento bajo una combinación de condiciones, por ejemplo, en modo oscuro, en un punto de interrupción específico, cuando se pasa el mouse sobre él y cuando el elemento tiene un atributo de datos específico.
+<button class="dark:lg:data-current:hover:bg-indigo-600 ...">
+
+Tailwind también admite cosas como group-hover, que te permiten darle estilo a un elemento cuando se pasa el cursor sobre un elemento padre específico:
+<a href="#" class="group rounded-lg p-8">
+  <span class="group-hover:underline">Read more…</span>
+</a>
+Esta group-*sintaxis también funciona con otras variantes, como group-focus, group-active, y muchas más .
+
+<div class="mt-3 flex -space-x-2 overflow-hidden">
+<img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+<img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
+</div>
+
+Cuando se agregan dos clases que tienen como objetivo la misma propiedad CSS, la clase que aparece más adelante en la hoja de estilos gana. Por lo tanto, en este ejemplo, el elemento recibirá el valor display: gridaunque flexaparezca último en el classatributo real:
+<div class="grid flex">
+
+Cuando realmente necesitas forzar que una clase de utilidad específica tenga efecto y no tienes otros medios para administrar la especificidad, puedes agregar !al final del nombre de la clase para hacer todas las declaraciones !important:
+<div class="bg-teal-500 bg-red-500!">
+
+Si está agregando Tailwind a un proyecto que tiene CSS complejo existente con reglas de alta especificidad, puede usar la importantbandera al importar Tailwind para marcar todas las utilidades como !important:
+@import "tailwindcss" important;
+
+<li class="flex py-4 first:pt-0 last:pb-0">
+  <img class="h-10 w-10 rounded-full" src={person.imageUrl} alt="" />
+  <div class="ml-3 overflow-hidden">
+    <p class="text-sm font-medium text-gray-900 dark:text-white">{person.name}</p>
+    <p class="truncate text-sm text-gray-500 dark:text-gray-400">{person.email}</p>
+  </div>
+</li>
+
+<label class="has-checked:bg-indigo-50 has-checked:text-indigo-900 has-checked:ring-indigo-200 dark:has-checked:bg-indigo-950 dark:has-checked:text-indigo-200 dark:has-checked:ring-indigo-900 ...">
+  <svg fill="currentColor">
+  </svg>
+  Google Pay
+  <input type="radio" class="checked:border-indigo-500 ..." />
+</label>
+Puedes usar has-*una pseudoclase, como has-[:focus], para darle estilo a un elemento en función del estado de sus descendientes. También puedes usar selectores de elementos, como has-[img]o has-[a], para darle estilo a un elemento en función del contenido de sus descendientes.
+
+Estilo basado en los descendientes de un par
+Si necesita diseñar un elemento en función de los descendientes de un elemento hermano, puede marcar el hermano con la peerclase y usar la peer-has-*variante para diseñar el elemento de destino:
+<div>
+  <label class="peer ...">
+    <input type="checkbox" name="todo[1]" checked />
+    Create a to do list
+  </label>
+  <svg class="peer-has-checked:hidden ..."><!-- ... --></svg>
+</div>
+
+Para diseñar un elemento según el ancho de un elemento principal en lugar de la ventana gráfica, use variantes como @mdy @lg:
+<div class="@container">
+  <div class="flex flex-col @md:flex-row">
+    <!-- ... -->
+  </div>
+</div>
+
+orientación
+Utilice las variantes portraity landscapepara agregar estilos condicionalmente cuando la ventana gráfica esté en una orientación específica:
+<div>
+  <div class="portrait:hidden">
+    <!-- ... -->
+  </div>
+  <div class="landscape:hidden">
+    <p>This experience is designed to be viewed in landscape. Please rotate your device to view the site.</p>
+  </div>
+</div>
+
+imprimir
+Utilice la printvariante para agregar estilos condicionalmente que solo se apliquen cuando se imprime el documento:
+<div>
+  <article class="print:hidden">
+    <h1>My Secret Pizza Recipe</h1>
+    <p>This recipe is a secret, and must not be shared with anyone</p>
+    <!-- ... -->
+  </article>
+  <div class="hidden print:block">Are you seriously trying to print this? It's secret!</div>
+</div>
+
+<div class="flex hover:bg-[#d1d5db44] transition duration-200">
+
+try {
+            return response()->json([
+                'type' => 'success',
+                'title' => __('word.general.success'),
+                'denomination' => $denomination,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'type' => 'error',
+                'title' => __('word.general.error'),
+                'msg' => __('word.general.not_found'),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'type' => 'error',
+                'title' => __('word.general.error'),
+                'msg' => __('word.general.bad_request'),
+            ], 500);
+        }
+
 $array_bankregister = [];
             foreach ($bankregister_uuids as $bankregister_uuid) {
                 $bankregister = Bankregister::where('bankregister_uuid', $bankregister_uuid)->toArray();

@@ -35,6 +35,18 @@ async function fetchDetails(uuid) {
             document.querySelector(`#initial-balance-coin-0-5-${uuid}`).textContent = data.denomination.coin_0_5 ?? 0;
             document.querySelector(`#initial-balance-coin-0-2-${uuid}`).textContent = data.denomination.coin_0_2 ?? 0;
             document.querySelector(`#initial-balance-coin-0-1-${uuid}`).textContent = data.denomination.coin_0_1 ?? 0;
+
+            document.querySelector(`#initial-operation-bill-200-${uuid}`).textContent = data.operation.bill_200 ?? 0;
+            document.querySelector(`#initial-operation-bill-100-${uuid}`).textContent = data.operation.bill_100 ?? 0;
+            document.querySelector(`#initial-operation-bill-50-${uuid}`).textContent = data.operation.bill_50 ?? 0;
+            document.querySelector(`#initial-operation-bill-20-${uuid}`).textContent = data.operation.bill_20 ?? 0;
+            document.querySelector(`#initial-operation-bill-10-${uuid}`).textContent = data.operation.bill_10 ?? 0;
+            document.querySelector(`#initial-operation-coin-5-${uuid}`).textContent = data.operation.coin_5 ?? 0;
+            document.querySelector(`#initial-operation-coin-2-${uuid}`).textContent = data.operation.coin_2 ?? 0;
+            document.querySelector(`#initial-operation-coin-1-${uuid}`).textContent = data.operation.coin_1 ?? 0;
+            document.querySelector(`#initial-operation-coin-0-5-${uuid}`).textContent = data.operation.coin_0_5 ?? 0;
+            document.querySelector(`#initial-operation-coin-0-2-${uuid}`).textContent = data.operation.coin_0_2 ?? 0;
+            document.querySelector(`#initial-operation-coin-0-1-${uuid}`).textContent = data.operation.coin_0_1 ?? 0;
             document.querySelector(`#initial-balance-total-${uuid}`).textContent = data.denomination.total ?? 0;
         }
         if (document.querySelector(`#initial-balance-physical-${uuid}`)){

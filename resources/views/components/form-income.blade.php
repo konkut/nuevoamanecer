@@ -45,15 +45,15 @@
                     <x-label value="{{ __('word.income.attribute.service_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select
+                        <select required
                             class="service-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                             name="service_uuids[{{ $index }}]"
-                            onchange="update_service()">
+                            onchange="update_amount(this)">
                             <option value=""
                                     disabled {{ (!isset($service_uuid))?'selected' : '' }}>{{ __('word.income.select_service') }}</option>
                             @foreach ($services as $item)
                                 <option value="{{ $item->service_uuid }}"
-                                        data-amount="{{ $item->amount }}"
+                                        data-price="{{ $item->amount }}"
                                         data-commission="{{ $item->commission }}"
                                 @if(isset($service_uuid))
                                     {{ $item->service_uuid === $service_uuid ? 'selected' : '' }}
@@ -68,29 +68,29 @@
                     <x-label value="{{ __('word.income.attribute.amount') }} *"/>
                     <div class="relative">
                         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount()"
+                        <x-input required onkeyup="update_amount(this)"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                  inputmode="decimal" autocomplete="one-time-code"
                                  type="text" name="amounts[{{ $index }}]"
-                                 value="{{ $amount ?? '' }}"/>
+                                 value="{{ $amount == 0 ? '' : (float) number_format($amount, 2, '.', '') }}"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
                     <x-label value="{{ __('word.income.attribute.commission') }}"/>
                     <div class="relative">
                         <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount()"
+                        <x-input onkeyup="update_amount(this)"
                                  class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                  inputmode="decimal" autocomplete="one-time-code"
                                  type="text" name="commissions[{{ $index }}]"
-                                 value="{{ $commission ?? '' }}"/>
+                                 value="{{ $commission == 0 ? '' : (float) number_format($commission, 2, '.', '') }}"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
                     <x-label value="{{ __('word.income.attribute.quantity') }} *"/>
                     <div class="relative">
                         <i class="bi bi-stack absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount()"
+                        <x-input required onkeyup="update_amount(this)"
                                  class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
                                  inputmode="numeric" autocomplete="one-time-code"
                                  type="text" name="quantities[{{ $index }}]"
@@ -101,10 +101,10 @@
                     <x-label value="{{ __('word.income.attribute.method_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select
+                        <select required
                             class="method-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                             name="method_uuids[{{ $index }}]"
-                            onchange="update_input()">
+                            onchange="update_amount(this)">
                             <option value="" disabled
                                     data-name="None" {{ (!isset($method_uuid))?'selected' : '' }}>{{ __('word.income.select_method') }}</option>
                             @foreach ($methods as $item)
@@ -179,13 +179,13 @@
                         <x-label value="{{ __('word.income.attribute.service_uuid') }} *"/>
                         <div class="relative">
                             <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <select class="service-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
+                            <select required class="service-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                     name="service_uuids[{{ $index }}]"
-                                    onchange="update_service()">
+                                    onchange="update_amount(this)">
                                 <option value="" disabled {{ (!isset($service_uuid))?'selected' : '' }}>{{ __('word.income.select_service') }}</option>
                                 @foreach ($services as $item)
                                     <option value="{{ $item->service_uuid }}"
-                                            data-amount="{{ $item->amount }}"
+                                            data-price="{{ $item->amount }}"
                                             data-commission="{{ $item->commission }}"
                                     @if(isset($service_uuid))
                                         {{ $item->service_uuid === $service_uuid ? 'selected' : '' }}
@@ -200,29 +200,29 @@
                         <x-label value="{{ __('word.income.attribute.amount') }} *"/>
                         <div class="relative">
                             <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <x-input onkeyup="update_amount()"
+                            <x-input required onkeyup="update_amount(this)"
                                      class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="amounts[{{ $index }}]"
                                      inputmode="decimal" autocomplete="one-time-code"
-                                     value="{{ $amount ?? '' }}"/>
+                                     value="{{ $amount == 0 ? '' : (float) number_format($amount, 2, '.', '') }}"/>
                         </div>
                     </div>
                     <div class="mt-4 w-full md:w-1/2">
                         <x-label value="{{ __('word.income.attribute.commission') }}"/>
                         <div class="relative">
                             <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <x-input onkeyup="update_amount()"
+                            <x-input onkeyup="update_amount(this)"
                                      class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="commissions[{{ $index }}]"
                                      inputmode="decimal" autocomplete="one-time-code"
-                                     value="{{ $commission ?? '' }}"/>
+                                     value="{{ $commission == 0 ? '' : (float) number_format($commission, 2, '.', '') }}"/>
                         </div>
                     </div>
                     <div class="mt-4 w-full md:w-1/2">
                         <x-label value="{{ __('word.income.attribute.quantity') }} *"/>
                         <div class="relative">
                             <i class="bi bi-stack absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <x-input onkeyup="update_amount()"
+                            <x-input required onkeyup="update_amount(this)"
                                      class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="quantities[{{ $index }}]"
                                      inputmode="numeric" autocomplete="one-time-code"
@@ -233,9 +233,9 @@
                         <x-label value="{{ __('word.income.attribute.method_uuid') }} *"/>
                         <div class="relative">
                             <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <select class="method-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
+                            <select required class="method-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                     name="method_uuids[{{ $index }}]"
-                                    onchange="update_input()">
+                                    onchange="update_amount(this)">
                                 <option value="" disabled data-name="None" {{ (!isset($method_uuid))?'selected' : '' }}>{{ __('word.income.select_method') }}</option>
                                 @foreach ($methods as $item)
                                     <option value="{{ $item->method_uuid }}"
@@ -284,14 +284,14 @@
                     <x-label value="{{ __('word.income.attribute.service_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select
+                        <select required
                             class="service-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                             name="service_uuids[0]"
-                            onchange="update_service()">
+                            onchange="update_amount(this)">
                             <option value="" disabled selected>{{ __('word.income.select_service') }}</option>
                             @foreach ($services as $item)
                                 <option value="{{ $item->service_uuid }}"
-                                        data-amount="{{ $item->amount }}"
+                                        data-price="{{ $item->amount }}"
                                         data-commission="{{ $item->commission }}">
                                     {{ $item->name }}
                                 </option>
@@ -303,29 +303,29 @@
                     <x-label value="{{ __('word.income.attribute.amount') }} *"/>
                     <div class="relative">
                         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount()"
+                        <x-input required onkeyup="update_amount(this)"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="amounts[0]"
                                  inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->amounts?? '' }}"/>
+                                 value="{{ $income->amounts == 0 ? '' : (float) number_format($income->amounts, 2, '.', '') }}"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
                     <x-label value="{{ __('word.income.attribute.commission') }}"/>
                     <div class="relative">
                         <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount()"
+                        <x-input onkeyup="update_amount(this)"
                                  class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="commissions[0]"
                                  inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->commissions?? '' }}"/>
+                                 value="{{ $income->commissions == 0 ? '' : (float) number_format($income->commissions, 2, '.', '')  }}"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
                     <x-label value="{{ __('word.income.attribute.quantity') }} *"/>
                     <div class="relative">
                         <i class="bi bi-stack absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount()"
+                        <x-input required onkeyup="update_amount(this)"
                                  class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="quantities[0]"
                                  inputmode="numeric" autocomplete="one-time-code"
@@ -336,10 +336,10 @@
                     <x-label value="{{ __('word.income.attribute.method_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select
+                        <select required
                             class="method-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                             name="method_uuids[0]"
-                            onchange="update_input()">
+                            onchange="update_amount(this)">
                             <option value="" disabled data-name="None"
                                     selected>{{ __('word.income.select_method') }}</option>
                             @foreach ($methods as $item)
@@ -380,7 +380,7 @@
         <div class="flex justify-center w-full sm:w-auto">
             <button type="button" id="remove-row"
                     class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
-                    onclick="update_input()">
+                    onclick="update_amount()">
                 <i class="bi bi-dash mr-2"></i>{{ __('Quitar Fila') }}
             </button>
         </div>
@@ -417,7 +417,7 @@
                 if (rows.length > 1) {
                     rows[rows.length - 1].remove();
                 }
-                update_input();
+                update_amount();
             });
         });
     </script>

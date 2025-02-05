@@ -63,7 +63,7 @@ class DashboardController extends Controller
         if ($cashshift->status === '1') {
             DB::transaction(function () use ($cashshift_uuid, $cashshift) {
                 $cashshift->update([
-                    'end_time' => now(),
+                    'end_time' => now()->format('Y-m-d\TH:i'),
                     'status' => '0',
                 ]);
                 $cash_closing = $this->closing_cash($cashshift_uuid);
@@ -96,7 +96,7 @@ class DashboardController extends Controller
                 }
             });
         }
-        return redirect("/dashboard")->with('success', 'Arqueo cerrado exitosamente');
+        return redirect("/dashboard")->with('success', 'Sesión cerrada correctamente.');
     }
 
     public function data_initial_sessions()
@@ -677,7 +677,7 @@ class DashboardController extends Controller
             'coin_0_5' => ($opening->coin_0_5 ?? 0) + ($incomes->coin_0_5 ?? 0) - ($expenses->coin_0_5 ?? 0),
             'coin_0_2' => ($opening->coin_0_2 ?? 0) + ($incomes->coin_0_2 ?? 0) - ($expenses->coin_0_2 ?? 0),
             'coin_0_1' => ($opening->coin_0_1 ?? 0) + ($incomes->coin_0_1 ?? 0) - ($expenses->coin_0_1 ?? 0),
-            'total' => number_format(($opening->total ?? 0) + ($incomes->total ?? 0) - ($expenses->total ?? 0), 2)
+            'total' => number_format(($opening->total ?? 0) + ($incomes->total ?? 0) - ($expenses->total ?? 0), 2,'.','')
         ];
         return $closing;
     }
@@ -796,7 +796,7 @@ class DashboardController extends Controller
                         'coin_0_5' => 0,
                         'coin_0_2' => 0,
                         'coin_0_1' => 0,
-                        'total' => number_format(0, 2),
+                        'total' => number_format(0, 2,'.',''),
                     ];
                 }
                 $totals[$key]->bill_200 += $item->bill_200 ?? 0;

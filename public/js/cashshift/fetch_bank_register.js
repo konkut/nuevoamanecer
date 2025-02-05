@@ -1,6 +1,6 @@
-async function fetch_balance(uuid) {
+async function fetch_amount_cashshift(uuid) {
     loader_action_status('show');
-    const url = document.getElementById(`balance-form-${uuid}`).href;
+    const url = document.getElementById(`amount-form-${uuid}`).href;
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -20,14 +20,14 @@ async function fetch_balance(uuid) {
             return;
         }
         const data = await response.json();
-        let balance_input = document.querySelectorAll('.balance-input');
+        let amount_input = document.querySelectorAll('.amount-input');
         let bank_select = document.querySelectorAll('.bank-select');
-        bank_select.forEach((method, index) => {
-            let selected_bank = method.options[method.selectedIndex];
-            const name_select = selected_bank.getAttribute('data-name');
-            const balance = balance_input[index];
-            if (data.name === name_select) {
-                balance.value = parseFloat(data.balance);
+        bank_select.forEach((select, index) => {
+            let selected_bank = select.options[select.selectedIndex];
+            let selected_amount = amount_input[index];
+            let name = selected_bank.getAttribute('data-name');
+            if (data.name === name) {
+                selected_amount.value = parseFloat(data.amount);
             }
         });
     } catch (error) {

@@ -17,7 +17,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-
         $perPage = $request->input('perPage', 10);
         $users = User::orderBy('created_at', 'desc')->paginate($perPage);
         foreach ($users as $user) {
@@ -40,8 +39,8 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:100|unique:users,email',
-            'password' => 'required|string|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&])[A-Za-z\d@#$%^&]+$/|confirmed',
-            'roles' => 'required|array',
+            'password' => 'required|string|min:8|max:32|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&])[A-Za-z\d@#$%^&]+$/|confirmed',
+            'roles' => 'required|array|min:1',
             'roles.*' => 'exists:roles,id',
             'profile_photo_path' => 'nullable|string|max:2048',
         ];
@@ -51,14 +50,16 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => Str::lower($request->input('email')),
-            'password' => bcrypt($request->input('password')),
-            'password_changed_at' => now(),
-            'profile_photo_path' => $request->input('profile_photo_path') ?? null,
-        ]);
-        $user->roles()->sync($request->input('roles'));
+        DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->input('name'),
+                'email' => Str::lower($request->input('email')),
+                'password' => bcrypt($request->input('password')),
+                'password_changed_at' => now(),
+                'profile_photo_path' => $request->input('profile_photo_path') ?? null,
+            ]);
+            $user->roles()->sync($request->input('roles'));
+        });
         return redirect("/users")->with('success', 'Usuario registrado  orrectamente.');
     }
 
@@ -75,8 +76,8 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:100|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&])[A-Za-z\d@#$%^&]+$/|confirmed',
-            'roles' => 'required|array',
+            'password' => 'nullable|string|min:8|max:32|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&])[A-Za-z\d@#$%^&]+$/|confirmed',
+            'roles' => 'required|array|min:1',
             'roles.*' => 'exists:roles,id',
             'profile_photo_path' => 'nullable|string|max:2048',
         ];
@@ -86,25 +87,22 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        if ($request->input('new_password')) {
+        DB::transaction(function () use ($user, $request) {
+            if ($request->input('new_password')) {
+                $user->update([
+                    'password' => bcrypt($request->input('password')),
+                    'password_changed_at' => now(),
+                ]);
+            }
             $user->update([
-                'password' => bcrypt($request->input('password')),
-                'password_changed_at' => now(),
+                'name' => $request->input('name'),
+                'email' => Str::lower($request->input('email')),
+                'profile_photo_path' => $request->input('profile_photo_path') ?? null,
             ]);
-        }
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => Str::lower($request->input('email')),
-            'profile_photo_path' => $request->input('profile_photo_path') ?? null,
-        ]);
-        $user->roles()->sync($request->input('roles'));
+            $user->roles()->sync($request->input('roles'));
+        });
         return redirect("/users")->with('success', 'Usuario actualizado correctamente.');
     }
-
-    public function destroy(string $id)
-    {
-    }
-
     public function enable(string $id)
     {
         $user = User::findOrFail($id);

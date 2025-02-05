@@ -3,22 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Denomination;
+use App\Models\Expense;
 use App\Models\Product;
-use App\Models\Sale;
-use App\Models\Servicewithoutprice;
-use App\Models\Servicewithprice;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Monolog\Handler\IFTTTHandler;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $categories = Category::orderBy('created_at', 'desc')
-            ->paginate($perPage);
+        $categories = Category::with('user')->orderBy('created_at', 'desc')->paginate($perPage);
         return view("category.index", compact('categories', 'perPage'));
     }
 
@@ -30,19 +27,9 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-
         $rules = [
-            'name' => [
-                'required',
-                'unique:categories,name',
-                'string',
-                'max:30',
-            ],
-            'description' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
+            'name' => 'required|unique:categories,name|string|max:30',
+            'description' => 'nullable|string|max:100',
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -53,6 +40,7 @@ class CategoryController extends Controller
         Category::create([
             'name' => $request->name,
             'description' => $request->description,
+            'user_id' => Auth::id(),
         ]);
         return redirect("/categories")->with('success', 'Categoria registrada correctamente.');
     }
@@ -65,23 +53,10 @@ class CategoryController extends Controller
 
     public function update(Request $request, string $category_uuid)
     {
-        $category = Category::where('category_uuid', $category_uuid)->firstOrFail(); //servicio que se está actualizando.
+        $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
         $rules = [
-            'name' => [
-                'required',
-                'string',
-                'max:30',
-                'unique:categories,name,' . $category->category_uuid . ',category_uuid',  //el nombre sea único, excepto para el registro actual.
-            ],
-            'description' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
-            'status' => [
-                'required',
-                'integer',
-            ],
+            'name' => 'required|string|max:30|unique:categories,name,' . $category->category_uuid . ',category_uuid',  //el nombre sea único, excepto para el registro actual.
+            'description' => 'nullable|string|max:100',
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -89,54 +64,68 @@ class CategoryController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $array_servicewithoutprices = Category::join('servicewithoutprices', 'servicewithoutprices.category_uuid', '=', 'categories.category_uuid')
-            ->where('servicewithoutprices.category_uuid', $category_uuid)
-            ->select('servicewithoutprices.status', 'servicewithoutprices.servicewithoutprice_uuid')->get();
-
-        $array_servicewithprices = Category::join('servicewithprices', 'servicewithprices.category_uuid', '=', 'categories.category_uuid')
-            ->where('servicewithprices.category_uuid', $category_uuid)
-            ->select('servicewithprices.status', 'servicewithprices.servicewithprice_uuid')->get();
-
-        $array_products = Category::join('products', 'products.category_uuid', '=', 'categories.category_uuid')
-            ->where('products.category_uuid', $category_uuid)
-            ->select('products.status', 'products.product_uuid')->get();
-
-        foreach ($array_servicewithoutprices as $item) {
-            $servicewithoutprice = Servicewithoutprice::where('servicewithoutprice_uuid', $item->servicewithoutprice_uuid)->first();
-            if ($servicewithoutprice) {
-                $servicewithoutprice->update([
-                    'status' => $request->status == '0' ? '0' : '1'
-                ]);
-            }
-        }
-        foreach ($array_servicewithprices as $item) {
-            $servicewithprice = Servicewithprice::where('servicewithprice_uuid', $item->servicewithprice_uuid)->first();
-            if ($servicewithprice) {
-                $servicewithprice->update([
-                    'status' => $request->status == '0' ? '0' : '1'
-                ]);
-            }
-        }
-        foreach ($array_products as $item) {
-            $product = Product::where('product_uuid', $item->product_uuid)->first();
-            if ($product) {
-                $product->update([
-                    'status' => $request->status == '0' ? '0' : '1'
-                ]);
-            }
-        }
         $category->update([
             'name' => $request->name,
             'description' => $request->description,
-            'status' => $request->status,
+            'user_id' => Auth::id(),
         ]);
         return redirect("/categories")->with('success', 'Categoria actualizada correctamente.');
     }
 
     public function destroy(string $category_uuid)
     {
+        try {
+            $category = Category::where('category_uuid', $category_uuid)->first();
+            $verified_service = Service::where('category_uuid',$category_uuid)->exists();
+            $verified_product = Product::where('category_uuid',$category_uuid)->exists();
+            $verified_expense = Expense::where('category_uuid',$category_uuid)->exists();
+            if (!$verified_service && !$verified_product && !$verified_expense) {
+                if ($category) {
+                    $category->delete();
+                    return response()->json([
+                        'type' => 'success',
+                        'title' => __('word.general.success'),
+                        'msg' => __('word.category.delete_success'),
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'type' => 'error',
+                        'title' => __('word.general.error'),
+                        'msg' => __('word.general.not_found'),
+                    ], 404);
+                }
+            } else {
+                return response()->json([
+                    'type' => 'error',
+                    'title' => __('word.general.error'),
+                    'msg' => __('word.category.not_allow'),
+                ], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'type' => 'error',
+                'title' => __('word.general.error'),
+                'msg' => __('word.general.bad_request'),
+            ], 500);
+        }
+    }
+
+    public function disable(string $category_uuid)
+    {
         $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
-        $category->delete();
-        return redirect("/categories")->with('success', 'Categoria eliminada correctamente.');
+        $category->update([
+            'status' => "0",
+            'user_id' => Auth::id(),
+        ]);
+        return redirect("/categories")->with('success', 'Categoria deshabilitado correctamente.');
+    }
+    public function enable(string $category_uuid)
+    {
+        $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
+        $category->update([
+            'status' => "1",
+            'user_id' => Auth::id(),
+        ]);
+        return redirect("/categories")->with('success', 'Categoria habilitado correctamente.');
     }
 }

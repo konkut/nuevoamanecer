@@ -18,6 +18,8 @@
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/enable_and_disable_modal.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/method/fetch_delete_method.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -61,7 +63,11 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.method.filter.bankregister_uuid') }}')">{{ __('word.method.attribute.bankregister_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.method.filter.user_id') }}')">{{ __('word.method.attribute.user_id') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.method.filter.created_at') }}')">{{ __('word.method.attribute.created_at') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.method.filter.updated_at') }}')">{{ __('word.method.attribute.updated_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.method.filter.status') }}')">{{ __('word.method.attribute.status') }}</th>
                                 @can('methods.create')
@@ -75,8 +81,10 @@
                                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name }}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->bankregister->name ?? "No definido"}}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->bankregister->name ?? ""}}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name}}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                     @can('methods.create')
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
@@ -107,6 +115,31 @@
                                                         </svg>
                                                     </a>
                                                 @endcan
+                                                @if($item->status)
+                                                    <button type="button"
+                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="open_disable_modal('{{ $item->method_uuid }}', '{{ $item->name }}')"
+                                                            title="{{__('word.general.title_icon_disable')}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-toggle-on"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
+                                                        </svg>
+                                                    </button>
+                                                @else
+                                                    <button type="button"
+                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="open_enable_modal('{{ $item->method_uuid }}', '{{ $item->name }}')"
+                                                            title="{{__('word.general.title_icon_enable')}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-toggle-off"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
+                                                        </svg>
+                                                    </button>
+                                                @endif
                                                 @can('methods.destroy')
                                                     <button type="button"
                                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -131,7 +164,7 @@
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-modal-{{$item->method_uuid}}">
                                         <div
-                                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 transform transition-transform scale-100 opacity-100 duration-300">
+                                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
                                             <div
                                                 class="modal-header p-4 bg-[#d1d5db] text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                                 <button type="button"
@@ -176,6 +209,72 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="disable-modal-{{$item->method_uuid}}"
+                                     class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-disable-{{$item->method_uuid}}">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                            <div class="modal-header p-4 border-b flex justify-between items-center">
+                                                <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.disable_title')}}</h1>
+                                                <button type="button"
+                                                        class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
+                                                        onclick="close_disable_modal('{{$item->method_uuid}}')">&times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body p-6">
+                                                <p class="text-gray-600">{{__('word.method.disable_confirmation')}}
+                                                    <strong id="disable-name-{{$item->method_uuid}}"></strong>?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer p-4 border-t flex justify-end space-x-2">
+                                                <button type="button"
+                                                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
+                                                        onclick="close_disable_modal('{{$item->method_uuid}}')">{{ __('Close') }}</button>
+                                                <form action="{{route('methods.disable',$item->method_uuid)}}"
+                                                      method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                            class="bg-sky-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-sky-600">{{ __('Confirm') }}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="enable-modal-{{$item->method_uuid}}"
+                                     class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-enable-{{$item->method_uuid}}">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                            <div class="modal-header p-4 border-b flex justify-between items-center">
+                                                <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.enable_title')}}</h1>
+                                                <button type="button"
+                                                        class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
+                                                        onclick="close_enable_modal('{{$item->method_uuid}}')">&times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body p-6">
+                                                <p class="text-gray-600">{{__('word.method.enable_confirmation')}}
+                                                    <strong id="enable-name-{{$item->method_uuid}}"></strong>?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer p-4 border-t flex justify-end space-x-2">
+                                                <button type="button"
+                                                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
+                                                        onclick="close_enable_modal('{{$item->method_uuid}}')">{{ __('Close') }}</button>
+                                                <form action="{{route('methods.enable',$item->method_uuid)}}"
+                                                      method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                            class="bg-sky-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-sky-600">{{ __('Confirm') }}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="modal-{{$item->method_uuid}}"
                                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen"
@@ -202,7 +301,8 @@
                                                         onclick="closeModal('{{$item->method_uuid}}')">{{ __('Close') }}</button>
                                                 <form id="delete-form-{{$item->method_uuid}}"
                                                       action="{{route('methods.destroy',$item->method_uuid)}}"
-                                                      method="POST">
+                                                      method="POST"
+                                                      onsubmit="fetch_delete_method(this,'{{ $item->method_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

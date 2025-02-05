@@ -18,7 +18,7 @@
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('js/fetch_modal_show.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('js/sale/fetch_detail_sale.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/components/filter_excel.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
@@ -104,28 +104,27 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.sale.filter.method_uuid') }}')">{{ __('word.sale.attribute.method_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.sale.filter.user_id') }}')">{{ __('word.sale.attribute.user_id') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.sale.filter.created_at') }}')">{{ __('word.sale.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, '{{ __('word.sale.filter.user_id') }}')">{{ __('word.sale.attribute.user_id') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.sale.filter.updated_at') }}')">{{ __('word.sale.attribute.updated_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($sales as $item)
-                                @php
-                                    //$validation = \App\Models\Cashshift::where('cashshift_uuid', $item->cashshift_uuid)->where('status', '1')->exists();
-                                    $validation = true;
-                                @endphp
                                 @if(auth()->user()->hasRole('Administrador') || $item->user_id == Auth::id())
                                     <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ implode(', ', $item->products->toArray()) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ implode(', ', $item->products) }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1"> {{ ($item->total_price) }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1"> {{ number_format($item->total_billcoin,2) }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ implode(', ', $item->methods->toArray()) }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1 registrado-por">{{ $item->user->name }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ implode(', ', $item->methods) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                             <div class="flex justify-center space-x-1">
                                                 <form id="details-form-{{$item->sale_uuid}}"
@@ -134,7 +133,7 @@
                                                       method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="button"
-                                                            onclick="fetchDetails('{{$item->sale_uuid}}')"
+                                                            onclick="fetch_detail_sale('{{$item->sale_uuid}}')"
                                                             class="bg-green-500 text-white px-2 py-1 rounded text-xs">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -145,7 +144,7 @@
                                                         </svg>
                                                     </button>
                                                 </form>
-                                                @if($validation)
+                                                @if($cashshift && $item->cashshift_uuid == $cashshift->cashshift_uuid || auth()->user()->hasRole('Administrador'))
                                                     <a href="{{ route('sales.edit',$item->sale_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
                                                        title="{{__('word.general.title_icon_update')}}">
@@ -158,7 +157,7 @@
                                                     </a>
                                                     <button type="button"
                                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                            onclick="openModal('{{ $item->sale_uuid }}', '{{ implode(', ', $item->products->toArray()) }}')"
+                                                            onclick="openModal('{{ $item->sale_uuid }}', '{{ implode(', ', $item->products) }}')"
                                                             title="{{__('word.general.title_icon_delete')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-trash"
@@ -178,7 +177,7 @@
                                         <div class="flex items-center justify-center min-h-screen"
                                              id="scale-modal-{{$item->sale_uuid}}">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                                class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
                                                 <div
                                                     class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
                                                     <h1 class="text-lg font-semibold mx-auto">{{ __('word.sale.resource.show') }}</h1>
@@ -188,163 +187,111 @@
                                                         &times;
                                                     </button>
                                                 </div>
-                                                <div class="modal-body py-6 px-4 sm:px-6 text-gray-700 overflow-hidden">
-                                                    <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
-                                                        <div class="text-center">
-                                                            <div class="mt-2">
-                                                                <p class="text-sm font-semibold">{{ __('word.sale.attribute.product_uuid') }}</p>
-                                                                {{ implode(', ', $item->products->toArray()) }}
+                                                <div class="modal-body py-6 text-gray-700 overflow-hidden text-center">
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold">{{ __('word.sale.attribute.product_uuid') }}</p>
+                                                        @foreach($item->detail as $value)
+                                                            <div
+                                                                class="flex flex-row justify-center items-center">
+                                                                <p class="text-center">{{ $value->quantity }}&nbsp;&nbsp;{{ $value->name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ number_format($value->price,2) }}</p>
                                                             </div>
-                                                            <div class="mt-2">
-                                                                <p class="text-sm font-semibold">{{ __('word.sale.attribute.quantities') }}</p>
-                                                                {{ implode(', ', $item->quantities) }}
-                                                            </div>
-                                                            <div class="mt-2">
-                                                                <p class="text-sm font-semibold">{{ __('word.sale.attribute.amount_total') }}</p>
-                                                                {{ $item->total_price }}
-                                                            </div>
-                                                            @if($item->observation)
-                                                                <div class="mt-2">
-                                                                    <p class="text-sm font-semibold">{{ __('word.sale.attribute.observation') }}</p>
-                                                                    <p>{{ $item->observation }}</p>
-                                                                </div>
-                                                            @endif
-                                                            <div class="mt-2">
-                                                                <p class="text-sm font-semibold">{{ __('word.sale.attribute.created_at') }}</p>
-                                                                <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
-                                                            </div>
-                                                            <div class="mt-2">
-                                                                <p class="text-sm font-semibold">{{ __('word.sale.attribute.updated_at') }}</p>
-                                                                <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
-                                                            </div>
-                                                            @if(auth()->user()->hasRole('Administrador'))
-                                                                <div class="mt-2">
-                                                                    <p class="text-sm font-semibold">{{ __('word.sale.attribute.user_id') }}</p>
-                                                                    <p>{{ $item->user->name }}</p>
-                                                                </div>
-                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold">{{ __('word.sale.attribute.amount_total') }}</p>
+                                                        {{ $item->total_price }}
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold">{{ __('word.sale.attribute.method_uuid') }}</p>
+                                                        {{ implode(', ', $item->methods) }}
+                                                    </div>
+                                                    @if($item->observation)
+                                                        <div class="mt-2">
+                                                            <p class="text-sm font-semibold">{{ __('word.sale.attribute.observation') }}</p>
+                                                            <p>{{ $item->observation }}</p>
                                                         </div>
-                                                        {{--
-                                                         <div class="text-center pb-8 md:pb-0"
-                                                              id="modal-show-{{$item->sale_uuid}}">
-                                                             <div class="bg-[#f3f4f6] p-2">
-                                                                 <div class="font-bold py-1 text-sm text-center">INGRESO FÍSICO
-                                                                 </div>
-                                                             </div>
-                                                             <div class="divide-y divide-[#f3f4f6]">
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">200</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-bill-200-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">100</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-bill-100-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">50</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-bill-50-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">20</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-bill-20-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">10</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-bill-10-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">5</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-coin-5-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">2</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-coin-2-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">1</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-coin-1-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">0.5</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-coin-0-5-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">0.2</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-coin-0-2-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">0.1</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-coin-0-1-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">Total</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-physical-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                             </div>
-                                                             <div class="bg-[#f3f4f6] p-2">
-                                                                 <div class="font-bold py-1 text-sm text-center">INGRESO DIGITAL
-                                                                 </div>
-                                                             </div>
-                                                             <div class="divide-y divide-[#f3f4f6]">
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs</div>
-                                                                     <div class="w-1/3 text-start">-D</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-digital-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                             </div>
-                                                             <div class="bg-[#f3f4f6] p-2">
-                                                                 <div class="font-bold py-1 text-sm text-center">TOTAL INGRESO
-                                                                 </div>
-                                                             </div>
-                                                             <div class="divide-y divide-[#f3f4f6] font-extrabold text-red-500">
-                                                                 <div
-                                                                     class="flex hover:bg-[#d1d5db44] transition duration-200 py-1">
-                                                                     <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                                     <div class="w-1/3 text-start">Total</div>
-                                                                     <div class="w-1/2 text-start"
-                                                                          id="initial-balance-total-{{$item->sale_uuid}}"></div>
-                                                                 </div>
-                                                             </div>
-                                                         </div>
-                                                        --}}
+                                                    @endif
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold">{{ __('word.sale.attribute.created_at') }}</p>
+                                                        <p>{{ $item->created_at->format('H:i d/m/Y') }}</p>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <p class="text-sm font-semibold">{{ __('word.sale.attribute.updated_at') }}</p>
+                                                        <p>{{ $item->updated_at->format('H:i d/m/Y') }}</p>
+                                                    </div>
+                                                    @if(auth()->user()->hasRole('Administrador'))
+                                                        <div class="mt-2">
+                                                            <p class="text-sm font-semibold">{{ __('word.sale.attribute.user_id') }}</p>
+                                                            <p>{{ $item->user->name }}</p>
+                                                        </div>
+                                                    @endif
+                                                    <div class="text-center py-6 md:pb-0 hidden"
+                                                         id="modal-denomination-{{$item->sale_uuid}}">
+                                                        <div class="bg-[#f3f4f6] p-2">
+                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.general.show_denomination') }}</h1>
+                                                        </div>
+                                                        <div class="grid grid-cols-3 gap-4 px-8">
+                                                            <div class="col-span-1">
+                                                                <div class="text-start text-gray-700 font-extrabold text-sm py-2">{{__('word.general.one_column')}}</div>
+                                                                <div class="text-start">{{__('word.general.200')}}</div>
+                                                                <div class="text-start">{{__('word.general.100')}}</div>
+                                                                <div class="text-start">{{__('word.general.50')}}</div>
+                                                                <div class="text-start">{{__('word.general.20')}}</div>
+                                                                <div class="text-start">{{__('word.general.10')}}</div>
+                                                                <div class="text-start">{{__('word.general.5')}}</div>
+                                                                <div class="text-start">{{__('word.general.2')}}</div>
+                                                                <div class="text-start">{{__('word.general.1')}}</div>
+                                                                <div class="text-start">{{__('word.general.0_5')}}</div>
+                                                                <div class="text-start">{{__('word.general.0_2')}}</div>
+                                                                <div class="text-start">{{__('word.general.0_1')}}</div>
+                                                                <div class="text-start">{{__('word.general.total')}}</div>
+                                                            </div>
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.two_column')}}</div>
+                                                                <div class="text-center" id="quantity-bill-200-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-bill-100-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-bill-50-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-bill-20-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-bill-10-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-coin-5-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-coin-2-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-coin-1-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-coin-0-5-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-coin-0-2-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-center" id="quantity-coin-0-1-{{$item->sale_uuid}}"></div>
+                                                            </div>
+                                                            <div class="col-span-1">
+                                                                <div class="text-end text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
+                                                                <div class="text-end" id="operation-bill-200-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-bill-100-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-bill-50-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-bill-20-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-bill-10-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-coin-5-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-coin-2-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-coin-1-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-coin-0-5-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-coin-0-2-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="operation-coin-0-1-{{$item->sale_uuid}}"></div>
+                                                                <div class="text-end" id="total-{{$item->sale_uuid}}"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center py-6 md:pb-0 hidden"
+                                                         id="modal-transaction-{{$item->sale_uuid}}">
+                                                        <div class="bg-[#f3f4f6] p-2">
+                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.general.show_transaction') }}</h1>
+                                                        </div>
+                                                        <div class="grid grid-cols-2 gap-4 px-8">
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.four_column')}}</div>
+                                                                <div id="method-transaction-{{$item->sale_uuid}}"></div>
+                                                            </div>
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
+                                                                <div id="total-transaction-{{$item->sale_uuid}}"></div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

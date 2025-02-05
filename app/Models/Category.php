@@ -20,6 +20,7 @@ class Category extends Model
     'name',
     'description',
     'status',
+      'user_id',
   ];
     public function user()
     {

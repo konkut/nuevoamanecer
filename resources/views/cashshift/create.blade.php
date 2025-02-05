@@ -40,12 +40,12 @@
                                 :cashregisters="$cashregisters"
                                 :bankregisters="$bankregisters"
                                 :users="$users"
-                                :allfields="true"
+                                page="create"
                             ></x-form-cashshift>
                             @if ($errors->any())
                                 <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">
-                                    <strong class="font-bold">¡Ups! Algo salió mal:</strong>
+                                    <strong class="font-bold">{{__('word.general.validation')}}</strong>
                                     <ul class="mt-2 ml-4 list-disc list-inside">
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>

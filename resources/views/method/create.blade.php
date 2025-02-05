@@ -29,9 +29,11 @@
                 <form method="POST" action="{{route('methods.store')}}">
                     @csrf
                     <x-form-method :method="$method" :bankregisters="$bankregisters"></x-form-method>
-                    <x-button class="mt-4 flex">
-                        {{ __('Save') }}
-                    </x-button>
+                    <div class="mt-4 flex justify-end">
+                        <x-button>
+                            {{ __('Save') }}
+                        </x-button>
+                    </div>
                 </form>
             </div>
         </div>

@@ -9,15 +9,17 @@ use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
-  public function run(): void
-  {
-    $this->call([
-      RoleSeeder::class,
-      UserSeeder::class,
-      CategorySeeder::class,
-      ServiceSeeder::class,
-      MethodSeeder::class,
-      ProductSeeder::class,
-    ]);
-  }
+    public function run(): void
+    {
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+            CategorySeeder::class,
+            ServiceSeeder::class,
+            ProductSeeder::class,
+            CashregisterSeeder::class,
+            BankregisterSeeder::class,
+            MethodSeeder::class,
+        ]);
+    }
 }

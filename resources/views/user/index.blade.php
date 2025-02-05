@@ -70,6 +70,8 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.user.filter.created_at') }}')">{{ __('word.user.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.user.filter.updated_at') }}')">{{ __('word.user.attribute.updated_at') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.user.filter.status') }}')">{{ __('word.user.attribute.status') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1"
                                     title="">{{ __('word.general.actions') }}</th>
@@ -94,7 +96,8 @@
                                             (La contraseña ya ha expirado)
                                         @endif
                                     </td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->diffForHumans() }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                         <div class="flex justify-center space-x-1">
@@ -168,7 +171,6 @@
                                                     </svg>
                                                 </button>
                                             @endif
-
                                             {{--
                                              @can('users.destroy')
                                                  <button type="button"
@@ -190,7 +192,7 @@
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-modal-{{$item->id}}">
                                         <div
-                                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 transform transition-transform scale-100 opacity-100 duration-300">
+                                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
                                             <div
                                                 class="modal-header p-4 bg-[#d1d5db] text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                                 <button type="button"

@@ -2,7 +2,7 @@
     <x-label for="amount" value="{{ __('word.expense.attribute.amount') }} *"/>
     <div class="relative">
         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input id="amount" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="amount"
+        <x-input required id="amount" class="first-element focus-and-blur pl-9 block mt-1 w-full" type="text" name="amount"
                  onkeyup="updateCharge_expense()" inputmode="decimal" autocomplete="one-time-code"
                  value="{{ old('amount', $expense->amount?? '') }}"/>
     </div>
@@ -20,8 +20,8 @@
     <x-label for="category_uuid" value="{{ __('word.expense.attribute.category_uuid') }} *"/>
     <div class="relative">
         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <select id="category_uuid"
-                class="focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
+        <select required id="category_uuid"
+                class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                 name="category_uuid">
             <option value="" disabled {{ old('category_uuid', $expense->category_uuid) ? '' : 'selected' }}>
                 {{__('word.expense.select_category')}}
@@ -39,8 +39,8 @@
     <x-label for="method_uuid" value="{{ __('word.expense.attribute.method_uuid') }} *"/>
     <div class="relative">
         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <select id="method_uuid"
-                class="method-select focus-and-blur border-t border-b border-[#d1d5db] pl-9 pr-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400 w-full"
+        <select required id="method_uuid"
+                class="method-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                 name="method_uuid"
                 onchange="updateCharge_expense()">
             <option value=""

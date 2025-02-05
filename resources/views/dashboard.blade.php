@@ -27,21 +27,23 @@
         <x-alert-error :message="session('error')"/>
     @endif
     <div class="flex flex-row flex-wrap">
-        <div class="w-full xl:w-80 sm:px-6 lg:px-8">
+        <div class="w-full xl:w-72 sm:px-6 lg:px-0 lg:mx-8">
             <div class="bg-white shadow-xl rounded-lg mt-8">
                 <x-panel-box-control></x-panel-box-control>
             </div>
+            {{--
             <div class="bg-white shadow-xl rounded-lg mt-8">
                 <x-panel-box-inventory :inventory="$inventory"></x-panel-box-inventory>
             </div>
+            --}}
         </div>
         @if(!$cashshifts->isEmpty())
-            <div class="w-full xl:w-72 sm:px-6 lg:px-0" id="dashboard-session">
+            <div class="w-full xl:w-72 sm:px-6 lg:px-8 xl:px-0" id="dashboard-session">
                 {{--<x-panel-box-all-sessions></x-panel-box-all-sessions>--}}
                 <x-panel-box-all-sessions :cashshifts="$cashshifts"></x-panel-box-all-sessions>
             </div>
         @else
-            <div class="w-full xl:w-72 sm:px-6 lg:px-0" id="dashboard-session">
+            <div class="w-full xl:w-72 sm:px-6 lg:px-8 xl:px-0" id="dashboard-session">
                 <x-panel-box-without-session></x-panel-box-without-session>
             </div>
         @endif

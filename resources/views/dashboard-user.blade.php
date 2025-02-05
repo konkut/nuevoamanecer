@@ -27,17 +27,18 @@
         <x-alert-error :message="session('error')"/>
     @endif
     <div class="flex flex-row flex-wrap">
+        {{--
         <div class="w-full xl:w-80 sm:px-6 lg:px-8">
             <div class="bg-white shadow-xl rounded-lg mt-8">
                 <x-panel-box-inventory :inventory="$inventory"></x-panel-box-inventory>
             </div>
-        </div>
+        </div>--}}
         @if($cashshift)
-            <div class="w-full xl:w-72 sm:px-6 lg:px-0" id="dashboard-session">
+            <div class="w-full xl:w-72 sm:px-6 lg:px-8 xl:ps-0 xl:ms-8" id="dashboard-session">
                 <x-panel-box-all-session :cashshift="$cashshift"></x-panel-box-all-session>
             </div>
         @else
-            <div class="w-full xl:w-72 sm:px-6 lg:px-0" id="dashboard-session">
+            <div class="w-full xl:w-72 sm:px-6 lg:px-8 xl:px-0 xl:ms-8" id="dashboard-session">
                 <x-panel-box-off-session></x-panel-box-off-session>
             </div>
         @endif

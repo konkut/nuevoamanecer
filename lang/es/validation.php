@@ -174,6 +174,7 @@ return [
         'name' => 'nombre',
         'description' => 'descripción',
         'status' => 'estado',
+        'amount' => 'precio',
         //'currency_uuid' => 'moneda',
         'category_uuid' => 'categoria',
 
@@ -230,8 +231,9 @@ return [
         "bankregister_uuid" => "banco",
         "digital_balance" => "saldo",
         "user_id" => "cajero",
-        "balances" => "saldo",
-        "balances.*" => "saldo",
+        "amount_bank" => "saldo de apertura",
+        "amount_bank.*" => "saldo de apertura",
+        "price_cash" => "monto de apertura",
 
         /*expense */
         'expense_uuid' => 'gasto',
@@ -249,7 +251,6 @@ return [
         /*bankregister */
         'account_number' => 'número de cuenta',
         'owner_name' => 'nombre del propietario',
-        'bankregister_uuid' => 'banco',
 
         /*CODE AUTH*/
         'auth_code' => 'código de autenticación',

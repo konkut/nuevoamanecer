@@ -36,20 +36,22 @@ class Denomination extends Model
         'expense_uuid',
         'sale_uuid',
     ];
+
     protected $attributes = [
-        'bill_200' => 0.00,
-        'bill_100' => 0.00,
-        'bill_50' => 0.00,
-        'bill_20' => 0.00,
-        'bill_10' => 0.00,
-        'coin_5' => 0.00,
-        'coin_2' => 0.00,
-        'coin_1' => 0.00,
-        'coin_0_5' => 0.00,
-        'coin_0_2' => 0.00,
-        'coin_0_1' => 0.00,
+        'bill_200' => 0,
+        'bill_100' => 0,
+        'bill_50' => 0,
+        'bill_20' => 0,
+        'bill_10' => 0,
+        'coin_5' => 0,
+        'coin_2' => 0,
+        'coin_1' => 0,
+        'coin_0_5' => 0,
+        'coin_0_2' => 0,
+        'coin_0_1' => 0,
         'total' => 0.00,
     ];
+
     public function denomination_expense()
     {
         return $this->belongsTo(Expense::class, 'expense_uuid', 'expense_uuid');

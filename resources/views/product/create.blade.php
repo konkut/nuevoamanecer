@@ -29,9 +29,11 @@
                 <form method="POST" action="{{route('products.store')}}">
                     @csrf
                     <x-form-product :categories="$categories" :product="$product"></x-form-product>
-                    <x-button class="mt-4 flex">
-                        {{ __('Save') }}
-                    </x-button>
+                    <div class="mt-4 flex justify-end">
+                        <x-button>
+                            {{ __('Save') }}
+                        </x-button>
+                    </div>
                 </form>
             </div>
         </div>

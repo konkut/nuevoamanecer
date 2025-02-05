@@ -19,9 +19,10 @@
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/fetch_modal_show.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/enable_and_disable_modal.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashregister/fetch_delete_cashregister.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashregister/fetch_detail_cashregister.js?v='.time()) }}"></script>
     </x-slot>
-
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -93,7 +94,7 @@
                                                   method="POST" style="display: inline;">
                                                 @csrf
                                                 <button type="button"
-                                                        onclick="fetchDetails('{{$item->cashregister_uuid}}')"
+                                                        onclick="fetch_detail_cashregister('{{$item->cashregister_uuid}}')"
                                                         class="bg-green-500 text-white px-2 py-1 rounded text-xs">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -113,6 +114,31 @@
                                                         d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
                                                 </svg>
                                             </a>
+                                            @if($item->status)
+                                                <button type="button"
+                                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="open_disable_modal('{{ $item->cashregister_uuid }}', '{{ $item->name }}')"
+                                                        title="{{__('word.general.title_icon_disable')}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-toggle-on"
+                                                         viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
+                                                    </svg>
+                                                </button>
+                                            @else
+                                                <button type="button"
+                                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="open_enable_modal('{{ $item->cashregister_uuid }}', '{{ $item->name }}')"
+                                                        title="{{__('word.general.title_icon_enable')}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-toggle-off"
+                                                         viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
+                                                    </svg>
+                                                </button>
+                                            @endif
                                             <button type="button"
                                                     class="bg-red-500 text-white px-2 py-1 rounded text-xs"
                                                     onclick="openModal('{{ $item->cashregister_uuid }}', '{{$item->name }}')"
@@ -133,7 +159,7 @@
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-modal-{{$item->cashregister_uuid}}">
                                         <div
-                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
                                             <div
                                                 class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
                                                 <h1 class="text-lg font-semibold mx-auto">{{__('word.cashregister.resource.show')}}</h1>
@@ -171,95 +197,121 @@
                                                 <div class="text-center py-6 md:pb-0"
                                                      id="modal-show-{{$item->cashregister_uuid}}">
                                                     <div class="bg-[#f3f4f6] p-2">
-                                                        <div class="font-bold py-1 text-md text-center">{{ __('word.cashregister.denomination') }}</div>
+                                                        <h1 class="font-bold py-1 text-md text-center">{{ __('word.cashregister.denomination') }}</h1>
                                                     </div>
-                                                    <div class="divide-y divide-[#f3f4f6] pt-6">
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">200</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-bill-200-{{$item->cashregister_uuid}}"></div>
+                                                    <div class="grid grid-cols-3 gap-4 px-8">
+                                                        <div class="col-span-1">
+                                                            <div class="text-start text-gray-700 font-extrabold text-sm py-2">CORTE</div>
+                                                            <div class="text-start">Bs&nbsp;200</div>
+                                                            <div class="text-start">Bs 100</div>
+                                                            <div class="text-start">Bs 50</div>
+                                                            <div class="text-start">Bs 20</div>
+                                                            <div class="text-start">Bs 10</div>
+                                                            <div class="text-start">Bs 5</div>
+                                                            <div class="text-start">Bs 2</div>
+                                                            <div class="text-start">Bs 1</div>
+                                                            <div class="text-start">Bs 0.5</div>
+                                                            <div class="text-start">Bs 0.2</div>
+                                                            <div class="text-start">Bs 0.1</div>
+                                                            <div class="text-start">Bs Total</div>
                                                         </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">100</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-bill-100-{{$item->cashregister_uuid}}"></div>
+                                                        <div class="col-span-1">
+                                                            <div class="text-center text-gray-700 font-extrabold text-sm py-2">CANTIDAD</div>
+                                                            <div class="text-center" id="quantity-bill-200-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-bill-100-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-bill-50-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-bill-20-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-bill-10-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-coin-5-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-coin-2-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-coin-1-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-coin-0-5-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-coin-0-2-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-center" id="quantity-coin-0-1-{{$item->cashregister_uuid}}"></div>
                                                         </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">50</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-bill-50-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">20</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-bill-20-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">10</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-bill-10-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">5</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-coin-5-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">2</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-coin-2-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">1</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-coin-1-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">0.5</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-coin-0-5-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">0.2</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-coin-0-2-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">0.1</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-coin-0-1-{{$item->cashregister_uuid}}"></div>
-                                                        </div>
-                                                        <div
-                                                            class="flex hover:bg-[#d1d5db44] transition duration-200">
-                                                            <div class="w-1/3 text-end">Bs&nbsp;&nbsp;</div>
-                                                            <div class="w-1/3 text-start">Total</div>
-                                                            <div class="w-1/2 text-start"
-                                                                 id="initial-balance-total-{{$item->cashregister_uuid}}"></div>
+                                                        <div class="col-span-1">
+                                                            <div class="text-end text-gray-700 font-extrabold text-sm py-2">TOTAL</div>
+                                                            <div class="text-end" id="operation-bill-200-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-bill-100-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-bill-50-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-bill-20-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-bill-10-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-coin-5-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-coin-2-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-coin-1-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-coin-0-5-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-coin-0-2-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="operation-coin-0-1-{{$item->cashregister_uuid}}"></div>
+                                                            <div class="text-end" id="total-{{$item->cashregister_uuid}}"></div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="disable-modal-{{$item->cashregister_uuid}}"
+                                     class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-disable-{{$item->cashregister_uuid}}">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                            <div class="modal-header p-4 border-b flex justify-between items-center">
+                                                <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.disable_title')}}</h1>
+                                                <button type="button"
+                                                        class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
+                                                        onclick="close_disable_modal('{{$item->cashregister_uuid}}')">&times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body p-6">
+                                                <p class="text-gray-600">{{__('word.cashregister.disable_confirmation')}}
+                                                    <strong id="disable-name-{{$item->cashregister_uuid}}"></strong>?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer p-4 border-t flex justify-end space-x-2">
+                                                <button type="button"
+                                                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
+                                                        onclick="close_disable_modal('{{$item->cashregister_uuid}}')">{{ __('Close') }}</button>
+                                                <form action="{{route('cashregisters.disable',$item->cashregister_uuid)}}"
+                                                      method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                            class="bg-sky-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-sky-600">{{ __('Confirm') }}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="enable-modal-{{$item->cashregister_uuid}}"
+                                     class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-enable-{{$item->cashregister_uuid}}">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                            <div class="modal-header p-4 border-b flex justify-between items-center">
+                                                <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.enable_title')}}</h1>
+                                                <button type="button"
+                                                        class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
+                                                        onclick="close_enable_modal('{{$item->cashregister_uuid}}')">&times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body p-6">
+                                                <p class="text-gray-600">{{__('word.cashregister.enable_confirmation')}}
+                                                    <strong id="enable-name-{{$item->cashregister_uuid}}"></strong>?
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer p-4 border-t flex justify-end space-x-2">
+                                                <button type="button"
+                                                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
+                                                        onclick="close_enable_modal('{{$item->cashregister_uuid}}')">{{ __('Close') }}</button>
+                                                <form action="{{route('cashregisters.enable',$item->cashregister_uuid)}}"
+                                                      method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                            class="bg-sky-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-sky-600">{{ __('Confirm') }}</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -286,7 +338,8 @@
                                                         onclick="closeModal('{{$item->cashregister_uuid}}')">{{ __('Close') }}</button>
                                                 <form
                                                     action="{{route('cashregisters.destroy',$item->cashregister_uuid)}}"
-                                                    method="POST">
+                                                    method="POST"
+                                                    onsubmit="fetch_delete_cashregister(this,'{{ $item->cashregister_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

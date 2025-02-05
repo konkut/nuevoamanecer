@@ -15,7 +15,7 @@
         {{ __('word.sale.meta.edit.description')}}
     </x-slot>
     <x-slot name="js_files">
-        <script type="text/javascript" src="{{ asset('/js/sale/ticketing_sale_edit.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/sale/ticketing_amount.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('js/total_and_balance.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>

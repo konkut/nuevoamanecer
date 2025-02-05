@@ -33,19 +33,6 @@
                     @csrf
                     @method("PUT" )
                     <x-form-bankregister :bankregister="$bankregister"></x-form-bankregister>
-                    <div class="mt-6">
-                        <div class="relative flex items-center"><span id="toggleStatus"
-                                                                      class="mr-2 text-gray-700 {{ $bankregister->status ? 'text-green-500' : 'text-red-500' }}">{{ $bankregister->status ? 'Habilitado' : 'Deshabilitado' }}</span>
-                            <button type="button" id="toggleButton"
-                                    class="bg-gray-300 rounded-full w-12 h-6 relative focus:outline-none transition-colors duration-200 {{ $bankregister->status ? 'bg-green-500' : 'bg-red-500' }}"
-                                    onclick="toggleStatus()">
-                                <div
-                                    class="absolute top-0 left-0 w-6 h-6 rounded-full transition-transform duration-200 {{ $bankregister->status ? 'translate-x-6 bg-green-600' : 'bg-red-600' }}"></div>
-                            </button>
-                            <input type="hidden" name="status" id="status"
-                                   value="{{ $bankregister->status ? '1' : '0' }}">
-                        </div>
-                    </div>
                     <div class="mt-4 flex justify-end">
                         <x-button>
                             {{ __('Save') }}

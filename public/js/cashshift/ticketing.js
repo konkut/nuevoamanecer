@@ -1,11 +1,11 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", () => {
-    updateChargeFromCashshift();
+    update_price_cashshift();
     updateTotalandBalance();
 });
-const updateChargeFromCashshift = () => {
+const update_price_cashshift = () => {
     const charge = document.getElementById('charge');
-    const initial_balance = parseFloat(document.getElementById('initial_balance').value) || 0;
-    charge.value = (initial_balance).toFixed(2);
+    const price = parseFloat(document.getElementById('price').value) || 0;
+    charge.value = (price).toFixed(2);
     updateTotalandBalance();
 }
