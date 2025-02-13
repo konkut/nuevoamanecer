@@ -82,7 +82,7 @@
                                           :totalmethods="null"
                         ></x-panel-box-link>
                        --}}
-                    <x-panel-box-all-summary :data="$data_initial_session"></x-panel-box-all-summary>
+                    <x-panel-box-all-summary :data="$data_session"></x-panel-box-all-summary>
                 </div>
             </div>
         </div>

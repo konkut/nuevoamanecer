@@ -9,7 +9,6 @@ return new class extends Migration {
     {
         Schema::create('denominations', function (Blueprint $table) {
             $table->string('denomination_uuid', 36)->unique();
-            $table->enum('type', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])->default(1);
             $table->integer("bill_200")->default(0);
             $table->integer("bill_100")->default(0);
             $table->integer("bill_50")->default(0);
@@ -22,18 +21,7 @@ return new class extends Migration {
             $table->integer("coin_0_2")->default(0);
             $table->integer("coin_0_1")->default(0);
             $table->decimal('total', 20, 2)->default(0);
-            $table->string('cashregister_uuid', 36)->nullable();
-            $table->foreign('cashregister_uuid')->references('cashregister_uuid')->on('cashregisters');
-            $table->string('cashshift_uuid', 36)->nullable();
-            $table->foreign('cashshift_uuid')->references('cashshift_uuid')->on('cashshifts');
-            $table->string('income_uuid', 36)->nullable();
-            $table->foreign('income_uuid')->references('income_uuid')->on('incomes');
-            $table->string('expense_uuid', 36)->nullable();
-            $table->foreign('expense_uuid')->references('expense_uuid')->on('expenses');
-            $table->string('sale_uuid', 36)->nullable();
-            $table->foreign('sale_uuid')->references('sale_uuid')->on('sales');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

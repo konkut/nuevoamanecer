@@ -4,12 +4,13 @@
         <div class="flex-1 flex-col items-center justify-center">
             <p class="text-sm font-extrabold text-gray-700 mb-2">{{__('word.panel.session.title')}}</p>
             <div class="mb-2"><span id="toggleStatus" class="mr-2 text-sm text-gray-700 {{ $cashshift->status ? 'text-green-500' : 'text-red-500' }}">{{ $cashshift->status ? 'Habilitado' : 'Deshabilitado' }}</span>
-                <form action="{{route('dashboards.state',$cashshift->cashshift_uuid)}}" method="POST">
-                    @csrf
+                <form action="{{ $cashshift->status ? route('dashboards.off_session', $cashshift->cashshift_uuid) : route('dashboards.on_session', $cashshift->cashshift_uuid) }}" method="POST">
+
+                @csrf
                     @method('PUT')
                     <button type="submit" id="toggleButton"
                             class="bg-gray-300 rounded-full w-12 h-6 relative focus:outline-none transition-colors duration-200 {{ $cashshift->status ? 'bg-green-500' : 'bg-red-500' }}"
-                            onclick="toggleStatus()">
+                            onclick="event.stopPropagation(); toggleStatus()">
                         <div class="absolute top-0 left-0 w-6 h-6 rounded-full transition-transform duration-200 {{ $cashshift->status ? 'translate-x-6 bg-green-600' : 'bg-red-600' }}"></div>
                     </button>
                     <input type="hidden" name="status" id="status" value="{{ $cashshift->status ? '1' : '0' }}">

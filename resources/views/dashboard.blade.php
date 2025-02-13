@@ -28,9 +28,7 @@
     @endif
     <div class="flex flex-row flex-wrap">
         <div class="w-full xl:w-72 sm:px-6 lg:px-0 lg:mx-8">
-            <div class="bg-white shadow-xl rounded-lg mt-8">
-                <x-panel-box-control></x-panel-box-control>
-            </div>
+            <x-panel-box-control></x-panel-box-control>
             {{--
             <div class="bg-white shadow-xl rounded-lg mt-8">
                 <x-panel-box-inventory :inventory="$inventory"></x-panel-box-inventory>
@@ -87,7 +85,7 @@
                                  :totalmethods="$total_methods"
                ></x-panel-box-link>
                --}}
-                    <x-panel-box-all-summary :data="$data_initial_sessions"></x-panel-box-all-summary>
+                    <x-panel-box-all-summary :data="$data_sessions"></x-panel-box-all-summary>
                 </div>
             </div>
         </div>

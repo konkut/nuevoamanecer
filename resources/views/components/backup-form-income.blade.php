@@ -81,44 +81,52 @@
                     <x-label value="{{ __('word.income.attribute.charge_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select required
+                        <select required multiple
                                 class="charge-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
-                                name="charge_uuids[{{ $index }}]"
-                                onchange="update_amount(this)">
-                            <option value="" disabled
-                                    data-name="None" {{ (!isset($charge_uuid))?'selected' : '' }}>{{ __('word.income.select_charge') }}</option>
+                                name="charge_uuids[{{ $index }}][]"
+                                onchange="updateAmounts(this, 0)">
+                            <option value="" disabled data-name="None">{{ __('word.income.select_charge') }}</option>
                             @foreach ($data as $item)
                                 <option value="{{ $item->reference_uuid }}"
                                         data-name="{{ $item->pivot }}"
-                                @if(isset($charge_uuid))
-                                    {{ $item->reference_uuid === $charge_uuid ? 'selected' : '' }}
-                                    @endif>
+                                        @if(in_array($item->reference_uuid, old('charge_uuids.0', []))) selected @endif>
                                     {{ $item->name }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
+                <div id="amount-container-0" class="mt-4 w-full md:w-1/2 {{ empty($old_amounts[0]) ? 'hidden' : '' }}">
                     <x-label value="{{ __('word.income.attribute.amount') }} *"/>
-                    <div class="relative">
-                        <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input required onkeyup="update_amount(this)"
-                                 class="amount-input focus-and-blur pl-9 pr-3 block w-full"
-                                 type="text" name="amounts[{{ $index }}]"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $amount ?? '' }}"/>
+                    <div id="amount-inputs-0">
+                        @if(!empty($old_amounts[0]))
+                            @foreach($old_amounts[0] as $key => $amount)
+                                <div class="relative mt-2">
+                                    <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                                    <input required onkeyup="update_amount(this)"
+                                           class="amount-input focus-and-blur pl-9 pr-3 block w-full border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm"
+                                           type="text" name="amounts[0][]" inputmode="decimal" autocomplete="one-time-code"
+                                           value="{{ $amount }}">
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
-                    <x-label value="{{ __('word.income.attribute.commission') }}"/>
-                    <div class="relative">
-                        <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount(this)"
-                                 class="commission-input focus-and-blur pl-9 pr-3 block w-full"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 type="text" name="commissions[{{ $index }}]"
-                                 value="{{ $commission ?? '' }}"/>
+
+                <div id="commission-container-0" class="mt-4 w-full md:w-1/2 {{ empty($old_commissions[0]) ? 'hidden' : '' }}">
+                    <x-label value="{{ __('word.income.attribute.commission') }} "/>
+                    <div id="commission-inputs-0">
+                        @if(!empty($old_commissions[0]))
+                            @foreach($old_commissions[0] as $key => $commission)
+                                <div class="relative mt-2">
+                                    <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+                                    <input onkeyup="update_amount(this)"
+                                           class="commission-input focus-and-blur pl-9 pr-3 block w-full border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm"
+                                           type="text" name="commissions[0][]" inputmode="decimal" autocomplete="one-time-code"
+                                           value="{{ $commission }}">
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
@@ -129,7 +137,8 @@
                             class="payment-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                             name="payment_uuids[{{ $index }}]"
                             onchange="update_amount(this)">
-                            <option value="" data-name="None" {{ (!isset($payment_uuid))?'selected' : '' }}>{{ __('word.income.select_payment') }}</option>
+                            <option value=""
+                                    data-name="None" {{ (!isset($payment_uuid))?'selected' : '' }}>{{ __('word.income.select_payment') }}</option>
                             @foreach ($data as $item)
                                 <option value="{{ $item->reference_uuid }}"
                                         data-name="{{ $item->pivot }}"
@@ -150,7 +159,7 @@
                                  class="value-input focus-and-blur pl-9 pr-3 block w-full"
                                  inputmode="decimal" autocomplete="one-time-code"
                                  type="text" name="values[{{ $index }}]"
-                                 value="{{ $value ?? '' }}"/>
+                                 value="{{ $value == 0 ? '' : (float) number_format($value, 2, '.', '') }}"/>
                     </div>
                 </div>
             </div>
@@ -254,7 +263,7 @@
                                      class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="amounts[{{ $index }}]"
                                      inputmode="decimal" autocomplete="one-time-code"
-                                     value="{{ $amount ?? '' }}"/>
+                                     value="{{ $amount == 0 ? '' : (float) number_format($amount, 2, '.', '') }}"/>
                         </div>
                     </div>
                     <div class="mt-4 w-full md:w-1/2">
@@ -265,7 +274,7 @@
                                      class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="commissions[{{ $index }}]"
                                      inputmode="decimal" autocomplete="one-time-code"
-                                     value="{{ $commission ?? '' }}"/>
+                                     value="{{ $commission == 0 ? '' : (float) number_format($commission, 2, '.', '') }}"/>
                         </div>
                     </div>
                     <div class="mt-4 w-full md:w-1/2">
@@ -276,7 +285,8 @@
                                 class="payment-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                 name="payment_uuids[{{ $index }}]"
                                 onchange="update_amount(this)">
-                                <option value="" data-name="None" {{ (!isset($payment_uuid))?'selected' : '' }}>{{ __('word.income.select_payment') }}</option>
+                                <option value=""
+                                        data-name="None" {{ (!isset($payment_uuid))?'selected' : '' }}>{{ __('word.income.select_payment') }}</option>
                                 @foreach ($data as $item)
                                     <option value="{{ $item->reference_uuid }}"
                                             data-name="{{ $item->pivot }}"
@@ -297,7 +307,7 @@
                                      class="value-input focus-and-blur pl-9 pr-3 block w-full"
                                      inputmode="decimal" autocomplete="one-time-code"
                                      type="text" name="values[{{ $index }}]"
-                                     value="{{ $value ?? '' }}"/>
+                                     value="{{ $value == 0 ? '' : (float) number_format($value, 2, '.', '') }}"/>
                         </div>
                     </div>
                 </div>
@@ -346,39 +356,25 @@
                     <x-label value="{{ __('word.income.attribute.charge_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select required
+                        <select required multiple
                                 class="charge-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
-                                name="charge_uuids[0]"
-                                onchange="update_amount(this)">
-                            <option value="" disabled data-name="None" selected>{{ __('word.income.select_charge') }}</option>
+                                name="charge_uuids[0][]"
+                                onchange="updateAmounts(this, 0)">
+                            <option value="" disabled data-name="None">{{ __('word.income.select_charge') }}</option>
                             @foreach ($data as $item)
                                 <option value="{{ $item->reference_uuid }}"
-                                        data-name="{{ $item->pivot }}">{{ $item->name }}</option>
+                                        data-name="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
-                    <x-label value="{{ __('word.income.attribute.amount') }}"/>
-                    <div class="relative">
-                        <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount(this)"
-                                 class="amount-input focus-and-blur pl-9 pr-3 block w-full"
-                                 type="text" name="amounts[0]"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->amounts ?? ''  }}"/>
-                    </div>
+                <div id="amount-container-0" class="mt-4 w-full md:w-1/2 hidden">
+                    <x-label value="{{ __('word.income.attribute.amount') }} *"/>
+                        <div id="amount-inputs-0"></div>
                 </div>
-                <div class="mt-4 w-full md:w-1/2">
-                    <x-label value="{{ __('word.income.attribute.commission') }}"/>
-                    <div class="relative">
-                        <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount(this)"
-                                 class="commission-input focus-and-blur pl-9 pr-3 block w-full"
-                                 type="text" name="commissions[0]"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->commissions ?? ''  }}"/>
-                    </div>
+                <div id="commission-container-0" class="mt-4 w-full md:w-1/2 hidden">
+                    <x-label value="{{ __('word.income.attribute.commission') }} "/>
+                        <div id="commission-inputs-0"></div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
                     <x-label value="{{ __('word.income.attribute.payment_uuid') }}"/>
@@ -388,7 +384,7 @@
                             class="payment-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                             name="payment_uuids[0]"
                             onchange="update_amount(this)">
-                            <option value="" data-name="None" selected>{{ __('word.income.select_payment') }}</option>
+                            <option class="" disabled data-name="None" selected>{{ __('word.income.select_payment') }}</option>
                             @foreach ($data as $item)
                                 <option value="{{ $item->reference_uuid }}"
                                         data-name="{{ $item->pivot }}">{{ $item->name }}</option>
@@ -404,7 +400,7 @@
                                  class="value-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="values[0]"
                                  inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->values ?? '' }}"/>
+                                 value="{{ $income->values == 0 ? '' : (float) number_format($income->values, 2, '.', '') }}"/>
                     </div>
                 </div>
             </div>
@@ -443,6 +439,9 @@
                         const updatedName = name.replace(/\[\d+\]/, `[${newIndex}]`);
                         select.setAttribute('name', updatedName);
                     }
+                    if(select.classList.contains('charge-select')){
+                        select.setAttribute('onchange', `updateAmounts(this, ${newIndex})`);
+                    }
                 });
                 newRow.querySelectorAll('input').forEach(input => {
                     input.value = ''
@@ -452,6 +451,19 @@
                         input.setAttribute('name', updatedName);
                     }
                 });
+                newRow.querySelectorAll('[id]').forEach(element => {
+                    const id = element.getAttribute('id');
+                    if (id) {
+                        const updatedId = id.replace(/-\d+$/, `-${newIndex}`);
+                        element.setAttribute('id', updatedId);
+                    }
+                });
+                newRow.querySelector(`#amount-container-${newIndex}`)?.classList.add('hidden');
+                newRow.querySelector(`#commission-container-${newIndex}`)?.classList.add('hidden');
+                const container_amount = newRow.querySelector(`#amount-inputs-${newIndex}`);
+                const container_commission = newRow.querySelector(`#commission-inputs-${newIndex}`);
+                if (container_amount) container_amount.innerHTML = "";
+                if (container_commission) container_commission.innerHTML = "";
                 container.appendChild(newRow);
             });
             removeRowButton.addEventListener('click', function () {
@@ -465,3 +477,56 @@
     </script>
 @endif
 
+<script>
+    function updateAmounts(select, index) {
+        document.getElementById(`amount-container-${index}`).classList.remove('hidden');
+        document.getElementById(`commission-container-${index}`).classList.remove('hidden');
+
+        const container_amount = document.getElementById(`amount-inputs-${index}`);
+        const container_commission = document.getElementById(`commission-inputs-${index}`);
+
+        container_amount.innerHTML = "";
+        container_commission.innerHTML = "";
+
+        // Obtener valores antiguos de Laravel
+        let oldAmounts = @json(old('amounts', []));
+        let oldCommissions = @json(old('commissions', []));
+
+        let oldAmountsIndex = oldAmounts[index] || [];
+        let oldCommissionsIndex = oldCommissions[index] || [];
+
+        Array.from(select.selectedOptions).forEach((option, i) => {
+            const name = option.dataset.name;
+            const reference_uuid = option.value;
+
+            // Obtener valores antiguos si existen
+            const oldAmountValue = oldAmountsIndex[i] !== undefined ? oldAmountsIndex[i] : '';
+            const oldCommissionValue = oldCommissionsIndex[i] !== undefined ? oldCommissionsIndex[i] : '';
+
+            // Input de Amount
+            const div = document.createElement("div");
+            div.classList.add("relative", "mt-2");
+            div.innerHTML = `
+            <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+            <input required onkeyup="update_amount(this)"
+                   class="amount-input focus-and-blur pl-9 pr-3 block w-full border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm"
+                   type="text" name="amounts[${index}][]" inputmode="decimal" autocomplete="one-time-code"
+                   placeholder="M. ${name}" value="${oldAmountValue}">
+        `;
+            container_amount.appendChild(div);
+
+            // Input de Commission
+            const div_commission = document.createElement("div");
+            div_commission.classList.add("relative", "mt-2");
+            div_commission.innerHTML = `
+            <i class="bi bi-cash-coin absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+            <input onkeyup="update_amount(this)"
+                   class="commission-input focus-and-blur pl-9 pr-3 block w-full border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm"
+                   type="text" name="commissions[${index}][]" inputmode="decimal" autocomplete="one-time-code"
+                   placeholder="C. ${name}" value="${oldCommissionValue}">
+        `;
+            container_commission.appendChild(div_commission);
+        });
+    }
+
+</script>

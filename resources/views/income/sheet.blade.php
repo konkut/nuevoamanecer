@@ -2,16 +2,12 @@
     <thead>
     <tr>
         <th>{{__('word.income.sheet.service')}}</th>
-        <th>{{__('word.income.sheet.quantity')}}</th>
-        <th>{{__('word.income.sheet.method')}}</th>
         <th>{{__('word.income.sheet.observation')}}</th>
+        <th>{{__('word.income.sheet.input_name')}}</th>
+        <th>{{__('word.income.sheet.input_amount')}}</th>
+        <th>{{__('word.income.sheet.output_name')}}</th>
+        <th>{{__('word.income.sheet.output_amount')}}</th>
         <th>{{__('word.income.sheet.user')}}</th>
-        <th>{{__('word.income.sheet.cash')}}</th>
-        <th>{{__('word.income.sheet.cash_amount')}}</th>
-        <th>{{__('word.income.sheet.bank')}}</th>
-        <th>{{__('word.income.sheet.bank_amount')}}</th>
-        <th>{{__('word.income.sheet.total_price')}}</th>
-        <th>{{__('word.income.sheet.total_register')}}</th>
         <th>{{__('word.income.sheet.created_at')}}</th>
         <th>{{__('word.income.sheet.updated_at')}}</th>
     </tr>
@@ -20,16 +16,12 @@
     @foreach($incomes as $item)
         <tr>
             <td>{{$item->format_services}}</td>
-            <td>{{$item->format_quantities}}</td>
-            <td>{{$item->format_methods}}</td>
             <td>{{$item->format_observation}}</td>
+            <td>{{$item->format_input_name}}</td>
+            <td>{{number_format($item->format_input_amount,2,'.','')}}</td>
+            <td>{{$item->format_output_name}}</td>
+            <td>{{number_format($item->format_output_amount,2,'.','')}}</td>
             <td>{{$item->format_user}}</td>
-            <td>{{$item->format_cash}}</td>
-            <td>{{$item->format_total_cash}}</td>
-            <td>{{$item->format_bank}}</td>
-            <td>{{$item->format_total_bank}}</td>
-            <td>{{$item->format_prices}}</td>
-            <td>{{$item->format_total}}</td>
             <td>{{$item->format_created_at}}</td>
             <td>{{$item->format_updated_at}}</td>
         </tr>

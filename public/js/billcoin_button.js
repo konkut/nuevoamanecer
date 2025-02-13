@@ -4,6 +4,12 @@ document.querySelectorAll('.bill-input').forEach(input => {
         updateTotalandBalance();
     });
 });
+document.querySelectorAll('.bill-input-payment').forEach(input => {
+    input.value = (input.value) == 0 ? "" : input.value;
+    input.addEventListener('keyup', (e) => {
+        updatePaymentandBalance();
+    });
+});
 let disabled_validation = (element) => {
     element.firstElementChild.classList.toggle("hidden");
     element.lastElementChild.classList.toggle("hidden");
@@ -20,4 +26,11 @@ let clear_billcoin = (element) => {
         inputs[index].value = null;
     });
     updateTotalandBalance();
+}
+let clear_billcoin_payment = (element) => {
+    let inputs = document.querySelectorAll('.bill-input-payment');
+    inputs.forEach((method, index) => {
+        inputs[index].value = null;
+    });
+    updatePaymentandBalance();
 }

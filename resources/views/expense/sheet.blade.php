@@ -1,13 +1,11 @@
 <table>
     <thead>
     <tr>
-        <th>{{__('word.expense.sheet.name')}}</th>
+        <th>{{__('word.expense.sheet.payment')}}</th>
         <th>{{__('word.expense.sheet.observation')}}</th>
-        <th>{{__('word.expense.sheet.user')}}</th>
-        <th>{{__('word.expense.sheet.method')}}</th>
-        <th>{{__('word.expense.sheet.cash')}}</th>
-        <th>{{__('word.expense.sheet.bank')}}</th>
+        <th>{{__('word.expense.sheet.name')}}</th>
         <th>{{__('word.expense.sheet.total')}}</th>
+        <th>{{__('word.expense.sheet.user')}}</th>
         <th>{{__('word.expense.sheet.created_at')}}</th>
         <th>{{__('word.expense.sheet.updated_at')}}</th>
     </tr>
@@ -15,13 +13,11 @@
     <tbody>
     @foreach($expenses as $item)
         <tr>
-            <td>{{$item->format_name}}</td>
+            <td>{{$item->format_payment}}</td>
             <td>{{$item->format_observation}}</td>
-            <td>{{$item->format_user}}</td>
-            <td>{{$item->format_method}}</td>
-            <td>{{$item->format_cash}}</td>
-            <td>{{$item->format_bank}}</td>
+            <td>{{$item->format_name}}</td>
             <td>{{$item->format_total}}</td>
+            <td>{{$item->format_user}}</td>
             <td>{{$item->format_created_at}}</td>
             <td>{{$item->format_updated_at}}</td>
         </tr>

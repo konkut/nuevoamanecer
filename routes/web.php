@@ -5,16 +5,15 @@ use App\Http\Controllers\CashregisterController;
 use App\Http\Controllers\BankregisterController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\CashshiftController;
-use App\Http\Controllers\CashflowdailyController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CashcountController;
-use App\Http\Controllers\DenominationController;
 use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\MethodController;
+use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TwoFactorController;
@@ -26,7 +25,6 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CloseSession;
-use App\Livewire\Users;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,7 +64,8 @@ Route::middleware([
 
     /*DASHBOARD*/
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
-    Route::put('/dashboard/{cashshift_uuid}', [DashboardController::class, 'state'])->name('dashboards.state');
+    Route::put('/dashboard/{cashshift_uuid}/off', [DashboardController::class, 'off_session'])->name('dashboards.off_session');
+    Route::put('/dashboard/{cashshift_uuid}/on', [DashboardController::class, 'on_session'])->name('dashboards.on_session');
     Route::get('/dashboard/search/sessions', [DashboardController::class, 'search_sessions'])->name('dashboards.search_sessions');
     Route::get('/dashboard/search/session', [DashboardController::class, 'search_session'])->name('dashboards.search_session');
     Route::get('/dashboard/session/{cashshift_uuid}', [DashboardController::class, 'one_session'])->name('dashboards.session');
@@ -106,14 +105,14 @@ Route::middleware([
     Route::delete('/services/{service_uuid}', [ServiceController::class, 'destroy'])->name('services.destroy')->middleware('can:services.destroy');
 
     /*TRANSACTION METHOD */
-    Route::get("/methods", [MethodController::class, "index"])->name("methods.index")->middleware('can:methods.index');
-    Route::get("/methods/create", [MethodController::class, "create"])->name("methods.create")->middleware('can:methods.create');
-    Route::post("/methods", [MethodController::class, "store"])->name("methods.store")->middleware('can:methods.create');
-    Route::get('/methods/{method_uuid}/edit', [MethodController::class, 'edit'])->name('methods.edit')->middleware('can:methods.edit');
-    Route::put("/methods/{method_uuid}/disable", [MethodController::class, "disable"])->name("methods.disable");
-    Route::put("/methods/{method_uuid}/enable", [MethodController::class, "enable"])->name("methods.enable");
-    Route::put('/methods/{method_uuid}', [MethodController::class, 'update'])->name('methods.update')->middleware('can:methods.edit');
-    Route::delete('/methods/{method_uuid}', [MethodController::class, 'destroy'])->name('methods.destroy')->middleware('can:methods.destroy');
+    Route::get("/platforms", [PlatformController::class, "index"])->name("platforms.index")->middleware('can:platforms.index');
+    Route::get("/platforms/create", [PlatformController::class, "create"])->name("platforms.create")->middleware('can:platforms.create');
+    Route::post("/platforms", [PlatformController::class, "store"])->name("platforms.store")->middleware('can:platforms.create');
+    Route::get('/platforms/{platform_uuid}/edit', [PlatformController::class, 'edit'])->name('platforms.edit')->middleware('can:platforms.edit');
+    Route::put("/platforms/{platform_uuid}/disable", [PlatformController::class, "disable"])->name("platforms.disable");
+    Route::put("/platforms/{platform_uuid}/enable", [PlatformController::class, "enable"])->name("platforms.enable");
+    Route::put('/platforms/{platform_uuid}', [PlatformController::class, 'update'])->name('platforms.update')->middleware('can:platforms.edit');
+    Route::delete('/platforms/{platform_uuid}', [PlatformController::class, 'destroy'])->name('platforms.destroy')->middleware('can:platforms.destroy');
 
     /*INCOMES */
     Route::get("/incomes", [IncomeController::class, "index"])->name("incomes.index")->middleware('can:incomes.index');
@@ -124,9 +123,12 @@ Route::middleware([
         Route::get('/incomes/{income_uuid}/edit', [IncomeController::class, 'edit'])->name('incomes.edit')->middleware('can:incomes.edit');
         Route::put('/incomes/{income_uuid}', [IncomeController::class, 'update'])->name('incomes.update')->middleware('can:incomes.edit');
     });
-    Route::get('/incomes/{income_uuid}/tax', [IncomeController::class, 'tax'])->name('incomes.tax');
     Route::post('/incomes/{income_uuid}/detail', [IncomeController::class, 'detail'])->name('incomes.detail');
     Route::delete('/incomes/{income_uuid}', [IncomeController::class, 'destroy'])->name('incomes.destroy')->middleware('can:incomes.destroy');
+
+    //RECEIPTS
+    Route::get("/receipts", [ReceiptController::class, "index"])->name("receipts.index");
+    Route::post('/receipts/{income_uuid}', [ReceiptController::class, 'store'])->name('receipts.store');
 
     /*CASHREGISTERS */
     Route::get("/cashregisters", [CashregisterController::class, "index"])->name("cashregisters.index")->middleware('can:cashregisters.index');
@@ -144,7 +146,8 @@ Route::middleware([
     Route::get("/cashshifts/create", [CashshiftController::class, "create"])->name("cashshifts.create")->middleware('can:cashshifts.create');
     Route::post("/cashshifts", [CashshiftController::class, "store"])->name("cashshifts.store")->middleware('can:cashshifts.create');
     Route::get('/cashshifts/{cashshift_uuid}/price', [CashshiftController::class, 'price'])->name('cashshifts.price');
-    Route::get('/cashshifts/{cashshift_uuid}/amount', [CashshiftController::class, 'amount'])->name('cashshifts.amount');
+    Route::get('/cashshifts/{bankregister_uuid}/amount', [CashshiftController::class, 'amount'])->name('cashshifts.amount');
+    Route::get('/cashshifts/{platform_uuid}/value', [CashshiftController::class, 'value'])->name('cashshifts.value');
     Route::post('/cashshifts/{cashshift_uuid}', [CashshiftController::class, 'detail'])->name('cashshifts.detail');
     Route::get('/cashshifts/{cashshift_uuid}/edit', [CashshiftController::class, 'edit'])->name('cashshifts.edit')->middleware('can:cashshifts.edit');
     Route::put('/cashshifts/{cashshift_uuid}', [CashshiftController::class, 'update'])->name('cashshifts.update')->middleware('can:cashshifts.edit');

@@ -1,4 +1,4 @@
-<h1 class="text-md font-bold italic block text-center py-8">{{__('word.denomination.billcoin')}}</h1>
+
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
     <div class="space-y-2">
         <div class="flex items-center justify-evenly">
@@ -93,8 +93,8 @@
     </div>
 </div>
 @if($digital)
-    <div class="flex flex-row items-end mt-8 px-4 md:px-8">
-        <div class="flex flex-col text-center w-1/2">
+    <div class="flex flex-row items-end mt-8 md:px-8 justify-evenly">
+        <div class="flex flex-col text-center max-w-20 sm:max-w-96">
             <label for="physical_cash_digital"
                    class="text-gray-600 text-md mb-1">{{__('word.denomination.cash_digital')}}</label>
             <input
@@ -126,7 +126,7 @@
             </a>
             <input type="hidden" name="force" value="0">
         </div>
-        <div class="flex flex-col text-center w-1/2">
+        <div class="flex flex-col text-center max-w-20 sm:max-w-96">
             <label for="physical_cash"
                    class="text-gray-600 text-md mb-1">{{__('word.denomination.cash_income')}}</label>
             <input
@@ -156,7 +156,7 @@
     <div
         class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-y-2 bg-white p-6 shadow-lg rounded-lg border border-gray-200">
         <div class="flex flex-row col-span-3">
-            <label for="total" class="text-sm flex justify-center items-center w-1/2">
+            <label for="total" class="text-sm flex justify-start sm:justify-center items-center w-1/2">
                 {{ __('word.denomination.attribute.total') }}
             </label>
             <input

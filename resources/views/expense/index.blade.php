@@ -34,7 +34,7 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end gap-4 items-end mb-4 flex-wrap flex-col sm:flex-row">
-                        @if($has_active_session)
+                        @if($cashshift)
                             <a href="{{ route('expenses.create') }}"
                                title="{{__('word.general.title_icon_create')}}"
                                class="bg-blue-400 text-white w-11 h-9 flex justify-center items-center rounded text-sm">
@@ -97,7 +97,7 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.expense.filter.amount') }}')">{{ __('word.expense.attribute.amount') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, '{{ __('word.expense.filter.method_uuid') }}')">{{ __('word.expense.attribute.method_uuid') }}</th>
+                                    onclick="enableSearch(this, '{{ __('word.expense.filter.charge_uuid') }}')">{{ __('word.expense.attribute.charge_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.expense.filter.user_id') }}')">{{ __('word.expense.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -115,8 +115,8 @@
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->category->name }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->amount }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->method->name }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
@@ -138,7 +138,7 @@
                                                         </svg>
                                                     </button>
                                                 </form>
-                                                @if($cashshift && $item->cashshift_uuid == $cashshift->cashshift_uuid || auth()->user()->hasRole('Administrador'))
+                                                @if($cashshift && $item->cashshift_uuid == $cashshift->cashshift_uuid)
                                                     <a href="{{ route('expenses.edit',$item->expense_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
                                                        title="{{__('word.general.title_icon_update')}}">
@@ -186,16 +186,6 @@
                                                         <p class="text-sm font-semibold">{{ __('word.expense.attribute.category_uuid') }}</p>
                                                         <p>{{ $item->category->name }}</p>
                                                     </div>
-                                                    @if($item->amount)
-                                                        <div class="mt-2">
-                                                            <p class="text-sm font-semibold">{{ __('word.expense.attribute.amount') }}</p>
-                                                            <p>{{ $item->amount }}</p>
-                                                        </div>
-                                                    @endif
-                                                    <div class="mt-2">
-                                                        <p class="text-sm font-semibold">{{ __('word.expense.attribute.method_uuid') }}</p>
-                                                        <p>{{ $item->method->name }}</p>
-                                                    </div>
                                                     @if($item->observation)
                                                         <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.expense.attribute.observation') }}</p>
@@ -213,13 +203,13 @@
                                                     @if(auth()->user()->hasRole('Administrador'))
                                                         <div class="mt-2">
                                                             <p class="text-sm font-semibold">{{ __('word.expense.attribute.user_id') }}</p>
-                                                            <p>{{ $item->user->name }}</p>
+                                                            <p>{{ $item->user }}</p>
                                                         </div>
                                                     @endif
                                                     <div class="text-center py-6 md:pb-0 hidden"
                                                          id="modal-denomination-{{$item->expense_uuid}}">
                                                         <div class="bg-[#f3f4f6] p-2">
-                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.expense.denomination') }}</h1>
+                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.general.show_denomination_output') }}</h1>
                                                         </div>
                                                         <div class="grid grid-cols-3 gap-4 px-8">
                                                             <div class="col-span-1">
@@ -269,18 +259,50 @@
                                                         </div>
                                                     </div>
                                                     <div class="text-center py-6 md:pb-0 hidden"
-                                                         id="modal-transaction-{{$item->expense_uuid}}">
+                                                         id="modal-cashregister-{{$item->expense_uuid}}">
                                                         <div class="bg-[#f3f4f6] p-2">
-                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.expense.denomination') }}</h1>
+                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.general.show_cashregister') }}</h1>
                                                         </div>
                                                         <div class="grid grid-cols-2 gap-4 px-8">
                                                             <div class="col-span-1">
                                                                 <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.four_column')}}</div>
-                                                                <div id="method-transaction-{{$item->expense_uuid}}"></div>
+                                                                <div id="method-cashregister-{{$item->expense_uuid}}"></div>
                                                             </div>
                                                             <div class="col-span-1">
                                                                 <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
-                                                                <div id="total-transaction-{{$item->expense_uuid}}"></div>
+                                                                <div id="total-cashregister-{{$item->expense_uuid}}"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center py-6 md:pb-0 hidden"
+                                                         id="modal-bankregister-{{$item->expense_uuid}}">
+                                                        <div class="bg-[#f3f4f6] p-2">
+                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.general.show_bankregister') }}</h1>
+                                                        </div>
+                                                        <div class="grid grid-cols-2 gap-4 px-8">
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.four_column')}}</div>
+                                                                <div id="method-bankregister-{{$item->expense_uuid}}"></div>
+                                                            </div>
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
+                                                                <div id="total-bankregister-{{$item->expense_uuid}}"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center py-6 md:pb-0 hidden"
+                                                         id="modal-platform-{{$item->expense_uuid}}">
+                                                        <div class="bg-[#f3f4f6] p-2">
+                                                            <h1 class="font-bold py-1 text-md text-center">{{ __('word.general.show_platform') }}</h1>
+                                                        </div>
+                                                        <div class="grid grid-cols-2 gap-4 px-8">
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.four_column')}}</div>
+                                                                <div id="method-platform-{{$item->expense_uuid}}"></div>
+                                                            </div>
+                                                            <div class="col-span-1">
+                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
+                                                                <div id="total-platform-{{$item->expense_uuid}}"></div>
                                                             </div>
                                                         </div>
                                                     </div>

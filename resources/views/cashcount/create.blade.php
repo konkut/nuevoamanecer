@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('word.cashshift.meta.create.title') }}
+        {{ __('word.cashshift.meta.create_cashcount.title') }}
     </x-slot>
     <x-slot name="metaDescription">
-        {{ __('word.cashshift.meta.create.description')}}
+        {{ __('word.cashshift.meta.create_cashcount.description')}}
     </x-slot>
     <x-slot name="metaKeywords">
-        {{ __('word.cashshift.meta.create.keywords')}}
+        {{ __('word.cashshift.meta.create_cashcount.keywords')}}
     </x-slot>
     <x-slot name="metaOgTitle">
-        {{ __('word.cashshift.meta.create.title') }}
+        {{ __('word.cashshift.meta.create_cashcount.title') }}
     </x-slot>
     <x-slot name="metaOgDescription">
-        {{ __('word.cashshift.meta.create.description')}}
+        {{ __('word.cashshift.meta.create_cashcount.description')}}
     </x-slot>
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/cashcount/clear_billcoin.js?v='.time()) }}"></script>

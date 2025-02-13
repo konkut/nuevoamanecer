@@ -2,16 +2,10 @@
     <thead>
     <tr>
         <th>{{__('word.sale.sheet.product')}}</th>
-        <th>{{__('word.sale.sheet.quantity')}}</th>
-        <th>{{__('word.sale.sheet.method')}}</th>
         <th>{{__('word.sale.sheet.observation')}}</th>
+        <th>{{__('word.sale.sheet.name')}}</th>
+        <th>{{__('word.sale.sheet.amount')}}</th>
         <th>{{__('word.sale.sheet.user')}}</th>
-        <th>{{__('word.sale.sheet.cash')}}</th>
-        <th>{{__('word.sale.sheet.cash_amount')}}</th>
-        <th>{{__('word.sale.sheet.bank')}}</th>
-        <th>{{__('word.sale.sheet.bank_amount')}}</th>
-        <th>{{__('word.sale.sheet.total_price')}}</th>
-        <th>{{__('word.sale.sheet.total_register')}}</th>
         <th>{{__('word.sale.sheet.updated_at')}}</th>
         <th>{{__('word.sale.sheet.updated_at')}}</th>
     </tr>
@@ -20,16 +14,10 @@
     @foreach($sales as $item)
         <tr>
             <td>{{$item->format_products}}</td>
-            <td>{{$item->format_quantities}}</td>
-            <td>{{$item->format_methods}}</td>
             <td>{{$item->format_observation}}</td>
+            <td>{{$item->format_name}}</td>
+            <td>{{$item->format_amount}}</td>
             <td>{{$item->format_user}}</td>
-            <td>{{$item->format_cash}}</td>
-            <td>{{$item->format_total_cash}}</td>
-            <td>{{$item->format_bank}}</td>
-            <td>{{$item->format_total_bank}}</td>
-            <td>{{$item->format_prices}}</td>
-            <td>{{$item->format_total}}</td>
             <td>{{$item->format_created_at}}</td>
             <td>{{$item->format_updated_at}}</td>
         </tr>

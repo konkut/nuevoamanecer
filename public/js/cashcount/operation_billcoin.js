@@ -68,8 +68,10 @@ const operation_billcoin = (element)=>{
         });
         let total_amount = 0;
         operation_cashcount.forEach((item, index) => {
+            console.log(item.textContent);
             total_amount += parseFloat(item.textContent);
         });
+        console.log(total_amount);
         totaL_operation_difference.textContent = result.toFixed(2);
         total_operation_cashcount.value = total_amount.toFixed(2);
 

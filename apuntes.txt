@@ -1,3 +1,17 @@
+ onclick="event.stopPropagation(); toggleStatus()">
+
+El problema con array_merge($a_c_s_2, $a_c_i_2) es que cuando los arrays tienen claves de texto idénticas, como "CAJA 4", el segundo array sobrescribe al primero en la fusión.
+
+Por eso, el resultado solo conserva el valor de "CAJA 4" con total => 23.0 (del segundo array), descartando total => 46.0 del primero.
+
+$sales = Sale::whereBetween('created_at', [$start_date, $end_date])
+            ->with(['denomination.cashregister', 'transaction.bankregister', 'user'])->get();
+$platforms = $income->platforms()->wherePivot('type', "2")->pluck('name');
+
+$incomes = Income::with(['denomination.cashregister', 'transaction.bankregister', 'user'])
+            ->orderBy('created_at', 'desc')->paginate($perPage);
+
+
  $bankregisters = Cashshift::join('transactions', 'transactions.cashshift_uuid', '=', 'cashshifts.cashshift_uuid')
             ->join('bankregisters', 'bankregisters.bankregister_uuid', '=', 'transactions.bankregister_uuid')
             ->where('transactions.type', 2)

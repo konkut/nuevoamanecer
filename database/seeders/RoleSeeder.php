@@ -38,10 +38,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'services.destroy'])->syncRoles([$role1]);
 
         /*TRANSACTION METHOD ok*/
-        Permission::create(['name' => 'methods.index'])->syncRoles([$role1]);
-        Permission::create(['name' => 'methods.create'])->syncRoles([$role1]);
-        Permission::create(['name' => 'methods.edit'])->syncRoles([$role1]);
-        Permission::create(['name' => 'methods.destroy'])->syncRoles([$role1]);
+        Permission::create(['name' => 'platforms.index'])->syncRoles([$role1]);
+        Permission::create(['name' => 'platforms.create'])->syncRoles([$role1]);
+        Permission::create(['name' => 'platforms.edit'])->syncRoles([$role1]);
+        Permission::create(['name' => 'platforms.destroy'])->syncRoles([$role1]);
 
         /*PAYMENT WITHOUT PRICE*/
         Permission::create(['name' => 'incomes.index'])->syncRoles([$role1, $role2]);

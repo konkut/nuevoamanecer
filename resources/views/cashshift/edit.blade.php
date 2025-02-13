@@ -18,6 +18,7 @@
         <script type="text/javascript" src="{{ asset('/js/cashshift/ticketing.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_cash_register.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_bank_register.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/cashshift/fetch_platform_register.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/total_and_balance.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
@@ -41,6 +42,7 @@
                                 :cashshift="$cashshift"
                                 :cashregisters="$cashregisters"
                                 :bankregisters="$bankregisters"
+                                :platforms="$platforms"
                                 :users="$users"
                                 page="edit"
                             ></x-form-cashshift>
@@ -57,6 +59,7 @@
                             @endif
                         </div>
                         <div class="w-full">
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.denomination.billcoin')}}</h1>
                             <x-form-billcoin :denomination="$denomination" :digital="false"
                                              :balance="true"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">

@@ -1,4 +1,4 @@
-const fetch_delete_method = async (form,uuid, e) => {
+const fetch_delete_platform = async (form, uuid, e) => {
     e.preventDefault();
     closeModal(uuid);
     loader_action_status('show');
@@ -33,7 +33,7 @@ const fetch_delete_method = async (form,uuid, e) => {
                 msg: data?.msg,
             });
             setTimeout(() => {
-                window.location.href = location.protocol + "//" + location.host + "/methods";
+                window.location.href = location.protocol + "//" + location.host + "/platforms";
             }, 1000);
             return;
         }

@@ -42,7 +42,7 @@ class CategoryController extends Controller
             'description' => $request->description,
             'user_id' => Auth::id(),
         ]);
-        return redirect("/categories")->with('success', 'Categoria registrada correctamente.');
+        return redirect("/categories")->with('success', __('word.category.alert.store'));
     }
 
     public function edit(string $category_uuid)
@@ -69,7 +69,7 @@ class CategoryController extends Controller
             'description' => $request->description,
             'user_id' => Auth::id(),
         ]);
-        return redirect("/categories")->with('success', 'Categoria actualizada correctamente.');
+        return redirect("/categories")->with('success', __('word.category.alert.update'));
     }
 
     public function destroy(string $category_uuid)
@@ -117,7 +117,7 @@ class CategoryController extends Controller
             'status' => "0",
             'user_id' => Auth::id(),
         ]);
-        return redirect("/categories")->with('success', 'Categoria deshabilitado correctamente.');
+        return redirect("/categories")->with('success', __('word.category.alert.disable'));
     }
     public function enable(string $category_uuid)
     {
@@ -126,6 +126,6 @@ class CategoryController extends Controller
             'status' => "1",
             'user_id' => Auth::id(),
         ]);
-        return redirect("/categories")->with('success', 'Categoria habilitado correctamente.');
+        return redirect("/categories")->with('success', __('word.category.alert.enable'));
     }
 }

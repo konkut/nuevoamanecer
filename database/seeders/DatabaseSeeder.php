@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Bankregister;
+use App\Models\Platform;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -19,7 +20,11 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             CashregisterSeeder::class,
             BankregisterSeeder::class,
-            MethodSeeder::class,
+            PlatformSeeder::class,
+            //AccountclassSeeder::class,
+            //AccountgroupSeeder::class,
+            //AccountsubgroupSeeder::class,
+            //AccountSeeder::class,
         ]);
     }
 }

@@ -60,7 +60,7 @@ class UserController extends Controller
             ]);
             $user->roles()->sync($request->input('roles'));
         });
-        return redirect("/users")->with('success', 'Usuario registrado  orrectamente.');
+        return redirect("/users")->with('success', __('word.user.alert.store'));
     }
 
     public function edit(string $id)
@@ -101,13 +101,13 @@ class UserController extends Controller
             ]);
             $user->roles()->sync($request->input('roles'));
         });
-        return redirect("/users")->with('success', 'Usuario actualizado correctamente.');
+        return redirect("/users")->with('success', __('word.user.alert.update'));
     }
     public function enable(string $id)
     {
         $user = User::findOrFail($id);
         $user->update(['status' => true]);
-        return redirect('/users')->with('success', 'Usuario habilitado correctamente.');
+        return redirect('/users')->with('success', __('word.user.alert.enable'));
     }
 
     public function disable(string $id)
@@ -121,15 +121,15 @@ class UserController extends Controller
         }
         if (Auth::id() == $user->id) {
             Auth::guard('web')->logout();
-            return redirect('/login')->with('success', 'Tu cuenta ha sido inhabilitada.');
+            return redirect('/login')->with('success', __('word.user.alert.out'));
         }
-        return redirect('/users')->with('success', 'Usuario inhabilitado correctamente.');
+        return redirect('/users')->with('success', __('word.user.alert.disable'));
     }
 
     public function roles(Request $request, string $id)
     {
         $user = User::findOrFail($id);
         $user->roles()->sync($request->roles);
-        return redirect("/users")->with('success', 'Roles actualizado correctamente.');
+        return redirect("/users")->with('success', __('word.user.alert.roles'));
     }
 }

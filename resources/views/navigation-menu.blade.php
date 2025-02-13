@@ -174,12 +174,16 @@
                                    :active="request()->routeIs('services.index')">
                 {{ __('word.service.title') }}
             </x-responsive-nav-link>
-            @can('methods.index')
-                <x-responsive-nav-link href="{{ route('methods.index') }}"
-                                       :active="request()->routeIs('methods.index')">
-                    {{ __('word.method.title') }}
+            @can('platforms.index')
+                <x-responsive-nav-link href="{{ route('platforms.index') }}"
+                                       :active="request()->routeIs('platforms.index')">
+                    {{ __('word.platform.title') }}
                 </x-responsive-nav-link>
             @endcan
+            <x-responsive-nav-link href="{{ route('receipts.index') }}"
+                                   :active="request()->routeIs('receipts.index')">
+                {{ __('word.receipt.title') }}
+            </x-responsive-nav-link>
         </div>
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

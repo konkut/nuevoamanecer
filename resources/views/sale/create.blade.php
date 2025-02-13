@@ -34,7 +34,7 @@
                         <div class="w-full">
                             <h1 class="text-md font-bold italic block text-center py-8">{{__('word.general.transaction')}}</h1>
                             <x-form-sale :sale="$sale"
-                                                :methods="$methods"
+                                                :data="$data"
                                                 :products="$products"
                                                 page="CREATE"/>
                             @if ($errors->any())
@@ -50,6 +50,7 @@
                             @endif
                         </div>
                         <div class="w-full">
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.denomination.billcoin')}}</h1>
                             <x-form-billcoin :denomination="$denomination" :digital="true" :balance="true"/>
                             <div class="mt-4 flex justify-end mx-8">
                                 <x-button>

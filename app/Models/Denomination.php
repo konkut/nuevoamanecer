@@ -10,14 +10,12 @@ use Illuminate\Support\Str;
 class Denomination extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $primaryKey = 'denomination_uuid';
     protected $keyType = 'string';
     public $incrementing = false;
     protected $table = 'denominations';
     protected $fillable = [
         'denomination_uuid',
-        'type',
         'bill_200',
         'bill_100',
         'bill_50',
@@ -30,11 +28,6 @@ class Denomination extends Model
         'coin_0_2',
         'coin_0_1',
         'total',
-        'cashregister_uuid',
-        'cashshift_uuid',
-        'income_uuid',
-        'expense_uuid',
-        'sale_uuid',
     ];
 
     protected $attributes = [
@@ -51,16 +44,15 @@ class Denomination extends Model
         'coin_0_1' => 0,
         'total' => 0.00,
     ];
-
-    public function denomination_expense()
+    public function cashshifts()
     {
-        return $this->belongsTo(Expense::class, 'expense_uuid', 'expense_uuid');
+        return $this->belongsToMany(Cashshift::class, 'cashshift_denominations', 'denomination_uuid', 'cashshift_uuid')
+            ->withPivot(['type']);
     }
     public function cashregister()
     {
         return $this->belongsTo(Cashregister::class, 'cashregister_uuid', 'cashregister_uuid');
     }
-
     public function cashshift()
     {
         return $this->belongsTo(Cashshift::class, 'cashshift_uuid', 'cashshift_uuid');
@@ -77,6 +69,14 @@ class Denomination extends Model
     {
         return $this->belongsTo(Sale::class, 'sale_uuid', 'sale_uuid');
     }
+    public function incomes()
+    {
+        return $this->belongsToMany(Income::class, 'income_denominations', 'denomination_uuid', 'income_uuid')
+            ->withPivot(['type']);
+    }
+
+
+
     protected static function boot()
     {
         parent::boot();

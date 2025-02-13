@@ -194,12 +194,13 @@ return [
         'commissions.*' => 'commission',
         'quantities' => 'cantidad',
         'quantities.*' => 'cantidad',
-        'method_uuids' => 'medio de cobro',
-        'method_uuids.*' => 'medio de cobro',
-        'bankregister_uuids' => 'medio de pago',
-        'bankregister_uuids.*' => 'medio de pago',
+        'values' => 'monto',
+        'values.*' => 'monto',
+        'charge_uuids' => 'medio de ingreso',
+        'charge_uuids.*' => 'medio de ingreso',
+        'payment_uuids' => 'medio de egreso',
+        'payment_uuids.*' => 'medio de egreso',
         "observation" => "observación",
-
 
         /*FORM DENOMINATION */
         "bill_200" => "billete de 200",
@@ -216,6 +217,20 @@ return [
         "digital_cash" => "moneda digital",
         "physical_cash" => "moneda físico",
         "total" => "total",
+        "bil_200" => "billete de 200",
+        "bil_100" => "billete de 100",
+        "bil_50" => "billete de 50",
+        "bil_20" => "billete de 20",
+        "bil_10" => "billete de 10",
+        "coi_5" => "moneda de 5",
+        "coi_2" => "moneda de 2",
+        "coi_1" => "moneda de 1",
+        "coi_0_5" => "moneda de 0.5",
+        "coi_0_2" => "moneda de 0.2",
+        "coi_0_1" => "moneda de 0.1",
+        "payment_digital_cash" => "moneda digital",
+        "payment_physical_cash" => "moneda físico",
+        "full" => "total",
 
         /*cashcount */
         "physical_balance" => "Saldo en físico",
@@ -257,5 +272,10 @@ return [
 
         /*FORCE PASSWORD CHANGED*/
         'current_password' => 'contraseña asociada a tu cuenta',
+
+        /*PLATFORM*/
+        'platform_uuid' => 'plataforma',
+
+
     ]
 ];

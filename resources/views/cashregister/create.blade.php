@@ -51,6 +51,7 @@
                             @endif
                         </div>
                         <div class="w-full">
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.denomination.billcoin')}}</h1>
                             <x-form-billcoin :denomination="$denomination" :digital="false" :balance="false"></x-form-billcoin>
                             <div class="mt-4 flex justify-end">
                                 <x-button>
