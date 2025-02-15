@@ -31,14 +31,14 @@ Route::get('/', function () {
 });
 
 Route::get('/forgot/password', [ForgotPasswordController::class, 'create'])
-    ->middleware(['guest:'.config('fortify.guard')])->name('password.request');
+    ->middleware(['guest:' . config('fortify.guard')])->name('password.request');
 Route::post('/forgot/password/update', [ForgotPasswordController::class, 'store'])
-    ->middleware(['guest:'.config('fortify.guard')])->name('password.email');
+    ->middleware(['guest:' . config('fortify.guard')])->name('password.email');
 
 Route::get('/reset/password/{id}', [ResetPasswordEmailController::class, 'edit'])
-    ->middleware(['guest:'.config('fortify.guard')])->name('password.link');
+    ->middleware(['guest:' . config('fortify.guard')])->name('password.link');
 Route::put('/reset/password/update', [ResetPasswordEmailController::class, 'update'])
-    ->middleware(['guest:'.config('fortify.guard')])->name('password.update');
+    ->middleware(['guest:' . config('fortify.guard')])->name('password.update');
 
 Route::middleware([
     'auth:sanctum',
@@ -128,7 +128,7 @@ Route::middleware([
 
     //RECEIPTS
     Route::get("/receipts", [ReceiptController::class, "index"])->name("receipts.index");
-    Route::post('/receipts/{income_uuid}', [ReceiptController::class, 'store'])->name('receipts.store');
+    Route::get('/receipts/{income_uuid}', [ReceiptController::class, 'store'])->name('receipts.store');
 
     /*CASHREGISTERS */
     Route::get("/cashregisters", [CashregisterController::class, "index"])->name("cashregisters.index")->middleware('can:cashregisters.index');

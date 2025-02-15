@@ -31,19 +31,19 @@
                 <form method="POST" action="{{ route('cashcounts.store',$cashshift_uuid)  }}">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="w-full col-span-1">
+                        <div class="w-full md:col-span-1">
                             <h1 class="text-md font-bold italic block text-center">{{__('word.cashshift.box_billcoin')}}</h1>
                             <x-form-cashcount-enable :token="$cashshift_uuid" :denomination="$cashcount" :operation="$operation_cashcount" form="cashcount"></x-form-cashcount-enable>
                         </div>
-                        <div class="w-full col-span-1">
+                        <div class="w-full md:col-span-1 mt-4 md:mt-0">
                             <h1 class="text-md font-bold italic block text-center">{{__('word.cashshift.box_closing')}}</h1>
                             <x-form-cashcount-disable :token="$cashshift_uuid" :denomination="$closing" :operation="$operation_closing" form="closing"></x-form-cashcount-disable>
                         </div>
-                        <div class="w-full col-span-1">
+                        <div class="w-full md:col-span-1 mt-4 md:mt-0">
                             <h1 class="text-md font-bold italic block text-center">{{__('word.cashshift.box_difference')}}</h1>
                             <x-form-cashcount-disable :token="$cashshift_uuid" :denomination="$difference" :operation="$operation_difference" form="difference"></x-form-cashcount-disable>
                         </div>
-                        <div class="w-full col-span-3 ">
+                        <div class="w-full md:col-span-3">
                             @if ($errors->any())
                                 <div class=" mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                                      role="alert">

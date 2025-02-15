@@ -54,7 +54,7 @@
                                 id="date"
                                 value="{{ session('date', now()->format('Y-m-d')) }}"
                                 class="ml-8 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                onchange="fetch_date(event,this)">
+                                onchange="fetch_date(this, '{{url('/')}}', event)">
                             <a id="session-date"
                                href="{{ route('dashboards.search_session') }}"
                                style="display: none;">

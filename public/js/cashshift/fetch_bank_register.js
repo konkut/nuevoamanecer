@@ -1,4 +1,4 @@
-async function fetch_amount_cashshift(uuid) {
+async function fetch_amount_cashshift(base, uuid) {
     loader_action_status('show');
     const url = document.getElementById(`amount-form-${uuid}`).href;
     try {
@@ -10,16 +10,16 @@ async function fetch_amount_cashshift(uuid) {
             },
         });
         loader_action_status('hide');
+        const data = await response.json();
         if (!response.ok) {
-            const data = await response.json();
             mdalert({
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
+                base_url: base,
             });
             return;
         }
-        const data = await response.json();
         let amount_input = document.querySelectorAll('.amount-input');
         let bank_select = document.querySelectorAll('.bank-select');
         bank_select.forEach((select, index) => {
@@ -35,7 +35,8 @@ async function fetch_amount_cashshift(uuid) {
         mdalert({
             title: lang["app_name"],
             type: lang["error_subtitle"],
-            msg: lang["error_unknown"]
+            msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 }

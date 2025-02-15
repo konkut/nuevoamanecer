@@ -115,6 +115,7 @@ class AuthenticatedSessionController extends Controller
                     return response()->json([
                         'type' => 'success',
                         'title' => __('word.general.success'),
+                        'redirect' => route('dashboard')
                     ], 200);
                 }
             }

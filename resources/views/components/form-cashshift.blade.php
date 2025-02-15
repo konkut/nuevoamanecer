@@ -44,7 +44,7 @@
             <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
             <select required id="cashregister_uuid"
                     class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
-                    name="cashregister_uuid" onchange="fetch_price_cashshift(this.value)">
+                    name="cashregister_uuid" onchange="fetch_price_cashshift('{{url('/')}}', this.value)">
                 <option value=""
                         disabled {{ old('cashregister_uuid', $cashshift->cashregister_uuid) ? '' : 'selected' }}>
                     {{__('word.cashshift.select_cashregister')}}
@@ -98,7 +98,7 @@
                         <select required
                                 class="bank-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                 name="bankregister_uuids[{{ $index }}]"
-                                onchange="fetch_amount_cashshift(this.value)">
+                                onchange="fetch_amount_cashshift('{{url('/')}}', this.value)">
                             <option value="" disabled
                                     data-name="None" {{ (!isset($bankregister_uuid))?'selected' : '' }}>
                                 {{ __('word.cashshift.select_bankregister') }}
@@ -153,7 +153,7 @@
                             <select required
                                     class="bank-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                     name="bankregister_uuids[{{ $index }}]"
-                                    onchange="fetch_amount_cashshift(this.value)">
+                                    onchange="fetch_amount_cashshift('{{url('/')}}', this.value)">
                                 <option value="" disabled
                                         data-name="None" {{ (!isset($bankregister_uuid))?'selected' : '' }}>
                                     {{ __('word.cashshift.select_bankregister') }}
@@ -197,7 +197,7 @@
                         <select required
                                 class="bank-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                 name="bankregister_uuids[0]"
-                                onchange="fetch_amount_cashshift(this.value)">
+                                onchange="fetch_amount_cashshift('{{url('/')}}', this.value)">
                             <option value="" disabled data-name="None"
                                     selected>{{ __('word.cashshift.select_bankregister') }}</option>
                             @foreach ($bankregisters as $item)
@@ -264,7 +264,7 @@
                         <select required
                                 class="platform-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                 name="platform_uuids[{{ $index }}]"
-                                onchange="fetch_value_cashshift(this.value)">
+                                onchange="fetch_value_cashshift('{{url('/')}}', this.value)">
                             <option value="" disabled
                                     data-name="None" {{ (!isset($platform_uuid))?'selected' : '' }}>
                                 {{ __('word.cashshift.select_platform') }}
@@ -320,7 +320,7 @@
                             <select required
                                     class="platform-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                     name="platform_uuids[{{ $index }}]"
-                                    onchange="fetch_value_cashshift(this.value)">
+                                    onchange="fetch_value_cashshift('{{url('/')}}', this.value)">
                                 <option value="" disabled
                                         data-name="None" {{ (!isset($platform_uuid))?'selected' : '' }}>
                                     {{ __('word.cashshift.select_platform') }}
@@ -364,7 +364,7 @@
                         <select required
                                 class="platform-select focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
                                 name="platform_uuids[0]"
-                                onchange="fetch_value_cashshift(this.value)">
+                                onchange="fetch_value_cashshift('{{url('/')}}', this.value)">
                             <option value="" disabled data-name="None"
                                     selected>{{ __('word.cashshift.select_platform') }}</option>
                             @foreach ($platforms as $item)

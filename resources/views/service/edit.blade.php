@@ -28,7 +28,7 @@
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full sm:w-1/3 mx-auto p-8">
                 <form method="POST" action="{{route('services.update', $service->service_uuid)}}">
                     @csrf
-                    @method("PUT" )
+                    @method("PUT")
                     <x-form-service :categories="$categories" :service="$service"></x-form-service>
                     <div class="mt-4 flex justify-end">
                         <x-button>

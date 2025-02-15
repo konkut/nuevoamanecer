@@ -62,7 +62,7 @@
         <p data-name="coin_0_1" class="operation-{{$form}} overflow-hidden block text-sm text-gray-600 py-2">{{ $operation->coin_0_1 }}</p>
     </div>
 </div>
-<div class="mt-6 grid grid-cols-3 gap-1 bg-white shadow-lg rounded-lg border border-gray-200">
+<div class="mt-4 px-2 md:sm:px-0 grid grid-cols-3 gap-1 bg-white shadow-lg rounded-lg border border-gray-200">
     <p class="py-4 col-span-2 text-sm text-gray-600 md:ms-10 text-start">{{ __('word.denomination.attribute.total') }}</p>
     <p class="py-4 total-operation-{{$form}} overflow-hidden col-span-1 md:me-10 text-end text-sm text-gray-600">{{$denomination->total}}</p>
 </div>

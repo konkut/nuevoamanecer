@@ -131,7 +131,7 @@
                                                       method="POST" style="display: inline;">
                                                     @csrf
                                                     <button type="button"
-                                                            onclick="fetch_detail_cashshift('{{$item->cashshift_uuid}}')"
+                                                            onclick="fetch_detail_cashshift('{{url('/')}}', '{{$item->cashshift_uuid}}')"
                                                             class="bg-green-500 text-white px-2 py-1 rounded text-xs">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -204,7 +204,7 @@
                                             <div
                                                 class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5  transform transition-transform scale-100 opacity-100 duration-300">
                                                 <div
-                                                    class="modal-header p-4 bg-[#d1d5db] text-slate-600 flex items-center justify-between rounded-t-2xl relative">
+                                                    class="modal-header p-4 bg-green-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                                     <button type="button"
                                                             class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
                                                             onclick="closeDetailsModal('{{$item->cashshift_uuid}}')">
@@ -501,7 +501,7 @@
                                                     <form
                                                         action="{{route('cashshifts.destroy',$item->cashshift_uuid)}}"
                                                         method="POST"
-                                                        onsubmit="fetch_delete_cashshift(this,'{{ $item->cashshift_uuid }}', event)">
+                                                        onsubmit="fetch_delete_cashshift(this, '{{url('/')}}', '{{ $item->cashshift_uuid }}', event)">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
@@ -537,7 +537,7 @@
                                                             onclick="close_disable_modal('{{$item->cashshift_uuid}}')">{{ __('Close') }}</button>
                                                     <form action="{{route('cashshifts.disable',$item->cashshift_uuid)}}"
                                                           method="POST"
-                                                          onsubmit="fetch_disable_cashshift(this,'{{ $item->cashshift_uuid }}', event)">
+                                                          onsubmit="fetch_disable_cashshift(this, '{{url('/')}}', '{{ $item->cashshift_uuid }}', event)">
                                                         @csrf
                                                         @method('PUT')
                                                         <button type="submit"
@@ -573,7 +573,7 @@
                                                             onclick="close_enable_modal('{{$item->cashshift_uuid}}')">{{ __('Close') }}</button>
                                                     <form action="{{route('cashshifts.enable',$item->cashshift_uuid)}}"
                                                           method="POST"
-                                                          onsubmit="fetch_enable_cashshift(this,'{{ $item->cashshift_uuid }}', event)">
+                                                          onsubmit="fetch_enable_cashshift(this, '{{url('/')}}', '{{ $item->cashshift_uuid }}', event)">
                                                         @csrf
                                                         @method('PUT')
                                                         <button type="submit"

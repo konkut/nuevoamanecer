@@ -15,7 +15,7 @@
                 <img src="{{ asset('images/logo.png') }}" class="w-28" alt="Logo">
             </div>
         </x-slot>
-        <form method="POST" action="{{ route('password.update') }}" onsubmit="fetch_reset_password(this, event)">
+        <form method="POST" action="{{ route('password.update') }}" onsubmit="fetch_reset_password(this, '{{url('/')}}',  event)">
             @csrf
             @method("PUT" )
             <input type="hidden" name="user_id" value="{{ $user_id }}">

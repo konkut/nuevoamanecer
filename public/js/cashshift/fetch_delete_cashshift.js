@@ -1,4 +1,4 @@
-const fetch_delete_cashshift = async (form,uuid, e) => {
+const fetch_delete_cashshift = async (form,base, uuid, e) => {
     e.preventDefault();
     closeModal(uuid);
     loader_action_status('show');
@@ -23,6 +23,7 @@ const fetch_delete_cashshift = async (form,uuid, e) => {
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
                 msgs: data?.msgs,
+                base_url: base,
             });
             return;
         }
@@ -33,9 +34,10 @@ const fetch_delete_cashshift = async (form,uuid, e) => {
                 title: data?.title,
                 type: data?.type,
                 msg: data?.msg,
+                base_url: base,
             });
             setTimeout(() => {
-                window.location.href = location.protocol + "//" + location.host + "/cashshifts";
+                window.location.href = data?.redirect || window.location.origin + "/cashshifts";
             }, 1000);
             return;
         }
@@ -45,6 +47,7 @@ const fetch_delete_cashshift = async (form,uuid, e) => {
             title: lang["app_name"],
             type: lang["error_subtitle"],
             msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 };

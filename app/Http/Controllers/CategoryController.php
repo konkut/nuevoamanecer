@@ -67,7 +67,6 @@ class CategoryController extends Controller
         $category->update([
             'name' => $request->name,
             'description' => $request->description,
-            'user_id' => Auth::id(),
         ]);
         return redirect("/categories")->with('success', __('word.category.alert.update'));
     }
@@ -86,6 +85,7 @@ class CategoryController extends Controller
                         'type' => 'success',
                         'title' => __('word.general.success'),
                         'msg' => __('word.category.delete_success'),
+                        'redirect' => route('categories.index')
                     ], 200);
                 } else {
                     return response()->json([

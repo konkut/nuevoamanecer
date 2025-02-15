@@ -158,7 +158,7 @@
                                         <div
                                             class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
                                             <div
-                                                class="modal-header p-4 bg-[#d1d5db] text-slate-600 flex items-center justify-between rounded-t-2xl relative">
+                                                class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}}  text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                                 <button type="button"
                                                         class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
                                                         onclick="closeDetailsModal('{{$item->category_uuid}}')">
@@ -292,7 +292,7 @@
                                                 <form id="delete-form-{{$item->category_uuid}}"
                                                       action="{{route('categories.destroy',$item->category_uuid)}}"
                                                       method="POST"
-                                                      onsubmit="fetch_delete_category(this,'{{ $item->category_uuid }}', event)">
+                                                      onsubmit="fetch_delete_category(this, '{{url('/')}}', '{{ $item->category_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

@@ -10,8 +10,9 @@ lang["title_disable"] = "No ha habilitado la autenticación de dos factores.";
 lang["title_enable"] = "Ha habilitado la autenticación de dos factores.";
 lang["button_enable"] = "Habilitar autenticación de doble factor";
 lang["button_disable"] = "Deshabilitar autenticación de doble factor";
-lang["redirect_gmail"] = "Abriendo la aplicación Gmail...";
 lang["redirect_app"] = "Abriendo la aplicación Nuevo Amanecer...";
+lang["redirect"] = "Redirigiendo hacia el inicio...";
+lang["redirect_login"] = "Redirigiendo...";
 
 
 

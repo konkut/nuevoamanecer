@@ -1,3 +1,32 @@
+usa checkmarx para escanear vulnerabilidades, lo que si no se, es si es de paga, por que solo me daban los escaneaos en pdf
+
+test de OWASP top 10
+
+Hay tantas formas como quieras, puedes mitigar errores usando phpstan para analizar tu código, puedes usar el orm de Laravel para protegerte de SQL ijenction, puedes usar doble autenticación para los usuarios, cors, cloudflare para protegerte de ataques ddos, limitar las request a tu webapp, usar SSL, se da por hecho pero hay de todo hoy en día, proteger tu archivo.env para no dejarlo visible a la web y todo público, pero lo más importante es mantener y generar respaldos de tus datos, tu base de datos y tú app mantenerla en repositorio privados... Lo que haya más allá de eso ya irá siendo ideas tuyas, al final todos los sistemas tienen vulnerabilidades, pasando desde temas de código a errores humanos o del mismo usuarios final, tonterías tan simples como exponer contraseñas por error y muchas cosas más... Al final no hay sistema que analicen sistemas en todos esos puntos
+
+
+250-SIZE 52428800
+El servidor admite mensajes de hasta 52,428,800 bytes (aproximadamente 50 MB).
+
+
+PASOS PARA SUBIR AL HOST TERMINAL
+NPM RUN BUILD PROYECTO
+CAMBIAR EL ARCHIVO .ENV
+chmod -R 775 nuevoamanecer
+php artisan livewire:publish --assets
+rm -rf public/storage
+php artisan storage:link
+ls -l public/storage
+php artisan route:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan migrate:fresh --seed
+chown -R www-data:www-data storage/app/public # En servidores con Apache/Nginx
+
+
+
+//window.location.href = location.protocol + "//" + location.host + "/dashboard";
+
  onclick="event.stopPropagation(); toggleStatus()">
 
 El problema con array_merge($a_c_s_2, $a_c_i_2) es que cuando los arrays tienen claves de texto idénticas, como "CAJA 4", el segundo array sobrescribe al primero en la fusión.

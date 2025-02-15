@@ -11,7 +11,7 @@
         </x-slot>
         <div>
             <x-validation-errors class="mb-4"/>
-            <form method="POST" action="{{ route('verify_two_factor') }}" onsubmit="fetch_two_factor(this, event)">
+            <form method="POST" action="{{ route('verify_two_factor') }}" onsubmit="fetch_two_factor(this, '{{url('/')}}', event)">
                 @csrf
                 <div class="mt-4">
                     <x-label for="auth_code" value="{{ __('word.two_factor.code') }}"/>

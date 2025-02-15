@@ -67,7 +67,7 @@
                     <x-label value="{{ __('word.sale.attribute.amount') }} *"/>
                     <div class="relative">
                         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount(this)"
+                        <x-input required onkeyup="update_amount(this)"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="amounts[{{ $index }}]"
                                  inputmode="decimal" autocomplete="one-time-code"
@@ -145,7 +145,7 @@
                         <x-label value="{{ __('word.sale.attribute.amount') }} *"/>
                         <div class="relative">
                             <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <x-input onkeyup="update_amount(this)"
+                            <x-input required onkeyup="update_amount(this)"
                                      class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                      type="text" name="amounts[{{ $index }}]"
                                      inputmode="decimal" autocomplete="one-time-code"
@@ -213,7 +213,7 @@
                     <x-label value="{{ __('word.sale.attribute.amount') }} *"/>
                     <div class="relative">
                         <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <x-input onkeyup="update_amount(this)"
+                        <x-input required onkeyup="update_amount(this)"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="amounts[0]"
                                  inputmode="decimal" autocomplete="one-time-code"

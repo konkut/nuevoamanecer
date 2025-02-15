@@ -6,7 +6,7 @@
         {{ __('Update your account\'s profile information and email address.') }}
     </x-slot>
     <x-slot name="content">
-        <form action="{{ route('update_user')}}" method="POST" onsubmit="fetch_update_user(this, event)">
+        <form action="{{ route('update_user')}}" method="POST" onsubmit="fetch_update_user(this, '{{url('/')}}', event)">
             @csrf
             @method("PUT" )
             <div class="grid grid-cols-6 gap-6 px-4 sm:px-6 sm:pt-6">

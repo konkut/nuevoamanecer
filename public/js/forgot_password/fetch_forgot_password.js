@@ -1,4 +1,4 @@
-const fetch_forgot_password = async (form, e) => {
+const fetch_forgot_password = async (form, base, e) => {
     e.preventDefault();
     loader_action_status('show');
     const url = form.action;
@@ -22,6 +22,7 @@ const fetch_forgot_password = async (form, e) => {
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
                 msgs: data?.msgs,
+                base_url: base,
             });
             return;
         }
@@ -29,11 +30,9 @@ const fetch_forgot_password = async (form, e) => {
             mdalert({
                 title: data?.title,
                 type: data?.type,
-                msg: `${data?.msg}<br>${lang["redirect_gmail"]}`,
+                msg: `${data?.msg}`,
+                base_url: base,
             });
-            setTimeout(() => {
-                window.location.href = "https://mail.google.com/";
-            }, 3000);
             return;
         }
     } catch (error) {
@@ -42,6 +41,7 @@ const fetch_forgot_password = async (form, e) => {
             title: lang["app_name"],
             type: lang["error_subtitle"],
             msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 };

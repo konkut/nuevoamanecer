@@ -62,18 +62,23 @@
                                 {{ __('word.cashregister.title') }}
                             </x-responsive-nav-link>
                         @endcan
-                        @can('users.index')
-                            <x-responsive-nav-link href="{{ route('users.index') }}"
-                                                   :active="request()->routeIs('users.index')">
-                                {{ __('word.user.title') }}
-                            </x-responsive-nav-link>
-                        @endcan
                         @can('bankregisters.index')
                             <x-responsive-nav-link href="{{ route('bankregisters.index') }}"
                                                    :active="request()->routeIs('bankregisters.index')">
                                 {{ __('word.bankregister.title') }}
                             </x-responsive-nav-link>
                         @endcan
+                        @can('platforms.index')
+                            <x-responsive-nav-link href="{{ route('platforms.index') }}"
+                                                   :active="request()->routeIs('platforms.index')">
+                                {{ __('word.platform.title') }}
+                            </x-responsive-nav-link>
+                        @endcan
+                        <x-responsive-nav-link href="{{ route('cashshifts.index') }}"
+                                               :active="request()->routeIs('cashshifts.index')">
+                            {{ __('word.cashshift.title') }}
+                        </x-responsive-nav-link>
+
                         {{--
                         @can('cashflowdailies.index')
                             <x-responsive-nav-link href="{{ route('cashflowdailies.index') }}"
@@ -82,13 +87,13 @@
                             </x-responsive-nav-link>
                         @endcan
                         --}}
-                        <x-responsive-nav-link href="{{ route('cashshifts.index') }}"
-                                               :active="request()->routeIs('cashshifts.index')">
-                            {{ __('word.cashshift.title') }}
-                        </x-responsive-nav-link>
                         <x-responsive-nav-link href="{{ route('incomes.index') }}"
                                                :active="request()->routeIs('incomes.index')">
                             {{ __('word.income.title') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('receipts.index') }}"
+                                               :active="request()->routeIs('receipts.index')">
+                            {{ __('word.receipt.title') }}
                         </x-responsive-nav-link>
                         <x-responsive-nav-link href="{{ route('expenses.index') }}"
                                                :active="request()->routeIs('expenses.index')">
@@ -102,26 +107,22 @@
                                                :active="request()->routeIs('products.index')">
                             {{ __('word.product.title') }}
                         </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('services.index') }}"
+                                               :active="request()->routeIs('services.index')">
+                            {{ __('word.service.title') }}
+                        </x-responsive-nav-link>
                         @can('categories.index')
                             <x-responsive-nav-link href="{{ route('categories.index') }}"
                                                    :active="request()->routeIs('categories.index')">
                                 {{ __('word.category.title') }}
                             </x-responsive-nav-link>
                         @endcan
-                        <x-responsive-nav-link href="{{ route('services.index') }}"
-                                               :active="request()->routeIs('services.index')">
-                            {{ __('word.service.title') }}
-                        </x-responsive-nav-link>
-                        @can('platforms.index')
-                            <x-responsive-nav-link href="{{ route('platforms.index') }}"
-                                                   :active="request()->routeIs('platforms.index')">
-                                {{ __('word.platform.title') }}
+                        @can('users.index')
+                            <x-responsive-nav-link href="{{ route('users.index') }}"
+                                                   :active="request()->routeIs('users.index')">
+                                {{ __('word.user.title') }}
                             </x-responsive-nav-link>
                         @endcan
-                        <x-responsive-nav-link href="{{ route('receipts.index') }}"
-                                               :active="request()->routeIs('receipts.index')">
-                            {{ __('word.receipt.title') }}
-                        </x-responsive-nav-link>
                     </ul>
                 </nav>
             </div>

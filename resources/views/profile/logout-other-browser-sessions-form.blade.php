@@ -6,7 +6,7 @@
         {{ __('Manage and log out your active sessions on other browsers and devices.') }}
     </x-slot>
     <x-slot name="content">
-        <form action="{{ route('logout_session')}}" method="POST" onsubmit="fetch_logout_session(this, event)">
+        <form action="{{ route('logout_session')}}" method="POST" onsubmit="fetch_logout_session(this, '{{url('/')}}', event)">
             @csrf
             <div class="grid grid-cols-6 gap-6 px-4 sm:px-6 sm:pt-6">
                 <div class="col-span-6 sm:col-span-5">

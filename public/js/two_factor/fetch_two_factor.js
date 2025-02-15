@@ -1,9 +1,9 @@
-const fetch_two_factor = async (form, e) => {
+const fetch_two_factor = async (form, base, e) => {
     e.preventDefault();
     loader_action_status('show');
     const url = form.action;
     const formData = new FormData(form);
-    const body = Object.fromEntries(formData.entries()); // Convierte los datos a JSON
+    const body = Object.fromEntries(formData.entries());
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -12,27 +12,28 @@ const fetch_two_factor = async (form, e) => {
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRF-TOKEN': csrf_token,
             },
-            body: JSON.stringify(body), // Envía los datos como JSON
+            body: JSON.stringify(body),
         });
         loader_action_status('hide');
+        const data = await response.json();
         if (!response.ok) {
-            const data = await response.json();
             mdalert({
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
                 msgs: data?.msgs,
+                base_url: base,
             });
             return;
         }
-        //window.location.href = data?.redirect || '/';
-        window.location.href = location.protocol + "//" + location.host + "/dashboard";
+        window.location.href = data?.redirect || window.location.origin + "/dashboard";
     } catch (error) {
         loader_action_status('hide');
         mdalert({
             title: lang["app_name"],
             type: lang["error_subtitle"],
             msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 };

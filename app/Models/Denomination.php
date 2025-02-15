@@ -51,7 +51,7 @@ class Denomination extends Model
     }
     public function cashregister()
     {
-        return $this->belongsTo(Cashregister::class, 'cashregister_uuid', 'cashregister_uuid');
+        return $this->belongsTo(Cashregister::class, 'denomination_uuid', 'denomination_uuid');
     }
     public function cashshift()
     {
@@ -74,7 +74,6 @@ class Denomination extends Model
         return $this->belongsToMany(Income::class, 'income_denominations', 'denomination_uuid', 'income_uuid')
             ->withPivot(['type']);
     }
-
 
 
     protected static function boot()

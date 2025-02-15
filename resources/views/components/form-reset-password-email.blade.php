@@ -3,7 +3,7 @@
     <div class="relative">
         <i class="bi bi-fingerprint absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
         <x-input id="password"
-                 class="focus-and-blur pl-9 block mt-1 w-full"
+                 class="first-element focus-and-blur pl-9 block mt-1 w-full"
                  type="password" name="password" required
                  inputmode="text" autocomplete="new-password"
                  value="{{ old('password') }}"/>

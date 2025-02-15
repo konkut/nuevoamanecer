@@ -6,7 +6,7 @@
         {{ __('word.user.disabled_text') }}
     </x-slot>
     <x-slot name="content">
-        <form action="{{ route('disable_account')}}" method="POST" onsubmit="fetch_disable_account(this, event)">
+        <form action="{{ route('disable_account')}}" method="POST" onsubmit="fetch_disable_account(this, '{{url('/')}}',  event)">
             @csrf
             <div class="grid grid-cols-6 gap-6 px-4 sm:px-6 sm:pt-6">
                 <div class="col-span-6 sm:col-span-5">

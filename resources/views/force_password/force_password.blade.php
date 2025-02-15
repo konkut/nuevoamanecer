@@ -15,7 +15,7 @@
                 <img src="{{ asset('images/logo.png') }}" class="w-28" alt="Logo">
             </div>
         </x-slot>
-        <form method="POST" action="{{ route('password.change.update') }}" onsubmit="fetch_force_password(this, event)">
+        <form method="POST" action="{{ route('password.change.update') }}" onsubmit="fetch_force_password(this, '{{url('/')}}', event)">
             @csrf
             <x-form-force-password-change></x-form-force-password-change>
             <div class="flex items-center justify-end mt-4">

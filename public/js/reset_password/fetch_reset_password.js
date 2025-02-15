@@ -1,4 +1,4 @@
-const fetch_reset_password = async (form, e) => {
+const fetch_reset_password = async (form, base, e) => {
     e.preventDefault();
     loader_action_status('show');
     const url = form.action;
@@ -17,24 +17,24 @@ const fetch_reset_password = async (form, e) => {
         loader_action_status('hide');
         const data = await response.json();
         if (!response.ok) {
-            console.log(data);
             mdalert({
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
                 msgs: data?.msgs,
+                base_url: base,
             });
             return;
         }
         if (response.status === 200) {
-            console.log(data);
             mdalert({
                 title: data?.title,
                 type: data?.type,
                 msg: `${data?.msg}<br>${lang["redirect_app"]}`,
+                base_url: base,
             });
             setTimeout(() => {
-                window.location.href = location.protocol + "//" + location.host + "/dashboard";
+                window.location.href = data?.redirect || window.location.origin + "/dashboard";
             }, 3000);
             return;
         }
@@ -45,6 +45,7 @@ const fetch_reset_password = async (form, e) => {
             title: lang["app_name"],
             type: lang["error_subtitle"],
             msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 };

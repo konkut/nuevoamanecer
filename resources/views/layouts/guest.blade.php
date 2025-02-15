@@ -9,7 +9,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"> <!--AQUI-->
     <meta name="routeName" content="{{ Route::currentRouteName() }}">
     <link rel="shortcut icon" href="{{url('images/icono.ico')}}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url('css/components/mail.css?v='.time()) }}">
     <link rel="stylesheet" href="{{ url('css/components/alert.css?v='.time()) }}">
     <script type="text/javascript" src="{{ url('js/lang/es.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ url('js/app.js?v='.time()) }}"></script>
@@ -38,7 +37,7 @@
 
 <body>
 <x-loader/>
-<x-md_alert />
+<x-md_alert/>
 <div class="font-sans text-gray-900 dark:text-gray-100 antialiased">
     {{ $slot }}
 </div>

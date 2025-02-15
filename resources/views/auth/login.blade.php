@@ -14,7 +14,7 @@
         @if (session('success'))
             <x-alert :message="session('success')"/>
         @endif
-        <form method="POST" action="{{ route('login') }}" onsubmit="fetch_one_factor(this, event)">
+        <form method="POST" action="{{ route('login') }}" onsubmit="fetch_one_factor(this, '{{url('/')}}', event)">
             @csrf
             <div>
                 <x-label for="email" value="{{ __('Email') }}"/>

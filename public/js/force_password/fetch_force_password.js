@@ -1,4 +1,4 @@
-const fetch_force_password = async (form, e) => {
+const fetch_force_password = async (form, base, e) => {
     e.preventDefault();
     loader_action_status('show');
     const url = form.action;
@@ -15,23 +15,25 @@ const fetch_force_password = async (form, e) => {
             body: JSON.stringify(body),
         });
         loader_action_status('hide');
+        const data = await response.json();
         if (!response.ok) {
-            const data = await response.json();
             mdalert({
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
                 msgs: data?.msgs,
+                base_url: base,
             });
             return;
         }
-        window.location.href = location.protocol + "//" + location.host + "/dashboard";
+        window.location.href = data?.redirect || window.location.origin + "/dashboard";
     } catch (error) {
         loader_action_status('hide');
         mdalert({
             title: lang["app_name"],
             type: lang["error_subtitle"],
             msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 };

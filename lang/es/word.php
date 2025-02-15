@@ -115,7 +115,7 @@ return [
         'delete_row_sale' => 'Quitar Venta',
         'alert' => [
             'denied' => 'Operación denegada. La sesión de caja está cerrada y no se permiten cambios en los registros.',
-            'not_allow' => 'Debes tener una sesión activa para acceder a esta página.',
+            'not_allow' => 'Acceso denegado. Sesión de caja requerida.',
             'disable_user' => 'Tu cuenta ha sido deshabilitada. Contacta al administrador.',
             'change_password' => 'Debes cambiar tu contraseña para continuar.',
         ],
@@ -165,12 +165,15 @@ return [
         'disable_confirmation' => '¿Está seguro de deshabilitar el usuario',
         'enable_confirmation' => '¿Está seguro de habilitar el usuario',
         'assign_roles' => "Roles asignados",
-        'disable_message' => 'Tu cuenta ha sido inhabilitada',
-        'disable_description' => "El acceso a tu cuenta ha sido desactivado, lo que significa que no podrás iniciar sesión ni realizar actividades dentro de la plataforma. Si crees que esto es un error o necesitas más información, por favor contacta al administrador o al soporte técnico para asistencia.",
+        'disable_message' => 'Tu cuenta ha sido deshabilitada',
+        'disable_description' => "El acceso a tu cuenta ha sido deshabilitada, lo que significa que no podrás iniciar sesión ni realizar actividades dentro de la plataforma.",
         'disable_title' => 'Deshabilitar cuenta',
         'disable_subtitle' => '¿Está seguro de que desea deshabilitar su cuenta? Una vez deshabilitada, no tendrá acceso al sistema. Por favor, ingrese su contraseña para confirmar que desea proceder con la deshabilitación permanente de su cuenta.',
         'disabled_button' => 'Deshabilitar cuenta',
         'disabled_text' => 'Deshabilitar su cuenta de forma permanente.',
+        'msg_expired' => '(La contraseña ya ha expirado)',
+        'part_one_expired' => '(Quedan ',
+        'part_two_expired' => ' días)',
         'meta' => [
             'create' => [
                 'title' => 'Nuevo usuario',
@@ -218,20 +221,20 @@ return [
             "status" => "estado",
         ],
         'alert' => [
-            'store' => 'Usuario registrado  orrectamente.',
+            'store' => 'Usuario registrado correctamente.',
             'update' => 'Usuario actualizado correctamente.',
             'enable' => 'Usuario habilitado correctamente.',
-            'disable' => 'Usuario inhabilitado correctamente.',
-            'out' => 'Tu cuenta ha sido inhabilitada.',
-            'roles' => 'Roles actualizado correctamente.',
+            'disable' => 'Usuario deshabilitado correctamente.',
+            'out' => 'Tu cuenta ha sido deshabilitada.',
+            'roles' => 'Roles actualizados correctamente.',
         ],
     ],
 
     'category' => [
         'title' => 'Categorias',
         'delete_confirmation' => '¿Está seguro de eliminar la categoria',
-        'disable_confirmation' => '¿Está seguro de deshabilitar el categoria',
-        'enable_confirmation' => '¿Está seguro de habilitar el categoria',
+        'disable_confirmation' => '¿Está seguro de deshabilitar la categoria',
+        'enable_confirmation' => '¿Está seguro de habilitar la categoria',
         'delete_success' => 'Categoria eliminada correctamente.',
         'not_allow' => 'La categoria tiene registros asociados, por lo que no es posible eliminarla.',
         'meta' => [
@@ -277,8 +280,8 @@ return [
         'alert' => [
             'store' => 'Categoria registrada correctamente.',
             'update' => 'Categoria actualizada correctamente.',
-            'enable' => 'Categoria deshabilitado correctamente.',
-            'disable' => 'Categoria habilitado correctamente.',
+            'enable' => 'Categoria habilitada correctamente.',
+            'disable' => 'Categoria deshabilitada correctamente.',
         ],
     ],
 
@@ -338,8 +341,8 @@ return [
         'alert' => [
             'store' => 'Servicio registrado correctamente.',
             'update' => 'Servicio actualizado correctamente.',
-            'enable' => 'Servicio deshabilitado correctamente.',
-            'disable' => 'Servicio habilitado correctamente.',
+            'enable' => 'Servicio habilitado correctamente.',
+            'disable' => 'Servicio deshabilitado correctamente.',
         ],
     ],
 
@@ -348,8 +351,8 @@ return [
         'delete_confirmation' => '¿Está seguro de eliminar la plataforma',
         'disable_confirmation' => '¿Está seguro de deshabilitar la plataforma',
         'enable_confirmation' => '¿Está seguro de habilitar la plataforma',
-        'delete_success' => 'Plataforma eliminado correctamente.',
-        'not_allow' => 'La plataforma tiene registros asociados, por lo que no es posible eliminarlo.',
+        'delete_success' => 'Plataforma eliminada correctamente.',
+        'not_allow' => 'La plataforma tiene registros asociados, por lo que no es posible eliminarla.',
         'meta' => [
             'create' => [
                 'title' => 'Nueva plataforma',
@@ -369,9 +372,9 @@ return [
             "author" => 'Pedro Luis Condori Cutile',
         ],
         'resource' => [
-            "create" => "Nuevo plataforma",
+            "create" => "Nueva plataforma",
             "edit" => "Actualizar plataforma",
-            "show" => "Detalles del plataforma",
+            "show" => "Detalles de la plataforma",
             "index" => "Lista de plataformas",
         ],
         'attribute' => [
@@ -393,14 +396,14 @@ return [
         ],
         'alert' => [
             'store' => 'Plataforma registrada correctamente.',
-            'update' => 'Plataforma actualizado correctamente.',
-            'enable' => 'Plataforma deshabilitado correctamente.',
-            'disable' => 'Plataforma habilitado correctamente.',
+            'update' => 'Plataforma actualizada correctamente.',
+            'enable' => 'Plataforma habilitada correctamente.',
+            'disable' => 'Plataforma deshabilitada correctamente.',
         ],
     ],
 
     'income' => [
-        'title' => 'Ingresos',
+        'title' => 'Transacciones',
         'delete_confirmation' => '¿Está seguro de eliminar el ingreso de transacción',
         'generate_receipt' => '¿Desea generar el comprobante',
         'select_service' => 'Seleccionar un servicio',
@@ -412,27 +415,27 @@ return [
         'two_validate' => 'Total calculado: Bs. :charge. Total ingresado: Bs. :total. Por favor, revise los datos e intente nuevamente.',
         'meta' => [
             'create' => [
-                'title' => 'Nuevo ingreso de transacción',
-                'description' => 'Crea un nuevo ingreso de transacción en nuestra plataforma.',
-                'keywords' => 'crear ingreso de transacción, nuevo ingreso de transacción, plataforma',
+                'title' => 'Nueva transacción',
+                'description' => 'Crea una nueva transacción en nuestra plataforma.',
+                'keywords' => 'crear transacción, nueva transacción, plataforma',
             ],
             'edit' => [
-                'title' => 'Actualizar ingreso de transacción',
-                'description' => 'Edita y actualiza un ingreso de transacción existente.',
-                'keywords' => 'editar ingreso de transacción, actualizar ingreso de transacción, plataforma',
+                'title' => 'Actualizar transacción',
+                'description' => 'Edita y actualiza una transacción existente.',
+                'keywords' => 'editar transacción, actualizar transacción, plataforma',
             ],
             'index' => [
-                'title' => 'Lista de ingresos de transacciones',
-                'description' => 'Explora la lista completa de ingreso de transacciones disponibles.',
-                'keywords' => 'lista de ingreso de transacciones, ingreso de transacciones disponibles, plataforma',
+                'title' => 'Lista de transacciones',
+                'description' => 'Explora la lista completa de transacciones disponibles.',
+                'keywords' => 'lista de transacciones, transacciones disponibles, plataforma',
             ],
             "author" => 'Pedro Luis Condori Cutile',
         ],
         'resource' => [
-            "create" => "Nuevo ingreso de transacción",
-            "edit" => "Actualizar ingreso de transacción",
-            "show" => "Detalles del ingreso de la transacción",
-            "index" => "Lista de ingresos de transacciones",
+            "create" => "Nueva transacción",
+            "edit" => "Actualizar transacción",
+            "show" => "Detalles de la transacción",
+            "index" => "Lista transacciones",
         ],
         'attribute' => [
             "observation" => "Observación",
@@ -474,9 +477,9 @@ return [
             "updated_at" => "Fecha de actualización",
         ],
         'alert' => [
-            'store' => 'Ingreso registrado correctamente.',
-            'update' => 'Ingreso actualizado correctamente.',
-            'delete' => 'Ingreso eliminado correctamente.',
+            'store' => 'Transacción registrada correctamente.',
+            'update' => 'Transacción actualizada correctamente.',
+            'delete' => 'Transacción eliminada correctamente.',
         ],
     ],
 
@@ -638,14 +641,14 @@ return [
     'cashshift' => [
         'title' => 'Sesiones',
         'delete_confirmation' => '¿Está seguro de eliminar la sesión',
-        'disable_confirmation' => '¿Está seguro de deshabilitar la sesión',
-        'enable_confirmation' => '¿Está seguro de habilitar la sesión',
+        'disable_confirmation' => '¿Está seguro de cerrar la sesión',
+        'enable_confirmation' => '¿Está seguro de abrir la sesión',
         'select_cashregister' => 'Seleccionar una caja',
         'select_bankregister' => 'Seleccionar un banco',
         'select_platform' => 'Selecciona una plataforma',
         'select_user' => 'Seleccionar un usuario',
         'lock_box_confirmation' => '¿Está seguro de cerrar la sesión',
-        'unlock_box_confirmation' => '¿Está seguro de habilitar la sesión',
+        'unlock_box_confirmation' => '¿Está seguro de abrir la sesión',
         'total_services' => "SERVICIOS",
         "detail_services" => "DETALLE DE LA SESIÓN DE CAJA",
         'box_session' => "SESIÓN DE CAJA",
@@ -659,10 +662,10 @@ return [
         'five_validation' => 'Total calculado: Bs. :charge. Total ingresado: Bs. :total. Por favor, revise los datos e intente nuevamente.',
         'six_validation' => 'Por favor, complete el formulario asegúrese de que cada plataforma tenga un saldo correspondiente.',
         'seven_validation' => 'La plataforma: :name ya tiene una sesión activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
-        'delete_success' => 'Sesión eliminada correctamente.',
-        'not_allow' => 'La sesión tiene registros asociados, por lo que no es posible eliminarla.',
-        'enable_success' => 'Sesión abierta correctamente.',
-        'disable_success' => 'Sesión cerrada correctamente.',
+        'delete_success' => 'Sesión de caja eliminada correctamente.',
+        'not_allow' => 'La sesión de caja tiene registros asociados, por lo que no es posible eliminarla.',
+        'enable_success' => 'Sesión de caja abierta correctamente.',
+        'disable_success' => 'Sesión de caja cerrada correctamente.',
         'meta' => [
             'create_cashcount' => [
                 'title' => 'Nuevo arqueo de caja',
@@ -670,27 +673,27 @@ return [
                 'keywords' => 'crear arqueo de caja, nuevo arqueo de caja, plataforma',
             ],
             'create' => [
-                'title' => 'Nueva sesión',
+                'title' => 'Nueva sesión de caja',
                 'description' => 'Crea una nueva sesión en nuestra plataforma.',
                 'keywords' => 'crear sesión, nueva sesión, plataforma',
             ],
             'edit' => [
-                'title' => 'Actualizar sesión',
+                'title' => 'Actualizar sesión de caja',
                 'description' => 'Edita y actualiza una sesión existente.',
                 'keywords' => 'editar sesión, actualizar sesión, plataforma',
             ],
             'index' => [
-                'title' => 'Lista de sesiones',
+                'title' => 'Lista de sesiones de caja',
                 'description' => 'Explora la lista completa de sesiones disponibles.',
                 'keywords' => 'lista de sesiones, sesiones disponibles, plataforma',
             ],
             "author" => 'Pedro Luis Condori Cutile',
         ],
         'resource' => [
-            "create" => "Nueva sesión",
-            "edit" => "Actualizar sesión",
-            "show" => "Detalles de la sesión",
-            "index" => "Lista de sesiones",
+            "create" => "Nueva sesión de caja",
+            "edit" => "Actualizar sesión de caja",
+            "show" => "Detalles de la sesión de caja",
+            "index" => "Lista de sesiones de caja",
             "create_physical" => "Registrar arqueo de caja",
             "edit_physical" => "Actualizar arqueo de caja",
         ],
@@ -730,11 +733,11 @@ return [
             "updated_at" => "última actualización",
         ],
         'alert' => [
-            'store' => 'Sesión registrada correctamente.',
-            'update' => 'Sesión actualizada correctamente.',
-            'enable' => 'Sesión habilitada correctamente.',
-            'disable' => 'Sesión deshabilitada correctamente.',
-            'cashcount' => 'Arqueo registrado correctamente.',
+            'store' => 'Sesión de caja registrada correctamente.',
+            'update' => 'Sesión de caja actualizada correctamente.',
+            'enable' => 'Sesión de caja abierta correctamente.',
+            'disable' => 'Sesión de caja cerrada correctamente.',
+            'cashcount' => 'Arqueo de caja registrada correctamente.',
         ],
     ],
 
@@ -899,7 +902,7 @@ return [
         ],
         'attribute' => [
             "observation" => "Observación",
-            "amount" => "Precio",
+            "amount" => "Monto",
             "quantities" => "Cantidad",
             "product_uuid" => "Producto",
             "charge_uuid" => "Medio de cobro",
@@ -927,8 +930,8 @@ return [
             "updated_at" => "Fecha de actualización",
         ],
         'alert' => [
-            'store' => 'Venta registrado correctamente.',
-            'update' => 'Venta actualizado correctamente.',
+            'store' => 'Venta registrada correctamente.',
+            'update' => 'Venta actualizada correctamente.',
             'delete' => 'Venta eliminada correctamente.',
         ],
     ],
@@ -1263,89 +1266,89 @@ return [
     ],
 
     'currency' => [
-    'title' => 'Monedas',
-    'delete_confirmation' => '¿Está seguro de eliminar la moneda',
-    'meta' => [
-        'create' => [
-            'title' => 'Nueva moneda',
-            'description' => 'Crea una nueva moneda en nuestra plataforma.',
-            'keywords' => 'crear moneda, nuevo moneda, plataforma',
+        'title' => 'Monedas',
+        'delete_confirmation' => '¿Está seguro de eliminar la moneda',
+        'meta' => [
+            'create' => [
+                'title' => 'Nueva moneda',
+                'description' => 'Crea una nueva moneda en nuestra plataforma.',
+                'keywords' => 'crear moneda, nuevo moneda, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar moneda',
+                'description' => 'Edita y actualiza una moneda existente.',
+                'keywords' => 'editar moneda, actualizar moneda, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de monedas',
+                'description' => 'Explora la lista completa de monedas disponibles.',
+                'keywords' => 'lista de monedas, monedas disponibles, plataforma',
+            ],
+            'show' => [
+                'title' => 'Mostrar monedas',
+                'description' => 'Consulta los detalles de cada moneda disponible.',
+                'keywords' => 'ver moneda, detalles de la moneda, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
         ],
-        'edit' => [
-            'title' => 'Actualizar moneda',
-            'description' => 'Edita y actualiza una moneda existente.',
-            'keywords' => 'editar moneda, actualizar moneda, plataforma',
+        'resource' => [
+            "create" => "Nueva moneda",
+            "edit" => "Actualizar moneda",
+            "show" => "Detalles de la moneda",
+            "index" => "Lista de monedas",
         ],
-        'index' => [
-            'title' => 'Lista de monedas',
-            'description' => 'Explora la lista completa de monedas disponibles.',
-            'keywords' => 'lista de monedas, monedas disponibles, plataforma',
+        'attribute' => [
+            "name" => "Nombre",
+            "symbol" => "Simbolo",
+            "exchange_rate" => "Tasa de cambio",
+            "status" => "Estado",
+            "created_at" => "Fecha Registro",
+            "updated_at" => "Últ. Act.",
         ],
-        'show' => [
-            'title' => 'Mostrar monedas',
-            'description' => 'Consulta los detalles de cada moneda disponible.',
-            'keywords' => 'ver moneda, detalles de la moneda, plataforma',
-        ],
-        "author" => 'Pedro Luis Condori Cutile',
     ],
-    'resource' => [
-        "create" => "Nueva moneda",
-        "edit" => "Actualizar moneda",
-        "show" => "Detalles de la moneda",
-        "index" => "Lista de monedas",
-    ],
-    'attribute' => [
-        "name" => "Nombre",
-        "symbol" => "Simbolo",
-        "exchange_rate" => "Tasa de cambio",
-        "status" => "Estado",
-        "created_at" => "Fecha Registro",
-        "updated_at" => "Últ. Act.",
-    ],
-],
 
-     'customer' => [
-    'title' => 'Clientes',
-    'delete_confirmation' => '¿Está seguro de eliminar el cliente',
-    'meta' => [
-        'create' => [
-            'title' => 'Nuevo cliente',
-            'description' => 'Crea un nuevo cliente en nuestra plataforma.',
-            'keywords' => 'crear cliente, nuevo cliente, plataforma',
+    'customer' => [
+        'title' => 'Clientes',
+        'delete_confirmation' => '¿Está seguro de eliminar el cliente',
+        'meta' => [
+            'create' => [
+                'title' => 'Nuevo cliente',
+                'description' => 'Crea un nuevo cliente en nuestra plataforma.',
+                'keywords' => 'crear cliente, nuevo cliente, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar cliente',
+                'description' => 'Edita y actualiza un cliente existente.',
+                'keywords' => 'editar cliente, actualizar cliente, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de clientes',
+                'description' => 'Explora la lista completa de clientes disponibles.',
+                'keywords' => 'lista de clientes, clientes disponibles, plataforma',
+            ],
+            'show' => [
+                'title' => 'Mostrar clientes',
+                'description' => 'Consulta los detalles de cada cliente disponible.',
+                'keywords' => 'ver cliente, detalles del cliente, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
         ],
-        'edit' => [
-            'title' => 'Actualizar cliente',
-            'description' => 'Edita y actualiza un cliente existente.',
-            'keywords' => 'editar cliente, actualizar cliente, plataforma',
+        'resource' => [
+            "create" => "Nuevo cliente",
+            "edit" => "Actualizar cliente",
+            "show" => "Detalles del cliente",
+            "index" => "Lista de clientes",
         ],
-        'index' => [
-            'title' => 'Lista de clientes',
-            'description' => 'Explora la lista completa de clientes disponibles.',
-            'keywords' => 'lista de clientes, clientes disponibles, plataforma',
+        'attribute' => [
+            "first_name" => "Nombres",
+            "last_name" => "Apellidos",
+            "email" => "Correo electrónico",
+            "phone" => "Celular",
+            "address" => "Dirección",
+            "status" => "Estado",
+            "user_id" => "Registrado por",
         ],
-        'show' => [
-            'title' => 'Mostrar clientes',
-            'description' => 'Consulta los detalles de cada cliente disponible.',
-            'keywords' => 'ver cliente, detalles del cliente, plataforma',
-        ],
-        "author" => 'Pedro Luis Condori Cutile',
     ],
-    'resource' => [
-        "create" => "Nuevo cliente",
-        "edit" => "Actualizar cliente",
-        "show" => "Detalles del cliente",
-        "index" => "Lista de clientes",
-    ],
-    'attribute' => [
-        "first_name" => "Nombres",
-        "last_name" => "Apellidos",
-        "email" => "Correo electrónico",
-        "phone" => "Celular",
-        "address" => "Dirección",
-        "status" => "Estado",
-        "user_id" => "Registrado por",
-    ],
-],
 
     'cashflowdaily' => [
         'title' => 'Flujo de caja diario',

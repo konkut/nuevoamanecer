@@ -1,4 +1,4 @@
-<div onclick="fetch_session(event, '{{ $cashshift->cashshift_uuid }}',this)"
+<div onclick="fetch_session(this, '{{url('/')}}', '{{ $cashshift->cashshift_uuid }}', event)"
     class="block bg-white mt-8 flex-col overflow-hidden shadow-xl sm:rounded-lg cursor-pointer">
     <div class="flex p-6 text-center text-gray-800 rounded-lg shadow-md flex-wrap">
         <div class="flex-1 flex-col items-center justify-center">

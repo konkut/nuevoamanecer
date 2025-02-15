@@ -6,7 +6,7 @@
         {{ __('Ensure your account is using a long, random password to stay secure.') }}
     </x-slot>
     <x-slot name="content">
-        <form action="{{ route('update_password')}}" method="POST" onsubmit="fetch_update_password(this, event)" >
+        <form action="{{ route('update_password')}}" method="POST" onsubmit="fetch_update_password(this, '{{url('/')}}', event)" >
             @csrf
             @method("PUT" )
             <div class="grid grid-cols-6 gap-6 px-4 sm:px-6 sm:pt-6">

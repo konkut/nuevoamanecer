@@ -1,4 +1,4 @@
-async function fetch_detail_cashregister(uuid) {
+async function fetch_detail_cashregister(base, uuid) {
     loader_action_status('show');
     const form = document.getElementById(`details-form-${uuid}`);
     const url = form.action;
@@ -19,6 +19,7 @@ async function fetch_detail_cashregister(uuid) {
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
+                base_url: base,
             });
             return;
         }
@@ -56,7 +57,8 @@ async function fetch_detail_cashregister(uuid) {
         mdalert({
             title: lang["app_name"],
             type: lang["error_subtitle"],
-            msg: lang["error_unknown"]
+            msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 }

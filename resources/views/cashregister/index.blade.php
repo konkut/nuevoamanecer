@@ -94,7 +94,7 @@
                                                   method="POST" style="display: inline;">
                                                 @csrf
                                                 <button type="button"
-                                                        onclick="fetch_detail_cashregister('{{$item->cashregister_uuid}}')"
+                                                        onclick="fetch_detail_cashregister('{{url('/')}}', '{{$item->cashregister_uuid}}')"
                                                         class="bg-green-500 text-white px-2 py-1 rounded text-xs">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -161,7 +161,7 @@
                                         <div
                                             class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
                                             <div
-                                                class="modal-header p-4 bg-gray-100 text-gray-600 flex items-center justify-between rounded-t-lg">
+                                                class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}} text-gray-600 flex items-center justify-between rounded-t-lg">
                                                 <h1 class="text-lg font-semibold mx-auto">{{__('word.cashregister.resource.show')}}</h1>
                                                 <button type="button"
                                                         class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
@@ -196,7 +196,7 @@
                                                 </div>
                                                 <div class="text-center py-6 md:pb-0"
                                                      id="modal-show-{{$item->cashregister_uuid}}">
-                                                    <div class="bg-[#f3f4f6] p-2">
+                                                    <div class="{{$item->status ? 'bg-green-200' : 'bg-red-200'}} p-2">
                                                         <h1 class="font-bold py-1 text-md text-center">{{ __('word.cashregister.denomination') }}</h1>
                                                     </div>
                                                     <div class="grid grid-cols-3 gap-4 px-8">
@@ -339,7 +339,7 @@
                                                 <form
                                                     action="{{route('cashregisters.destroy',$item->cashregister_uuid)}}"
                                                     method="POST"
-                                                    onsubmit="fetch_delete_cashregister(this,'{{ $item->cashregister_uuid }}', event)">
+                                                    onsubmit="fetch_delete_cashregister(this, '{{url('/')}}', '{{ $item->cashregister_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

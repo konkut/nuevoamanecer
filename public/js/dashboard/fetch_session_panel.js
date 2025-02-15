@@ -1,4 +1,5 @@
-async function fetch_session(event, uuid, element) {
+async function fetch_session(element, base, uuid, e) {
+    e.preventDefault();
     loader_action_status('show');
     const url = document.getElementById(`session-form-${uuid}`).href;
     const allCards = document.querySelectorAll('#dashboard-session div');
@@ -15,16 +16,16 @@ async function fetch_session(event, uuid, element) {
             },
         });
         loader_action_status('hide');
+        const data = await response.json();
         if (!response.ok) {
-            const data = await response.json();
             mdalert({
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
+                base_url: base,
             });
             return;
         }
-        const data = await response.json();
         const dashboard_summary = document.getElementById('dashboard-summary');
         if (dashboard_summary) {
             dashboard_summary.innerHTML = data.summary_html;
@@ -34,7 +35,8 @@ async function fetch_session(event, uuid, element) {
         mdalert({
             title: lang["app_name"],
             type: lang["error_subtitle"],
-            msg: lang["error_unknown"]
+            msg: lang["error_unknown"],
+            base_url: base,
         });
     }
 }
