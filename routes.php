@@ -21,6 +21,7 @@ use Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController;
 use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 use Laravel\Fortify\RoutePath;
 use App\Http\Middleware\CloseSession;
+use App\Http\Middleware\Language;
 
 Route::group(['middleware' => config('fortify.middleware', ['web'])], function () {
     $enableViews = config('fortify.views', true);
@@ -45,6 +46,13 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
     Route::post(RoutePath::for('logout', '/logout'), [AuthenticatedSessionController::class, 'destroy'])
         ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard')])
         ->name('logout');
+
+    // Profile Information...
+    if (Features::enabled(Features::updateProfileInformation())) {
+        Route::put(RoutePath::for('user-profile-information.update', '/user/profile-information'), [ProfileInformationController::class, 'update'])
+            ->middleware([Language::class, config('fortify.auth_middleware', 'auth') . ':' . config('fortify.guard')])
+            ->name('user-profile-information.update');
+    }
 
     // Password Reset...
     /*
@@ -82,28 +90,25 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
     }*/
 
     // Email Verification...
-    if (Features::enabled(Features::emailVerification())) {
-        if ($enableViews) {
-            Route::get(RoutePath::for('verification.notice', '/email/verify'), [EmailVerificationPromptController::class, '__invoke'])
-                ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard')])
-                ->name('verification.notice');
-        }
+    /*
+      if (Features::enabled(Features::emailVerification())) {
+         if ($enableViews) {
+             Route::get(RoutePath::for('verification.notice', '/email/verify'), [EmailVerificationPromptController::class, '__invoke'])
+                 ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard')])
+                 ->name('verification.notice');
+         }
 
-        Route::get(RoutePath::for('verification.verify', '/email/verify/{id}/{hash}'), [VerifyEmailController::class, '__invoke'])
-            ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard'), 'signed', 'throttle:'.$verificationLimiter])
-            ->name('verification.verify');
+         Route::get(RoutePath::for('verification.verify', '/email/verify/{id}/{hash}'), [VerifyEmailController::class, '__invoke'])
+             ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard'), 'signed', 'throttle:'.$verificationLimiter])
+             ->name('verification.verify');
 
-        Route::post(RoutePath::for('verification.send', '/email/verification-notification'), [EmailVerificationNotificationController::class, 'store'])
-            ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard'), 'throttle:'.$verificationLimiter])
-            ->name('verification.send');
-    }
+         Route::post(RoutePath::for('verification.send', '/email/verification-notification'), [EmailVerificationNotificationController::class, 'store'])
+             ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard'), 'throttle:'.$verificationLimiter])
+             ->name('verification.send');
+     }
+     */
 
-    // Profile Information...
-    if (Features::enabled(Features::updateProfileInformation())) {
-        Route::put(RoutePath::for('user-profile-information.update', '/user/profile-information'), [ProfileInformationController::class, 'update'])
-            ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard')])
-            ->name('user-profile-information.update');
-    }
+
 
     // Passwords...
     /*if (Features::enabled(Features::updatePasswords())) {
@@ -113,7 +118,8 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
     }*/
 
     // Password Confirmation...
-    if ($enableViews) {
+    /*
+     if ($enableViews) {
         Route::get(RoutePath::for('password.confirm', '/user/confirm-password'), [ConfirmablePasswordController::class, 'show'])
             ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard')])
             ->name('password.confirm');
@@ -126,6 +132,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
     Route::post(RoutePath::for('password.confirm', '/user/confirm-password'), [ConfirmablePasswordController::class, 'store'])
         ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard')])
         ->name('password.confirm.store');
+     */
 
     // Two Factor Authentication...
     /*if (Features::enabled(Features::twoFactorAuthentication())) {

@@ -14,17 +14,17 @@ const enableSearch = (th, placeholder) => {
     th.appendChild(container);
     input.focus();
     input.addEventListener("keyup", function () {
-        filterTable(Array.from(th.parentNode.children).indexOf(th), this.value);
+        filterTable(th, Array.from(th.parentNode.children).indexOf(th), this.value);
     });
     input.addEventListener("blur", function () {
         th.innerHTML = originalContent;
     });
 };
-const filterTable = (columnIndex, searchValue) => {
-    const table = document.querySelector("table");
+const filterTable = (th, columnIndex, searchValue) => {
+    let table = th.closest("table");
     let rows = table.querySelectorAll("tbody tr");
     rows.forEach((row) => {
-        const cell = row.querySelectorAll("td")[columnIndex]; // Ajusta el índice para comenzar desde 0
+        const cell = row.querySelectorAll("td")[columnIndex];
         if (cell) {
             const textValue = cell.textContent || cell.innerText;
             row.style.display = textValue.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 ? "" : "none";

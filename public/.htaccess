@@ -14,6 +14,10 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Redirige automáticamente archivos estáticos desde "public/"
+    RewriteCond %{REQUEST_URI} ^/(css|js|images|fonts|vendor|storage)/(.*)$
+    RewriteRule ^ public/%1/%2 [L]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

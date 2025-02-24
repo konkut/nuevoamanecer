@@ -1,3 +1,9 @@
+protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];  coloca en el modelo
+
+
 usa checkmarx para escanear vulnerabilidades, lo que si no se, es si es de paga, por que solo me daban los escaneaos en pdf
 
 test de OWASP top 10
@@ -10,17 +16,34 @@ El servidor admite mensajes de hasta 52,428,800 bytes (aproximadamente 50 MB).
 
 
 PASOS PARA SUBIR AL HOST TERMINAL
-NPM RUN BUILD PROYECTO
-CAMBIAR EL ARCHIVO .ENV
-chmod -R 775 nuevoamanecer
-php artisan livewire:publish --assets
-rm -rf public/storage
-php artisan storage:link
-ls -l public/storage
-php artisan route:clear
+1. cerrar npm run dev y ejecutar npm run build
+2. comprimir a zip -r nuevoamanecer.zip nuevoamanecer
+3. Subir al hosting en la ruta public_html
+4. mover los archivos a public_html incluidos los archivos dentro de public: index.php, .htacces.php, robots.php
+6. editar la linea en index.php a  require __DIR__.'/vendor/autoload.php';
+7. editar la linea en index.php a  (require_once __DIR__.'/bootstrap/app.php')->handleRequest(Request::capture());
+8. el archivo .htaccess se adiciono 2 filas para correr archivos dentro de public
+    RewriteCond %{REQUEST_URI} ^/(css|js|images|fonts|vendor|storage)/(.*)$
+    RewriteRule ^ public/%1/%2 [L]
+9. se adiciono este codigo en vite.config.js
+    build: {
+       outDir: 'public/build',
+       manifest: true
+    },
+5. editar el archivo config/setting.php cambiar a 'nuevoamanecer@yoguvit.com',
+8. renombrar el archivo a .env
+9. chmod -R 775 public_html
+10. php artisan livewire:publish --assets
+11. enlazar carpeta storage
+    rm -rf public/storage
+    php artisan storage:link
+    ls -l public/storage
 php artisan config:clear
 php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
 php artisan migrate:fresh --seed
+
 chown -R www-data:www-data storage/app/public # En servidores con Apache/Nginx
 
 

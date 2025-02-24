@@ -1,4 +1,4 @@
-const fetch_delete_cashregister = async (form, base, uuid, e) => {
+const fetch_delete = async (form, base, uuid, e) => {
     e.preventDefault();
     closeModal(uuid);
     loader_action_status('show');
@@ -35,7 +35,7 @@ const fetch_delete_cashregister = async (form, base, uuid, e) => {
                 base_url: base,
             });
             setTimeout(() => {
-                window.location.href = data?.redirect || window.location.origin + "/cashregisters";
+                window.location.href = data?.redirect;
             }, 1000);
             return;
         }

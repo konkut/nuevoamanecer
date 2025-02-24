@@ -20,7 +20,7 @@
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/enable_and_disable_modal.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/bankregister/fetch_delete_bankregister.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/fetch_delete.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -302,7 +302,7 @@
                                                 <form
                                                     action="{{route('bankregisters.destroy',$item->bankregister_uuid)}}"
                                                     method="POST"
-                                                    onsubmit="fetch_delete_bankregister(this, '{{url('/')}}' ,'{{ $item->bankregister_uuid }}', event)">
+                                                    onsubmit="fetch_delete(this, '{{url('/')}}' ,'{{ $item->bankregister_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

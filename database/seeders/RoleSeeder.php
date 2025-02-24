@@ -98,6 +98,42 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'bankregisters.edit'])->syncRoles([$role1]);
         Permission::create(['name' => 'bankregisters.destroy'])->syncRoles([$role1]);
 
+        /*ACCOUNTCLASS ok*/
+        Permission::create(['name' => 'accountclasses.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountclasses.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountclasses.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountclasses.destroy'])->syncRoles([$role1, $role3]);
+
+        /*ACCOUNTGROUP ok*/
+        Permission::create(['name' => 'accountgroups.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountgroups.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountgroups.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountgroups.destroy'])->syncRoles([$role1, $role3]);
+
+        /*ACCOUNTSUBGROUP ok*/
+        Permission::create(['name' => 'accountsubgroups.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountsubgroups.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountsubgroups.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accountsubgroups.destroy'])->syncRoles([$role1, $role3]);
+
+        /*ACCOUNTS ok*/
+        Permission::create(['name' => 'accounts.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accounts.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accounts.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'accounts.destroy'])->syncRoles([$role1, $role3]);
+
+        /*ACTIVITIES ok*/
+        Permission::create(['name' => 'activities.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'activities.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'activities.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'activities.destroy'])->syncRoles([$role1, $role3]);
+
+        /*COMPANIES ok*/
+        Permission::create(['name' => 'companies.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'companies.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'companies.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'companies.destroy'])->syncRoles([$role1, $role3]);
+
         /*CASHFLOWDAILY ok*/
         Permission::create(['name' => 'cashflowdailies.index'])->syncRoles([$role1]);
 

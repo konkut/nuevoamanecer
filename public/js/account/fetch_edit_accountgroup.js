@@ -1,19 +1,14 @@
-const fetch_delete_service = async (form, base, uuid, e) => {
+const fetch_edit_accountgroup = async (element, base, uuid, e) => {
     e.preventDefault();
-    closeModal(uuid);
     loader_action_status('show');
-    const url = form.action;
-    const formData = new FormData(form);
-    const body = Object.fromEntries(formData.entries());
+    const url = element.href;
     try {
         const response = await fetch(url, {
-            method: 'DELETE',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': csrf_token,
             },
-            body: JSON.stringify(body),
         });
         loader_action_status('hide');
         const data = await response.json();
@@ -22,22 +17,23 @@ const fetch_delete_service = async (form, base, uuid, e) => {
                 title: data?.title || lang["error_title"],
                 type: data?.type || lang["error_subtitle"],
                 msg: data?.msg || lang["error_request"],
-                msgs: data?.msgs,
                 base_url: base,
             });
             return;
         }
         if (response.status === 200) {
-            mdalert({
-                title: data?.title,
-                type: data?.type,
-                msg: data?.msg,
-                base_url: base,
-            });
-            setTimeout(() => {
-                window.location.href = data?.redirect || window.location.origin + "/services";
-            }, 1000);
-            return;
+            document.querySelector(`#code-${uuid}`).textContent = data?.accountgroup?.code;
+            document.querySelector(`#accountgroup-${uuid}`).value = data?.accountgroup?.name;
+            document.querySelector(`#description-${uuid}`).value = data?.accountgroup?.description;
+            let select_accountclass = document.querySelector(`#accountclass_uuid-${uuid}`);
+            for (let option of select_accountclass.options) {
+                if (option.value == data?.accountgroup?.accountclass_uuid) {
+                    option.selected = true;
+                    break;
+                }
+            }
+            open_edit_modal(uuid);
+            first_focus_edit(uuid);
         }
     } catch (error) {
         loader_action_status('hide');
@@ -48,7 +44,7 @@ const fetch_delete_service = async (form, base, uuid, e) => {
             base_url: base,
         });
     }
-};
+}
 
 
 

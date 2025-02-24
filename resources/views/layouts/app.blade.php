@@ -39,7 +39,7 @@
 <body class="font-sans antialiased">
 <x-banner/>
 <x-loader/>
-<x-md_alert />
+<x-md_alert/>
 <div class="min-h-screen bg-gray-100">
     @livewire('navigation-menu')
 
@@ -53,9 +53,28 @@
                 </div>
                 <nav class="flex-1 overflow-y-auto">
                     <ul class="space-y-1">
-                        <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link href="{{ route('dashboard') }}"
+                                               :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-responsive-nav-link>
+                        @can('companies.index')
+                            <x-responsive-nav-link href="{{ route('companies.index') }}"
+                                                   :active="request()->routeIs('companies.index')">
+                                {{ __('word.company.title') }}
+                            </x-responsive-nav-link>
+                        @endcan
+                        @can('activities.index')
+                            <x-responsive-nav-link href="{{ route('activities.index') }}"
+                                                   :active="request()->routeIs('activities.index')">
+                                {{ __('word.activity.title') }}
+                            </x-responsive-nav-link>
+                        @endcan
+                        @can('accounts.index')
+                            <x-responsive-nav-link href="{{ route('accounts.index') }}"
+                                                   :active="request()->routeIs('accounts.index')">
+                                {{ __('word.account.link') }}
+                            </x-responsive-nav-link>
+                        @endcan
                         @can('cashregisters.index')
                             <x-responsive-nav-link href="{{ route('cashregisters.index') }}"
                                                    :active="request()->routeIs('cashregisters.index')">

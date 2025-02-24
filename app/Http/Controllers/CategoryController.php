@@ -18,13 +18,11 @@ class CategoryController extends Controller
         $categories = Category::with('user')->orderBy('created_at', 'desc')->paginate($perPage);
         return view("category.index", compact('categories', 'perPage'));
     }
-
     public function create()
     {
         $category = new Category();
         return view("category.create", compact('category'));
     }
-
     public function store(Request $request)
     {
         $rules = [
@@ -44,13 +42,11 @@ class CategoryController extends Controller
         ]);
         return redirect("/categories")->with('success', __('word.category.alert.store'));
     }
-
     public function edit(string $category_uuid)
     {
         $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
         return view("category.edit", compact('category'));
     }
-
     public function update(Request $request, string $category_uuid)
     {
         $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
@@ -70,7 +66,6 @@ class CategoryController extends Controller
         ]);
         return redirect("/categories")->with('success', __('word.category.alert.update'));
     }
-
     public function destroy(string $category_uuid)
     {
         try {
@@ -109,13 +104,11 @@ class CategoryController extends Controller
             ], 500);
         }
     }
-
     public function disable(string $category_uuid)
     {
         $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
         $category->update([
             'status' => "0",
-            'user_id' => Auth::id(),
         ]);
         return redirect("/categories")->with('success', __('word.category.alert.disable'));
     }
@@ -124,7 +117,6 @@ class CategoryController extends Controller
         $category = Category::where('category_uuid', $category_uuid)->firstOrFail();
         $category->update([
             'status' => "1",
-            'user_id' => Auth::id(),
         ]);
         return redirect("/categories")->with('success', __('word.category.alert.enable'));
     }

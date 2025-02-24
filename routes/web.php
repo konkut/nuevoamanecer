@@ -10,8 +10,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
-use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\AccountclassController;
+use App\Http\Controllers\AccountgroupController;
+use App\Http\Controllers\AccountsubgroupController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CashcountController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\IncomeController;
@@ -25,6 +30,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CloseSession;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,7 +54,9 @@ Route::middleware([
     'two_factor',
     'force_password_change',
     'close_session',
+    'language',
 ])->group(function () {
+
     Route::get('/two/factor', [TwoFactorController::class, 'get_code'])->name('connect_two_factor')->withoutMiddleware([ForcePasswordChange::class, CloseSession::class]);
     Route::post('/two/factor/verify', [TwoFactorController::class, 'get_verify'])->name('verify_two_factor')->withoutMiddleware([ForcePasswordChange::class, CloseSession::class]);
 
@@ -61,6 +69,8 @@ Route::middleware([
     Route::post('/two/factor/status', [SettingController::class, 'two_factor'])->name('status_two_factor');
     Route::post('/logout/session', [SettingController::class, 'logout_session'])->name('logout_session');
     Route::post('/disable/account', [SettingController::class, 'disable_account'])->name('disable_account');
+    Route::get('/language/{lang}', [SettingController::class, 'change_language'])->name('change.language');
+
 
     /*DASHBOARD*/
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware('can:dashboard');
@@ -104,7 +114,7 @@ Route::middleware([
     Route::put('/services/{service_uuid}', [ServiceController::class, 'update'])->name('services.update')->middleware('can:services.edit');
     Route::delete('/services/{service_uuid}', [ServiceController::class, 'destroy'])->name('services.destroy')->middleware('can:services.destroy');
 
-    /*TRANSACTION METHOD */
+    /*PLATFORM */
     Route::get("/platforms", [PlatformController::class, "index"])->name("platforms.index")->middleware('can:platforms.index');
     Route::get("/platforms/create", [PlatformController::class, "create"])->name("platforms.create")->middleware('can:platforms.create');
     Route::post("/platforms", [PlatformController::class, "store"])->name("platforms.store")->middleware('can:platforms.create');
@@ -200,11 +210,67 @@ Route::middleware([
     Route::get("/bankregisters/create", [BankregisterController::class, "create"])->name("bankregisters.create")->middleware('can:bankregisters.create');
     Route::post("/bankregisters", [BankregisterController::class, "store"])->name("bankregisters.store")->middleware('can:bankregisters.create');
     Route::get('/bankregisters/{bankregister_uuid}/edit', [BankregisterController::class, 'edit'])->name('bankregisters.edit')->middleware('can:bankregisters.edit');
-    Route::post('/bankregisters/{bankregister_uuid}', [BankregisterController::class, 'showdetail'])->name('bankregisters.showdetail');
     Route::put("/bankregisters/{bankregister_uuid}/disable", [BankregisterController::class, "disable"])->name("bankregisters.disable");
     Route::put("/bankregisters/{bankregister_uuid}/enable", [BankregisterController::class, "enable"])->name("bankregisters.enable");
     Route::put('/bankregisters/{bankregister_uuid}', [BankregisterController::class, 'update'])->name('bankregisters.update')->middleware('can:bankregisters.edit');
     Route::delete('/bankregisters/{bankregister_uuid}', [BankregisterController::class, 'destroy'])->name('bankregisters.destroy')->middleware('can:bankregisters.destroy');
+
+    /*ACCOUNT CLASS*/
+    Route::get("/accountclasses/create", [AccountclassController::class, "create"])->name("accountclasses.create")->middleware('can:accountclasses.create');
+    Route::post("/accountclasses", [AccountclassController::class, "store"])->name("accountclasses.store")->middleware('can:accountclasses.create');
+    Route::get('/accountclasses/{accountclass_uuid}/edit', [AccountclassController::class, 'edit'])->name('accountclasses.edit')->middleware('can:accountclasses.edit');
+    Route::put("/accountclasses/{accountclass_uuid}/disable", [AccountclassController::class, "disable"])->name("accountclasses.disable");
+    Route::put("/accountclasses/{accountclass_uuid}/enable", [AccountclassController::class, "enable"])->name("accountclasses.enable");
+    Route::put('/accountclasses/{accountclass_uuid}', [AccountclassController::class, 'update'])->name('accountclasses.update')->middleware('can:accountclasses.edit');
+    Route::delete('/accountclasses/{accountclass_uuid}', [AccountclassController::class, 'destroy'])->name('accountclasses.destroy')->middleware('can:accountclasses.destroy');
+
+    /*ACCOUNT GROUP*/
+    Route::get("/accountgroups/create", [AccountgroupController::class, "create"])->name("accountgroups.create")->middleware('can:accountgroups.create');
+    Route::post("/accountgroups", [AccountgroupController::class, "store"])->name("accountgroups.store")->middleware('can:accountgroups.create');
+    Route::get('/accountgroups/{accountgroup_uuid}/edit', [AccountgroupController::class, 'edit'])->name('accountgroups.edit')->middleware('can:accountgroups.edit');
+    Route::put("/accountgroups/{accountgroup_uuid}/disable", [AccountgroupController::class, "disable"])->name("accountgroups.disable");
+    Route::put("/accountgroups/{accountgroup_uuid}/enable", [AccountgroupController::class, "enable"])->name("accountgroups.enable");
+    Route::put('/accountgroups/{accountgroup_uuid}', [AccountgroupController::class, 'update'])->name('accountgroups.update')->middleware('can:accountgroups.edit');
+    Route::delete('/accountgroups/{accountgroup_uuid}', [AccountgroupController::class, 'destroy'])->name('accountgroups.destroy')->middleware('can:accountgroups.destroy');
+
+    /*ACCOUNT SUBGROUP*/
+    Route::get("/accountsubgroups/create", [AccountsubgroupController::class, "create"])->name("accountsubgroups.create")->middleware('can:accountsubgroups.create');
+    Route::post("/accountsubgroups", [AccountsubgroupController::class, "store"])->name("accountsubgroups.store")->middleware('can:accountsubgroups.create');
+    Route::get('/accountsubgroups/{accountsubgroup_uuid}/edit', [AccountsubgroupController::class, 'edit'])->name('accountsubgroups.edit')->middleware('can:accountsubgroups.edit');
+    Route::put("/accountsubgroups/{accountsubgroup_uuid}/disable", [AccountsubgroupController::class, "disable"])->name("accountsubgroups.disable");
+    Route::put("/accountsubgroups/{accountsubgroup_uuid}/enable", [AccountsubgroupController::class, "enable"])->name("accountsubgroups.enable");
+    Route::put('/accountsubgroups/{accountsubgroup_uuid}', [AccountsubgroupController::class, 'update'])->name('accountsubgroups.update')->middleware('can:accountsubgroups.edit');
+    Route::delete('/accountsubgroups/{accountsubgroup_uuid}', [AccountsubgroupController::class, 'destroy'])->name('accountsubgroups.destroy')->middleware('can:accountsubgroups.destroy');
+
+    /*ACCOUNT*/
+    Route::get("/accounts", [AccountController::class, "index"])->name("accounts.index")->middleware('can:accounts.index');
+    Route::get("/accounts/create", [AccountController::class, "create"])->name("accounts.create")->middleware('can:accounts.create');
+    Route::post("/accounts", [AccountController::class, "store"])->name("accounts.store")->middleware('can:accounts.create');
+    Route::get('/accounts/{accounts_uuid}/edit', [AccountController::class, 'edit'])->name('accounts.edit')->middleware('can:accounts.edit');
+    Route::put("/accounts/{accounts_uuid}/disable", [AccountController::class, "disable"])->name("accounts.disable");
+    Route::put("/accounts/{accounts_uuid}/enable", [AccountController::class, "enable"])->name("accounts.enable");
+    Route::put('/accounts/{accounts_uuid}', [AccountController::class, 'update'])->name('accounts.update')->middleware('can:accounts.edit');
+    Route::delete('/accounts/{accounts_uuid}', [AccountController::class, 'destroy'])->name('accounts.destroy')->middleware('can:accounts.destroy');
+
+    /*ACTIVITY*/
+    Route::get("/activities", [ActivityController::class, "index"])->name("activities.index")->middleware('can:activities.index');
+    Route::get("/activities/create", [ActivityController::class, "create"])->name("activities.create")->middleware('can:activities.create');
+    Route::post("/activities", [ActivityController::class, "store"])->name("activities.store")->middleware('can:activities.create');
+    Route::get('/activities/{activity_uuid}/edit', [ActivityController::class, 'edit'])->name('activities.edit')->middleware('can:activities.edit');
+    Route::put("/activities/{activity_uuid}/disable", [ActivityController::class, "disable"])->name("activities.disable");
+    Route::put("/activities/{activity_uuid}/enable", [ActivityController::class, "enable"])->name("activities.enable");
+    Route::put('/activities/{activity_uuid}', [ActivityController::class, 'update'])->name('activities.update')->middleware('can:activities.edit');
+    Route::delete('/activities/{activity_uuid}', [ActivityController::class, 'destroy'])->name('activities.destroy')->middleware('can:activities.destroy');
+
+    /*COMPANY*/
+    Route::get("/companies", [CompanyController::class, "index"])->name("companies.index")->middleware('can:companies.index');
+    Route::get("/companies/create", [CompanyController::class, "create"])->name("companies.create")->middleware('can:companies.create');
+    Route::post("/companies", [CompanyController::class, "store"])->name("companies.store")->middleware('can:companies.create');
+    Route::get('/companies/{company_uuid}/edit', [CompanyController::class, 'edit'])->name('companies.edit')->middleware('can:companies.edit');
+    Route::put("/companies/{company_uuid}/disable", [CompanyController::class, "disable"])->name("companies.disable");
+    Route::put("/companies/{company_uuid}/enable", [CompanyController::class, "enable"])->name("companies.enable");
+    Route::put('/companies/{company_uuid}', [CompanyController::class, 'update'])->name('companies.update')->middleware('can:companies.edit');
+    Route::delete('/companies/{company_uuid}', [CompanyController::class, 'destroy'])->name('companies.destroy')->middleware('can:companies.destroy');
 
     /*CASHFLOWDAILY */
     //Route::get("/cashflowdailies", [CashflowdailyController::class, "index"])->name("cashflowdailies.index")->middleware('can:cashflowdailies.index');

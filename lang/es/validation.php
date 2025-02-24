@@ -150,12 +150,6 @@ return [
     'uppercase' => 'El campo :attribute debe estar en mayúscula.',
     'url' => 'El campo :attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
-    'custom_paymentwithoutprice' => 'Por favor, complete el formulario asegúrese de que cada servicio tenga una cantidad, método de ingreso correspondiente.',
-    'custom_paymentwithprice' => 'Por favor, complete el formulario asegúrese de que cada código tenga monto, servicio y método de transacción correspondiente.',
-    'custom_user_id' => 'El usuario ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
-    'custom_cashregister_uuid' => 'La caja ya tiene una sesión de caja activa. Por favor, cierre la sesión anterior antes de asignar una nueva.',
-    'custom_bankregister_uuid' => 'Esta cuenta bancaria ya está en uso. Por favor, seleccione otra cuenta bancaria.',
-    'custom_sale' => 'Por favor, complete el formulario asegúrese de que cada producto tenga una cantidad y método de transacción correspondiente.',
     'custom' => [
         'password' => [
             'regex' => 'La nueva contraseña debe incluir al menos: una letra mayúscula, una letra minúscula, un número y un carácter especial.',
@@ -175,12 +169,7 @@ return [
         'description' => 'descripción',
         'status' => 'estado',
         'amount' => 'precio',
-        //'currency_uuid' => 'moneda',
         'category_uuid' => 'categoria',
-
-        /*FORM CURRENCY */
-        'symbol' => 'simbolo',
-        "exchange_rate" => "Tasa de cambio",
 
         /*FORM INCOME */
         "income_uuid" => "ingreso",
@@ -232,13 +221,7 @@ return [
         "payment_physical_cash" => "moneda físico",
         "full" => "total",
 
-        /*cashcount */
-        "physical_balance" => "Saldo en físico",
-
-        /*cashregister */
-        "initial_balance" => "monto de apertura",
-
-        /*cashshift */
+        /*CASHSHIFT */
         "closing_balance" => "monto de cierre",
         "start_time" => "fecha de apertura de caja",
         "end_time" => "fecha de cierre de caja",
@@ -249,21 +232,23 @@ return [
         "amount_bank" => "saldo de apertura",
         "amount_bank.*" => "saldo de apertura",
         "price_cash" => "monto de apertura",
+        "physical_balance" => "Saldo en físico",
 
-        /*expense */
+        /*CASHREGISTER */
+        "initial_balance" => "monto de apertura",
+
+        /*EXPENSE */
         'expense_uuid' => 'gasto',
         'method_uuid' => 'método',
         'cashshift_uuid' => 'sesión',
-
-        /*expense */
         'price' => 'precio',
         'stock' => 'cantidad',
 
-        /*sale */
+        /*SALE */
         'product_uuids.*' => 'producto',
         'product_uuids' => 'producto',
 
-        /*bankregister */
+        /*BANKREGISTER */
         'account_number' => 'número de cuenta',
         'owner_name' => 'nombre del propietario',
 
@@ -276,6 +261,16 @@ return [
         /*PLATFORM*/
         'platform_uuid' => 'plataforma',
 
+        /*FORM CURRENCY */
+        'symbol' => 'simbolo',
+        "exchange_rate" => "Tasa de cambio",
 
+        /*ACTIVITY*/
+        'start_date' => 'fecha de inicio',
+        'end_date' => 'fecha de cierre',
+
+        /*COMPANY*/
+        'nit' => 'número de identificación tributaria',
+        'activity_uuid' => 'actividad',
     ]
 ];

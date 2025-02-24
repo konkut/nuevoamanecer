@@ -50,7 +50,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-4 rounded-lg shadow-md">
                         <div class="flex justify-end flex-1 items-center">
-                            <x-label for="date" value="Resumen Financiero del Día "/>
+                            <x-label for="date" value="{{__('word.panel.title')}}"/>
                             <input
                                 type="date"
                                 name="date"

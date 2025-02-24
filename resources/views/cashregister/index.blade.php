@@ -20,7 +20,7 @@
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/enable_and_disable_modal.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/cashregister/fetch_delete_cashregister.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/fetch_delete.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashregister/fetch_detail_cashregister.js?v='.time()) }}"></script>
     </x-slot>
 
@@ -339,7 +339,7 @@
                                                 <form
                                                     action="{{route('cashregisters.destroy',$item->cashregister_uuid)}}"
                                                     method="POST"
-                                                    onsubmit="fetch_delete_cashregister(this, '{{url('/')}}', '{{ $item->cashregister_uuid }}', event)">
+                                                    onsubmit="fetch_delete(this, '{{url('/')}}', '{{ $item->cashregister_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

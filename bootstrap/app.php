@@ -29,6 +29,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('cashshift_session', [
             \App\Http\Middleware\CashshiftSession::class,
         ]);
+        $middleware->appendToGroup('language', [
+            \App\Http\Middleware\Language::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
