@@ -272,5 +272,27 @@ return [
         /*COMPANY*/
         'nit' => 'número de identificación tributaria',
         'activity_uuid' => 'actividad',
+
+        /*PROJECT*/
+        'budget' => 'presupuesto',
+        'company_uuid' => 'empresa',
+
+        /*VOUCHER*/
+        'number' => 'número de comprobante',
+        'type' => 'tipo de comprobante',
+        'date' => 'fecha de comprobante',
+        'narration' => 'glosa de comprobante',
+        'cheque_number' => 'número de cheque',
+        'ufv' => 'ufv',
+        'usd' => 'usd',
+        'project_uuid' => 'proyecto',
+
+        /*VOUCHERDETAIL*/
+        'debits' => 'débito',
+        'debits.*' => 'débito',
+        'credits' => 'crédito',
+        'credits.*' => 'crédito',
+        'account_uuids' => 'cuenta',
+        'account_uuids.*' => 'cuenta',
     ]
 ];

@@ -43,12 +43,16 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'platforms.edit'])->syncRoles([$role1]);
         Permission::create(['name' => 'platforms.destroy'])->syncRoles([$role1]);
 
-        /*PAYMENT WITHOUT PRICE*/
+        /*INCOMES*/
         Permission::create(['name' => 'incomes.index'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'incomes.create'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'incomes.edit'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'incomes.destroy'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'incomes.search'])->syncRoles([$role1, $role2]);
+
+        /*RECEIPTS*/
+        Permission::create(['name' => 'receipts.index'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'receipts.create'])->syncRoles([$role1, $role2]);
 
         /*DENOMINATION*/
         Permission::create(['name' => 'denominations.index'])->syncRoles([$role1, $role2]);
@@ -133,6 +137,19 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'companies.create'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'companies.edit'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'companies.destroy'])->syncRoles([$role1, $role3]);
+
+        /*PROJECTS ok*/
+        Permission::create(['name' => 'projects.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'projects.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'projects.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'projects.destroy'])->syncRoles([$role1, $role3]);
+
+        /*VOUCHERS ok*/
+        Permission::create(['name' => 'vouchers.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'vouchers.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'vouchers.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'vouchers.destroy'])->syncRoles([$role1, $role3]);
+
 
         /*CASHFLOWDAILY ok*/
         Permission::create(['name' => 'cashflowdailies.index'])->syncRoles([$role1]);

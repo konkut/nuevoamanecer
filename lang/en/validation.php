@@ -273,5 +273,28 @@ return [
         /*COMPANY*/
         'nit' => 'tax identification number',
         'activity_uuid' => 'activity',
+
+        /*PROJECT*/
+        'budget' => 'budget',
+        'company_uuid' => 'company',
+
+        /* VOUCHER */
+        'number' => 'voucher number',
+        'type' => 'voucher type',
+        'date' => 'voucher date',
+        'narration' => 'voucher narration',
+        'cheque_number' => 'cheque number',
+        'ufv' => 'UFV',
+        'usd' => 'USD',
+        'project_uuid' => 'project',
+
+        /* VOUCHER DETAIL */
+        'debits' => 'debit',
+        'debits.*' => 'debit',
+        'credits' => 'credit',
+        'credits.*' => 'credit',
+        'account_uuids' => 'account',
+        'account_uuids.*' => 'account',
+
     ]
 ];

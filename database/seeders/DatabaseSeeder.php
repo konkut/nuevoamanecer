@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             AccountSeeder::class,
             ActivitySeeder::class,
             CompanySeeder::class,
+            ProjectSeeder::class,
         ]);
     }
 }

@@ -22,9 +22,11 @@ use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TwoFactorController;
-use \App\Http\Middleware\ForcePasswordChange;
+use App\Http\Controllers\VoucherController;
+use App\Http\Middleware\ForcePasswordChange;
 use App\Http\Controllers\ForcePasswordChangeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordEmailController;
@@ -137,8 +139,8 @@ Route::middleware([
     Route::delete('/incomes/{income_uuid}', [IncomeController::class, 'destroy'])->name('incomes.destroy')->middleware('can:incomes.destroy');
 
     //RECEIPTS
-    Route::get("/receipts", [ReceiptController::class, "index"])->name("receipts.index");
-    Route::get('/receipts/{income_uuid}', [ReceiptController::class, 'store'])->name('receipts.store');
+    Route::get("/receipts", [ReceiptController::class, "index"])->name("receipts.index")->middleware('can:receipts.index');
+    Route::get('/receipts/{income_uuid}', [ReceiptController::class, 'store'])->name('receipts.store')->middleware('can:receipts.create');
 
     /*CASHREGISTERS */
     Route::get("/cashregisters", [CashregisterController::class, "index"])->name("cashregisters.index")->middleware('can:cashregisters.index');
@@ -245,6 +247,7 @@ Route::middleware([
     /*ACCOUNT*/
     Route::get("/accounts", [AccountController::class, "index"])->name("accounts.index")->middleware('can:accounts.index');
     Route::get("/accounts/create", [AccountController::class, "create"])->name("accounts.create")->middleware('can:accounts.create');
+    Route::get("/accounts/chart", [AccountController::class, "chart"])->name("accounts.chart");
     Route::post("/accounts", [AccountController::class, "store"])->name("accounts.store")->middleware('can:accounts.create');
     Route::get('/accounts/{accounts_uuid}/edit', [AccountController::class, 'edit'])->name('accounts.edit')->middleware('can:accounts.edit');
     Route::put("/accounts/{accounts_uuid}/disable", [AccountController::class, "disable"])->name("accounts.disable");
@@ -271,6 +274,26 @@ Route::middleware([
     Route::put("/companies/{company_uuid}/enable", [CompanyController::class, "enable"])->name("companies.enable");
     Route::put('/companies/{company_uuid}', [CompanyController::class, 'update'])->name('companies.update')->middleware('can:companies.edit');
     Route::delete('/companies/{company_uuid}', [CompanyController::class, 'destroy'])->name('companies.destroy')->middleware('can:companies.destroy');
+
+    /*PROJECT*/
+    Route::get("/projects", [ProjectController::class, "index"])->name("projects.index")->middleware('can:projects.index');
+    Route::get("/projects/create", [ProjectController::class, "create"])->name("projects.create")->middleware('can:projects.create');
+    Route::post("/projects", [ProjectController::class, "store"])->name("projects.store")->middleware('can:projects.create');
+    Route::get('/projects/{project_uuid}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('can:projects.edit');
+    Route::put("/projects/{project_uuid}/disable", [ProjectController::class, "disable"])->name("projects.disable");
+    Route::put("/projects/{project_uuid}/enable", [ProjectController::class, "enable"])->name("projects.enable");
+    Route::put('/projects/{project_uuid}', [ProjectController::class, 'update'])->name('projects.update')->middleware('can:projects.edit');
+    Route::delete('/projects/{project_uuid}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('can:projects.destroy');
+
+    /*VOUCHER*/
+    Route::get("/vouchers", [VoucherController::class, "index"])->name("vouchers.index")->middleware('can:vouchers.index');
+    Route::get("/vouchers/create", [VoucherController::class, "create"])->name("vouchers.create")->middleware('can:vouchers.create');
+    Route::post("/vouchers", [VoucherController::class, "store"])->name("vouchers.store")->middleware('can:vouchers.create');
+    Route::get('/vouchers/{voucher_uuid}/edit', [VoucherController::class, 'edit'])->name('vouchers.edit')->middleware('can:vouchers.edit');
+    Route::put("/vouchers/{voucher_uuid}/disable", [VoucherController::class, "disable"])->name("vouchers.disable");
+    Route::put("/vouchers/{voucher_uuid}/enable", [VoucherController::class, "enable"])->name("vouchers.enable");
+    Route::put('/vouchers/{voucher_uuid}', [VoucherController::class, 'update'])->name('vouchers.update')->middleware('can:vouchers.edit');
+    Route::delete('/vouchers/{voucher_uuid}', [VoucherController::class, 'destroy'])->name('vouchers.destroy')->middleware('can:vouchers.destroy');
 
     /*CASHFLOWDAILY */
     //Route::get("/cashflowdailies", [CashflowdailyController::class, "index"])->name("cashflowdailies.index")->middleware('can:cashflowdailies.index');
