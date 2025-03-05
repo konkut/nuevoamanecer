@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Revenue;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use App\Models\Bankregister;
 use App\Models\Cashregister;
 use App\Models\Cashshift;
@@ -12,16 +13,19 @@ use App\Models\Income;
 use App\Models\Method;
 use App\Models\Platform;
 use App\Models\Product;
+use App\Models\Receipt;
 use App\Models\Sale;
 use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Voucher;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
 
 class DashboardController extends Controller
 {
@@ -33,22 +37,20 @@ class DashboardController extends Controller
     public function index()
     {
         $cashshift_uuids = Cashshift::where('user_id', Auth::id())->pluck('cashshift_uuid')->toArray();
-        $total_users = User::count();
-        $total_categories = Category::count();
-        $total_services = Service::count();
-        $total_platforms = Platform::count();
         $total_incomes = Income::count();
         $total_incomes_by_user = Income::whereIn("cashshift_uuid", $cashshift_uuids)->count();
-        $total_cashregisters = Cashregister::count();
         $total_cashshifts = Cashshift::count();
         $total_cashshifts_by_user = Cashshift::where("user_id", Auth::id())->count();
         $total_expenses = Expense::count();
         $total_expenses_by_user = Expense::whereIn("cashshift_uuid", $cashshift_uuids)->count();
-        $total_products = Product::count();
         $total_sales = Sale::count();
         $total_sales_by_user = Sale::whereIn("cashshift_uuid", $cashshift_uuids)->count();
+        $total_vouchers = Voucher::count();
+        $total_vouchers_by_user = Voucher::where("user_id", Auth::id())->count();
+        $total_revenues_by_user = Revenue::whereIn("cashshift_uuid", $cashshift_uuids)->count();
+        $income_uuids = Income::whereIn("cashshift_uuid", $cashshift_uuids)->pluck('income_uuid')->toArray();
+        $total_receipts_by_user = Receipt::whereIn("income_uuid", $income_uuids)->count();
         $inventory = Product::select('name', 'stock', 'price')->get();
-        $total_bankregisters = Bankregister::count();
         $cashshift = $this->cashshift();
         $cashshifts = $this->cashshifts();
         $cashshifts_data = Cashshift::whereDate('cashshifts.start_time', '=', session('date'))
@@ -57,10 +59,16 @@ class DashboardController extends Controller
             ->with(['user', 'cashregister', 'bankregisters', 'platforms', 'denominations'])->get();
         $data_sessions = $this->info_session($cashshifts_data);
         $data_session = $this->info_session($cashshift_data);
+        $chart_cash_sessions = $this->cash_data_chart($data_sessions);
+        $chart_cash_session = $this->cash_data_chart($data_session);
+        $chart_bank_sessions = $this->bank_data_chart($data_sessions);
+        $chart_bank_session = $this->bank_data_chart($data_session);
+        $chart_platform_sessions = $this->platform_data_chart($data_sessions);
+        $chart_platform_session = $this->platform_data_chart($data_session);
         if (auth()->user()->hasRole('Administrador')) {
-            return view('dashboard', compact('total_users', 'total_categories', 'total_services', 'total_platforms', 'total_incomes', 'total_cashregisters', 'total_bankregisters', 'total_cashshifts', 'total_cashshifts_by_user', 'total_expenses', 'total_products', 'total_sales', 'cashshifts', 'inventory', 'data_sessions'));
+            return view('dashboard', compact('chart_cash_sessions','chart_bank_sessions', 'chart_platform_sessions', 'total_incomes', 'total_cashshifts', 'total_expenses', 'total_sales', 'total_vouchers', 'cashshifts', 'inventory', 'data_sessions'));
         } else {
-            return view('dashboard-user', compact('total_services', 'total_incomes_by_user', 'total_cashshifts_by_user', 'total_expenses_by_user', 'total_products', 'total_sales_by_user', 'cashshift', 'inventory', 'data_session'));
+            return view('dashboard-user', compact('chart_cash_session', 'chart_bank_session', 'chart_platform_session', 'total_incomes_by_user', 'total_cashshifts_by_user', 'total_expenses_by_user', 'total_sales_by_user', 'total_receipts_by_user', 'total_vouchers_by_user', 'total_revenues_by_user', 'cashshift', 'inventory', 'data_session'));
         }
     }
 
@@ -192,6 +200,33 @@ class DashboardController extends Controller
                     $a_b_i_2[$item->name]['total'] += $item->pivot->total;
                 }
                 foreach ($sale->platforms as $item) {
+                    if (!isset($a_p_i_2[$item->name])) {
+                        $a_p_i_2[$item->name] = ['platform_uuid' => '', 'name' => '', 'total' => 0,];
+                    }
+                    $a_p_i_2[$item->name]['platform_uuid'] = $item->platform_uuid;
+                    $a_p_i_2[$item->name]['name'] = $item->name;
+                    $a_p_i_2[$item->name]['total'] += $item->pivot->total;
+                }
+            }
+            $revenues = Revenue::where('cashshift_uuid', $cashshift->cashshift_uuid)->with(['services', 'bankregisters', 'cashregisters', 'platforms', 'denomination', 'cashshift'])->get();
+            foreach ($revenues as $revenue) {
+                foreach ($revenue->cashregisters as $item) {
+                    if (!isset($a_c_i_2[$item->name])) {
+                        $a_c_i_2[$item->name] = ['cashregister_uuid' => '', 'name' => '', 'total' => 0,];
+                    }
+                    $a_c_i_2[$item->name]['cashregister_uuid'] = $item->cashregister_uuid;
+                    $a_c_i_2[$item->name]['name'] = $item->name;
+                    $a_c_i_2[$item->name]['total'] += $item->pivot->total;
+                }
+                foreach ($revenue->bankregisters as $item) {
+                    if (!isset($a_b_i_2[$item->name])) {
+                        $a_b_i_2[$item->name] = ['bankregister_uuid' => '', 'name' => '', 'total' => 0,];
+                    }
+                    $a_b_i_2[$item->name]['bankregister_uuid'] = $item->bankregister_uuid;
+                    $a_b_i_2[$item->name]['name'] = $item->name;
+                    $a_b_i_2[$item->name]['total'] += $item->pivot->total;
+                }
+                foreach ($revenue->platforms as $item) {
                     if (!isset($a_p_i_2[$item->name])) {
                         $a_p_i_2[$item->name] = ['platform_uuid' => '', 'name' => '', 'total' => 0,];
                     }
@@ -403,8 +438,9 @@ class DashboardController extends Controller
             try {
                 $view_summary = view('components.panel-box-all-summary', compact('data'))->render();
                 return response()->json([
+                    'type' => 'success',
                     'summary_html' => $view_summary,
-                ]);
+                ], 200);
             } catch (\Exception $e) {
                 return response()->json([
                     'type' => 'error',
@@ -422,15 +458,19 @@ class DashboardController extends Controller
         $cashshifts_data = Cashshift::whereDate('cashshifts.start_time', '=', session('date'))
             ->with(['user', 'cashregister', 'bankregisters', 'platforms', 'denominations'])->get();
         $data = $this->info_session($cashshifts_data);
+        $cash = $this->cash_data_chart($data);
+        $bank = $this->bank_data_chart($data);
+        $platform = $this->platform_data_chart($data);
         $cashshifts = $this->cashshifts();
         if ($request->ajax()) {
             try {
-                $view_summary = view('components.panel-box-all-summary', compact('data'))->render();
+                $view_summary = view('components.panel-chart', compact('cash', 'bank', 'platform'))->render();
                 $view_session = view('components.panel-box-all-sessions', compact('cashshifts'))->render();
                 return response()->json([
+                    'type' => 'success',
                     'summary_html' => $view_summary,
                     'session_html' => $view_session,
-                ]);
+                ], 200);
             } catch (\Exception $e) {
                 return response()->json([
                     'type' => 'error',
@@ -450,15 +490,19 @@ class DashboardController extends Controller
         $cashshift_data = Cashshift::where('user_id', Auth::id())->whereDate('cashshifts.start_time', '=', session('date'))
             ->with(['user', 'cashregister', 'bankregisters', 'platforms', 'denominations'])->get();
         $data = $this->info_session($cashshift_data);
+        $cash = $this->cash_data_chart($data);
+        $bank = $this->bank_data_chart($data);
+        $platform = $this->platform_data_chart($data);
         $cashshift = $this->cashshift();
         if ($request->ajax()) {
             try {
-                $view_summary = view('components.panel-box-all-summary', compact('data'))->render();
+                $view_summary = view('components.panel-chart', compact('cash', 'bank', 'platform'))->render();
                 $view_session = view('components.panel-box-all-session', compact('cashshift'))->render();
                 return response()->json([
+                    'type' => 'success',
                     'summary_html' => $view_summary,
                     'session_html' => $view_session,
-                ]);
+                ], 200);
             } catch (\Exception $e) {
                 return response()->json([
                     'type' => 'error',
@@ -552,6 +596,25 @@ class DashboardController extends Controller
         return $sum;
     }
 
+    public function three_denominations($denomination_one, $denomination_two, $denomination_three)
+    {
+        $sum = (object)[
+            'bill_200' => ($denomination_one->bill_200 ?? 0) + ($denomination_two->bill_200 ?? 0) + ($denomination_three->bill_200 ?? 0),
+            'bill_100' => ($denomination_one->bill_100 ?? 0) + ($denomination_two->bill_100 ?? 0) + ($denomination_three->bill_100 ?? 0),
+            'bill_50' => ($denomination_one->bill_50 ?? 0) + ($denomination_two->bill_50 ?? 0) + ($denomination_three->bill_50 ?? 0),
+            'bill_20' => ($denomination_one->bill_20 ?? 0) + ($denomination_two->bill_20 ?? 0) + ($denomination_three->bill_20 ?? 0),
+            'bill_10' => ($denomination_one->bill_10 ?? 0) + ($denomination_two->bill_10 ?? 0) + ($denomination_three->bill_10 ?? 0),
+            'coin_5' => ($denomination_one->coin_5 ?? 0) + ($denomination_two->coin_5 ?? 0) + ($denomination_three->coin_5 ?? 0),
+            'coin_2' => ($denomination_one->coin_2 ?? 0) + ($denomination_two->coin_2 ?? 0) + ($denomination_three->coin_2 ?? 0),
+            'coin_1' => ($denomination_one->coin_1 ?? 0) + ($denomination_two->coin_1 ?? 0) + ($denomination_three->coin_1 ?? 0),
+            'coin_0_5' => ($denomination_one->coin_0_5 ?? 0) + ($denomination_two->coin_0_5 ?? 0) + ($denomination_three->coin_0_5 ?? 0),
+            'coin_0_2' => ($denomination_one->coin_0_2 ?? 0) + ($denomination_two->coin_0_2 ?? 0) + ($denomination_three->coin_0_2 ?? 0),
+            'coin_0_1' => ($denomination_one->coin_0_1 ?? 0) + ($denomination_two->coin_0_1 ?? 0) + ($denomination_three->coin_0_1 ?? 0),
+            'total' => ($denomination_one->total ?? 0) + ($denomination_two->total ?? 0) + ($denomination_three->total ?? 0),
+        ];
+        return $sum;
+    }
+
     public function closing($cashshift_uuid)
     {
         $d_c_1 = DB::table('cashshift_denominations')
@@ -594,7 +657,24 @@ class DashboardController extends Controller
                 COALESCE(SUM(denominations.coin_0_1), 0) as coin_0_1,
                 COALESCE(SUM(denominations.total), 0) as total
             ')->first();
-        $d_c_2 = $this->two_denominations($d_i_2, $d_s_2);
+        $d_r_2 = DB::table('revenues')
+            ->join('denominations', 'revenues.denomination_uuid', '=', 'denominations.denomination_uuid')
+            ->where('revenues.cashshift_uuid', $cashshift_uuid)
+            ->selectRaw('
+                COALESCE(SUM(denominations.bill_200), 0) as bill_200,
+                COALESCE(SUM(denominations.bill_100), 0) as bill_100,
+                COALESCE(SUM(denominations.bill_50), 0) as bill_50,
+                COALESCE(SUM(denominations.bill_20), 0) as bill_20,
+                COALESCE(SUM(denominations.bill_10), 0) as bill_10,
+                COALESCE(SUM(denominations.coin_5), 0) as coin_5,
+                COALESCE(SUM(denominations.coin_2), 0) as coin_2,
+                COALESCE(SUM(denominations.coin_1), 0) as coin_1,
+                COALESCE(SUM(denominations.coin_0_5), 0) as coin_0_5,
+                COALESCE(SUM(denominations.coin_0_2), 0) as coin_0_2,
+                COALESCE(SUM(denominations.coin_0_1), 0) as coin_0_1,
+                COALESCE(SUM(denominations.total), 0) as total
+            ')->first();
+        $d_c_2 = $this->three_denominations($d_i_2, $d_s_2, $d_r_2);
         $d_i_3 = DB::table('incomes')
             ->join('income_denominations', 'incomes.income_uuid', '=', 'income_denominations.income_uuid')
             ->join('denominations', 'income_denominations.denomination_uuid', '=', 'denominations.denomination_uuid')
@@ -647,5 +727,115 @@ class DashboardController extends Controller
             'total' => number_format(($d_c_1->total ?? 0) + ($d_c_2->total ?? 0) - ($d_c_3->total ?? 0), 2, '.', '')
         ]);
         return $denomination;
+    }
+
+    public function cash_data_chart($data){
+        $info = $data['opening']['cashregister']['data'];
+        $labels = [__('word.general.opening'), __('word.general.incomes'), __('word.general.expenses'), __('word.general.closing')];
+        $datasets = [];
+        foreach ($info as $item) {
+            $name = $item['name'];
+            $opening = (float) $item['total'];
+            $income_data = $data['income']['cashregister']['data'];
+            $income = isset($income_data[$name]) ? (float) $income_data[$name]['total'] : 0;
+            $expense_data = $data['expense']['cashregister']['data'];
+            $expense = isset($expense_data[$name]) ? (float) $expense_data[$name]['total'] : 0;
+            $closing_data = $data['closing']['cashregister']['data'];
+            $closing = isset($closing_data[$name]) ? (float) $closing_data[$name]['total'] : 0;
+            $datasets[] = [
+                'name' => $name,
+                'data' => [$opening, $opening + $income, $opening + $income - $expense, $closing]
+            ];
+        }
+        if (empty($datasets)){
+            $datasets = [
+                [
+                    'name' => 'Sin datos',
+                    'data' => [0, 0, 0, 0],
+                ]
+            ];
+        }
+        $chart = (new LarapexChart)->areaChart()
+            ->setTitle(__('word.general.chart_cash_title'))
+            ->setSubtitle(__('word.general.chart_cash_subtitle'))
+            ->setXAxis($labels)
+            ->setDataset($datasets)
+            ->setFontFamily('DM Sans')
+            ->setGrid(true,'#3F51B5', 0.1)
+            ->setMarkers(['#303F9F'], 7, 10);
+        return $chart;
+
+    }
+    public function bank_data_chart($data){
+        $info = $data['opening']['bankregister']['data'];
+        $labels = [__('word.general.opening'), __('word.general.incomes'), __('word.general.expenses'), __('word.general.closing')];
+        $datasets = [];
+        foreach ($info as $item) {
+            $name = $item['name'];
+            $opening = (float) $item['total'];
+            $income_data = $data['income']['bankregister']['data'];
+            $income = isset($income_data[$name]) ? (float) $income_data[$name]['total'] : 0;
+            $expense_data = $data['expense']['bankregister']['data'];
+            $expense = isset($expense_data[$name]) ? (float) $expense_data[$name]['total'] : 0;
+            $closing_data = $data['closing']['bankregister']['data'];
+            $closing = isset($closing_data[$name]) ? (float) $closing_data[$name]['total'] : 0;
+            $datasets[] = [
+                'name' => $name,
+                'data' => [$opening, $opening + $income, $opening + $income - $expense, $closing]
+            ];
+        }
+        if (empty($datasets)){
+            $datasets = [
+                [
+                    'name' => 'Sin datos',
+                    'data' => [0, 0, 0, 0],
+                ]
+            ];
+        }
+        $chart = (new LarapexChart)->areaChart()
+            ->setTitle(__('word.general.chart_bank_title'))
+            ->setSubtitle(__('word.general.chart_bank_subtitle'))
+            ->setXAxis($labels)
+            ->setDataset($datasets)
+            ->setFontFamily('DM Sans')
+            ->setGrid(true,'#3F51B5', 0.1)
+            ->setMarkers(['#303F9F'], 7, 10);
+        return $chart;
+    }
+    public function platform_data_chart($data){
+        $info = $data['opening']['platform']['data'];
+        $labels = [__('word.general.opening'), __('word.general.incomes'), __('word.general.expenses'), __('word.general.closing')];
+        $datasets = [];
+        foreach ($info as $item) {
+            $name = $item['name'];
+            $opening = (float) $item['total'];
+            $income_data = $data['income']['platform']['data'];
+            $income = isset($income_data[$name]) ? (float) $income_data[$name]['total'] : 0;
+            $expense_data = $data['expense']['platform']['data'];
+            $expense = isset($expense_data[$name]) ? (float) $expense_data[$name]['total'] : 0;
+            $closing_data = $data['closing']['platform']['data'];
+            $closing = isset($closing_data[$name]) ? (float) $closing_data[$name]['total'] : 0;
+            $datasets[] = [
+                'name' => $name,
+                'data' => [$opening, $opening + $income, $opening + $income - $expense, $closing]
+            ];
+        }
+        if (empty($datasets)){
+            $datasets = [
+                [
+                    'name' => 'Sin datos',
+                    'data' => [0, 0, 0, 0],
+                ]
+            ];
+        }
+        $chart = (new LarapexChart)->areaChart()
+            ->setTitle(__('word.general.chart_platform_title'))
+            ->setSubtitle(__('word.general.chart_platform_subtitle'))
+            ->setXAxis($labels)
+            ->setDataset($datasets)
+            ->setFontFamily('DM Sans')
+            ->setGrid(true,'#3F51B5', 0.1)
+            ->setMarkers(['#303F9F'], 7, 10);
+        return $chart;
     }
 }

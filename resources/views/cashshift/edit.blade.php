@@ -24,7 +24,7 @@
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.cashshift.resource.edit') }}
         </h2>
     </x-slot>
@@ -37,7 +37,7 @@
                     @method("PUT" )
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.cashshift.box_session')}}</h1>
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.cashshift.box_session_update')}}</h1>
                             <x-form-cashshift
                                 :cashshift="$cashshift"
                                 :cashregisters="$cashregisters"

@@ -22,17 +22,12 @@ class Voucher extends Model
         'cheque_number',
         'ufv',
         'usd',
-        'company_uuid',
         'project_uuid',
         'user_id',
     ];
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    public function company()
-    {
-        return $this->belongsTo(Company::class, 'company_uuid', 'company_uuid');
     }
     public function project()
     {

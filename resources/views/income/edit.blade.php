@@ -22,7 +22,7 @@
         <script type="text/javascript" src="{{ asset('/js/income/ticketing_amount.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.income.resource.edit') }}
         </h2>
     </x-slot>
@@ -34,7 +34,7 @@
                     @csrf
                     @method("PUT" )
                     <div class="pt-4">
-                        <h1 class="text-md font-bold italic block text-center">{{__('word.general.transaction')}}</h1>
+                        <h1 class="text-md font-bold italic block text-center">{{__('word.income.form_edit')}}</h1>
                         <x-form-income :income="$income"
                                        :services="$services"
                                        :data="$data"

@@ -21,6 +21,77 @@ class ServiceSeeder extends Seeder
         $category_uuid_secure_services = Category::where('name', 'SEGUROS')->value('category_uuid');
         $category_uuid_deposit_services = Category::where('name', 'DÉBITO Y CRÉDITO')->value('category_uuid');
         $category_uuid_finance_services = Category::where('name', 'SERVICIOS FINANCIEROS')->value('category_uuid');
+        Service::create([
+            'name' => 'ASESORAMIENTO CONTABLE Y TRIBUTARIO',
+            'description' => 'Consultoría en contabilidad y cumplimiento tributario.',
+            'amount' => 30,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'ELABORACIÓN DE BALANCE DE APERTURA, GESTIÓN Y CIERRE',
+            'description' => 'Preparación y análisis de estados financieros.',
+            'amount' => 100,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'LLENADO DE FORMULARIOS FISCALES (IVA-200, IT-400, IUE-500)',
+            'description' => 'Asistencia en la correcta declaración de impuestos.',
+            'amount' => 200,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'TRÁMITE DE MATRÍCULA DE COMERCIO',
+            'description' => 'Registro ante SEPREC para la habilitación de empresas.',
+            'amount' => 70,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'TRÁMITE DE LICENCIA DE FUNCIONAMIENTO',
+            'description' => 'Gestión de la licencia ante la Alcaldía Municipal.',
+            'amount' => 70,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'TRÁMITE DE PLANILLAS DE SUELDOS Y SALARIOS',
+            'description' => 'Elaboración y presentación de planillas ante el ROE.',
+            'amount' => 70,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'TRÁMITE EN GESTORA Y CNS',
+            'description' => 'Registro y actualización de datos en Gestora y CNS.',
+            'amount' => 70,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'ENVÍO DE LIBROS DE COMPRAS Y VENTAS',
+            'description' => 'Presentación de reportes contables ante las autoridades fiscales.',
+            'amount' => 40,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'ENVÍO DE EE.FF. AL SIAT (FORMULARIO DIGITAL 605)',
+            'description' => 'Carga de estados financieros al sistema SIAT.',
+            'amount' => 30,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+        Service::create([
+            'name' => 'ENVÍO DE LIBROS DE BANCARIZACIÓN',
+            'description' => 'Reporte de transacciones bancarias conforme a la normativa.',
+            'amount' => 70,
+            'category_uuid' => $category_uuid_account_services,
+            'user_id' => 1
+        ]);
+
         Service::create(['name' => 'DELAPAZ',
             'description' => 'El pago del servicio de electricidad por la empresa DELAPAZ',
             'category_uuid' => $category_uuid_basic_services,

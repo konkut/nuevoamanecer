@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('cheque_number', 50)->nullable();
             $table->decimal('ufv', 10, 4)->nullable();
             $table->decimal('usd', 10, 2)->nullable();
-            $table->string('company_uuid', 36);
-            $table->foreign('company_uuid')->references('company_uuid')->on('companies');
             $table->string('project_uuid', 36)->nullable();
             $table->foreign('project_uuid')->references('project_uuid')->on('projects');
             $table->unsignedBigInteger('user_id');

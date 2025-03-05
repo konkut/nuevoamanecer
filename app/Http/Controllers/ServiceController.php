@@ -30,8 +30,8 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|unique:services,name|string|max:50',
-            'description' => 'nullable|string|max:100',
+            'name' => 'required|unique:services,name|string|max:70',
+            'description' => 'nullable|string|max:110',
             'amount' => 'nullable|numeric',
             'commission' => 'nullable|numeric',
             'category_uuid' => 'required|string|max:36|exists:categories,category_uuid',
@@ -87,8 +87,8 @@ class ServiceController extends Controller
     {
         $service = Service::where('service_uuid', $service_uuid)->first();
         $rules = [
-            'name' => 'required|string|max:50|unique:services,name,' . $service->service_uuid . ',service_uuid',
-            'description' => 'nullable|string|max:100',
+            'name' => 'required|string|max:70|unique:services,name,' . $service->service_uuid . ',service_uuid',
+            'description' => 'nullable|string|max:110',
             'amount' => 'nullable|numeric',
             'commission' => 'nullable|numeric',
             'category_uuid' => 'required|string|max:36|exists:categories,category_uuid',

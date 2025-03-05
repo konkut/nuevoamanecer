@@ -61,10 +61,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'denominations.destroy'])->syncRoles([$role1, $role2]);
 
         /*CASHCOUNTS*/
-        Permission::create(['name' => 'cashcounts.index'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'cashcounts.create'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'cashcounts.edit'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'cashcounts.destroy'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'cashcounts.index'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'cashcounts.create'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'cashcounts.edit'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'cashcounts.destroy'])->syncRoles([$role1, $role2, $role3]);
 
         /*CASHREGISTERS*/
         Permission::create(['name' => 'cashregisters.index'])->syncRoles([$role1]);
@@ -73,16 +73,16 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'cashregisters.destroy'])->syncRoles([$role1]);
 
         /*CASHSHIFTS ok*/
-        Permission::create(['name' => 'cashshifts.index'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'cashshifts.index'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'cashshifts.create'])->syncRoles([$role1]);
         Permission::create(['name' => 'cashshifts.edit'])->syncRoles([$role1]);
         Permission::create(['name' => 'cashshifts.destroy'])->syncRoles([$role1]);
 
         /*EXPENSES ok*/
-        Permission::create(['name' => 'expenses.index'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'expenses.create'])->syncRoles([$role1,$role2]);
-        Permission::create(['name' => 'expenses.edit'])->syncRoles([$role1,$role2]);
-        Permission::create(['name' => 'expenses.destroy'])->syncRoles([$role1,$role2]);
+        Permission::create(['name' => 'expenses.index'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'expenses.create'])->syncRoles([$role1,$role2, $role3]);
+        Permission::create(['name' => 'expenses.edit'])->syncRoles([$role1,$role2, $role3]);
+        Permission::create(['name' => 'expenses.destroy'])->syncRoles([$role1,$role2, $role3]);
 
         /*PRODUCTS ok*/
         Permission::create(['name' => 'products.index'])->syncRoles([$role1, $role2]);
@@ -150,6 +150,21 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'vouchers.edit'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'vouchers.destroy'])->syncRoles([$role1, $role3]);
 
+        /*CUSTOMERS ok*/
+        Permission::create(['name' => 'customers.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'customers.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'customers.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'customers.destroy'])->syncRoles([$role1, $role3]);
+
+        /*REVENUES ok*/
+        Permission::create(['name' => 'revenues.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'revenues.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'revenues.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'revenues.destroy'])->syncRoles([$role1, $role3]);
+
+        /*INVOICES*/
+        Permission::create(['name' => 'invoices.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'invoices.create'])->syncRoles([$role1, $role3]);
 
         /*CASHFLOWDAILY ok*/
         Permission::create(['name' => 'cashflowdailies.index'])->syncRoles([$role1]);
@@ -159,9 +174,5 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'currencies.show'])->syncRoles([$role1]);
         Permission::create(['name' => 'currencies.edit'])->syncRoles([$role1]);
         Permission::create(['name' => 'currencies.destroy'])->syncRoles([$role1]);
-
-
-
-
     }
 }

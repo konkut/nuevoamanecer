@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->string('service_uuid', 36)->unique();
-            $table->string('name', 50)->unique();
-            $table->string('description', 100)->nullable();
+            $table->string('name', 70)->unique();
+            $table->string('description', 110)->nullable();
             $table->decimal('amount', 20, 2)->nullable();
             $table->decimal('commission', 10, 2)->nullable();
             $table->enum('status', [1, 0])->default(1);

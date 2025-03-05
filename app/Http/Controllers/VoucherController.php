@@ -19,14 +19,16 @@ class VoucherController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $vouchers = Voucher::with(['company', 'company', 'user'])->orderBy('created_at', 'desc')->paginate($perPage);
-        $vouchers->each(function ($project) {
-            $debit = Voucherdetail::where('voucher_uuid',$project->voucher_uuid)->sum('debit');
-            $credit = Voucherdetail::where('voucher_uuid',$project->voucher_uuid)->sum('credit');
-            $project->date = Carbon::parse($project->date)->format('d-m-Y');
-            $project->debit = $debit;
-            $project->credit = $credit;
-            $project->data = Voucherdetail::where('voucher_uuid',$project->voucher_uuid)->orderBy('index','asc')->with(['account'])->get();
+        $vouchers = Voucher::with(['project', 'user'])->orderBy('created_at', 'desc')->paginate($perPage);
+        $vouchers->each(function ($voucher) {
+            $name = Company::where('company_uuid',$voucher->project->company_uuid)->value('name');
+            $debit = Voucherdetail::where('voucher_uuid',$voucher->voucher_uuid)->sum('debit');
+            $credit = Voucherdetail::where('voucher_uuid',$voucher->voucher_uuid)->sum('credit');
+            $voucher->date = Carbon::parse($voucher->date)->format('d-m-Y');
+            $voucher->debit = $debit;
+            $voucher->credit = $credit;
+            $voucher->company = $name;
+            $voucher->data = Voucherdetail::where('voucher_uuid',$voucher->voucher_uuid)->orderBy('index','asc')->with(['account'])->get();
         });
         return view("voucher.index", compact('vouchers', 'perPage'));
     }
@@ -57,7 +59,6 @@ class VoucherController extends Controller
             'cheque_number' => 'nullable|numeric',
             'ufv' => 'nullable|numeric',
             'usd' => 'nullable|numeric',
-            'company_uuid' => 'required|exists:companies,company_uuid',
             'project_uuid' => 'required|exists:projects,project_uuid',
             'account_uuids' => 'required|array',
             'account_uuids.*' => 'required|string|max:36|exists:accounts,account_uuid',
@@ -73,11 +74,6 @@ class VoucherController extends Controller
             $number = str_pad($next_code, 6, '0', STR_PAD_LEFT);
             if ($request->input('number') != $number) {
                 $validator->errors()->add('number', __('word.voucher.one_validation'));
-                return;
-            }
-            $company = Company::where('name','Nuevo Amanecer')->first();
-            if ($request->input('company_uuid') != $company->company_uuid) {
-                $validator->errors()->add('company_uuid', __('word.voucher.two_validation'));
                 return;
             }
             if ($request->input('ufv') < 0) {
@@ -133,7 +129,6 @@ class VoucherController extends Controller
                 'cheque_number' => $request->cheque_number,
                 'ufv' => $request->ufv,
                 'usd' => $request->usd,
-                'company_uuid' => $request->company_uuid,
                 'project_uuid' => $request->project_uuid,
                 'user_id' => Auth::id(),
             ]);
@@ -153,8 +148,8 @@ class VoucherController extends Controller
     public function edit(string $voucher_uuid)
     {
         $voucher = Voucher::where('voucher_uuid', $voucher_uuid)->firstOrFail();
-        $company = Company::where('name','Nuevo Amanecer')->first();
-        $projects = Project::where('company_uuid', $company->company_uuid)->where('status', true)->get();
+        $project = Project::where('project_uuid', $voucher->project_uuid)->with(['company'])->first();
+        $projects = Project::where('company_uuid', $project->company_uuid)->where('status', true)->get();
         $accounts = Accountclass::with('groups.subgroups.accounts')->orderBy('code', 'asc')->get();
         $vouchers = Voucherdetail::where('voucher_uuid',$voucher_uuid)->orderBy('index','asc')->with(['account'])->get();
         $account_uuids = [];
@@ -165,7 +160,7 @@ class VoucherController extends Controller
             $debits[] = $item->debit;
             $credits[] = $item->credit;
         }
-        $voucher->name = $company->name;
+        $voucher->name = $project->company->name;
         $voucher->date = Carbon::parse($voucher->date)->format('Y-m-d');
         $voucher->account_uuids = $account_uuids;
         $voucher->debits = $debits;
@@ -184,7 +179,6 @@ class VoucherController extends Controller
             'cheque_number' => 'nullable|numeric',
             'ufv' => 'nullable|numeric',
             'usd' => 'nullable|numeric',
-            'company_uuid' => 'required|exists:companies,company_uuid',
             'project_uuid' => 'required|exists:projects,project_uuid',
             'account_uuids' => 'required|array',
             'account_uuids.*' => 'required|string|max:36|exists:accounts,account_uuid',
@@ -197,10 +191,6 @@ class VoucherController extends Controller
         $validator->after(function ($validator) use ($request, $voucher) {
             if ($request->input('number') != $voucher->number) {
                 $validator->errors()->add('number', __('word.voucher.one_validation'));
-                return;
-            }
-            if ($request->input('company_uuid') != $voucher->company_uuid) {
-                $validator->errors()->add('company_uuid', __('word.voucher.two_validation'));
                 return;
             }
             if ($request->input('ufv') < 0) {
@@ -256,7 +246,6 @@ class VoucherController extends Controller
                 'cheque_number' => $request->cheque_number,
                 'ufv' => $request->ufv,
                 'usd' => $request->usd,
-                'company_uuid' => $request->company_uuid,
                 'project_uuid' => $request->project_uuid,
             ]);
             foreach ($request->account_uuids as $key => $account_uuid){

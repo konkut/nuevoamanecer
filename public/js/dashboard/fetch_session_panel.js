@@ -2,11 +2,6 @@ async function fetch_session(element, base, uuid, e) {
     e.preventDefault();
     loader_action_status('show');
     const url = document.getElementById(`session-form-${uuid}`).href;
-    const allCards = document.querySelectorAll('#dashboard-session div');
-    allCards.forEach(card => {
-        card.style.background = '';
-    });
-    element.style.background = '#FFFBEB';
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -26,9 +21,12 @@ async function fetch_session(element, base, uuid, e) {
             });
             return;
         }
-        const dashboard_summary = document.getElementById('dashboard-summary');
-        if (dashboard_summary) {
-            dashboard_summary.innerHTML = data.summary_html;
+        if (response.status === 200) {
+            const dashboard_summary = document.getElementById('dashboard-summary');
+            if (dashboard_summary) {
+                dashboard_summary.classList.add('gap-8');
+                dashboard_summary.innerHTML = data.summary_html;
+            }
         }
     } catch (error) {
         loader_action_status('hide');

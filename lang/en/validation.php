@@ -296,5 +296,12 @@ return [
         'account_uuids' => 'account',
         'account_uuids.*' => 'account',
 
+        /*CUSTOMER*/
+        'phone' => 'phone',
+        'address' => 'address',
+
+        /*REVENUE*/
+        'customer_uuid' => 'customer',
+        'service_uuid' => 'service',
     ]
 ];

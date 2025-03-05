@@ -14,7 +14,6 @@
     <x-slot name="metaOgDescription">
         {{ __('word.cashregister.meta.index.description')}}
     </x-slot>
-
     <x-slot name="js_files">
         <script type="text/javascript" src="{{ asset('/js/delete_modal.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/show_modal.js?v='.time()) }}"></script>
@@ -23,13 +22,11 @@
         <script type="text/javascript" src="{{ asset('/js/fetch_delete.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/cashregister/fetch_detail_cashregister.js?v='.time()) }}"></script>
     </x-slot>
-
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.cashregister.resource.index') }}
         </h2>
     </x-slot>
-
     @if (session('success'))
         <x-alert :message="session('success')"/>
     @endif

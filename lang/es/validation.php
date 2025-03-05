@@ -294,5 +294,13 @@ return [
         'credits.*' => 'crédito',
         'account_uuids' => 'cuenta',
         'account_uuids.*' => 'cuenta',
+
+        /*CUSTOMER*/
+        'phone' => 'celular',
+        'address' => 'dirección',
+
+        /*REVENUE*/
+        'customer_uuid' => 'cliente',
+        'service_uuid' => 'servicio',
     ]
 ];

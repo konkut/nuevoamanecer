@@ -1,5 +1,4 @@
 <x-panel-box-summary
-    color="sky"
     :value="$data['opening']"
     title="{{__('word.panel.opening.title')}}"
     subtitle="{{__('word.panel.summary.subtitle')}}"
@@ -12,7 +11,6 @@
     total="{{__('word.panel.summary.total')}}"
 ></x-panel-box-summary>
 <x-panel-box-summary
-    color="green"
     :value="$data['income']"
     title="{{__('word.panel.income.title')}}"
     subtitle="{{__('word.panel.summary.subtitle')}}"
@@ -25,7 +23,6 @@
     method="{{__('word.panel.summary.method')}}"
 ></x-panel-box-summary>
 <x-panel-box-summary
-    color="red"
     :value="$data['expense']"
     title="{{__('word.panel.expense.title')}}"
     subtitle="{{__('word.panel.summary.subtitle')}}"
@@ -38,7 +35,6 @@
     method="{{__('word.panel.summary.method')}}"
 ></x-panel-box-summary>
 <x-panel-box-summary
-    color="blue"
     :value="$data['closing']"
     title="{{__('word.panel.closing.title')}}"
     subtitle="{{__('word.panel.summary.subtitle')}}"

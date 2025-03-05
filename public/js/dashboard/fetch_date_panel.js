@@ -23,13 +23,16 @@ async function fetch_date(element, base, e) {
             });
             return;
         }
-        const dashboard_summary = document.getElementById('dashboard-summary');
-        if (dashboard_summary) {
-            dashboard_summary.innerHTML = data.summary_html;
-        }
-        const dashboard_session = document.getElementById('dashboard-session');
-        if (dashboard_session) {
-            dashboard_session.innerHTML = data.session_html;
+        if (response.status === 200) {
+            const dashboard_summary = document.getElementById('dashboard-summary');
+            if (dashboard_summary) {
+                dashboard_summary.innerHTML = data.summary_html;
+            }
+            const dashboard_session = document.getElementById('dashboard-session');
+            if (dashboard_session) {
+                dashboard_session.innerHTML = data.session_html;
+            }
+            location.reload();
         }
     } catch (error) {
         loader_action_status('hide');

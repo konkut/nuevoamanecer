@@ -10,6 +10,7 @@
     <meta name="routeName" content="{{ Route::currentRouteName() }}">
     <link rel="shortcut icon" href="{{url('images/icono.ico')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url('css/components/alert.css?v='.time()) }}">
+    <link rel="stylesheet" href="{{ url('css/app.css?v='.time()) }}">
     <script type="text/javascript" src="{{ url('js/lang/es.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ url('js/app.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ url('js/loader.js?v='.time()) }}"></script>
@@ -27,30 +28,27 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <!-- Styles -->
     @livewireStyles
-
 </head>
 
 <body class="font-sans antialiased">
 <x-banner/>
 <x-loader/>
 <x-md_alert/>
-<div class="min-h-screen bg-gray-100">
-    @livewire('navigation-menu')
 
-    <div class="flex flex-row w-full min-h-screen ">
+<div class="min-h-screen bg-gray-100">
+    <div class="flex flex-row w-full min-h-screen">
         <div class="justify-start min-w-72 bg-gray-800 text-white p-4 hidden" id="sidebar">
             <x-menu></x-menu>
         </div>
         <div class="flex flex-col w-full overflow-hidden">
+            @livewire('navigation-menu')
             @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header class="bg-blue-500 shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-blue-100">
                         {{ $header }}
                     </div>
                 </header>
@@ -76,5 +74,7 @@
         }
     })
 </script>
+
 </body>
 </html>
+

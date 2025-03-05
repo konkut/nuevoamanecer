@@ -19,7 +19,7 @@
         <script type="text/javascript" src="{{ asset('/js/field_search.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.receipt.resource.index') }}
         </h2>
     </x-slot>

@@ -22,7 +22,7 @@
         <script type="text/javascript" src="{{ asset('/js/fetch_delete.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.voucher.resource.index') }}
         </h2>
     </x-slot>
@@ -63,9 +63,9 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.voucher.filter.date') }}')">{{ __('word.voucher.attribute.date') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                    onclick="enableSearch(this, '{{ __('word.voucher.filter.company_uuid') }}')">{{ __('word.voucher.attribute.company_uuid') }}</th>
-                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.voucher.filter.project_uuid') }}')">{{ __('word.voucher.attribute.project_uuid') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.voucher.filter.company_uuid') }}')">{{ __('word.voucher.attribute.company_uuid') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.voucher.filter.debit') }}')">{{ __('word.voucher.attribute.debit') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -96,7 +96,7 @@
                                     </td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->date}}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->project->name}}</td>
-                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->company->name}}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->company}}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->debit}}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->credit}}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
@@ -207,7 +207,7 @@
                                                 @endif
                                                 <div class="mt-2">
                                                     <p class="text-sm font-semibold">{{ __('word.voucher.attribute.company_uuid') }}</p>
-                                                    <p>{{ $item->company->name }}</p>
+                                                    <p>{{ $item->company }}</p>
                                                 </div>
                                                 <div class="mt-2">
                                                     <p class="text-sm font-semibold">{{ __('word.voucher.attribute.project_uuid') }}</p>

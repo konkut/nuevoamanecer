@@ -26,8 +26,11 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\ForcePasswordChange;
 use App\Http\Controllers\ForcePasswordChangeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordEmailController;
 use Illuminate\Support\Facades\Route;
@@ -294,6 +297,32 @@ Route::middleware([
     Route::put("/vouchers/{voucher_uuid}/enable", [VoucherController::class, "enable"])->name("vouchers.enable");
     Route::put('/vouchers/{voucher_uuid}', [VoucherController::class, 'update'])->name('vouchers.update')->middleware('can:vouchers.edit');
     Route::delete('/vouchers/{voucher_uuid}', [VoucherController::class, 'destroy'])->name('vouchers.destroy')->middleware('can:vouchers.destroy');
+
+    /*CUSTOMER*/
+    Route::get("/customers", [CustomerController::class, "index"])->name("customers.index")->middleware('can:customers.index');
+    Route::get("/customers/create", [CustomerController::class, "create"])->name("customers.create")->middleware('can:customers.create');
+    Route::post("/customers", [CustomerController::class, "store"])->name("customers.store")->middleware('can:customers.create');
+    Route::get('/customers/{customer_uuid}/edit', [CustomerController::class, 'edit'])->name('customers.edit')->middleware('can:customers.edit');
+    Route::put("/customers/{customer_uuid}/disable", [CustomerController::class, "disable"])->name("customers.disable");
+    Route::put("/customers/{customer_uuid}/enable", [CustomerController::class, "enable"])->name("customers.enable");
+    Route::put('/customers/{customer_uuid}', [CustomerController::class, 'update'])->name('customers.update')->middleware('can:customers.edit');
+    Route::delete('/customers/{customer_uuid}', [CustomerController::class, 'destroy'])->name('customers.destroy')->middleware('can:customers.destroy');
+
+    /*REVENUES*/
+    Route::get("/revenues", [RevenueController::class, "index"])->name("revenues.index")->middleware('can:revenues.index');
+    Route::middleware(['cashshift_session'])->group(function () {
+        Route::get("/revenues/create", [RevenueController::class, "create"])->name("revenues.create")->middleware('can:revenues.create');
+        Route::post("/revenues", [RevenueController::class, "store"])->name("revenues.store")->middleware('can:revenues.create');
+        Route::get('/revenues/{revenue_uuid}/edit', [RevenueController::class, 'edit'])->name('revenues.edit')->middleware('can:revenues.edit');
+        Route::put('/revenues/{revenue_uuid}', [RevenueController::class, 'update'])->name('revenues.update')->middleware('can:revenues.edit');
+    });
+    Route::get('/revenues/export', [RevenueController::class, 'export'])->name('revenues.export');
+    Route::post('/revenues/{revenue_uuid}', [RevenueController::class, 'detail'])->name('revenues.detail');
+    Route::delete('/revenues/{revenue_uuid}', [RevenueController::class, 'destroy'])->name('revenues.destroy')->middleware('can:revenues.destroy');
+
+    //INVOICES
+    Route::get("/invoices", [InvoiceController::class, "index"])->name("invoices.index")->middleware('can:invoices.index');
+    Route::get('/invoices/{revenue_uuid}', [InvoiceController::class, 'store'])->name('invoices.store')->middleware('can:invoices.create');
 
     /*CASHFLOWDAILY */
     //Route::get("/cashflowdailies", [CashflowdailyController::class, "index"])->name("cashflowdailies.index")->middleware('can:cashflowdailies.index');

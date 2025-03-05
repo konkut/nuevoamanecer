@@ -20,6 +20,7 @@
         'operaciones' => [
             'title' => 'Operaciones',
             'items' => [
+                ['route' => 'revenues.index', 'label' => __('word.revenue.title'), 'icon' => 'bi-cash'],
                 ['route' => 'incomes.index', 'label' => __('word.income.title'), 'icon' => 'bi-cash'],
                 ['route' => 'sales.index', 'label' => __('word.sale.title'), 'icon' => 'bi-cash'],
                 ['route' => 'expenses.index', 'label' => __('word.expense.title'), 'icon' => 'bi-cash'],
@@ -30,6 +31,7 @@
             'title' => 'Administración',
             'items' => [
                 ['route' => 'users.index', 'label' => __('word.user.title'), 'icon' => 'bi-people'],
+                ['route' => 'customers.index', 'label' => __('word.customer.title'), 'icon' => 'bi bi-person'],
                 ['route' => 'categories.index', 'label' => __('word.category.title'), 'icon' => 'bi-grid'],
                 ['route' => 'services.index', 'label' => __('word.service.title'), 'icon' => 'bi bi-tag'],
                 ['route' => 'products.index', 'label' => __('word.product.title'), 'icon' => 'bi bi-box-seam'],
@@ -49,8 +51,8 @@
     <ul class="mt-6">
         <li>
             <a href="{{ route('dashboard') }}"
-               class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-blue-600 transition
-                      {{ request()->routeIs('dashboard') ? 'bg-blue-600' : '' }}">
+               class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-blue-500 transition
+                      {{ request()->routeIs('dashboard') ? 'bg-blue-500' : '' }}">
                 <i class="bi bi-house"></i>
                 <span>{{ __('Dashboard') }}</span>
             </a>
@@ -64,8 +66,8 @@
                     @can($item['route'])
                         <li>
                             <a href="{{ route($item['route']) }}"
-                               class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-blue-600 transition
-                                  {{ request()->routeIs($item['route']) ? 'bg-blue-600' : '' }}">
+                               class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-blue-500 transition
+                                  {{ request()->routeIs($item['route']) ? 'bg-blue-500' : '' }}">
                                 <i class="{{ $item['icon'] }}"></i>
                                 <span>{{ $item['label'] }}</span>
                             </a>

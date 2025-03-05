@@ -392,6 +392,7 @@
                 const rows = container.querySelectorAll('.row-template');
                 if (rows.length > 1) {
                     rows[rows.length - 1].remove();
+                    total_balance();
                 }
             });
         });

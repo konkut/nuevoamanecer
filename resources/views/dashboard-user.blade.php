@@ -15,9 +15,23 @@
     </x-slot>
     <x-slot name="header">
         <div class="flex flex-row items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="font-semibold text-xl leading-tight">
                 {{ __('Dashboard') }}
             </h2>
+            <div class="flex justify-end flex-1 items-center">
+                <label for="date" class="hidden sm:flex text-md font-medium">{{__('word.panel.title')}}:</label>
+                <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value="{{ session('date', now()->format('Y-m-d')) }}"
+                    class="ml-8 border border-blue-500 rounded-md px-3 py-2 text-gray-700 bg-blue-500 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    onchange="fetch_date(this, '{{url('/')}}', event)">
+                <a id="session-date"
+                   href="{{ route('dashboards.search_session') }}"
+                   style="display: none;">
+                </a>
+            </div>
         </div>
     </x-slot>
     @if (session('success'))
@@ -26,63 +40,82 @@
     @if (session('error'))
         <x-alert-error :message="session('error')"/>
     @endif
-    <div class="flex flex-row flex-wrap">
-        {{--
-        <div class="w-full xl:w-80 sm:px-6 lg:px-8">
-            <div class="bg-white shadow-xl rounded-lg mt-8">
-                <x-panel-box-inventory :inventory="$inventory"></x-panel-box-inventory>
-            </div>
-        </div>--}}
+    <div class="block w-full px:0 sm:px-8 bg-blue-500 text-white {{!$cashshift ? 'pb-8':''}}">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 w-full">
+            @if(auth()->user()->hasRole('Caja'))
+                <x-panel-box-link
+                    :total="$total_cashshifts_by_user"
+                    :route="route('cashshifts.index')"
+                    title="{{__('word.general.total_cashshift')}}"
+                    subtitle="{{__('word.cashshift.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_incomes_by_user"
+                    :route="route('incomes.index')"
+                    title="{{__('word.general.total_transaction')}}"
+                    subtitle="{{__('word.income.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_expenses_by_user"
+                    :route="route('expenses.index')"
+                    title="{{__('word.general.total_expenses')}}"
+                    subtitle="{{__('word.expense.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_sales_by_user"
+                    :route="route('sales.index')"
+                    title="{{__('word.general.total_sales')}}"
+                    subtitle="{{__('word.sale.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_receipts_by_user"
+                    :route="route('receipts.index')"
+                    title="{{__('word.general.total_receipt')}}"
+                    subtitle="{{__('word.receipt.title')}}"
+                ></x-panel-box-link>
+            @endif
+            @if(auth()->user()->hasRole('Contador'))
+                <x-panel-box-link
+                    :total="$total_cashshifts_by_user"
+                    :route="route('cashshifts.index')"
+                    title="{{__('word.general.total_cashshift')}}"
+                    subtitle="{{__('word.cashshift.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_vouchers_by_user"
+                    :route="route('vouchers.index')"
+                    title="{{__('word.general.total_voucher')}}"
+                    subtitle="{{__('word.voucher.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_revenues_by_user"
+                    :route="route('revenues.index')"
+                    title="{{__('word.general.total_revenue')}}"
+                    subtitle="{{__('word.revenue.title')}}"
+                ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_expenses_by_user"
+                    :route="route('expenses.index')"
+                    title="{{__('word.general.total_expenses')}}"
+                    subtitle="{{__('word.expense.title')}}"
+                ></x-panel-box-link>
+            @endif
+        </div>
         @if($cashshift)
-            <div class="w-full xl:w-72 sm:px-6 lg:px-8 xl:ps-0 xl:ms-8" id="dashboard-session">
+            <div class="pb-8 w-full">
                 <x-panel-box-all-session :cashshift="$cashshift"></x-panel-box-all-session>
             </div>
-        @else
-            <div class="w-full xl:w-72 sm:px-6 lg:px-8 xl:px-0 xl:ms-8" id="dashboard-session">
-                <x-panel-box-off-session></x-panel-box-off-session>
-            </div>
         @endif
+    </div>
+    <div class="flex flex-row flex-wrap">
         <div class="flex flex-col flex-wrap flex-1">
             <div class="flex-1 sm:px-6 lg:px-8 py-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="p-4 rounded-lg shadow-md">
-                        <div class="flex justify-end flex-1 items-center">
-                            <x-label for="date" value="{{__('word.panel.title')}}"/>
-                            <input
-                                type="date"
-                                name="date"
-                                id="date"
-                                value="{{ session('date', now()->format('Y-m-d')) }}"
-                                class="ml-8 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                onchange="fetch_date(this, '{{url('/')}}', event)">
-                            <a id="session-date"
-                               href="{{ route('dashboards.search_session') }}"
-                               style="display: none;">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-gray-800 mt-8 flex flex-row flex-wrap flex-1 gap-8 "
-                     id="dashboard-summary">
-                    {{--
-                       <x-panel-box-link :totalcashregisters="null"
-                                          :totalbankregisters="null"
-                                          :totalcashshifts="null"
-                                          :totalcashshiftsbyuser="$total_cashshifts_by_user"
-                                          :totalincomes="null"
-                                          :totalincomesbyuser="$total_incomes_by_user"
-                                          :totalsales="null"
-                                          :totalsalesbyuser="$total_sales_by_user"
-                                          :totalexpenses="null"
-                                          :totalexpensesbyuser="$total_expenses_by_user"
-                                          :totalusers="null"
-                                          :totalcategories="null"
-                                          :totalservices="$total_services"
-                                          :totalproducts="$total_products"
-                                          :totalmethods="null"
-                        ></x-panel-box-link>
-                       --}}
-                    <x-panel-box-all-summary :data="$data_session"></x-panel-box-all-summary>
+                <div class="text-gray-800 flex flex-row flex-wrap flex-1" id="dashboard-summary">
+                    <x-panel-chart :cash="$chart_cash_session"
+                                   :bank="$chart_bank_session"
+                                   :platform="$chart_platform_session"
+                    ></x-panel-chart>
+                    {{-- <x-panel-box-all-summary :data="$data_session"></x-panel-box-all-summary>--}}
                 </div>
             </div>
         </div>

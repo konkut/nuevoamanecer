@@ -21,7 +21,7 @@
         <script type="text/javascript" src="{{ asset('/js/toggle.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.bankregister.resource.edit') }}
         </h2>
     </x-slot>

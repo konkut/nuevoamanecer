@@ -21,7 +21,7 @@
         <script type="text/javascript" src="{{ asset('/js/billcoin_button.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.expense.resource.create') }}
         </h2>
     </x-slot>
@@ -32,7 +32,7 @@
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="w-full">
-                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.general.transaction')}}</h1>
+                            <h1 class="text-md font-bold italic block text-center py-8">{{__('word.expense.form_create')}}</h1>
                             <x-form-expense :expense="$expense"
                                                         :data="$data"
                                                         :categories="$categories" />

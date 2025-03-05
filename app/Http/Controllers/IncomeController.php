@@ -809,7 +809,7 @@ class IncomeController extends Controller
         $incomes->each(function ($income) {
             $services = $income->services->pluck('name')->toArray();
             $transaction = $this->transaction($income);
-            $income->format_services = implode(', ', $services) ?? "";
+            $income->format_services = implode(', ', array_unique($services)) ?? "";
             $income->format_input_name = implode(', ', array_unique($transaction[0])) ?? "";
             $income->format_input_amount = $transaction[1] ?? "";
             $income->format_output_name = implode(', ',array_unique($transaction[2])) ?? "";

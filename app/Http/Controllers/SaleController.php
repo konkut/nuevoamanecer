@@ -628,7 +628,7 @@ class SaleController extends Controller
                 $names[] = $item->name;
                 $totals += $item->pivot->total;
             }
-            $sale->format_products = implode(', ', $products) ?? "";
+            $sale->format_products = implode(', ', array_unique($products)) ?? "";
             $sale->format_observation = $sale->observation ?? "";
             $sale->format_name = implode(', ', array_unique($names)) ?? "";
             $sale->format_amount = $totals ?? "";

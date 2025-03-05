@@ -2,35 +2,35 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
     <div class="space-y-2">
         <div class="flex items-center justify-evenly">
-            <x-label for="bill_200" value="Bs. {{ __('word.denomination.attribute.bill_200') }}"/>
+            <x-label for="bill_200" value="{{ __('word.denomination.attribute.bill_200') }}"/>
             <input id="bill_200"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="bill_200" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('bill_200', $denomination->bill_200 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="bill_100" value="Bs. {{ __('word.denomination.attribute.bill_100') }}"/>
+            <x-label for="bill_100" value="{{ __('word.denomination.attribute.bill_100') }}"/>
             <input id="bill_100"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="bill_100" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('bill_100', $denomination->bill_100 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="bill_50" value="Bs. {{ __('word.denomination.attribute.bill_50') }}"/>
+            <x-label for="bill_50" value="{{ __('word.denomination.attribute.bill_50') }}"/>
             <input id="bill_50"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="bill_50" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('bill_50', $denomination->bill_50 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="bill_20" value="Bs. {{ __('word.denomination.attribute.bill_20') }}"/>
+            <x-label for="bill_20" value="{{ __('word.denomination.attribute.bill_20') }}"/>
             <input id="bill_20"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="bill_20" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('bill_20', $denomination->bill_20 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="bill_10" value="Bs. {{ __('word.denomination.attribute.bill_10') }}"/>
+            <x-label for="bill_10" value="{{ __('word.denomination.attribute.bill_10') }}"/>
             <input id="bill_10"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="bill_10" inputmode="numeric" autocomplete="one-time-code"
@@ -49,42 +49,42 @@
     </div>
     <div class="space-y-2">
         <div class="flex items-center justify-evenly">
-            <x-label for="coin_5" value="Bs. {{ __('word.denomination.attribute.coin_5') }}"/>
+            <x-label for="coin_5" value="{{ __('word.denomination.attribute.coin_5') }}"/>
             <input id="coin_5"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="coin_5" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('coin_5', $denomination->coin_5 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="coin_2" value="Bs. {{ __('word.denomination.attribute.coin_2') }}"/>
+            <x-label for="coin_2" value="{{ __('word.denomination.attribute.coin_2') }}"/>
             <input id="coin_2"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="coin_2" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('coin_2', $denomination->coin_2 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="coin_1" value="Bs. {{ __('word.denomination.attribute.coin_1') }}"/>
+            <x-label for="coin_1" value="{{ __('word.denomination.attribute.coin_1') }}"/>
             <input id="coin_1"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="coin_1" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('coin_1', $denomination->coin_1 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="coin_0_5" value="Bs. {{ __('word.denomination.attribute.coin_0_5') }}"/>
+            <x-label for="coin_0_5" value="{{ __('word.denomination.attribute.coin_0_5') }}"/>
             <input id="coin_0_5"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 me-2 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="coin_0_5" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('coin_0_5', $denomination->coin_0_5 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="coin_0_2" value="Bs. {{ __('word.denomination.attribute.coin_0_2') }}"/>
+            <x-label for="coin_0_2" value="{{ __('word.denomination.attribute.coin_0_2') }}"/>
             <input id="coin_0_2"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 me-2 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="coin_0_2" inputmode="numeric" autocomplete="one-time-code"
                    value="{{ old('coin_0_2', $denomination->coin_0_2 ?? 0) }}"/>
         </div>
         <div class="flex items-center justify-evenly">
-            <x-label for="coin_0_1" value="Bs. {{ __('word.denomination.attribute.coin_0_1') }}"/>
+            <x-label for="coin_0_1" value="{{ __('word.denomination.attribute.coin_0_1') }}"/>
             <input id="coin_0_1"
                    class="bill-input cursor-pointer text-center w-20 px-3 py-1 mt-1 me-2 font-bold text-slate-800 bg-slate-300 border border-slate-100 rounded-lg shadow-md hover:bg-slate-400 active:bg-slate-500 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition-all ease-in-out focus:border-transparent"
                    type="text" name="coin_0_1" inputmode="numeric" autocomplete="one-time-code"

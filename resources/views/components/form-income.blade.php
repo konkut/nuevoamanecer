@@ -338,8 +338,7 @@
                         <x-input required onkeyup="update_amount(this)"
                                  class="quantity-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="quantities[0]"
-                                 inputmode="numeric" autocomplete="one-time-code"
-                                 value="{{ $income->quantities?? '' }}"/>
+                                 inputmode="numeric" autocomplete="one-time-code"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
@@ -365,8 +364,7 @@
                         <x-input required onkeyup="update_amount(this)"
                                  class="amount-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="amounts[0]"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->amounts ?? ''  }}"/>
+                                 inputmode="decimal" autocomplete="one-time-code"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
@@ -376,8 +374,7 @@
                         <x-input onkeyup="update_amount(this)"
                                  class="commission-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="commissions[0]"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->commissions ?? ''  }}"/>
+                                 inputmode="decimal" autocomplete="one-time-code"/>
                     </div>
                 </div>
                 <div class="mt-4 w-full md:w-1/2">
@@ -403,8 +400,7 @@
                         <x-input onkeyup="update_amount(this)"
                                  class="value-input focus-and-blur pl-9 pr-3 block w-full"
                                  type="text" name="values[0]"
-                                 inputmode="decimal" autocomplete="one-time-code"
-                                 value="{{ $income->values ?? '' }}"/>
+                                 inputmode="decimal" autocomplete="one-time-code"/>
                     </div>
                 </div>
             </div>
@@ -421,8 +417,7 @@
         </div>
         <div class="flex justify-center w-full sm:w-auto">
             <button type="button" id="remove-row"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
-                    onclick="update_amount()">
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg">
                 <i class="bi bi-dash mr-2"></i>{{ __('word.general.delete_row') }}
             </button>
         </div>
@@ -458,8 +453,8 @@
                 const rows = container.querySelectorAll('.row-template');
                 if (rows.length > 1) {
                     rows[rows.length - 1].remove();
+                    update_amount();
                 }
-                update_amount();
             });
         });
     </script>

@@ -23,7 +23,7 @@
         <script type="text/javascript" src="{{ asset('js/components/filter_excel.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight">
             {{ __('word.income.resource.index') }}
         </h2>
     </x-slot>
@@ -124,9 +124,9 @@
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->names }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->input_name }}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->input_total,2) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->input_total, 2, '.', '') }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{$item->output_name}}</td>
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->output_total,2) == 0 ? "" : number_format($item->output_total,2) }}</td>
+                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->output_total, 2) == 0 ? "" : number_format($item->output_total, 2, '.', '') }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
@@ -242,7 +242,7 @@
                                                         @foreach($item->detail as $value)
                                                             <div
                                                                 class="flex flex-row justify-center items-center">
-                                                                <p class="text-center">{{ $value->quantity }}&nbsp;&nbsp;{{ $value->name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ number_format($value->price,2) }}</p>
+                                                                <p class="text-center">{{ $value->quantity }}&nbsp;&nbsp;{{ $value->name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ number_format($value->price, 2, '.', '') }}</p>
                                                             </div>
                                                         @endforeach
                                                     </div>

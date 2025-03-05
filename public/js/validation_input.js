@@ -1,5 +1,5 @@
 document.addEventListener('input', (event) => {
-    if (event.target.matches('#balance, #amount, #commission, #price, #stock, #account_number, #initial_balance, .debit-input, .credit-input, #cheque_number, #ufv, #usd')) {
+    if (event.target.matches('#balance, #amount, #commission, #price, #stock, #account_number, #initial_balance, .debit-input, .credit-input, #cheque_number, #ufv, #usd, #phone')) {
         const input = event.target;
         const validRegex = /^-?\d*(\.\d{0,2})?$/;
         if (!validRegex.test(input.value)) {

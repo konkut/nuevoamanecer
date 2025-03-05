@@ -262,8 +262,7 @@
         </div>
         <div class="flex justify-center">
             <button type="button" id="remove-row"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg"
-                    onclick="update_amount()">
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow-lg">
                 <i class="bi bi-dash mr-2"></i>{{ __('word.general.delete_row_sale') }}
             </button>
         </div>
@@ -299,8 +298,8 @@
                 const rows = container.querySelectorAll('.row-template');
                 if (rows.length > 1) {
                     rows[rows.length - 1].remove();
+                    update_amount();
                 }
-                update_amount();
             });
         });
     </script>

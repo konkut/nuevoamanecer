@@ -30,7 +30,7 @@
     </x-slot>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('word.account.link') }}</h2>
+            <h2 class="font-semibold text-xl leading-tight">{{ __('word.account.link') }}</h2>
             <a href="{{route('accounts.chart')}}"
                class="bg-pink-400 text-white px-4 py-2 rounded text-sm"
                title="{{__('word.general.title_icon_chart')}}">
