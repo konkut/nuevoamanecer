@@ -32,6 +32,19 @@
     @enderror
 </div>
 <div class="mt-4">
+    <x-label for="nit" value="{{ __('word.customer.attribute.nit') }} *" />
+    <div class="relative">
+        <i class="bi bi-cash absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+        <x-input required id="nit"
+                 inputmode="numeric" autocomplete="one-time-code"
+                 class="focus-and-blur pl-9 block mt-1 w-full"
+                 type="text" name="nit" value="{{ old('nit', $customer->nit?? '') }}" />
+    </div>
+    @error('nit')
+    <small class="font-bold text-red-500/80">{{ $message }}</small>
+    @enderror
+</div>
+<div class="mt-4">
     <x-label for="address" value="{{ __('word.customer.attribute.address') }} *" />
     <div class="relative">
         <i class="bi bi-tag absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>

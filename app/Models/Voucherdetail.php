@@ -19,15 +19,15 @@ class Voucherdetail extends Model
         'credit',
         'index',
         'voucher_uuid',
-        'account_uuid',
+        'analyticalaccount_uuid',
     ];
     public function voucher()
     {
         return $this->belongsTo(Voucher::class, 'voucher_uuid', 'voucher_uuid');
     }
-    public function account()
+    public function analyticalaccount()
     {
-        return $this->belongsTo(Account::class, 'account_uuid', 'account_uuid');
+        return $this->belongsTo(Analyticalaccount::class, 'analyticalaccount_uuid', 'analyticalaccount_uuid');
     }
     protected static function boot()
     {

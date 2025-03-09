@@ -1,22 +1,22 @@
 <div class="container mx-auto p-4">
     <div class="flex justify-end space-x-2 items-center mb-4">
-        @can('accounts.create')
+        @can('analyticalaccounts.create')
             <a href="javascript:void(0);"
                class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
                title="{{__('word.general.title_icon_create')}}"
-               onclick="open_create_modal('account');">
+               onclick="open_create_modal('analyticalaccount');">
                 <i class="bi bi-plus"></i>
             </a>
         @endcan
         <form method="GET" action="{{ route('accounts.index') }}" onchange="this.submit()"
               class="inline-block">
-            <select name="perpage_accounts" class="border border-gray-300 rounded text-sm pr-8 w-36">
+            <select name="perpage_analyticalaccounts" class="border border-gray-300 rounded text-sm pr-8 w-36">
                 <option
-                    value="10" {{ $perpage_accounts == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
+                    value="10" {{ $perpage_analyticalaccounts == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
                 <option
-                    value="20" {{ $perpage_accounts == 20 ? 'selected' : '' }}>{{ __('word.general.20_items') }}</option>
+                    value="20" {{ $perpage_analyticalaccounts == 20 ? 'selected' : '' }}>{{ __('word.general.20_items') }}</option>
                 <option
-                    value="50" {{ $perpage_accounts == 50 ? 'selected' : '' }}>{{ __('word.general.50_items') }}</option>
+                    value="50" {{ $perpage_analyticalaccounts == 50 ? 'selected' : '' }}>{{ __('word.general.50_items') }}</option>
             </select>
         </form>
     </div>
@@ -29,6 +29,8 @@
                     onclick="enableSearch(this, '{{ __('word.account.attribute.code') }}')">{{ __('word.account.attribute.code') }}</th>
                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                     onclick="enableSearch(this, '{{ __('word.account.attribute.name') }}')">{{ __('word.account.attribute.name') }}</th>
+                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                    onclick="enableSearch(this, '{{ __('word.account.attribute.mainaccount_uuid') }}')">{{ __('word.account.attribute.mainaccount_uuid') }}</th>
                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                     onclick="enableSearch(this, '{{ __('word.account.attribute.accountsubgroup_uuid') }}')">{{ __('word.account.attribute.accountsubgroup_uuid') }}</th>
                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -48,25 +50,26 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($accounts as $item)
+            @foreach($analyticalaccounts as $item)
                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->code }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name }}</td>
-                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->accountsubgroup->name }}</td>
-                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->accountsubgroup->accountgroup->name }}</td>
-                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->accountsubgroup->accountgroup->accountclass->name }}</td>
+                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->mainaccount->name }}</td>
+                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->mainaccount->accountsubgroup->name }}</td>
+                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->mainaccount->accountsubgroup->accountgroup->name }}</td>
+                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->mainaccount->accountsubgroup->accountgroup->accountclass->name }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                         <div class="flex justify-center space-x-1">
-                            @can('accounts.index')
+                            @can('analyticalaccounts.index')
                                 <a href="javascript:void(0);"
                                    title="{{__('word.general.title_icon_show')}}"
                                    class="bg-green-500 text-white px-2 py-1 rounded text-xs"
-                                   onclick="openDetailsModal('{{$item->account_uuid}}')">
+                                   onclick="openDetailsModal('{{$item->analyticalaccount_uuid}}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
@@ -74,11 +77,11 @@
                                     </svg>
                                 </a>
                             @endcan
-                            @can('accounts.edit')
-                                <a href="{{ route('accounts.edit',$item->account_uuid) }}"
+                            @can('analyticalaccounts.edit')
+                                <a href="{{ route('analyticalaccounts.edit',$item->analyticalaccount_uuid) }}"
                                    class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
                                    title="{{__('word.general.title_icon_update')}}"
-                                   onclick="fetch_edit_account(this, '{{url('/')}}', '{{ $item->account_uuid }}', event);">
+                                   onclick="fetch_edit_analyticalaccount(this, '{{url('/')}}', '{{ $item->analyticalaccount_uuid }}', event);">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-eyedropper"
                                          viewBox="0 0 16 16">
@@ -89,7 +92,7 @@
                             @if($item->status)
                                 <button type="button"
                                         class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                        onclick="open_disable_modal('{{ $item->account_uuid }}', '{{ $item->name }}')"
+                                        onclick="open_disable_modal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
                                         title="{{__('word.general.title_icon_disable')}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-toggle-on"
@@ -100,7 +103,7 @@
                             @else
                                 <button type="button"
                                         class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                        onclick="open_enable_modal('{{ $item->account_uuid }}', '{{ $item->name }}')"
+                                        onclick="open_enable_modal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
                                         title="{{__('word.general.title_icon_enable')}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-toggle-off"
@@ -109,10 +112,10 @@
                                     </svg>
                                 </button>
                             @endif
-                            @can('accounts.destroy')
+                            @can('analyticalaccounts.destroy')
                                 <button type="button"
                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                        onclick="openModal('{{ $item->account_uuid }}', '{{ $item->name }}')"
+                                        onclick="openModal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
                                         title="{{__('word.general.title_icon_delete')}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -124,28 +127,28 @@
                         </div>
                     </td>
                 </tr>
-                <div id="edit-modal-{{$item->account_uuid}}"
+                <div id="edit-modal-{{$item->analyticalaccount_uuid}}"
                      class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                     <div class="flex items-center justify-center min-h-screen"
-                         id="scale-edit-{{$item->account_uuid}}">
+                         id="scale-edit-{{$item->analyticalaccount_uuid}}">
                         <div class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 bg-yellow-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                 <button type="button"
                                         class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
-                                        onclick="close_edit_modal('{{$item->account_uuid}}')">
+                                        onclick="close_edit_modal('{{$item->analyticalaccount_uuid}}')">
                                     &times;
                                 </button>
-                                <h1 class="text-lg font-semibold mx-auto">{{ __('word.account.resource.edit') }}</h1>
+                                <h1 class="text-lg font-semibold mx-auto">{{ __('word.analyticalaccount.resource.edit') }}</h1>
                             </div>
                             <div class="py-12 px-4 rounded-b-2xl shadow-inner md:max-w-2xl">
                                 <form method="POST"
-                                      action="{{route('accounts.update', $item->account_uuid)}}">
+                                      action="{{route('analyticalaccounts.update', $item->analyticalaccount_uuid)}}">
                                     @csrf
                                     @method("PUT" )
                                     @php
-                                        $account->account_uuid = $item->account_uuid;
+                                        $analyticalaccount->analyticalaccount_uuid = $item->analyticalaccount_uuid;
                                     @endphp
-                                    <x-form-account :account="$account" :allaccountsubgroups="$all_accountsubgroups" page="edit"/>
+                                    <x-form-analyticalaccount :analyticalaccount="$analyticalaccount" :allmainaccounts="$all_mainaccounts" page="edit"/>
                                     <div class="mt-4 flex justify-end">
                                         <x-button>
                                             {{ __('Save') }}
@@ -156,18 +159,18 @@
                         </div>
                     </div>
                 </div>
-                <div id="details-modal-{{$item->account_uuid}}"
+                <div id="details-modal-{{$item->analyticalaccount_uuid}}"
                      class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                     <div class="flex items-center justify-center min-h-screen"
-                         id="scale-modal-{{$item->account_uuid}}">
+                         id="scale-modal-{{$item->analyticalaccount_uuid}}">
                         <div class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}} text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                 <button type="button"
                                         class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
-                                        onclick="closeDetailsModal('{{$item->account_uuid}}')">
+                                        onclick="closeDetailsModal('{{$item->analyticalaccount_uuid}}')">
                                     &times;
                                 </button>
-                                <h1 class="text-lg font-semibold mx-auto">{{ __('word.account.resource.show') }}</h1>
+                                <h1 class="text-lg font-semibold mx-auto">{{ __('word.analyticalaccount.resource.show') }}</h1>
                             </div>
                             <div class="py-12 px-4 text-slate-600 rounded-b-2xl shadow-inner md:max-w-2xl">
                                 <div class="text-center">
@@ -180,16 +183,20 @@
                                         <p>{{ $item->name }}</p>
                                     </div>
                                     <div class="mt-2">
+                                        <p class="text-sm font-semibold ">{{ __('word.account.attribute.mainaccount_uuid') }}</p>
+                                        <p>{{ $item->mainaccount->name }}</p>
+                                    </div>
+                                    <div class="mt-2">
                                         <p class="text-sm font-semibold ">{{ __('word.account.attribute.accountsubgroup_uuid') }}</p>
-                                        <p>{{ $item->accountsubgroup->name }}</p>
+                                        <p>{{ $item->mainaccount->accountsubgroup->name }}</p>
                                     </div>
                                     <div class="mt-2">
                                         <p class="text-sm font-semibold ">{{ __('word.account.attribute.accountgroup_uuid') }}</p>
-                                        <p>{{ $item->accountsubgroup->accountgroup->name }}</p>
+                                        <p>{{ $item->mainaccount->accountsubgroup->accountgroup->name }}</p>
                                     </div>
                                     <div class="mt-2">
                                         <p class="text-sm font-semibold ">{{ __('word.account.attribute.accountclass_uuid') }}</p>
-                                        <p>{{ $item->accountsubgroup->accountgroup->accountclass->name }}</p>
+                                        <p>{{ $item->mainaccount->accountsubgroup->accountgroup->accountclass->name }}</p>
                                     </div>
                                     @if($item->description)
                                         <div class="mt-2">
@@ -218,31 +225,31 @@
                         </div>
                     </div>
                 </div>
-                <div id="disable-modal-{{$item->account_uuid}}"
+                <div id="disable-modal-{{$item->analyticalaccount_uuid}}"
                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                     <div class="flex items-center justify-center min-h-screen"
-                         id="scale-disable-{{$item->account_uuid}}">
+                         id="scale-disable-{{$item->analyticalaccount_uuid}}">
                         <div
                             class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.disable_title')}}</h1>
                                 <button type="button"
                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                        onclick="close_disable_modal('{{$item->account_uuid}}')">
+                                        onclick="close_disable_modal('{{$item->analyticalaccount_uuid}}')">
                                     &times;
                                 </button>
                             </div>
                             <div class="modal-body p-6">
-                                <p class="text-gray-600">{{__('word.account.disable_confirmation')}}
-                                    <strong id="disable-name-{{$item->account_uuid}}"></strong>?
+                                <p class="text-gray-600">{{__('word.analyticalaccount.disable_confirmation')}}
+                                    <strong id="disable-name-{{$item->analyticalaccount_uuid}}"></strong>?
                                 </p>
                             </div>
                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">
                                 <button type="button"
                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
-                                        onclick="close_disable_modal('{{$item->account_uuid}}')">{{ __('Close') }}</button>
+                                        onclick="close_disable_modal('{{$item->analyticalaccount_uuid}}')">{{ __('Close') }}</button>
                                 <form
-                                    action="{{route('accounts.disable',$item->account_uuid)}}"
+                                    action="{{route('analyticalaccounts.disable',$item->analyticalaccount_uuid)}}"
                                     method="POST">
                                     @csrf
                                     @method('PUT')
@@ -253,30 +260,30 @@
                         </div>
                     </div>
                 </div>
-                <div id="enable-modal-{{$item->account_uuid}}"
+                <div id="enable-modal-{{$item->analyticalaccount_uuid}}"
                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                     <div class="flex items-center justify-center min-h-screen"
-                         id="scale-enable-{{$item->account_uuid}}">
+                         id="scale-enable-{{$item->analyticalaccount_uuid}}">
                         <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.enable_title')}}</h1>
                                 <button type="button"
                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                        onclick="close_enable_modal('{{$item->account_uuid}}')">
+                                        onclick="close_enable_modal('{{$item->analyticalaccount_uuid}}')">
                                     &times;
                                 </button>
                             </div>
                             <div class="modal-body p-6">
-                                <p class="text-gray-600">{{__('word.account.enable_confirmation')}}
-                                    <strong id="enable-name-{{$item->account_uuid}}"></strong>?
+                                <p class="text-gray-600">{{__('word.analyticalaccount.enable_confirmation')}}
+                                    <strong id="enable-name-{{$item->analyticalaccount_uuid}}"></strong>?
                                 </p>
                             </div>
                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">
                                 <button type="button"
                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
-                                        onclick="close_enable_modal('{{$item->account_uuid}}')">{{ __('Close') }}</button>
+                                        onclick="close_enable_modal('{{$item->analyticalaccount_uuid}}')">{{ __('Close') }}</button>
                                 <form
-                                    action="{{route('accounts.enable',$item->account_uuid)}}"
+                                    action="{{route('analyticalaccounts.enable',$item->analyticalaccount_uuid)}}"
                                     method="POST">
                                     @csrf
                                     @method('PUT')
@@ -287,31 +294,31 @@
                         </div>
                     </div>
                 </div>
-                <div id="modal-{{$item->account_uuid}}"
+                <div id="modal-{{$item->analyticalaccount_uuid}}"
                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                     <div class="flex items-center justify-center min-h-screen"
-                         id="scale-delete-{{$item->account_uuid}}">
+                         id="scale-delete-{{$item->analyticalaccount_uuid}}">
                         <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                 <button type="button"
                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                        onclick="closeModal('{{$item->account_uuid}}')">&times;
+                                        onclick="closeModal('{{$item->analyticalaccount_uuid}}')">&times;
                                 </button>
                             </div>
                             <div class="modal-body p-6">
-                                <p class="text-gray-600">{{__('word.account.delete_confirmation')}}
-                                    <strong id="name-{{$item->account_uuid}}"></strong>{{__('word.general.delete_warning')}}
+                                <p class="text-gray-600">{{__('word.analyticalaccount.delete_confirmation')}}
+                                    <strong id="name-{{$item->analyticalaccount_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                 </p>
                             </div>
                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">
                                 <button type="button"
                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
-                                        onclick="closeModal('{{$item->account_uuid}}')">{{ __('Close') }}</button>
-                                <form id="delete-form-{{$item->account_uuid}}"
-                                      action="{{route('accounts.destroy',$item->account_uuid)}}"
+                                        onclick="closeModal('{{$item->analyticalaccount_uuid}}')">{{ __('Close') }}</button>
+                                <form id="delete-form-{{$item->analyticalaccount_uuid}}"
+                                      action="{{route('analyticalaccounts.destroy',$item->analyticalaccount_uuid)}}"
                                       method="POST"
-                                      onsubmit="fetch_delete(this, '{{url('/')}}', '{{ $item->account_uuid }}', event)">
+                                      onsubmit="fetch_delete(this, '{{url('/')}}', '{{ $item->analyticalaccount_uuid }}', event)">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -325,22 +332,22 @@
             </tbody>
         </table>
     </div>
-    <div id="create-modal-account"
+    <div id="create-modal-analyticalaccount"
          class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
-        <div class="flex items-center justify-center min-h-screen" id="scale-modal-account">
+        <div class="flex items-center justify-center min-h-screen" id="scale-modal-analyticalaccount">
             <div class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
                 <div class="modal-header p-4 bg-blue-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                     <button type="button"
                             class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
-                            onclick="close_create_modal('account')">
+                            onclick="close_create_modal('analyticalaccount')">
                         &times;
                     </button>
-                    <h1 class="text-lg font-semibold mx-auto">{{ __('word.account.resource.create') }}</h1>
+                    <h1 class="text-lg font-semibold mx-auto">{{ __('word.analyticalaccount.resource.create') }}</h1>
                 </div>
                 <div class="py-12 px-4 rounded-b-2xl shadow-inner md:max-w-2xl">
-                    <form method="POST" action="{{ route('accounts.store') }}">
+                    <form method="POST" action="{{ route('analyticalaccounts.store') }}">
                         @csrf
-                        <x-form-account :account="$account" :allaccountsubgroups="$all_accountsubgroups" page="create"/>
+                        <x-form-analyticalaccount :analyticalaccount="$analyticalaccount" :allmainaccounts="$all_mainaccounts" page="create"/>
                         <div class="mt-4 flex justify-end">
                             <x-button>
                                 {{ __('Save') }}
@@ -352,6 +359,6 @@
         </div>
     </div>
     <div class="pagination-wrapper mt-4">
-        {!! $accounts->appends(['perpage_accounts' => $perpage_accounts])->links() !!}
+        {!! $analyticalaccounts->appends(['perpage_analyticalaccounts' => $perpage_analyticalaccounts])->links() !!}
     </div>
 </div>

@@ -25,7 +25,8 @@
         <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_accountclass.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_accountgroup.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_accountsubgroup.js?v='.time()) }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_account.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_mainaccount.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_analyticalaccount.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
@@ -70,7 +71,13 @@
                 <button @click="activeTab = 'tab4'"
                         :class="activeTab === 'tab4' ? 'border-b-4 border-blue-400 text-blue-400 font-semibold' : 'text-gray-600 hover:text-blue-500'"
                         class="px-6 py-2 transition-all duration-300">
-                    {{ __('word.account.title') }}
+                    {{ __('word.mainaccount.title') }}
+                </button>
+
+                <button @click="activeTab = 'tab5'"
+                        :class="activeTab === 'tab5' ? 'border-b-4 border-blue-400 text-blue-400 font-semibold' : 'text-gray-600 hover:text-blue-500'"
+                        class="px-6 py-2 transition-all duration-300">
+                    {{ __('word.analyticalaccount.title') }}
                 </button>
             </div>
             <div x-show="activeTab === 'tab1'" x-cloak class="overflow-hidden shadow-xl sm:rounded-lg">
@@ -83,7 +90,10 @@
                 @include('account.accountsubgroup')
             </div>
             <div x-show="activeTab === 'tab4'" x-cloak class="overflow-hidden shadow-xl sm:rounded-lg">
-                @include('account.account')
+                @include('account.mainaccount')
+            </div>
+            <div x-show="activeTab === 'tab5'" x-cloak class="overflow-hidden shadow-xl sm:rounded-lg">
+                @include('account.analyticalaccount')
             </div>
         </div>
     </div>

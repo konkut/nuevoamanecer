@@ -230,11 +230,11 @@
                                                         <h1 class="font-bold py-1 text-md text-center">{{ __('word.voucher.detail') }}</h1>
                                                     </div>
                                                     <div class="grid grid-cols-3 gap-y-2 px-8 py-4 text-sm text-gray-700">
-                                                        <div class="text-start text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.account')}}</div>
+                                                        <div class="text-start text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.analyticalaccount')}}</div>
                                                         <div class="text-center text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.debit')}}</div>
                                                         <div class="text-end text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.credit')}}</div>
                                                         @foreach($item->data as $detail)
-                                                            <div class="text-start border-b-2">{{$detail->account->name}}</div>
+                                                            <div class="text-start border-b-2">{{$detail->analyticalaccount->name}}</div>
                                                             <div class="text-center border-b-2">{{$detail->debit}}</div>
                                                             <div class="text-end border-b-2">{{$detail->credit}}</div>
                                                         @endforeach

@@ -106,15 +106,15 @@
 </div>
 <div id="dynamic-rows-container" class="flex flex-col space-y-4">
     @php
-        $old_account_uuids = old('account_uuids', []);
+        $old_analyticalaccount_uuids = old('analyticalaccount_uuids', []);
         $old_debits = old('debits', []);
         $old_credits = old('credits', []);
-        $max_old = max(count($old_account_uuids), count($old_debits), count($old_credits));
+        $max_old = max(count($old_analyticalaccount_uuids), count($old_debits), count($old_credits));
     @endphp
     @if (!empty($max_old))
         @for ($index = 0; $index < $max_old; $index++)
             @php
-                $account_uuid = $old_account_uuids[$index] ?? null;
+                $analyticalaccount_uuid = $old_analyticalaccount_uuids[$index] ?? null;
                 $debit = $old_debits[$index] ?? null;
                 $credit = $old_credits[$index] ?? null;
             @endphp
@@ -124,36 +124,37 @@
                     <div class="relative">
                         <i class="bi-journal-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <input type="text"
-                               onkeyup="search_account(this)"
+                               onkeyup="search_analyticalaccount(this)"
                                data-index="{{ $index }}"
                                placeholder="{{ __('word.voucher.search') }} ..."
                                class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
                     </div>
                 </div>
                 <div class="mt-4 md:col-span-2">
-                    <x-label value="{{ __('word.voucher.attribute.account_uuid') }} *"/>
+                    <x-label value="{{ __('word.voucher.attribute.analyticalaccount_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi-journal-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select required name="account_uuids[{{ $index }}]" data-index="{{ $index }}"
-                                class="select-account focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
+                        <select required name="analyticalaccount_uuids[{{ $index }}]" data-index="{{ $index }}"
+                                class="select-analyticalaccount focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
                             <option value=""
-                                    disabled {{ (!isset($account_uuid))?'selected' : '' }}>{{ __('word.voucher.select_account') }}</option>
-                            @foreach($accounts as $class)
+                                    disabled {{ (!isset($analyticalaccount_uuid))?'selected' : '' }}>{{ __('word.voucher.select_analyticalaccount') }}</option>
+                            @foreach($analyticalaccounts as $class)
                                 <option value="" disabled>📁 {{ $class->code }} - {{ $class->name }}</option>
                                 @foreach($class->groups as $group)
                                     <option value="" disabled>&nbsp;&nbsp;📂 {{ $group->code }}
                                         - {{ $group->name }}</option>
                                     @foreach($group->subgroups as $subgroup)
-                                        <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $subgroup->code }}
-                                            - {{ $subgroup->name }}</option>
-                                        @foreach($subgroup->accounts as $account)
-                                            <option value="{{ $account->account_uuid }}"
-                                            @if(isset($account_uuid))
-                                                {{ $account->account_uuid === $account_uuid ? 'selected' : '' }}
-                                                @endif>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📌 {{ $account->code }}
-                                                - {{ $account->name }}
-                                            </option>
+                                        <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $subgroup->code }} - {{ $subgroup->name }}</option>
+                                        @foreach($subgroup->mainaccounts as $mainaccount)
+                                            <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $mainaccount->code }} - {{ $mainaccount->name }}</option>
+                                            @foreach($mainaccount->analyticalaccounts as $analyticalaccount)
+                                                <option value="{{ $analyticalaccount->analyticalaccount_uuid }}"
+                                                @if(isset($analyticalaccount_uuid))
+                                                    {{ $analyticalaccount->analyticalaccount_uuid === $analyticalaccount_uuid ? 'selected' : '' }}
+                                                    @endif>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📌 {{ $analyticalaccount->code }} - {{ $analyticalaccount->name }}
+                                                </option>
+                                            @endforeach
                                         @endforeach
                                     @endforeach
                                 @endforeach
@@ -187,15 +188,15 @@
         @endfor
     @else
         @php
-            $array_account_uuids = $voucher->toArray()['account_uuids'] ?? [];
+            $array_analyticalaccount_uuids = $voucher->toArray()['analyticalaccount_uuids'] ?? [];
             $array_debits = $voucher->toArray()['debits'] ?? [];
             $array_credits = $voucher->toArray()['credits'] ?? [];
-            $max_update = max(count($array_account_uuids), count($array_debits), count($array_credits));
+            $max_update = max(count($array_analyticalaccount_uuids), count($array_debits), count($array_credits));
         @endphp
         @if (!empty($max_update))
             @for ($index = 0; $index < $max_update; $index++)
                 @php
-                    $account_uuid = $array_account_uuids[$index] ?? null;
+                    $analyticalaccount_uuid = $array_analyticalaccount_uuids[$index] ?? null;
                     $debit = $array_debits[$index] ?? null;
                     $credit = $array_credits[$index] ?? null;
                 @endphp
@@ -205,36 +206,37 @@
                         <div class="relative">
                             <i class="bi-journal-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                             <input type="text"
-                                   onkeyup="search_account(this)"
+                                   onkeyup="search_analyticalaccount(this)"
                                    data-index="{{ $index }}"
                                    placeholder="{{ __('word.voucher.search') }} ..."
                                    class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
                         </div>
                     </div>
                     <div class="mt-4 md:col-span-2">
-                        <x-label value="{{ __('word.voucher.attribute.account_uuid') }} *"/>
+                        <x-label value="{{ __('word.voucher.attribute.analyticalaccount_uuid') }} *"/>
                         <div class="relative">
                             <i class="bi-journal-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                            <select required name="account_uuids[{{ $index }}]" data-index="{{ $index }}"
-                                    class="select-account focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
+                            <select required name="analyticalaccount_uuids[{{ $index }}]" data-index="{{ $index }}"
+                                    class="select-analyticalaccount focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
                                 <option value=""
-                                        disabled {{ (!isset($account_uuid))?'selected' : '' }}>{{ __('word.voucher.select_account') }}</option>
-                                @foreach($accounts as $class)
+                                        disabled {{ (!isset($analyticalaccount_uuid))?'selected' : '' }}>{{ __('word.voucher.select_analyticalaccount') }}</option>
+                                @foreach($analyticalaccounts as $class)
                                     <option value="" disabled>📁 {{ $class->code }} - {{ $class->name }}</option>
                                     @foreach($class->groups as $group)
                                         <option value="" disabled>&nbsp;&nbsp;📂 {{ $group->code }}
                                             - {{ $group->name }}</option>
                                         @foreach($group->subgroups as $subgroup)
-                                            <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $subgroup->code }}
-                                                - {{ $subgroup->name }}</option>
-                                            @foreach($subgroup->accounts as $account)
-                                                <option value="{{ $account->account_uuid }}"
-                                                @if(isset($account_uuid))
-                                                    {{ $account->account_uuid === $account_uuid ? 'selected' : '' }}
-                                                    @endif>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📌 {{ $account->code }}
-                                                    - {{ $account->name }}
-                                                </option>
+                                            <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $subgroup->code }} - {{ $subgroup->name }}</option>
+                                            @foreach($subgroup->mainaccounts as $mainaccount)
+                                                <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $mainaccount->code }} - {{ $mainaccount->name }}</option>
+                                                @foreach($mainaccount->analyticalaccounts as $analyticalaccount)
+                                                    <option value="{{ $analyticalaccount->analyticalaccount_uuid }}"
+                                                    @if(isset($analyticalaccount_uuid))
+                                                        {{ $analyticalaccount->analyticalaccount_uuid === $analyticalaccount_uuid ? 'selected' : '' }}
+                                                        @endif>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📌 {{ $analyticalaccount->code }} - {{ $analyticalaccount->name }}
+                                                    </option>
+                                                @endforeach
                                             @endforeach
                                         @endforeach
                                     @endforeach
@@ -273,29 +275,32 @@
                     <div class="relative">
                         <i class="bi-journal-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
                         <input type="text"
-                               onkeyup="search_account(this)"
+                               onkeyup="search_analyticalaccount(this)"
                                placeholder="{{ __('word.voucher.search') }} ..."
                                data-index="0"
                                class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
                     </div>
                 </div>
                 <div class="mt-4 md:col-span-2">
-                    <x-label value="{{ __('word.voucher.attribute.account_uuid') }} *"/>
+                    <x-label value="{{ __('word.voucher.attribute.analyticalaccount_uuid') }} *"/>
                     <div class="relative">
                         <i class="bi-journal-text absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-                        <select required name="account_uuids[0]" data-index="0"
-                                class="select-account focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
-                            <option value="" disabled selected>{{ __('word.voucher.select_account') }}</option>
-                            @foreach($accounts as $class)
+                        <select required name="analyticalaccount_uuids[0]" data-index="0"
+                                class="select-analyticalaccount focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full">
+                            <option value="" disabled selected>{{ __('word.voucher.select_analyticalaccount') }}</option>
+                            @foreach($analyticalaccounts as $class)
                                 <option value="" disabled>📁 {{ $class->code }} - {{ $class->name }}</option>
                                 @foreach($class->groups as $group)
                                     <option value="" disabled>&nbsp;&nbsp;📂 {{ $group->code }} - {{ $group->name }}</option>
                                     @foreach($group->subgroups as $subgroup)
                                         <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $subgroup->code }} - {{ $subgroup->name }}</option>
-                                        @foreach($subgroup->accounts as $account)
-                                            <option value="{{ $account->account_uuid }}">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📌 {{ $account->code }} - {{ $account->name }}
-                                            </option>
+                                        @foreach($subgroup->mainaccounts as $mainaccount)
+                                            <option value="" disabled>&nbsp;&nbsp;&nbsp;&nbsp;📑 {{ $mainaccount->code }} - {{ $mainaccount->name }}</option>
+                                            @foreach($mainaccount->analyticalaccounts as $analyticalaccount)
+                                                <option value="{{ $analyticalaccount->analyticalaccount_uuid }}">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📌 {{ $analyticalaccount->code }} - {{ $analyticalaccount->name }}
+                                                </option>
+                                            @endforeach
                                         @endforeach
                                     @endforeach
                                 @endforeach

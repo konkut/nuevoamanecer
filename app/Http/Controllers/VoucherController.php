@@ -28,7 +28,7 @@ class VoucherController extends Controller
             $voucher->debit = $debit;
             $voucher->credit = $credit;
             $voucher->company = $name;
-            $voucher->data = Voucherdetail::where('voucher_uuid',$voucher->voucher_uuid)->orderBy('index','asc')->with(['account'])->get();
+            $voucher->data = Voucherdetail::where('voucher_uuid',$voucher->voucher_uuid)->orderBy('index','asc')->with(['analyticalaccount'])->get();
         });
         return view("voucher.index", compact('vouchers', 'perPage'));
     }
@@ -38,7 +38,7 @@ class VoucherController extends Controller
         $voucher = new Voucher();
         $company = Company::where('name','Nuevo Amanecer')->first();
         $projects = Project::where('company_uuid', $company->company_uuid)->where('status', true)->get();
-        $accounts = Accountclass::with('groups.subgroups.accounts')->orderBy('code', 'asc')->get();
+        $analyticalaccounts = Accountclass::with('groups.subgroups.mainaccounts.analyticalaccounts')->orderBy('code', 'asc')->get();
         $last_voucher = Voucher::lockForUpdate()->orderBy('number', 'desc')->first();
         $next_code = $last_voucher ? intval($last_voucher->number) + 1 : 1;
         $number = str_pad($next_code, 6, '0', STR_PAD_LEFT);
@@ -46,7 +46,7 @@ class VoucherController extends Controller
         $voucher->name = $company->name;
         $voucher->number = $number;
         $voucher->date = Carbon::parse($voucher->date)->format('Y-m-d');
-        return view("voucher.create", compact('voucher', 'projects', 'accounts'));
+        return view("voucher.create", compact('voucher', 'projects', 'analyticalaccounts'));
     }
 
     public function store(Request $request)
@@ -60,8 +60,8 @@ class VoucherController extends Controller
             'ufv' => 'nullable|numeric',
             'usd' => 'nullable|numeric',
             'project_uuid' => 'required|exists:projects,project_uuid',
-            'account_uuids' => 'required|array',
-            'account_uuids.*' => 'required|string|max:36|exists:accounts,account_uuid',
+            'analyticalaccount_uuids' => 'required|array',
+            'analyticalaccount_uuids.*' => 'required|string|max:36|exists:analyticalaccounts,analyticalaccount_uuid',
             'debits' => 'required|array',
             'debits.*' => 'nullable|numeric',
             'credits' => 'required|array',
@@ -132,12 +132,12 @@ class VoucherController extends Controller
                 'project_uuid' => $request->project_uuid,
                 'user_id' => Auth::id(),
             ]);
-            foreach ($request->account_uuids as $key => $account_uuid){
+            foreach ($request->analyticalaccount_uuids as $key => $analyticalaccount_uuid){
                 Voucherdetail::create([
                     'debit' => $request->debits[$key] ?? 0,
                     'credit' => $request->credits[$key] ?? 0,
                     'index' => $key,
-                    'account_uuid' => $account_uuid,
+                    'analyticalaccount_uuid' => $analyticalaccount_uuid,
                     'voucher_uuid' => $voucher->voucher_uuid,
                 ]);
             }
@@ -150,22 +150,22 @@ class VoucherController extends Controller
         $voucher = Voucher::where('voucher_uuid', $voucher_uuid)->firstOrFail();
         $project = Project::where('project_uuid', $voucher->project_uuid)->with(['company'])->first();
         $projects = Project::where('company_uuid', $project->company_uuid)->where('status', true)->get();
-        $accounts = Accountclass::with('groups.subgroups.accounts')->orderBy('code', 'asc')->get();
-        $vouchers = Voucherdetail::where('voucher_uuid',$voucher_uuid)->orderBy('index','asc')->with(['account'])->get();
-        $account_uuids = [];
+        $analyticalaccounts = Accountclass::with('groups.subgroups.mainaccounts.analyticalaccounts')->orderBy('code', 'asc')->get();
+        $vouchers = Voucherdetail::where('voucher_uuid',$voucher_uuid)->orderBy('index','asc')->with(['analyticalaccount'])->get();
+        $analyticalaccount_uuids = [];
         $debits = [];
         $credits = [];
         foreach ($vouchers as $item){
-            $account_uuids[] = $item->account_uuid;
+            $analyticalaccount_uuids[] = $item->analyticalaccount_uuid;
             $debits[] = $item->debit;
             $credits[] = $item->credit;
         }
         $voucher->name = $project->company->name;
         $voucher->date = Carbon::parse($voucher->date)->format('Y-m-d');
-        $voucher->account_uuids = $account_uuids;
+        $voucher->analyticalaccount_uuids = $analyticalaccount_uuids;
         $voucher->debits = $debits;
         $voucher->credits = $credits;
-        return view("voucher.edit", compact('voucher', 'projects', 'accounts'));
+        return view("voucher.edit", compact('voucher', 'projects', 'analyticalaccounts'));
     }
 
     public function update(Request $request, string $voucher_uuid)
@@ -180,8 +180,8 @@ class VoucherController extends Controller
             'ufv' => 'nullable|numeric',
             'usd' => 'nullable|numeric',
             'project_uuid' => 'required|exists:projects,project_uuid',
-            'account_uuids' => 'required|array',
-            'account_uuids.*' => 'required|string|max:36|exists:accounts,account_uuid',
+            'analyticalaccount_uuids' => 'required|array',
+            'analyticalaccount_uuids.*' => 'required|string|max:36|exists:analyticalaccounts,analyticalaccount_uuid',
             'debits' => 'required|array',
             'debits.*' => 'nullable|numeric',
             'credits' => 'required|array',
@@ -248,13 +248,13 @@ class VoucherController extends Controller
                 'usd' => $request->usd,
                 'project_uuid' => $request->project_uuid,
             ]);
-            foreach ($request->account_uuids as $key => $account_uuid){
+            foreach ($request->analyticalaccount_uuids as $key => $analyticalaccount_uuid){
                 $voucherdetail = Voucherdetail::where('voucher_uuid',$voucher->voucher_uuid)->where('index', $key)->first();
                 if ($voucherdetail){
                     $voucherdetail->update([
                         'debit' => $request->debits[$key] ?? 0,
                         'credit' => $request->credits[$key] ?? 0,
-                        'account_uuid' => $account_uuid,
+                        'analyticalaccount_uuid' => $analyticalaccount_uuid,
                     ]);
                 }
             }

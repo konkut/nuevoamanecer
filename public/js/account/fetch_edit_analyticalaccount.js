@@ -1,4 +1,4 @@
-const fetch_edit_account = async (element, base, uuid, e) => {
+const fetch_edit_analyticalaccount = async (element, base, uuid, e) => {
     e.preventDefault();
     loader_action_status('show');
     const url = element.href;
@@ -22,12 +22,12 @@ const fetch_edit_account = async (element, base, uuid, e) => {
             return;
         }
         if (response.status === 200) {
-            document.querySelector(`#code-${uuid}`).textContent = data?.account?.code;
-            document.querySelector(`#account-${uuid}`).value = data?.account?.name;
-            document.querySelector(`#description-${uuid}`).value = data?.account?.description;
-            let select_accountsubgroup = document.querySelector(`#accountsubgroup_uuid-${uuid}`);
-            for (let option of select_accountsubgroup.options) {
-                if (option.value == data?.account?.accountsubgroup_uuid) {
+            document.querySelector(`#code-${uuid}`).textContent = data?.analyticalaccount?.code;
+            document.querySelector(`#analyticalaccount-${uuid}`).value = data?.analyticalaccount?.name;
+            document.querySelector(`#description-${uuid}`).value = data?.analyticalaccount?.description;
+            let select_mainaccount = document.querySelector(`#mainaccount_uuid-${uuid}`);
+            for (let option of select_mainaccount.options) {
+                if (option.value == data?.analyticalaccount?.mainaccount_uuid) {
                     option.selected = true;
                     break;
                 }

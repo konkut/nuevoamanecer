@@ -30,10 +30,16 @@ class Accountsubgroup extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function accounts()
+    public function mainaccounts()
     {
-        return $this->hasMany(Account::class, 'accountsubgroup_uuid', 'accountsubgroup_uuid')->orderBy('code', 'asc');
+        return $this->hasMany(Mainaccount::class, 'accountsubgroup_uuid', 'accountsubgroup_uuid')
+            ->join('mainaccount_businesstypes', 'mainaccount_businesstypes.mainaccount_uuid', '=', 'mainaccounts.mainaccount_uuid')
+            ->join('businesstypes', 'businesstypes.businesstype_uuid', '=', 'mainaccount_businesstypes.businesstype_uuid')
+            ->where('businesstypes.name', 'Construcción')
+            ->select('mainaccounts.*')
+            ->orderBy('mainaccounts.code', 'asc');
     }
+
     protected static function boot()
     {
         parent::boot();

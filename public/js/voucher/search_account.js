@@ -1,7 +1,7 @@
-const search_account = (element)=>{
+const search_analyticalaccount = (element)=>{
     let filter = element.value.toLowerCase();
     let index = element.getAttribute('data-index');
-    let select_accounts = document.querySelectorAll('.select-account');
+    let select_accounts = document.querySelectorAll('.select-analyticalaccount');
     select_accounts.forEach(select=>{
         if(select.getAttribute('data-index') == index){
             let options = select.options;

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Invoice;
 use App\Models\Revenue;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use App\Models\Bankregister;
@@ -49,7 +50,9 @@ class DashboardController extends Controller
         $total_vouchers_by_user = Voucher::where("user_id", Auth::id())->count();
         $total_revenues_by_user = Revenue::whereIn("cashshift_uuid", $cashshift_uuids)->count();
         $income_uuids = Income::whereIn("cashshift_uuid", $cashshift_uuids)->pluck('income_uuid')->toArray();
+        $revenue_uuids = Revenue::whereIn("cashshift_uuid", $cashshift_uuids)->pluck('revenue_uuid')->toArray();
         $total_receipts_by_user = Receipt::whereIn("income_uuid", $income_uuids)->count();
+        $total_invoices_by_user = Invoice::whereIn("revenue_uuid", $revenue_uuids)->count();
         $inventory = Product::select('name', 'stock', 'price')->get();
         $cashshift = $this->cashshift();
         $cashshifts = $this->cashshifts();
@@ -68,7 +71,7 @@ class DashboardController extends Controller
         if (auth()->user()->hasRole('Administrador')) {
             return view('dashboard', compact('chart_cash_sessions','chart_bank_sessions', 'chart_platform_sessions', 'total_incomes', 'total_cashshifts', 'total_expenses', 'total_sales', 'total_vouchers', 'cashshifts', 'inventory', 'data_sessions'));
         } else {
-            return view('dashboard-user', compact('chart_cash_session', 'chart_bank_session', 'chart_platform_session', 'total_incomes_by_user', 'total_cashshifts_by_user', 'total_expenses_by_user', 'total_sales_by_user', 'total_receipts_by_user', 'total_vouchers_by_user', 'total_revenues_by_user', 'cashshift', 'inventory', 'data_session'));
+            return view('dashboard-user', compact('chart_cash_session', 'chart_bank_session', 'chart_platform_session', 'total_incomes_by_user', 'total_cashshifts_by_user', 'total_expenses_by_user', 'total_sales_by_user', 'total_receipts_by_user', 'total_vouchers_by_user', 'total_revenues_by_user', 'total_invoices_by_user', 'cashshift', 'inventory', 'data_session'));
         }
     }
 

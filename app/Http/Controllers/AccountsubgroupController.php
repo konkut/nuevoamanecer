@@ -7,6 +7,7 @@ use App\Models\Accountclass;
 use App\Models\Accountgroup;
 use App\Models\Accountsubgroup;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class AccountsubgroupController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|unique:accountsubgroups,name|string|max:50',
+            'name' => 'required|string|max:70',
             'description' => 'nullable|string|max:100',
             'accountgroup_uuid' => 'required|exists:accountgroups,accountgroup_uuid',
         ];
@@ -25,26 +26,14 @@ class AccountsubgroupController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $accountgroup = Accountgroup::where('accountgroup_uuid', $request->accountgroup_uuid)->first();
-        if ($accountgroup) {
-            $accountclass = Accountclass::where('accountclass_uuid', $accountgroup->accountclass_uuid)->first();
-            if ($accountclass) {
-                $base = ($accountclass->code * 100) + ($accountgroup->code % 100);
-                $next = Accountsubgroup::where('accountgroup_uuid', $request->accountgroup_uuid)->max('code');
-                if (!$next) {
-                    $next = ($base * 100) + 1;
-                } else {
-                    $next += 1;
-                }
-                Accountsubgroup::create([
-                    'code' => $next,
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'accountgroup_uuid' => $request->accountgroup_uuid,
-                    'user_id' => Auth::id(),
-                ]);
-            }
-        }
+        $next = Accountsubgroup::max('code') + 1;
+        Accountsubgroup::create([
+            'code' => $next,
+            'name' => $request->name,
+            'description' => $request->description,
+            'accountgroup_uuid' => $request->accountgroup_uuid,
+            'user_id' => Auth::id(),
+        ]);
         return redirect('/accounts')->with('success', __('word.accountsubgroup.alert.store'));
     }
 
@@ -79,7 +68,7 @@ class AccountsubgroupController extends Controller
     {
         $accountsubgroup = Accountsubgroup::where('accountsubgroup_uuid', $accountsubgroup_uuid)->firstOrFail();
         $rules = [
-            'name' => 'required|string|max:50|unique:accountsubgroups,name,' . $accountsubgroup->accountsubgroup_uuid . ',accountsubgroup_uuid',
+            'name' => 'required|string|max:70',
             'description' => 'nullable|string|max:100',
             'accountgroup_uuid' => 'required|exists:accountgroups,accountgroup_uuid',
         ];
@@ -89,25 +78,25 @@ class AccountsubgroupController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $accountgroup = Accountgroup::where('accountgroup_uuid', $request->accountgroup_uuid)->first();
-        if ($accountgroup) {
-            $accountclass = Accountclass::where('accountclass_uuid', $accountgroup->accountclass_uuid)->first();
-            if ($accountclass) {
-                $base = ($accountclass->code * 100) + ($accountgroup->code % 100);
-                $next = Accountsubgroup::where('accountgroup_uuid', $request->accountgroup_uuid)->max('code');
-                if (!$next) {
-                    $next = ($base * 100) + 1;
-                } else {
-                    $next += 1;
-                }
+        DB::transaction(function () use ($request, $accountsubgroup) {
+            $new_accountgroup_uuid = $request->accountgroup_uuid;
+            if ($accountsubgroup->accountgroup_uuid !== $new_accountgroup_uuid) {
+                $new_accountgroup = Accountgroup::where('accountgroup_uuid', $new_accountgroup_uuid)->firstOrFail();
+                $max_code = Accountsubgroup::where('accountgroup_uuid', $new_accountgroup_uuid)->max('code');
+                $next = $max_code ? $max_code + 1 : $new_accountgroup->code + 1;
                 $accountsubgroup->update([
-                    'code' => $accountsubgroup->accountgroup_uuid == $request->accountgroup_uuid ? $accountsubgroup->code : $next,
+                    'code' => $next,
                     'name' => $request->name,
                     'description' => $request->description,
-                    'accountgroup_uuid' => $request->accountgroup_uuid,
+                    'accountgroup_uuid' => $new_accountgroup_uuid,
+                ]);
+            } else {
+                $accountsubgroup->update([
+                    'name' => $request->name,
+                    'description' => $request->description,
                 ]);
             }
-        }
+        });
         return redirect('/accounts')->with('success', __('word.accountsubgroup.alert.update'));
     }
 

@@ -13,6 +13,7 @@ return new class extends Migration
       $table->string('customer_uuid',36)->unique();
       $table->string('name', 100);
       $table->string('email',50)->unique();
+      $table->bigInteger('nit');
       $table->string('phone', 20);
       $table->text('address',100);
       $table->boolean('status')->default(true);

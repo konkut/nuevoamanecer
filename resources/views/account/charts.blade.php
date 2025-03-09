@@ -2,6 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="routeName" content="{{ Route::currentRouteName() }}">
+    <link rel="shortcut icon" href="{{url('images/icono.ico')}}" type="image/x-icon">
     <title>Plan de Cuentas</title>
     <style>
         body { font-family: Arial, sans-serif; font-size: 11px; padding: 0 20px; }
@@ -12,7 +18,8 @@
         .nivel-1 { padding-left: 10px; font-weight: bold; }
         .nivel-2 { padding-left: 20px; }
         .nivel-3 { padding-left: 30px; }
-        .nivel-4 { padding-left: 40px; font-style: italic; }
+        .nivel-4 { padding-left: 30px; }
+        .nivel-5 { padding-left: 40px; font-style: italic; }
         .header {text-align: center;margin-bottom: 10px;}
         .header img {height: 70px;width: 70px;}
         .header div {margin-top: 16px;}
@@ -59,11 +66,17 @@
                     <td class="nivel-3">{{ $subgroup->code }}</td>
                     <td class="nivel-3">{{ $subgroup->name }}</td>
                 </tr>
-                @foreach($subgroup->accounts as $account)
+                @foreach($subgroup->mainaccounts as $mainaccount)
                     <tr>
-                        <td class="nivel-4">{{ $account->code }}</td>
-                        <td class="nivel-4">{{ $account->name }}</td>
+                        <td class="nivel-4">{{ $mainaccount->code }}</td>
+                        <td class="nivel-4">{{ $mainaccount->name }}</td>
                     </tr>
+                    @foreach($mainaccount->analyticalaccounts as $analyticalaccount)
+                        <tr>
+                            <td class="nivel-5">{{ $analyticalaccount->code }}</td>
+                            <td class="nivel-5">{{ $analyticalaccount->name }}</td>
+                        </tr>
+                    @endforeach
                 @endforeach
             @endforeach
         @endforeach

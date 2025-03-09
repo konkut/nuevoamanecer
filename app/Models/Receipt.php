@@ -17,7 +17,6 @@ class Receipt extends Model
         'receipt_uuid',
         'code',
         'amount',
-        'date',
         'income_uuid',
     ];
     public function income()

@@ -61,7 +61,11 @@
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.customer.attribute.name') }}')">{{ __('word.customer.attribute.name') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.customer.attribute.email') }}')">{{ __('word.customer.attribute.email') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.customer.attribute.phone') }}')">{{ __('word.customer.attribute.phone') }}</th>
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.customer.filter.nit') }}')">{{ __('word.customer.attribute.nit') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.customer.attribute.user_id') }}')">{{ __('word.category.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -79,7 +83,9 @@
                                 <tr class="hover:bg-[#d1d5db44] transition duration-200">
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $loop->iteration }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->email }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->phone }}</td>
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->nit }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
@@ -178,14 +184,22 @@
                                                     </div>
                                                     @if($item->email)
                                                         <div class="mt-2">
-                                                            <p class="text-sm font-semibold ">{{ __('word.customer.attribute.email') }}</p>
+                                                            <p class="text-sm font-semibold">{{ __('word.customer.attribute.email') }}</p>
                                                             <p>{{ $item->email }}</p>
                                                         </div>
                                                     @endif
+                                                    @if($item->phone)
                                                         <div class="mt-2">
-                                                            <p class="text-sm font-semibold ">{{ __('word.customer.attribute.phone') }}</p>
+                                                            <p class="text-sm font-semibold">{{ __('word.customer.attribute.phone') }}</p>
                                                             <p>{{ $item->phone }}</p>
                                                         </div>
+                                                    @endif
+                                                    @if($item->nit)
+                                                        <div class="mt-2">
+                                                            <p class="text-sm font-semibold">{{ __('word.customer.attribute.nit') }}</p>
+                                                            <p>{{ $item->nit }}</p>
+                                                        </div>
+                                                    @endif
                                                     @if($item->address)
                                                         <div class="mt-2">
                                                             <p class="text-sm font-semibold ">{{ __('word.customer.attribute.address') }}</p>

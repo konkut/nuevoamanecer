@@ -99,6 +99,12 @@
                     title="{{__('word.general.total_expenses')}}"
                     subtitle="{{__('word.expense.title')}}"
                 ></x-panel-box-link>
+                <x-panel-box-link
+                    :total="$total_invoices_by_user"
+                    :route="route('invoices.index')"
+                    title="{{__('word.general.total_invoice')}}"
+                    subtitle="{{__('word.invoice.title')}}"
+                ></x-panel-box-link>
             @endif
         </div>
         @if($cashshift)

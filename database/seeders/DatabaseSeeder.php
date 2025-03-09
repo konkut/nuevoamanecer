@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Activity;
 use App\Models\Bankregister;
+use App\Models\Businesstype;
 use App\Models\Company;
 use App\Models\Platform;
 use Illuminate\Database\Seeder;
@@ -26,7 +27,9 @@ class DatabaseSeeder extends Seeder
             AccountclassSeeder::class,
             AccountgroupSeeder::class,
             AccountsubgroupSeeder::class,
-            AccountSeeder::class,
+            BusinesstypeSeeder::class,
+            MainaccountSeeder::class,
+            AnalyticalaccountSeeder::class,
             ActivitySeeder::class,
             CompanySeeder::class,
             ProjectSeeder::class,

@@ -118,7 +118,7 @@
                         </x-slot>
                         <!-- Dropdown Content -->
                         <x-slot name="content">
-                            <x-dropdown-link href="{{ route('change.language', 'es') }}">🇪🇸 Español</x-dropdown-link>
+                            <x-dropdown-link href="{{ route('change.language', 'es') }}">🇧🇴 Español</x-dropdown-link>
                             <x-dropdown-link href="{{ route('change.language', 'en') }}">🇬🇧 English</x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
@@ -217,7 +217,7 @@
                 <div class="block px-4 text-xs text-gray-400">
                     {{ __('word.general.language') }}
                 </div>
-                <x-responsive-nav-link href="{{ route('change.language', 'es') }}">🇪🇸 Español</x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('change.language', 'es') }}">🇧🇴 Español</x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('change.language', 'en') }}">🇬🇧 English</x-responsive-nav-link>
             </div>
         </div>

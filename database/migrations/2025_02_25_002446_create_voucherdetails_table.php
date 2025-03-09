@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('index')->nullable();
             $table->string('voucher_uuid', 36);
             $table->foreign('voucher_uuid')->references('voucher_uuid')->on('vouchers');
-            $table->string('account_uuid');
-            $table->foreign('account_uuid')->references('account_uuid')->on('accounts');
+            $table->string('analyticalaccount_uuid');
+            $table->foreign('analyticalaccount_uuid')->references('analyticalaccount_uuid')->on('analyticalaccounts');
             $table->timestamps();
         });
     }

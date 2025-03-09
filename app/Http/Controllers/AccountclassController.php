@@ -11,7 +11,7 @@ class AccountclassController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|unique:accountclasses,name|string|max:50',
+            'name' => 'required|string|max:70',
             'description' => 'nullable|string|max:100',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -61,7 +61,7 @@ class AccountclassController extends Controller
     {
         $accountclass = Accountclass::where('accountclass_uuid', $accountclass_uuid)->firstOrFail();
         $rules = [
-            'name' => 'required|string|max:50|unique:accountclasses,name,' . $accountclass->accountclass_uuid . ',accountclass_uuid',
+            'name' => 'required|string|max:70',
             'description' => 'nullable|string|max:100',
         ];
         $validator = Validator::make($request->all(), $rules);

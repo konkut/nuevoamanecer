@@ -25,6 +25,7 @@
                 ['route' => 'sales.index', 'label' => __('word.sale.title'), 'icon' => 'bi-cash'],
                 ['route' => 'expenses.index', 'label' => __('word.expense.title'), 'icon' => 'bi-cash'],
                 ['route' => 'receipts.index', 'label' => __('word.receipt.title'), 'icon' => 'bi-receipt'],
+                ['route' => 'invoices.index', 'label' => __('word.invoice.title'), 'icon' => 'bi-receipt'],
             ]
         ],
         'administracion' => [

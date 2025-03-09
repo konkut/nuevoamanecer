@@ -120,11 +120,20 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'accountsubgroups.edit'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'accountsubgroups.destroy'])->syncRoles([$role1, $role3]);
 
+        /*MAINACCOUNTS ok*/
+        Permission::create(['name' => 'mainaccounts.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'mainaccounts.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'mainaccounts.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'mainaccounts.destroy'])->syncRoles([$role1, $role3]);
+
+        /*ANALYTICALACCOUNTS ok*/
+        Permission::create(['name' => 'analyticalaccounts.index'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'analyticalaccounts.create'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'analyticalaccounts.edit'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'analyticalaccounts.destroy'])->syncRoles([$role1, $role3]);
+
         /*ACCOUNTS ok*/
         Permission::create(['name' => 'accounts.index'])->syncRoles([$role1, $role3]);
-        Permission::create(['name' => 'accounts.create'])->syncRoles([$role1, $role3]);
-        Permission::create(['name' => 'accounts.edit'])->syncRoles([$role1, $role3]);
-        Permission::create(['name' => 'accounts.destroy'])->syncRoles([$role1, $role3]);
 
         /*ACTIVITIES ok*/
         Permission::create(['name' => 'activities.index'])->syncRoles([$role1, $role3]);

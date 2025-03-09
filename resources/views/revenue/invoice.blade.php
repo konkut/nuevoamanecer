@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="routeName" content="{{ Route::currentRouteName() }}">
     <link rel="shortcut icon" href="{{url('images/icono.ico')}}" type="image/x-icon">
-    <title>Comprobante de pago - {{__('word.general.app') }}</title>
+    <title>Factura - {{__('word.general.app') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
             width: 375px; /* Media carta */
             margin: auto;
             padding: 30px;
-            border: 1px solid #eee;
+            color: #222;
         }
 
         .header, .footer {
@@ -25,8 +25,8 @@
         }
 
         .logo-container img {
-            height: 70px;
-            width: 70px;
+            height: 60px;
+            width: 60px;
         }
 
         .logo-container div {
@@ -35,39 +35,46 @@
         }
 
         .separator {
-            border-top: 1px dashed black;
-            margin: 10px 0;
+            border-top: 1px dashed #aaa;
         }
 
         .text-center {
             text-align: center;
         }
 
-        .detalle-container {
+        .detail-container {
             display: table;
             width: 100%;
             padding: 3px 0;
         }
-        .detalle-row {
+
+        .detail-row {
             display: table-row;
         }
+
         .left, .right {
             display: table-cell;
             vertical-align: middle;
         }
+
         .left {
             text-align: left;
             width: 80%;
         }
+
         .right {
             text-align: right;
             width: 20%;
             white-space: nowrap;
         }
+
         .total-container {
             text-align: right;
             font-weight: bold;
             margin-top: 5px;
+        }
+        section p{
+            line-height: 10px;
         }
     </style>
 </head>
@@ -83,51 +90,59 @@
 </section>
 <div class="separator"></div>
 <section class="text-center">
-    <p><b>CASA MATRIZ</b></p>
-    <p>CALLE JOSE ARZABE EDIF. TERMINAL INTERPROVINCIAL</p>
-    <p>EL ALTO PISO 1 DEPTO. OF. 2 ZONA VILLA EXPERANZA</p>
-    <p>EL ALTO - BOLIVIA</p>
-    <p><b>CELULAR</b></p>
-    <p>75231304 - 60631216</p>
+    <p><strong>OFICINA CENTRAL</strong></p>
+    <p>Calle José Arzabe, Edificio Terminal Interprovincial</p>
+    <p>Piso 1, Oficina 2 - Zona Villa Esperanza</p>
+    <p>El Alto, La Paz - Bolivia</p>
+    <p><strong>CONTACTO</strong></p>
+    <p>Teléfono: 75231304 - 60631216</p>
+    <p><strong>FACTURA</strong></p>
+    <p>(Este documento no es válido para crédito fiscal)</p>
 </section>
 <div class="separator"></div>
 <section class="text-center">
-    <p><b>COMPROBANTE DE PAGO</b></p>
-    <p><b>COMPROBANTE N°:</b> {{$income->code}}</p>
-    <p><b>FECHA DE EMISIÓN:</b> {{$income->date}}</p>
+    <p><strong>NIT EMPRESA:</strong> 6889122011</p>
+    <p><strong>N° DE FACTURA:</strong> {{$revenue->code}}</p>
+</section>
+<div class="separator"></div>
+<section class="text-center">
+    <p><strong>FECHA DE EMISIÓN:</strong> {{$revenue->date}}</p>
+    <p><strong>NIT CLIENTE:</strong> {{$revenue->customer->nit}}</p>
+    <p><strong>NOMBRE DEL CLIENTE:</strong> {{$revenue->customer->name}}</p>
 </section>
 <div class="separator"></div>
 <section>
     <p class="text-center"><b>DETALLE</b></p>
-    @foreach($income->data as $item)
-        <div class="detalle-container">
-            <div class="detalle-row">
-                <span class="left">{{ $item->quantity }} {{ $item->name }}</span>
+    @foreach($revenue->data as $item)
+        <div class="detail-container">
+            <div class="detail-row">
+                <span class="left">{{ $item->name }}</span>
                 <span class="right">{{ number_format($item->price, 2, '.', '') }}</span>
             </div>
         </div>
     @endforeach
     <div class="total-container">
-        @if($income->commission)
-            <p><b>REP. FORMULARIO:</b> {{ $income->commission }}</p>
+        <p><b>TOTAL:</b> {{ $revenue->total }}</p>
+        @if($revenue->cashregister)
+            <p><b>{{ $revenue->cashregister }}:</b> {{ $revenue->received }}</p>
         @endif
-            <p><b>TOTAL:</b> {{ $income->total }}</p>
-        @if($income->cashregister)
-            <p><b>{{ $income->cashregister }}:</b> {{ $income->received }}</p>
+        @if($revenue->bankregister)
+            <p><b>{{ $revenue->bankregister }}:</b> {{ $revenue->bankregister_total }}</p>
         @endif
-        @if($income->bankregister)
-            <p><b>{{ $income->bankregister }}:</b> {{ $income->bankregister_total }}</p>
+        @if($revenue->platform)
+            <p><b>{{ $revenue->platform }}:</b> {{ $revenue->platform_total }}</p>
         @endif
-        @if($income->platform)
-            <p><b>{{ $income->platform }}:</b> {{ $income->platform_total }}</p>
+        @if($revenue->returned)
+            <p><b>CAMBIO:</b> {{ $revenue->returned }}</p>
         @endif
-        <p><b>CAMBIO:</b> {{ $income->returned }}</p>
-        <p><b>MONTO A PAGAR:</b> {{ $income->total }}</p>
+        <p><b>MONTO A PAGAR:</b> {{ $revenue->total }}</p>
     </div>
 </section>
 <div class="separator"></div>
-<div class="text-center">Gracias por su preferencia</div>
-<div class="text-center">Usuario: {{$income->user}}</div>
-
+<section class="text-center" style="margin-top: 7px; font-size: 10px;">
+    <p><strong>Usuario:</strong> {{$revenue->user}}</p>
+    <p><strong>Fecha de impresión:</strong> {{$revenue->date}}</p>
+    <p><strong>GRACIAS POR SU PREFERENCIA</strong></p>
+</section>
 </body>
 </html>

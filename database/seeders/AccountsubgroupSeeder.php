@@ -16,6 +16,94 @@ class AccountsubgroupSeeder extends Seeder
         $name_two = Accountgroup::where('name', 'ACTIVO NO CORRIENTE')->value('accountgroup_uuid');
         $name_three = Accountgroup::where('name', 'PASIVO CORRIENTE')->value('accountgroup_uuid');
         $name_four = Accountgroup::where('name', 'PASIVO NO CORRIENTE')->value('accountgroup_uuid');
+        $name_five = Accountgroup::where('name', 'PATRIMONIO')->value('accountgroup_uuid');
+        $name_six = Accountgroup::where('name', 'INGRESOS OPERATIVOS')->value('accountgroup_uuid');
+        $name_seven = Accountgroup::where('name', 'INGRESOS FINANCIEROS')->value('accountgroup_uuid');
+        $name_eight = Accountgroup::where('name', 'OTROS INGRESOS')->value('accountgroup_uuid');
+        $name_nine = Accountgroup::where('name', 'AJUSTES Y DIFERENCIAS DE CAMBIO')->value('accountgroup_uuid');
+        $name_ten = Accountgroup::where('name', 'COSTOS OPERATIVOS')->value('accountgroup_uuid');
+        $name_eleven = Accountgroup::where('name', 'GASTOS DE ADMINISTRACIÓN')->value('accountgroup_uuid');
+        $name_twelve = Accountgroup::where('name', 'GASTOS DE COMERCIALIZACIÓN')->value('accountgroup_uuid');
+        $name_thirteen = Accountgroup::where('name', 'GASTOS FINANCIEROS')->value('accountgroup_uuid');
+        $name_fourteen = Accountgroup::where('name', 'OTROS GASTOS')->value('accountgroup_uuid');
+        $name_fifteen = Accountgroup::where('name', 'AJUSTES Y DIFERENCIAS DE CAMBIO')->value('accountgroup_uuid');
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'EFECTIVO Y EQUIVALENTES DE EFECTIVO', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'EXIGIBLE DE CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'REALIZABLE DE CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'ACTIVOS TRANSITORIOS', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 5, 'name' => 'ACTIVOS DIFERIDOS A CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 6, 'name' => 'CUENTAS FISCALES', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'EXIGIBLE A LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'PROPIEDAD DE INVERSIÓN', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'PROPIEDADES, PLANTA y EQUIPO', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'DEPRECIACIÓN ACUMULADA', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 5, 'name' => 'ACTIVOS BIOLÓGICOS', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 6, 'name' => 'INVERSIONES DE LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 7, 'name' => 'ACTIVOS TRANSITORIOS', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 8, 'name' => 'OTROS ACTIVOS FINANCIEROS NO CORRIENTES', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 9, 'name' => 'ACTIVO DIFERIDO A LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 10, 'name' => 'ACTIVOS INTANGIBLES', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 11, 'name' => 'OTROS ACTIVOS DE LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_two, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'OBLIGACIONES FINANCIERAS A CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_three, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'CUENTAS POR PAGAR A CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_three, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'OBLIGACIONES SOCIALES', 'description' => '', 'accountgroup_uuid' => $name_three, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'OBLIGACIONES FISCALES', 'description' => '', 'accountgroup_uuid' => $name_three, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 5, 'name' => 'PROVISIONES', 'description' => '', 'accountgroup_uuid' => $name_three, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 6, 'name' => 'PASIVO DIFERIDO A CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_three, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'OBLIGACIONES FINANCIERAS A LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_four, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'CUENTAS POR PAGAR A LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_four, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'PREVISIONES', 'description' => '', 'accountgroup_uuid' => $name_four, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'PASIVO DIFERIDO A LARGO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_four, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'CAPITAL', 'description' => '', 'accountgroup_uuid' => $name_five, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'RESERVAS', 'description' => '', 'accountgroup_uuid' => $name_five, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'RESULTADOS ACUMULADOS', 'description' => '', 'accountgroup_uuid' => $name_five, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'RESULTADOS DEL EJERCICIO', 'description' => '', 'accountgroup_uuid' => $name_five, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'INGRESOS POR VENTAS', 'description' => '', 'accountgroup_uuid' => $name_six, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'INGRESOS FINANCIEROS', 'description' => '', 'accountgroup_uuid' => $name_seven, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'OTROS INGRESOS', 'description' => '', 'accountgroup_uuid' => $name_eight, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'AJUSTES Y DIFERENCIAS DE CAMBIO', 'description' => '', 'accountgroup_uuid' => $name_nine, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'COSTO DE VENTAS', 'description' => '', 'accountgroup_uuid' => $name_ten, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'COSTO DE PRODUCCIÓN', 'description' => '', 'accountgroup_uuid' => $name_ten, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'DEVOLUCIONES, DESCUENTOS Y REBAJAS CONCEDIDAS', 'description' => '', 'accountgroup_uuid' => $name_ten, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'MERMAS Y FALLAS EN EXISTENCIAS', 'description' => '', 'accountgroup_uuid' => $name_ten, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'REMUNERACIONES', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'GASTOS GENERALES DE OFICINA', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'SERVICIOS ESPECIALIZADOS', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'DEPRECIACIONES BIENES DE USO Y AMORTIZACIONES', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 5, 'name' => 'IMPUESTOS, TASAS Y PATENTES', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 6, 'name' => 'OTROS GASTOS DE ADMINISTRACIÓN', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'REMUNERACIONES', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 2, 'name' => 'GASTOS OPERACIONALES', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 3, 'name' => 'PUBLICIDAD, MARKETING Y PROPAGANDA', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 4, 'name' => 'SERVICIOS ESPECIALIZADOS', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 5, 'name' => 'DEPRECIACIONES BIENES DE USO Y AMORTIZACIONES', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 6, 'name' => 'OTROS GASTOS DE COMERCIALIZACIÓN', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'GASTOS BANCARIOS', 'description' => '', 'accountgroup_uuid' => $name_thirteen, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'OTROS GASTOS', 'description' => '', 'accountgroup_uuid' => $name_fourteen, 'user_id' => 1]);
+
+        Accountsubgroup::create(['code' => 1, 'name' => 'AJUSTES Y DIFERENCIAS DE CAMBIO', 'description' => '', 'accountgroup_uuid' => $name_fifteen, 'user_id' => 1]);
+
+
+
+        /*
+        $name_one = Accountgroup::where('name', 'ACTIVO CORRIENTE')->value('accountgroup_uuid');
+        $name_two = Accountgroup::where('name', 'ACTIVO NO CORRIENTE')->value('accountgroup_uuid');
+        $name_three = Accountgroup::where('name', 'PASIVO CORRIENTE')->value('accountgroup_uuid');
+        $name_four = Accountgroup::where('name', 'PASIVO NO CORRIENTE')->value('accountgroup_uuid');
         $name_five = Accountgroup::where('name', 'PATRIMONIO NETO')->value('accountgroup_uuid');
         $name_six = Accountgroup::where('name', 'INGRESOS OPERATIVOS')->value('accountgroup_uuid');
         $name_seven = Accountgroup::where('name', 'INGRESOS NO OPERATIVOS')->value('accountgroup_uuid');
@@ -55,6 +143,6 @@ class AccountsubgroupSeeder extends Seeder
         Accountsubgroup::create(['code' => 50301, 'name' => 'OTROS GASTOS', 'description' => '', 'accountgroup_uuid' => $name_ten, 'user_id' => 1]);
         Accountsubgroup::create(['code' => 50401, 'name' => 'CUENTAS TRANSITORIAS', 'description' => '', 'accountgroup_uuid' => $name_eleven, 'user_id' => 1]);
         Accountsubgroup::create(['code' => 60101, 'name' => 'CUENTAS DE ORDEN DEUDORAS COMERCIALES', 'description' => '', 'accountgroup_uuid' => $name_twelve, 'user_id' => 1]);
-        Accountsubgroup::create(['code' => 70101, 'name' => 'CUENTAS DE ORDEN ACREEDORAS COMERCIALES', 'description' => '', 'accountgroup_uuid' => $name_thirteen, 'user_id' => 1]);
+        Accountsubgroup::create(['code' => 70101, 'name' => 'CUENTAS DE ORDEN ACREEDORAS COMERCIALES', 'description' => '', 'accountgroup_uuid' => $name_thirteen, 'user_id' => 1]);*/
     }
 }

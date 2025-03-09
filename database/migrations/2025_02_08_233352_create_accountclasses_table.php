@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('accountclasses', function (Blueprint $table) {
             $table->string('accountclass_uuid', 36)->unique();
             $table->integer('code');
-            $table->string('name', 50)->unique();
+            $table->string('name', 70);
             $table->string('description', 100)->nullable();
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('user_id');

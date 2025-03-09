@@ -29,6 +29,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\MainaccountController;
+use App\Http\Controllers\AnalyticalaccountController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -247,16 +249,27 @@ Route::middleware([
     Route::put('/accountsubgroups/{accountsubgroup_uuid}', [AccountsubgroupController::class, 'update'])->name('accountsubgroups.update')->middleware('can:accountsubgroups.edit');
     Route::delete('/accountsubgroups/{accountsubgroup_uuid}', [AccountsubgroupController::class, 'destroy'])->name('accountsubgroups.destroy')->middleware('can:accountsubgroups.destroy');
 
+    /*MAIN ACCOUNT*/
+    Route::get("/mainaccounts/create", [MainaccountController::class, "create"])->name("mainaccounts.create")->middleware('can:mainaccounts.create');
+    Route::post("/mainaccounts", [MainaccountController::class, "store"])->name("mainaccounts.store")->middleware('can:mainaccounts.create');
+    Route::get('/mainaccounts/{mainaccount_uuid}/edit', [MainaccountController::class, 'edit'])->name('mainaccounts.edit')->middleware('can:mainaccounts.edit');
+    Route::put("/mainaccounts/{mainaccount_uuid}/disable", [MainaccountController::class, "disable"])->name("mainaccounts.disable");
+    Route::put("/mainaccounts/{mainaccount_uuid}/enable", [MainaccountController::class, "enable"])->name("mainaccounts.enable");
+    Route::put('/mainaccounts/{mainaccount_uuid}', [MainaccountController::class, 'update'])->name('mainaccounts.update')->middleware('can:mainaccounts.edit');
+    Route::delete('/mainaccounts/{mainaccount_uuid}', [MainaccountController::class, 'destroy'])->name('mainaccounts.destroy')->middleware('can:mainaccounts.destroy');
+
+    /*ANALYTICAL ACCOUNT*/
+    Route::get("/analyticalaccounts/create", [AnalyticalaccountController::class, "create"])->name("analyticalaccounts.create")->middleware('can:analyticalaccounts.create');
+    Route::post("/analyticalaccounts", [AnalyticalaccountController::class, "store"])->name("analyticalaccounts.store")->middleware('can:analyticalaccounts.create');
+    Route::get('/analyticalaccounts/{analyticalaccount_uuid}/edit', [AnalyticalaccountController::class, 'edit'])->name('analyticalaccounts.edit')->middleware('can:analyticalaccounts.edit');
+    Route::put("/analyticalaccounts/{analyticalaccount_uuid}/disable", [AnalyticalaccountController::class, "disable"])->name("analyticalaccounts.disable");
+    Route::put("/analyticalaccounts/{analyticalaccount_uuid}/enable", [AnalyticalaccountController::class, "enable"])->name("analyticalaccounts.enable");
+    Route::put('/analyticalaccounts/{analyticalaccount_uuid}', [AnalyticalaccountController::class, 'update'])->name('analyticalaccounts.update')->middleware('can:analyticalaccounts.edit');
+    Route::delete('/analyticalaccounts/{analyticalaccount_uuid}', [AnalyticalaccountController::class, 'destroy'])->name('analyticalaccounts.destroy')->middleware('can:analyticalaccounts.destroy');
+
     /*ACCOUNT*/
     Route::get("/accounts", [AccountController::class, "index"])->name("accounts.index")->middleware('can:accounts.index');
-    Route::get("/accounts/create", [AccountController::class, "create"])->name("accounts.create")->middleware('can:accounts.create');
     Route::get("/accounts/chart", [AccountController::class, "chart"])->name("accounts.chart");
-    Route::post("/accounts", [AccountController::class, "store"])->name("accounts.store")->middleware('can:accounts.create');
-    Route::get('/accounts/{accounts_uuid}/edit', [AccountController::class, 'edit'])->name('accounts.edit')->middleware('can:accounts.edit');
-    Route::put("/accounts/{accounts_uuid}/disable", [AccountController::class, "disable"])->name("accounts.disable");
-    Route::put("/accounts/{accounts_uuid}/enable", [AccountController::class, "enable"])->name("accounts.enable");
-    Route::put('/accounts/{accounts_uuid}', [AccountController::class, 'update'])->name('accounts.update')->middleware('can:accounts.edit');
-    Route::delete('/accounts/{accounts_uuid}', [AccountController::class, 'destroy'])->name('accounts.destroy')->middleware('can:accounts.destroy');
 
     /*ACTIVITY*/
     Route::get("/activities", [ActivityController::class, "index"])->name("activities.index")->middleware('can:activities.index');
