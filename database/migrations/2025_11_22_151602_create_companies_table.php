@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('activity_uuid', 36);
             $table->foreign('activity_uuid')->references('activity_uuid')->on('activities');
+            $table->string('businesstype_uuid', 36);
+            $table->foreign('businesstype_uuid')->references('businesstype_uuid')->on('businesstypes');
             $table->timestamps();
         });
     }

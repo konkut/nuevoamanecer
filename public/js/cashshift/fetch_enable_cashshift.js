@@ -35,7 +35,7 @@ const fetch_enable_cashshift = async (form, base, uuid, e) => {
                 base_url: base,
             });
             setTimeout(() => {
-                window.location.href = data?.redirect || window.location.origin + "/cashshifts";
+                window.location.href = data?.redirect;
             }, 1000);
             return;
         }

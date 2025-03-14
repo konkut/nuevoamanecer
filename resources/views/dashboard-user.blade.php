@@ -9,6 +9,7 @@
         {{ __('word.dashboard.meta.keywords')}}
     </x-slot>
     <x-slot name="js_files">
+        <link rel="stylesheet" href="{{ url('css/components/date.css?v='.time()) }}">
         <script type="text/javascript" src="{{ asset('/js/toggle.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/dashboard/fetch_session_panel.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/dashboard/fetch_date_panel.js?v='.time()) }}"></script>

@@ -1,7 +1,15 @@
 <?php
 return [
     'dashboard' => [
+        'select_project' => 'Select an project',
         'title' => 'User Dashboard',
+        'menu' => [
+            'accounting' => 'Accounting',
+            'finance' => 'Finance',
+            'operations' => 'Operations',
+            'financial_management' => 'Financial Management',
+            'accounting_management' => 'Accounting Management',
+        ],
         'meta' => [
             'description' => 'Access your personalized control panel to manage your services, payments, and more. Organize and review all important information from your dashboard.',
             'keywords' => 'dashboard, services, payments, management, control, user',
@@ -17,6 +25,7 @@ return [
         'error' => 'An error has occurred',
         'success' => 'Request successful',
         'not_found' => 'The related record does not exist or has been deleted.',
+        'empty' => 'The selected company has no associated projects.',
         'bad_request' => 'An error occurred, please try again.',
         'error_validation' => 'Validation failed',
         'updated_information' => 'Data updated successfully.',
@@ -79,6 +88,7 @@ return [
         'title_icon_user_disable' => 'DISABLE USER',
         'title_icon_user_enable' => 'ENABLE USER',
         'title_icon_chart' => 'GENERATE CHART OF ACCOUNTS',
+        'title_icon_business_type' => 'ASSIGN BUSINESS TYPE',
         'one_column' => 'DENOMINATION',
         'two_column' => 'QUANTITY',
         'three_column' => 'TOTAL',
@@ -1036,6 +1046,7 @@ return [
         'session' => [
             "title" => 'Cash Session Status',
             "subtitle" => 'Details of the current session',
+            "disabled" => 'DISABLED',
             "box" => 'Assigned Cash Register:',
             "user" => 'Responsible:',
             "start_time" => 'Opening Date:',
@@ -1374,6 +1385,7 @@ return [
         'delete_success' => 'Main account deleted successfully.',
         'not_allow' => 'The main account has associated analytical accounts and cannot be deleted.',
         'select_accountsubgroup' => 'Select an account subgroup',
+        'assign_bussiness_type' => 'Assigned business types',
         'resource' => [
             'create' => 'New Main Account',
             'edit' => 'Update Main Account',
@@ -1385,6 +1397,7 @@ return [
             'update' => 'Main account updated successfully.',
             'enable' => 'Main account enabled successfully.',
             'disable' => 'Main account disabled successfully.',
+            'business' => 'Business type assigned successfully.',
         ],
     ],
 
@@ -1514,6 +1527,7 @@ return [
         'delete_success' => 'Company deleted successfully.',
         'not_allow' => 'The company has associated records, so it cannot be deleted.',
         'select_activity' => 'Select an activity',
+        'select_business_type' => 'Select an business type',
         'meta' => [
             'create' => [
                 'title' => 'New Company',
@@ -1542,6 +1556,7 @@ return [
             "name" => "Company Name",
             "description" => "Description",
             "activity_uuid" => "Activity",
+            "businesstype_uuid" => "Business Type",
             "nit" => "Tax Identification Number",
             "status" => "Status",
             "user_id" => "Registered by",
@@ -1552,6 +1567,7 @@ return [
             "name" => "company name",
             "description" => "description",
             "activity_uuid" => "activity",
+            "businesstype_uuid" => "business type",
             "nit" => "tax identification number",
             "status" => "status",
             "user_id" => "registered by",
@@ -1895,6 +1911,79 @@ return [
             "updated_at" => "last update",
         ],
     ],
+
+    'businesstype' => [
+        'title' => 'Business Type',
+        'delete_confirmation' => 'Are you sure you want to delete the business type?',
+        'disable_confirmation' => 'Are you sure you want to disable the business type?',
+        'enable_confirmation' => 'Are you sure you want to enable the business type?',
+        'delete_success' => 'Business type deleted successfully.',
+        'not_allow' => 'The business type has associated records, so it cannot be deleted.',
+        'meta' => [
+            'create' => [
+                'title' => 'New Business Type',
+                'description' => 'Create a new business type on our platform.',
+                'keywords' => 'create business type, new business type, platform',
+            ],
+            'edit' => [
+                'title' => 'Update Business Type',
+                'description' => 'Edit and update an existing business type.',
+                'keywords' => 'edit business type, update business type, platform',
+            ],
+            'index' => [
+                'title' => 'List of Business Types',
+                'description' => 'Explore the full list of available business types.',
+                'keywords' => 'list of business types, available business types, platform',
+            ],
+            'author' => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            'create' => 'New Business Type',
+            'edit' => 'Update Business Type',
+            'show' => 'Business Type Details',
+            'index' => 'List of Business Types',
+        ],
+        'attribute' => [
+            'name' => 'Name',
+            'description' => 'Description',
+            'user_id' => 'Registered by',
+            'status' => 'Status',
+            'created_at' => 'Registration Date',
+            'updated_at' => 'Last Updated',
+        ],
+        'filter' => [
+            'name' => 'name',
+            'description' => 'description',
+            'status' => 'status',
+            'user_id' => 'registered by',
+            'created_at' => 'registration date',
+            'updated_at' => 'last update',
+        ],
+        'alert' => [
+            'store' => 'Business type registered successfully.',
+            'update' => 'Business type updated successfully.',
+            'enable' => 'Business type enabled successfully.',
+            'disable' => 'Business type disabled successfully.',
+        ],
+    ],
+
+    'balance' => [
+        'trial' => [
+            'class' => 'CLASS',
+            'group' => 'GROUP',
+            'subgroup' => 'SUBGROUP',
+            'main' => 'MAIN ACCOUNT',
+            'analytical' => 'ANALYTICAL ACCOUNT',
+            'name' => 'ACCOUNT NAME',
+            'debit' => 'DEBIT',
+            'credit' => 'CREDIT',
+            'debits' => 'DEBTOR',
+            'credits' => 'CREDITOR',
+            'totals' => 'TOTALS',
+        ]
+    ]
+
+
 
 ];
 

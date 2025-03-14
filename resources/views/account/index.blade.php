@@ -28,10 +28,12 @@
         <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_mainaccount.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/account/fetch_edit_analyticalaccount.js?v='.time()) }}"></script>
         <script type="text/javascript" src="{{ asset('/js/focus_and_blur.js?v='.time()) }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/assign_business_type_modal.js?v='.time()) }}"></script>
     </x-slot>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl leading-tight">{{ __('word.account.link') }}</h2>
+            @can('accounts.chart')
             <a href="{{route('accounts.chart')}}"
                class="bg-pink-400 text-white px-4 py-2 rounded text-sm"
                title="{{__('word.general.title_icon_chart')}}">
@@ -41,6 +43,7 @@
                     <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
                 </svg>
             </a>
+            @endcan
         </div>
     </x-slot>
     @if (session('success'))

@@ -27,7 +27,7 @@
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full sm:w-1/3 mx-auto p-8">
                 <form method="POST" action="{{ route('companies.store') }}">
                     @csrf
-                    <x-form-company :company="$company" :activities="$activities"></x-form-company>
+                    <x-form-company :company="$company" :activities="$activities" :businesstypes="$businesstypes"></x-form-company>
                     <div class="mt-4 flex justify-end">
                         <x-button>
                             {{ __('Save') }}

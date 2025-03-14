@@ -34,11 +34,13 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('vouchers.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                           title="{{__('word.general.title_icon_create')}}">
-                            <i class="bi bi-plus"></i>
-                        </a>
+                        @can('vouchers.create')
+                            <a href="{{ route('vouchers.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
+                               title="{{__('word.general.title_icon_create')}}">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        @endcan
                         <form method="GET" action="{{ route('vouchers.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
@@ -130,18 +132,20 @@
                                                     </svg>
                                                 </a>
                                             @endcan
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->voucher_uuid }}', '{{$item->name }}')"
-                                                    title="{{__('word.general.title_icon_delete')}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                    <path
-                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                </svg>
-                                            </button>
+                                            @can('vouchers.destroy')
+                                                <button type="button"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->voucher_uuid }}', '{{$item->name }}')"
+                                                        title="{{__('word.general.title_icon_delete')}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                        <path
+                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                    </svg>
+                                                </button>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -229,18 +233,26 @@
                                                     <div class="bg-green-200 p-2">
                                                         <h1 class="font-bold py-1 text-md text-center">{{ __('word.voucher.detail') }}</h1>
                                                     </div>
-                                                    <div class="grid grid-cols-3 gap-y-2 px-8 py-4 text-sm text-gray-700">
-                                                        <div class="text-start text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.analyticalaccount')}}</div>
-                                                        <div class="text-center text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.debit')}}</div>
-                                                        <div class="text-end text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.credit')}}</div>
+                                                    <div
+                                                        class="grid grid-cols-3 gap-y-2 px-8 py-4 text-sm text-gray-700">
+                                                        <div
+                                                            class="text-start text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.analyticalaccount')}}</div>
+                                                        <div
+                                                            class="text-center text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.debit')}}</div>
+                                                        <div
+                                                            class="text-end text-gray-700 font-extrabold text-sm py-2 border-b-2">{{__('word.voucher.credit')}}</div>
                                                         @foreach($item->data as $detail)
-                                                            <div class="text-start border-b-2">{{$detail->analyticalaccount->name}}</div>
+                                                            <div
+                                                                class="text-start border-b-2">{{$detail->analyticalaccount->name}}</div>
                                                             <div class="text-center border-b-2">{{$detail->debit}}</div>
                                                             <div class="text-end border-b-2">{{$detail->credit}}</div>
                                                         @endforeach
-                                                        <div class="text-start font-extrabold border-b-2">{{__('word.voucher.total') }}</div>
-                                                        <div class="text-center font-extrabold border-b-2">{{ $item->debit }}</div>
-                                                        <div class="text-end font-extrabold border-b-2">{{ $item->credit }}</div>
+                                                        <div
+                                                            class="text-start font-extrabold border-b-2">{{__('word.voucher.total') }}</div>
+                                                        <div
+                                                            class="text-center font-extrabold border-b-2">{{ $item->debit }}</div>
+                                                        <div
+                                                            class="text-end font-extrabold border-b-2">{{ $item->credit }}</div>
                                                     </div>
                                                 </div>
                                             </div>

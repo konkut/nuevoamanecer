@@ -7,6 +7,7 @@ use App\Models\Accountclass;
 use App\Models\Accountgroup;
 use App\Models\Accountsubgroup;
 use App\Models\Analyticalaccount;
+use App\Models\Businesstype;
 use App\Models\Mainaccount;
 use App\Models\Receipt;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -41,7 +42,7 @@ class AccountController extends Controller
         $mainaccounts = Mainaccount::join('accountsubgroups', 'accountsubgroups.accountsubgroup_uuid', '=', 'mainaccounts.accountsubgroup_uuid')
             ->join('accountgroups', 'accountgroups.accountgroup_uuid', '=', 'accountsubgroups.accountgroup_uuid')
             ->join('accountclasses', 'accountclasses.accountclass_uuid', '=', 'accountgroups.accountclass_uuid')
-            ->with(['user', 'accountsubgroup'])
+            ->with(['user', 'accountsubgroup','businesstypes'])
             ->select('mainaccounts.*')
             ->orderByRaw('CAST(accountclasses.code AS UNSIGNED) asc')
             ->orderByRaw('CAST(accountgroups.code AS UNSIGNED) asc')
@@ -90,10 +91,11 @@ class AccountController extends Controller
             ->orderBy('accountsubgroups.code', 'asc')
             ->orderBy('mainaccounts.code', 'asc')
             ->get();
+        $businesstypes = Businesstype::where('status', true)->get();
         return view("account.index", compact(
             'accountclasses', 'accountclass', 'accountgroups', 'accountgroup', 'accountsubgroups', 'accountsubgroup', 'mainaccounts', 'mainaccount', 'analyticalaccounts', 'analyticalaccount',
             'perpage_accountclasses', 'perpage_accountgroups','perpage_accountsubgroups', 'perpage_mainaccounts', 'perpage_analyticalaccounts',
-            'all_accountclasses', 'all_accountgroups', 'all_accountsubgroups', 'all_mainaccounts'
+            'all_accountclasses', 'all_accountgroups', 'all_accountsubgroups', 'all_mainaccounts', 'businesstypes'
         ));
     }
     public function chart()
@@ -101,9 +103,9 @@ class AccountController extends Controller
         $accounts = Accountclass::with('groups.subgroups.mainaccounts.analyticalaccounts')->orderBy('code', 'asc')->get();
         $pdf = Pdf::loadView('account.charts', ['accountclasses' => $accounts])
             ->setPaper('letter', 'portrait')
-            ->setOption('isPhpEnabled', true); // Habilitar PHP en la vista
+            ->setOption('isPhpEnabled', true);
         $name = __('word.account.chart');
-        $date = Carbon::now()->format('Y-m-d'); // Formato seguro para nombres de archivo
+        $date = Carbon::now()->format('Y-m-d');
         $filename = "{$name}_{$date}.pdf";
         return $pdf->stream($filename);
     }

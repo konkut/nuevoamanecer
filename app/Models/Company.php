@@ -22,6 +22,7 @@ class Company extends Model
         'status',
         'user_id',
         'activity_uuid',
+        'businesstype_uuid',
     ];
     public function user()
     {
@@ -30,6 +31,10 @@ class Company extends Model
     public function activity()
     {
         return $this->belongsTo(Activity::class, 'activity_uuid', 'activity_uuid');
+    }
+    public function businesstype()
+    {
+        return $this->belongsTo(Businesstype::class, 'businesstype_uuid', 'businesstype_uuid');
     }
     protected static function boot()
     {

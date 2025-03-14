@@ -97,7 +97,6 @@
     <p><strong>CONTACTO</strong></p>
     <p>Teléfono: 75231304 - 60631216</p>
     <p><strong>FACTURA</strong></p>
-    <p>(Este documento no es válido para crédito fiscal)</p>
 </section>
 <div class="separator"></div>
 <section class="text-center">

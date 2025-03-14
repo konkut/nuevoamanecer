@@ -13,12 +13,22 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
         $name_1 = Company::where('name', 'Nuevo Amanecer')->value('company_uuid');
+        $name_2 = Company::where('name', 'Agropecuaria Forestal Don Luis S.R.L.')->value('company_uuid');
         Project::create([
             'name' => 'Proyecto 1 (Nuevo Amanecer)',
             'start_date' => '2025-04-01',
             'end_date' => '2026-03-31',
             'budget' => 2000,
             'company_uuid' => $name_1,
+            'description' => '',
+            'user_id' => 1,
+        ]);
+        Project::create([
+            'name' => 'Proyecto 1 (Agropecuaria)',
+            'start_date' => '2025-04-01',
+            'end_date' => '2026-03-31',
+            'budget' => 10000,
+            'company_uuid' => $name_2,
             'description' => '',
             'user_id' => 1,
         ]);

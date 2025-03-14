@@ -20,13 +20,20 @@ class AccountsubgroupSeeder extends Seeder
         $name_six = Accountgroup::where('name', 'INGRESOS OPERATIVOS')->value('accountgroup_uuid');
         $name_seven = Accountgroup::where('name', 'INGRESOS FINANCIEROS')->value('accountgroup_uuid');
         $name_eight = Accountgroup::where('name', 'OTROS INGRESOS')->value('accountgroup_uuid');
-        $name_nine = Accountgroup::where('name', 'AJUSTES Y DIFERENCIAS DE CAMBIO')->value('accountgroup_uuid');
+        $name_nine = Accountgroup::join('accountclasses','accountclasses.accountclass_uuid','=','accountgroups.accountclass_uuid')
+            ->where('accountclasses.name','INGRESOS')
+            ->where('accountgroups.name', 'AJUSTES Y DIFERENCIAS DE CAMBIO')
+            ->value('accountgroups.accountgroup_uuid');
         $name_ten = Accountgroup::where('name', 'COSTOS OPERATIVOS')->value('accountgroup_uuid');
         $name_eleven = Accountgroup::where('name', 'GASTOS DE ADMINISTRACIÓN')->value('accountgroup_uuid');
         $name_twelve = Accountgroup::where('name', 'GASTOS DE COMERCIALIZACIÓN')->value('accountgroup_uuid');
         $name_thirteen = Accountgroup::where('name', 'GASTOS FINANCIEROS')->value('accountgroup_uuid');
         $name_fourteen = Accountgroup::where('name', 'OTROS GASTOS')->value('accountgroup_uuid');
-        $name_fifteen = Accountgroup::where('name', 'AJUSTES Y DIFERENCIAS DE CAMBIO')->value('accountgroup_uuid');
+        $name_fifteen = Accountgroup::join('accountclasses','accountclasses.accountclass_uuid','=','accountgroups.accountclass_uuid')
+            ->where('accountclasses.name','EGRESOS')
+            ->where('accountgroups.name', 'AJUSTES Y DIFERENCIAS DE CAMBIO')
+            ->value('accountgroups.accountgroup_uuid');
+
 
         Accountsubgroup::create(['code' => 1, 'name' => 'EFECTIVO Y EQUIVALENTES DE EFECTIVO', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);
         Accountsubgroup::create(['code' => 2, 'name' => 'EXIGIBLE DE CORTO PLAZO', 'description' => '', 'accountgroup_uuid' => $name_one, 'user_id' => 1]);

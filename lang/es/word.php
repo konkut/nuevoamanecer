@@ -2,13 +2,20 @@
 return [
     'dashboard' => [
         'title' => 'Panel de Usuario',
+        'select_project' => 'Seleccionar un proyecto',
+        'menu' => [
+            'accounting' => 'Contabilidad',
+            'finance' => 'Finanzas',
+            'operations' => 'Operaciones',
+            'financial_management' => 'Administración Financiera',
+            'accounting_management' => 'Administración Contable',
+        ],
         'meta' => [
             'description' => 'Accede a tu panel de control personalizado para gestionar tus servicios, pagos, y más. Organiza y revisa toda la información importante desde tu dashboard.',
             'keywords' => 'dashboard, servicios, pagos, gestión, control, usuario',
             'author' => 'Pedro Luis Condori Cutile',
         ],
     ],
-
     'general' => [
         "app" => "Nuevo amanecer",
         "author" => "Pedro Luis Condori Cutile",
@@ -18,6 +25,7 @@ return [
         'error' => 'Ha ocurrido un error',
         'success' => 'Solicitud exitosa',
         'not_found' => 'El registro relacionado no existe o ha sido eliminado.',
+        'empty' => "La empresa seleccionada no cuenta con proyectos asociados.",
         'bad_request' => 'Ocurrio un error, porfavor intente nuevamente.',
         'error_validation' => 'Fallo de validación',
         'updated_information' => 'Datos actualizados exitosamente.',
@@ -80,6 +88,7 @@ return [
         'title_icon_user_disable' => 'DESHABILITAR USUARIO',
         'title_icon_user_enable' => 'HABILITAR USUARIO',
         'title_icon_chart' => 'GENERAR PLAN DE CUENTAS',
+        'title_icon_business_type' => 'ASIGNAR TIPO DE EMPRESA',
         'one_column' => 'CORTE',
         'two_column' => 'CANTIDAD',
         'three_column' => 'TOTAL',
@@ -1036,6 +1045,7 @@ return [
         'session' => [
             "title" => 'Estado de la Sesión de Caja',
             "subtitle" => 'Detalles de la sesión actual',
+            "disabled" => 'DESHABILITADO',
             "box" => 'Caja asignada:',
             "user" => 'Responsable:',
             "start_time" => 'Fecha de apertura:',
@@ -1374,6 +1384,7 @@ return [
         'delete_success' => 'Cuenta principal eliminado correctamente.',
         'not_allow' => 'La cuenta principal tiene cuentas analiticas asociadas, por lo que no es posible eliminarlo.',
         'select_accountsubgroup' => 'Seleccionar un subgrupo de cuenta',
+        'assign_bussiness_type' => 'Tipos de empresa asignados',
         'resource' => [
             'create' => 'Nueva cuenta principal',
             'edit' => 'Actualizar cuenta principal',
@@ -1385,6 +1396,7 @@ return [
             'update' => 'Cuenta principal actualizada correctamente.',
             'enable' => 'Cuenta principal habilitada correctamente.',
             'disable' => 'Cuenta principal deshabilitada correctamente.',
+            'business' => 'Tipo de empresa asignado correctamente.',
         ],
     ],
 
@@ -1514,6 +1526,7 @@ return [
         'delete_success' => 'Empresa eliminada correctamente.',
         'not_allow' => 'La empresa tiene registros asociados, por lo que no es posible eliminarla.',
         'select_activity' => 'Seleccionar una actividad',
+        'select_business' => 'Seleccionar un tipo de empresa',
         'meta' => [
             'create' => [
                 'title' => 'Nueva empresa',
@@ -1542,6 +1555,7 @@ return [
             "name" => "Razón Social",
             "description" => "Descripción",
             "activity_uuid" => "Actividad",
+            "businesstype_uuid" => "Tipo de empresa",
             "nit" => "Número de Identificación Tributaria",
             "status" => "Estado",
             "user_id" => "Registrado por",
@@ -1552,6 +1566,7 @@ return [
             "name" => "razón social",
             "description" => "descripción",
             "activity_uuid" => "actividad",
+            "businesstype_uuid" => "tipo de empresa",
             "nit" => "número de identificación tributaria",
             "status" => "estado",
             "user_id" => "registrado por",
@@ -1894,6 +1909,148 @@ return [
             "created_at" => "fecha de registro",
             "updated_at" => "última actualización",
         ],
+    ],
+
+    'businesstype' => [
+        'title' => 'Tipo de Empresa',
+        'delete_confirmation' => '¿Está seguro de eliminar el tipo de empresa',
+        'disable_confirmation' => '¿Está seguro de deshabilitar el tipo de empresa',
+        'enable_confirmation' => '¿Está seguro de habilitar el tipo de empresa',
+        'delete_success' => 'Tipo de empresa eliminado correctamente.',
+        'not_allow' => 'El tipo de empresa tiene registros asociados, por lo que no es posible eliminarlo.',
+        'meta' => [
+            'create' => [
+                'title' => 'Nuevo tipo de empresa',
+                'description' => 'Crea un nuevo tipo de empresa en nuestra plataforma.',
+                'keywords' => 'crear tipo de empresa, nuevo tipo de empresa, plataforma',
+            ],
+            'edit' => [
+                'title' => 'Actualizar tipo de empresa',
+                'description' => 'Edita y actualiza un tipo de empresa existente.',
+                'keywords' => 'editar tipo de empresa, actualizar tipo de empresa, plataforma',
+            ],
+            'index' => [
+                'title' => 'Lista de tipos de empresas',
+                'description' => 'Explora la lista completa de tipos de empresas disponibles.',
+                'keywords' => 'lista de tipos de empresas, tipos de empresas disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "create" => "Nuevo tipo de empresa",
+            "edit" => "Actualizar tipo de empresa",
+            "show" => "Detalles del tipo de empresa",
+            "index" => "Lista de tipos de empresas",
+        ],
+        'attribute' => [
+            "name" => "Nombre",
+            "description" => "Descripción",
+            "user_id" => "Registrado por",
+            "status" => "Estado",
+            "created_at" => "Fecha Registro",
+            "updated_at" => "Últ. Act.",
+        ],
+        'filter' => [
+            "name" => "nombre",
+            "description" => "descripción",
+            "status" => "estado",
+            "user_id" => "registrado por",
+            "created_at" => "fecha de registro",
+            "updated_at" => "última actualización",
+        ],
+        'alert' => [
+            'store' => 'Tipo de empresa registrado correctamente.',
+            'update' => 'Tipo de empresa actualizado correctamente.',
+            'enable' => 'Tipo de empresa habilitado correctamente.',
+            'disable' => 'Tipo de empresa deshabilitado correctamente.',
+        ],
+    ],
+
+    'ledger' => [
+        'title' => 'Mayores',
+        'meta' => [
+            'index' => [
+                'title' => 'Lista de mayores',
+                'description' => 'Explora la lista completa de mayores de las cuentas.',
+                'keywords' => 'lista de mayores de las cuentas, mayores de las cuentas disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "index" => "Mayores",
+        ],
+        'attribute' => [
+            "date" => "Fecha",
+            "type" => "Tipo",
+            "company" => "Empresa",
+            "project" => "Proyecto",
+            "narration" => "Glosa",
+            "debit" => "Debe",
+            "credit" => "Haber",
+        ],
+        'filter' => [
+            "date" => "fecha",
+            "type" => "tipo",
+            "company" => "empresa",
+            "project" => "proyecto",
+            "narration" => "glosa",
+            "debit" => "debe",
+            "credit" => "haber",
+        ],
+    ],
+
+    'balance' => [
+        'title' => 'Sumas y Saldos',
+        'filename' => 'balance de comprobación de sumas y saldos',
+        'totals' => 'Totales',
+        'meta' => [
+            'index' => [
+                'title' => 'Lista de Sumas y Saldos',
+                'description' => 'Explora la lista completa de sumas y saldos de las cuentas',
+                'keywords' => 'lista de sumas y saldos de las cuentas, sumas y saldos de las cuentas disponibles, plataforma',
+            ],
+            "author" => 'Pedro Luis Condori Cutile',
+        ],
+        'resource' => [
+            "index" => "Sumas y Saldos",
+        ],
+        'attribute' => [
+            'class' => 'Clase',
+            'group' => 'Grupo',
+            'subgroup' => 'Subgrupo',
+            'main' => 'Cuenta principal',
+            'analytical' => 'Cuenta analítica',
+            'name' => 'Nombre de la cuenta',
+            'debit' => 'Debe',
+            'credit' => 'Haber',
+            'debits' => 'Deudor',
+            'credits' => 'Acreedor',
+        ],
+        'filter' => [
+            'class' => 'clase',
+            'group' => 'grupo',
+            'subgroup' => 'subgrupo',
+            'main' => 'cuenta principal',
+            'analytical' => 'cuenta analítica',
+            'name' => 'nombre de la cuenta',
+            'debit' => 'debe',
+            'credit' => 'haber',
+            'debits' => 'deudor',
+            'credits' => 'acreedor',
+        ],
+        'export' => [
+            'class' => 'CLASE',
+            'group' => 'GRUPO',
+            'subgroup' => 'SUBGRUPO',
+            'main' => 'CUENTA PRINCIPAL',
+            'analytical' => 'CUENTA ANALÍTICA',
+            'name' => 'NOMBRE DE LA CUENTA',
+            'debit' => 'DEBE',
+            'credit' => 'HABER',
+            'debits' => 'DEUDOR',
+            'credits' => 'ACREEDOR',
+            'totals' => 'TOTALES',
+        ]
     ],
 
     'currency' => [

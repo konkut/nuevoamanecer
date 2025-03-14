@@ -13,28 +13,14 @@
         <x-label value="{{ __('word.voucher.attribute.company_uuid') }} *"/>
         <div class="relative">
             <i class="bi-building absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-            <div class="border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 pl-9 pr-3 py-2 shadow-sm rounded-md bg-gray-100">{{ $voucher->name }}</div>
-            <input type="hidden"
-                   name="company_uuid"
-                   value="{{ $voucher->company_uuid }}">
+            <div class="border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 pl-9 pr-3 py-2 shadow-sm rounded-md bg-gray-100">{{ $voucher->name_company }}</div>
         </div>
     </div>
     <div class="mt-4 col-span-1">
-        <x-label for="project_uuid" value="{{ __('word.voucher.attribute.project_uuid') }} *"/>
+        <x-label value="{{ __('word.voucher.attribute.project_uuid') }} *"/>
         <div class="relative">
-            <i class="bi bi-kanban absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-            <select  id="project_uuid"
-                    class="first-element focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
-                    name="project_uuid">
-                <option value=""
-                        disabled {{ old('project_uuid', $voucher->project_uuid) ? '' : 'selected' }}>{{__('word.voucher.select_project')}}</option>
-                @foreach($projects as $item)
-                    <option
-                        value="{{ $item->project_uuid }}" {{ (old('project_uuid', $voucher->project_uuid) == $item->project_uuid) ? 'selected' : '' }}>
-                        {{$item->name}}
-                    </option>
-                @endforeach
-            </select>
+            <i class="bi-building absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+            <div class="border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 pl-9 pr-3 py-2 shadow-sm rounded-md bg-gray-100">{{ $voucher->name_project }}</div>
         </div>
     </div>
     <div class="mt-4 col-span-1">

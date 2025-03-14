@@ -34,17 +34,22 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('projects.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                           title="{{__('word.general.title_icon_create')}}">
-                            <i class="bi bi-plus"></i>
-                        </a>
+                        @can('projects.create')
+                            <a href="{{ route('projects.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
+                               title="{{__('word.general.title_icon_create')}}">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        @endcan
                         <form method="GET" action="{{ route('projects.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
-                                <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
-                                <option value="20" {{ $perPage == 20 ? 'selected' : '' }}>{{ __('word.general.20_items') }}</option>
-                                <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>{{ __('word.general.50_items') }}</option>
+                                <option
+                                    value="10" {{ $perPage == 10 ? 'selected' : '' }}>{{ __('word.general.10_items') }}</option>
+                                <option
+                                    value="20" {{ $perPage == 20 ? 'selected' : '' }}>{{ __('word.general.20_items') }}</option>
+                                <option
+                                    value="50" {{ $perPage == 50 ? 'selected' : '' }}>{{ __('word.general.50_items') }}</option>
                             </select>
                         </form>
                     </div>
@@ -97,8 +102,10 @@
                                                    onclick="openDetailsModal('{{$item->project_uuid}}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                        <path
+                                                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                        <path
+                                                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                                     </svg>
                                                 </a>
                                             @endcan
@@ -109,43 +116,52 @@
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-eyedropper"
                                                          viewBox="0 0 16 16">
-                                                        <path d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
+                                                        <path
+                                                            d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
                                                     </svg>
                                                 </a>
                                             @endcan
-                                            @if($item->status)
+                                            @can('projects.status')
+                                                @if($item->status)
+                                                    <button type="button"
+                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="open_disable_modal('{{ $item->project_uuid }}', '{{ $item->name }}')"
+                                                            title="{{__('word.general.title_icon_disable')}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-toggle-on"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
+                                                        </svg>
+                                                    </button>
+                                                @else
+                                                    <button type="button"
+                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="open_enable_modal('{{ $item->project_uuid }}', '{{ $item->name }}')"
+                                                            title="{{__('word.general.title_icon_enable')}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-toggle-off"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
+                                                        </svg>
+                                                    </button>
+                                                @endif
+                                            @endcan
+                                            @can('projects.destroy')
                                                 <button type="button"
-                                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="open_disable_modal('{{ $item->project_uuid }}', '{{ $item->name }}')"
-                                                        title="{{__('word.general.title_icon_disable')}}">
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->project_uuid }}', '{{$item->name }}')"
+                                                        title="{{__('word.general.title_icon_delete')}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-toggle-on"
-                                                         viewBox="0 0 16 16">
-                                                        <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
+                                                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                        <path
+                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                                     </svg>
                                                 </button>
-                                            @else
-                                                <button type="button"
-                                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="open_enable_modal('{{ $item->project_uuid }}', '{{ $item->name }}')"
-                                                        title="{{__('word.general.title_icon_enable')}}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-toggle-off"
-                                                         viewBox="0 0 16 16">
-                                                        <path d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
-                                                    </svg>
-                                                </button>
-                                            @endif
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->project_uuid }}', '{{$item->name }}')"
-                                                    title="{{__('word.general.title_icon_delete')}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                </svg>
-                                            </button>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -153,8 +169,10 @@
                                      class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-modal-{{$item->project_uuid}}">
-                                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
-                                            <div class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}} text-gray-600 flex items-center justify-between rounded-t-lg">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 mx-auto transform transition-transform scale-100 opacity-100 duration-300">
+                                            <div
+                                                class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}} text-gray-600 flex items-center justify-between rounded-t-lg">
                                                 <h1 class="text-lg font-semibold mx-auto">{{__('word.project.resource.show')}}</h1>
                                                 <button type="button"
                                                         class="text-gray-600 hover:text-gray-900 text-2xl absolute top-4 right-4"
@@ -283,7 +301,8 @@
                                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-delete-{{$item->project_uuid}}">
-                                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                 <button type="button"
@@ -293,7 +312,8 @@
                                             </div>
                                             <div class="modal-body p-6">
                                                 <p class="text-gray-600">{{__('word.project.delete_confirmation')}}
-                                                    <strong id="name-{{$item->project_uuid}}"></strong>{{__('word.general.delete_warning')}}
+                                                    <strong
+                                                        id="name-{{$item->project_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>
                                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">
@@ -301,8 +321,8 @@
                                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
                                                         onclick="closeModal('{{$item->project_uuid}}')">{{ __('Close') }}</button>
                                                 <form action="{{route('projects.destroy',$item->project_uuid)}}"
-                                                    method="POST"
-                                                    onsubmit="fetch_delete(this, '{{url('/')}}', '{{ $item->project_uuid }}', event)">
+                                                      method="POST"
+                                                      onsubmit="fetch_delete(this, '{{url('/')}}', '{{ $item->project_uuid }}', event)">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"

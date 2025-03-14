@@ -35,11 +35,13 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="container mx-auto p-4">
                     <div class="flex justify-end space-x-2 items-center mb-4">
-                        <a href="{{ route('bankregisters.create') }}"
-                           class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
-                           title="{{__('word.general.title_icon_create')}}">
-                            <i class="bi bi-plus"></i>
-                        </a>
+                        @can('bankregisters.create')
+                            <a href="{{ route('bankregisters.create') }}"
+                               class="bg-blue-400 text-white px-4 py-2 rounded text-sm"
+                               title="{{__('word.general.title_icon_create')}}">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        @endcan
                         <form method="GET" action="{{ route('bankregisters.index') }}" onchange="this.submit()"
                               class="inline-block">
                             <select name="perPage" class="border border-gray-300 rounded text-sm pr-8 w-36">
@@ -105,15 +107,19 @@
                                                     </svg>
                                                 </a>
                                             @endcan
-                                            <a href="{{ route('bankregisters.edit',$item->bankregister_uuid) }}"
-                                               class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                               title="{{__('word.general.title_icon_update')}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-eyedropper" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
-                                                </svg>
-                                            </a>
+                                            @can('bankregisters.edit')
+                                                <a href="{{ route('bankregisters.edit',$item->bankregister_uuid) }}"
+                                                   class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                                   title="{{__('word.general.title_icon_update')}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-eyedropper"
+                                                         viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
+                                                    </svg>
+                                                </a>
+                                            @endcan
+                                            @can('bankregisters.status')
                                                 @if($item->status)
                                                     <button type="button"
                                                             class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
@@ -139,18 +145,21 @@
                                                         </svg>
                                                     </button>
                                                 @endif
-                                            <button type="button"
-                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                                                    onclick="openModal('{{ $item->bankregister_uuid }}', '{{$item->name }}')"
-                                                    title="{{__('word.general.title_icon_delete')}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                    <path
-                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                </svg>
-                                            </button>
+                                            @endcan
+                                            @can('bankregisters.destroy')
+                                                <button type="button"
+                                                        class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                                        onclick="openModal('{{ $item->bankregister_uuid }}', '{{$item->name }}')"
+                                                        title="{{__('word.general.title_icon_delete')}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                        <path
+                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                    </svg>
+                                                </button>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -220,7 +229,8 @@
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.disable_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                                        onclick="close_disable_modal('{{$item->bankregister_uuid}}')">&times;
+                                                        onclick="close_disable_modal('{{$item->bankregister_uuid}}')">
+                                                    &times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
@@ -232,8 +242,9 @@
                                                 <button type="button"
                                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
                                                         onclick="close_disable_modal('{{$item->bankregister_uuid}}')">{{ __('Close') }}</button>
-                                                <form action="{{route('bankregisters.disable',$item->bankregister_uuid)}}"
-                                                      method="POST">
+                                                <form
+                                                    action="{{route('bankregisters.disable',$item->bankregister_uuid)}}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit"
@@ -253,7 +264,8 @@
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.enable_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                                        onclick="close_enable_modal('{{$item->bankregister_uuid}}')">&times;
+                                                        onclick="close_enable_modal('{{$item->bankregister_uuid}}')">
+                                                    &times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
@@ -265,8 +277,9 @@
                                                 <button type="button"
                                                         class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300 hover:bg-gray-400"
                                                         onclick="close_enable_modal('{{$item->bankregister_uuid}}')">{{ __('Close') }}</button>
-                                                <form action="{{route('bankregisters.enable',$item->bankregister_uuid)}}"
-                                                      method="POST">
+                                                <form
+                                                    action="{{route('bankregisters.enable',$item->bankregister_uuid)}}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit"
@@ -278,7 +291,8 @@
                                 </div>
                                 <div id="modal-{{$item->bankregister_uuid}}"
                                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
-                                    <div class="flex items-center justify-center min-h-screen" id="scale-delete-{{$item->bankregister_uuid}}">
+                                    <div class="flex items-center justify-center min-h-screen"
+                                         id="scale-delete-{{$item->bankregister_uuid}}">
                                         <div
                                             class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                             <div class="modal-header p-4 border-b flex justify-between items-center">

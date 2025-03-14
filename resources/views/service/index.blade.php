@@ -122,31 +122,33 @@
                                                     </svg>
                                                 </a>
                                             @endcan
-                                            @if($item->status)
-                                                <button type="button"
-                                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="open_disable_modal('{{ $item->service_uuid }}', '{{ $item->name }}')"
-                                                        title="{{__('word.general.title_icon_disable')}}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-toggle-on"
-                                                         viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
-                                                    </svg>
-                                                </button>
-                                            @else
-                                                <button type="button"
-                                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                                        onclick="open_enable_modal('{{ $item->service_uuid }}', '{{ $item->name }}')"
-                                                        title="{{__('word.general.title_icon_enable')}}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-toggle-off"
-                                                         viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
-                                                    </svg>
-                                                </button>
-                                            @endif
+                                            @can('services.status')
+                                                @if($item->status)
+                                                    <button type="button"
+                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="open_disable_modal('{{ $item->service_uuid }}', '{{ $item->name }}')"
+                                                            title="{{__('word.general.title_icon_disable')}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-toggle-on"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
+                                                        </svg>
+                                                    </button>
+                                                @else
+                                                    <button type="button"
+                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                            onclick="open_enable_modal('{{ $item->service_uuid }}', '{{ $item->name }}')"
+                                                            title="{{__('word.general.title_icon_enable')}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-toggle-off"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
+                                                        </svg>
+                                                    </button>
+                                                @endif
+                                            @endcan
                                             @can('services.destroy')
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"

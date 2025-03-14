@@ -72,8 +72,10 @@
                                    onclick="openDetailsModal('{{$item->analyticalaccount_uuid}}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                        <path
+                                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                        <path
+                                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                     </svg>
                                 </a>
                             @endcan
@@ -85,33 +87,38 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-eyedropper"
                                          viewBox="0 0 16 16">
-                                        <path d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
+                                        <path
+                                            d="M13.354.646a1.207 1.207 0 0 0-1.708 0L8.5 3.793l-.646-.647a.5.5 0 1 0-.708.708L8.293 5l-7.147 7.146A.5.5 0 0 0 1 12.5v1.793l-.854.853a.5.5 0 1 0 .708.707L1.707 15H3.5a.5.5 0 0 0 .354-.146L11 7.707l1.146 1.147a.5.5 0 0 0 .708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 0 0 0-1.708zM2 12.707l7-7L10.293 7l-7 7H2z"/>
                                     </svg>
                                 </a>
                             @endcan
-                            @if($item->status)
-                                <button type="button"
-                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                        onclick="open_disable_modal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
-                                        title="{{__('word.general.title_icon_disable')}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                         fill="currentColor" class="bi bi-toggle-on"
-                                         viewBox="0 0 16 16">
-                                        <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
-                                    </svg>
-                                </button>
-                            @else
-                                <button type="button"
-                                        class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                        onclick="open_enable_modal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
-                                        title="{{__('word.general.title_icon_enable')}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                         fill="currentColor" class="bi bi-toggle-off"
-                                         viewBox="0 0 16 16">
-                                        <path d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
-                                    </svg>
-                                </button>
-                            @endif
+                            @can('analyticalaccounts.status')
+                                @if($item->status)
+                                    <button type="button"
+                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                            onclick="open_disable_modal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
+                                            title="{{__('word.general.title_icon_disable')}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-toggle-on"
+                                             viewBox="0 0 16 16">
+                                            <path
+                                                d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/>
+                                        </svg>
+                                    </button>
+                                @else
+                                    <button type="button"
+                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                            onclick="open_enable_modal('{{ $item->analyticalaccount_uuid }}', '{{ $item->name }}')"
+                                            title="{{__('word.general.title_icon_enable')}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-toggle-off"
+                                             viewBox="0 0 16 16">
+                                            <path
+                                                d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/>
+                                        </svg>
+                                    </button>
+                                @endif
+                            @endcan
                             @can('analyticalaccounts.destroy')
                                 <button type="button"
                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -119,8 +126,10 @@
                                         title="{{__('word.general.title_icon_delete')}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                        <path
+                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                        <path
+                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                     </svg>
                                 </button>
                             @endcan
@@ -131,8 +140,10 @@
                      class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                     <div class="flex items-center justify-center min-h-screen"
                          id="scale-edit-{{$item->analyticalaccount_uuid}}">
-                        <div class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
-                            <div class="modal-header p-4 bg-yellow-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
+                        <div
+                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
+                            <div
+                                class="modal-header p-4 bg-yellow-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                 <button type="button"
                                         class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
                                         onclick="close_edit_modal('{{$item->analyticalaccount_uuid}}')">
@@ -148,7 +159,8 @@
                                     @php
                                         $analyticalaccount->analyticalaccount_uuid = $item->analyticalaccount_uuid;
                                     @endphp
-                                    <x-form-analyticalaccount :analyticalaccount="$analyticalaccount" :allmainaccounts="$all_mainaccounts" page="edit"/>
+                                    <x-form-analyticalaccount :analyticalaccount="$analyticalaccount"
+                                                              :allmainaccounts="$all_mainaccounts" page="edit"/>
                                     <div class="mt-4 flex justify-end">
                                         <x-button>
                                             {{ __('Save') }}
@@ -163,8 +175,10 @@
                      class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
                     <div class="flex items-center justify-center min-h-screen"
                          id="scale-modal-{{$item->analyticalaccount_uuid}}">
-                        <div class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
-                            <div class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}} text-slate-600 flex items-center justify-between rounded-t-2xl relative">
+                        <div
+                            class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
+                            <div
+                                class="modal-header p-4 {{$item->status ? 'bg-green-200' : 'bg-red-200'}} text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                                 <button type="button"
                                         class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
                                         onclick="closeDetailsModal('{{$item->analyticalaccount_uuid}}')">
@@ -264,7 +278,8 @@
                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                     <div class="flex items-center justify-center min-h-screen"
                          id="scale-enable-{{$item->analyticalaccount_uuid}}">
-                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                        <div
+                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.enable_title')}}</h1>
                                 <button type="button"
@@ -298,7 +313,8 @@
                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                     <div class="flex items-center justify-center min-h-screen"
                          id="scale-delete-{{$item->analyticalaccount_uuid}}">
-                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                        <div
+                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                 <button type="button"
@@ -308,7 +324,8 @@
                             </div>
                             <div class="modal-body p-6">
                                 <p class="text-gray-600">{{__('word.analyticalaccount.delete_confirmation')}}
-                                    <strong id="name-{{$item->analyticalaccount_uuid}}"></strong>{{__('word.general.delete_warning')}}
+                                    <strong
+                                        id="name-{{$item->analyticalaccount_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                 </p>
                             </div>
                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">
@@ -335,8 +352,10 @@
     <div id="create-modal-analyticalaccount"
          class="fixed inset-0 bg-black/60 bg-opacity-50 z-50 hidden overflow-y-auto py-3">
         <div class="flex items-center justify-center min-h-screen" id="scale-modal-analyticalaccount">
-            <div class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
-                <div class="modal-header p-4 bg-blue-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
+            <div
+                class="bg-white rounded-2xl shadow-2xl w-5/6 sm:w-3/6 lg:w-2/6 xl:w-1/5 transform transition-transform scale-100 opacity-100 duration-300">
+                <div
+                    class="modal-header p-4 bg-blue-200 text-slate-600 flex items-center justify-between rounded-t-2xl relative">
                     <button type="button"
                             class="close-modal text-slate-600 hover:text-gray-900 text-3xl absolute right-4"
                             onclick="close_create_modal('analyticalaccount')">
@@ -347,7 +366,8 @@
                 <div class="py-12 px-4 rounded-b-2xl shadow-inner md:max-w-2xl">
                     <form method="POST" action="{{ route('analyticalaccounts.store') }}">
                         @csrf
-                        <x-form-analyticalaccount :analyticalaccount="$analyticalaccount" :allmainaccounts="$all_mainaccounts" page="create"/>
+                        <x-form-analyticalaccount :analyticalaccount="$analyticalaccount"
+                                                  :allmainaccounts="$all_mainaccounts" page="create"/>
                         <div class="mt-4 flex justify-end">
                             <x-button>
                                 {{ __('Save') }}

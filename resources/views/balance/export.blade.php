@@ -1,0 +1,39 @@
+<table>
+    <thead>
+    <tr>
+        <th>{{__('word.balance.export.class')}}</th>
+        <th>{{__('word.balance.export.group')}}</th>
+        <th>{{__('word.balance.export.subgroup')}}</th>
+        <th>{{__('word.balance.export.main')}}</th>
+        <th>{{__('word.balance.export.analytical')}}</th>
+        <th>{{__('word.balance.export.name')}}</th>
+        <th>{{__('word.balance.export.debit')}}</th>
+        <th>{{__('word.balance.export.credit')}}</th>
+        <th>{{__('word.balance.export.debits')}}</th>
+        <th>{{__('word.balance.export.credits')}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($data->balances as $item)
+        <tr>
+            <td>{{$item->class}}</td>
+            <td>{{$item->group}}</td>
+            <td>{{$item->subgroup}}</td>
+            <td>{{$item->main}}</td>
+            <td>{{$item->analytical}}</td>
+            <td>{{$item->name}}</td>
+            <td>{{$item->debit}}</td>
+            <td>{{$item->credit}}</td>
+            <td>{{$item->debits}}</td>
+            <td>{{$item->credits}}</td>
+        </tr>
+    @endforeach
+    <tr>
+        <td colspan="6">{{__('word.balance.export.totals')}}</td>
+        <td>{{$data->total_debits}}</td>
+        <td>{{$data->total_credits}}</td>
+        <td>{{$data->balance_debits}}</td>
+        <td>{{$data->balance_credits}}</td>
+    </tr>
+    </tbody>
+</table>

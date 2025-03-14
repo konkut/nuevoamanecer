@@ -30,7 +30,7 @@
             <div class="bg-white overflow-hidden shadow-xl rounded-lg w-full mx-auto p-8">
                 <form method="POST" action="{{ route('vouchers.store') }}">
                     @csrf
-                    <x-form-voucher :voucher="$voucher" :projects="$projects" :analyticalaccounts="$analyticalaccounts" page="create"></x-form-voucher>
+                    <x-form-voucher :voucher="$voucher" :analyticalaccounts="$analyticalaccounts" page="create"></x-form-voucher>
                     @if ($errors->any())
                         <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
                              role="alert">

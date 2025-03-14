@@ -34,7 +34,7 @@ const fetch_disable_account = async (form, base, e) => {
                 base_url: base,
             });
             setTimeout(() => {
-                window.location.href = data?.redirect || window.location.origin + "/login";
+                window.location.href = data?.redirect;
             }, 3000);
             return;
         }

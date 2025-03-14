@@ -13,6 +13,8 @@ lang["button_disable"] = "Deshabilitar autenticación de doble factor";
 lang["redirect_app"] = "Abriendo la aplicación Nuevo Amanecer...";
 lang["redirect"] = "Redirigiendo hacia el inicio...";
 lang["redirect_login"] = "Redirigiendo...";
+lang["title_project"] = "Proyecto *";
+lang["select_project"] = "Seleccione un proyecto";
 
 
 

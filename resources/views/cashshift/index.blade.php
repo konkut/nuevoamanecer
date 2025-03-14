@@ -115,33 +115,43 @@
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
                                         <td class="border-t border-b border-[#d1d5db] px-2 py-1">
                                             <div class="flex justify-center space-x-1">
-                                                <a href="{{ route('cashcounts.create',$item->cashshift_uuid) }}"
-                                                   class="bg-pink-500 text-white px-2 py-1 rounded text-xs"
-                                                   title="{{__('word.general.title_icon_create_cashcount')}}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                                                        <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                                                        <path
-                                                            d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
-                                                    </svg>
-                                                </a>
-                                                <form id="details-form-{{$item->cashshift_uuid}}"
-                                                      title="{{__('word.general.title_icon_show')}}"
-                                                      action="{{ route('cashshifts.detail', $item->cashshift_uuid) }}"
-                                                      method="POST" style="display: inline;">
-                                                    @csrf
-                                                    <button type="button"
-                                                            onclick="fetch_detail_cashshift('{{url('/')}}', '{{$item->cashshift_uuid}}')"
-                                                            class="bg-green-500 text-white px-2 py-1 rounded text-xs">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                                            <path
-                                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-                                                        </svg>
-                                                    </button>
-                                                </form>
+                                                @can('cashcounts.create')
+                                                    @if($item->status || auth()->user()->hasRole('Administrador'))
+                                                        <a href="{{ route('cashcounts.create',$item->cashshift_uuid) }}"
+                                                           class="bg-pink-500 text-white px-2 py-1 rounded text-xs"
+                                                           title="{{__('word.general.title_icon_create_cashcount')}}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                 height="16"
+                                                                 fill="currentColor" class="bi bi-cash"
+                                                                 viewBox="0 0 16 16">
+                                                                <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                                                <path
+                                                                    d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
+                                                            </svg>
+                                                        </a>
+                                                    @endif
+                                                @endcan
+                                                @can('cashshifts.detail')
+                                                    <form id="details-form-{{$item->cashshift_uuid}}"
+                                                          title="{{__('word.general.title_icon_show')}}"
+                                                          action="{{ route('cashshifts.detail', $item->cashshift_uuid) }}"
+                                                          method="POST" style="display: inline;">
+                                                        @csrf
+                                                        <button type="button"
+                                                                onclick="fetch_detail_cashshift('{{url('/')}}', '{{$item->cashshift_uuid}}')"
+                                                                class="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                 height="16"
+                                                                 fill="currentColor" class="bi bi-eye"
+                                                                 viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                                <path
+                                                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                                 @can('cashshifts.edit')
                                                     <a href="{{ route('cashshifts.edit',$item->cashshift_uuid) }}"
                                                        class="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
@@ -154,31 +164,49 @@
                                                         </svg>
                                                     </a>
                                                 @endcan
-                                                @if($item->status)
-                                                    <button type="button"
-                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                                            onclick="open_disable_modal('{{ $item->cashshift_uuid }}', '{{ $item->cash_name }}')"
-                                                            title="{{__('word.general.title_icon_disable')}}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                             height="16" fill="currentColor"
-                                                             class="bi bi-unlock" viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2M3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/>
-                                                        </svg>
-                                                    </button>
-                                                @else
-                                                    <button type="button"
-                                                            class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
-                                                            onclick="open_enable_modal('{{ $item->cashshift_uuid }}', '{{ $item->cash_name }}')"
-                                                            title="{{__('word.general.title_icon_enable')}}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                             height="16" fill="currentColor" class="bi bi-lock"
-                                                             viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
-                                                        </svg>
-                                                    </button>
-                                                @endif
+                                                @can('cashshifts.status')
+                                                    @if(auth()->user()->hasRole('Administrador'))
+                                                        @if($item->status)
+                                                            <button type="button"
+                                                                    class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                                    onclick="open_disable_modal('{{ $item->cashshift_uuid }}', '{{ $item->cash_name }}')"
+                                                                    title="{{__('word.general.title_icon_disable')}}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-unlock" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2M3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/>
+                                                                </svg>
+                                                            </button>
+                                                        @else
+                                                            <button type="button"
+                                                                    class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                                    onclick="open_enable_modal('{{ $item->cashshift_uuid }}', '{{ $item->cash_name }}')"
+                                                                    title="{{__('word.general.title_icon_enable')}}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor" class="bi bi-lock"
+                                                                     viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                                                                </svg>
+                                                            </button>
+                                                        @endif
+                                                    @else
+                                                        @if($item->status)
+                                                            <button type="button"
+                                                                    class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
+                                                                    onclick="open_disable_modal('{{ $item->cashshift_uuid }}', '{{ $item->cash_name }}')"
+                                                                    title="{{__('word.general.title_icon_disable')}}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-unlock" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2M3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/>
+                                                                </svg>
+                                                            </button>
+                                                        @endif
+                                                    @endif
+                                                @endcan
                                                 @can('cashshifts.destroy')
                                                     <button type="button"
                                                             class="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -251,7 +279,8 @@
                                                         </div>
                                                         <div class="grid grid-cols-3 gap-4 px-8">
                                                             <div class="col-span-1">
-                                                                <div class="text-start text-gray-700 font-extrabold text-sm py-2">{{__('word.general.one_column')}}</div>
+                                                                <div
+                                                                    class="text-start text-gray-700 font-extrabold text-sm py-2">{{__('word.general.one_column')}}</div>
                                                                 <div class="text-start">{{__('word.general.200')}}</div>
                                                                 <div class="text-start">{{__('word.general.100')}}</div>
                                                                 <div class="text-start">{{__('word.general.50')}}</div>
@@ -263,36 +292,62 @@
                                                                 <div class="text-start">{{__('word.general.0_5')}}</div>
                                                                 <div class="text-start">{{__('word.general.0_2')}}</div>
                                                                 <div class="text-start">{{__('word.general.0_1')}}</div>
-                                                                <div class="text-start">{{__('word.general.total')}}</div>
+                                                                <div
+                                                                    class="text-start">{{__('word.general.total')}}</div>
                                                             </div>
                                                             <div class="col-span-1">
-                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.two_column')}}</div>
-                                                                <div class="text-center" id="quantity-bill-200-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-bill-100-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-bill-50-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-bill-20-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-bill-10-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-coin-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-coin-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-coin-1-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-coin-0-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-coin-0-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="quantity-coin-0-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div
+                                                                    class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.two_column')}}</div>
+                                                                <div class="text-center"
+                                                                     id="quantity-bill-200-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-bill-100-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-bill-50-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-bill-20-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-bill-10-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-coin-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-coin-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-coin-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-coin-0-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-coin-0-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="quantity-coin-0-1-{{$item->cashshift_uuid}}"></div>
                                                             </div>
                                                             <div class="col-span-1">
-                                                                <div class="text-end text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
-                                                                <div class="text-end" id="operation-bill-200-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-bill-100-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-bill-50-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-bill-20-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-bill-10-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-coin-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-coin-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-coin-1-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-coin-0-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-coin-0-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="operation-coin-0-1-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="total-{{$item->cashshift_uuid}}"></div>
+                                                                <div
+                                                                    class="text-end text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
+                                                                <div class="text-end"
+                                                                     id="operation-bill-200-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-bill-100-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-bill-50-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-bill-20-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-bill-10-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-coin-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-coin-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-coin-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-coin-0-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-coin-0-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="operation-coin-0-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="total-{{$item->cashshift_uuid}}"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -364,7 +419,8 @@
                                                         </div>
                                                         <div class="grid grid-cols-3 gap-4 px-8">
                                                             <div class="col-span-1">
-                                                                <div class="text-start text-gray-700 font-extrabold text-sm py-2">{{__('word.general.one_column')}}</div>
+                                                                <div
+                                                                    class="text-start text-gray-700 font-extrabold text-sm py-2">{{__('word.general.one_column')}}</div>
                                                                 <div class="text-start">{{__('word.general.200')}}</div>
                                                                 <div class="text-start">{{__('word.general.100')}}</div>
                                                                 <div class="text-start">{{__('word.general.50')}}</div>
@@ -376,36 +432,62 @@
                                                                 <div class="text-start">{{__('word.general.0_5')}}</div>
                                                                 <div class="text-start">{{__('word.general.0_2')}}</div>
                                                                 <div class="text-start">{{__('word.general.0_1')}}</div>
-                                                                <div class="text-start">{{__('word.general.total')}}</div>
+                                                                <div
+                                                                    class="text-start">{{__('word.general.total')}}</div>
                                                             </div>
                                                             <div class="col-span-1">
-                                                                <div class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.two_column')}}</div>
-                                                                <div class="text-center" id="value-bill-200-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-bill-100-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-bill-50-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-bill-20-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-bill-10-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-coin-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-coin-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-coin-1-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-coin-0-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-coin-0-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-center" id="value-coin-0-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div
+                                                                    class="text-center text-gray-700 font-extrabold text-sm py-2">{{__('word.general.two_column')}}</div>
+                                                                <div class="text-center"
+                                                                     id="value-bill-200-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-bill-100-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-bill-50-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-bill-20-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-bill-10-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-coin-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-coin-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-coin-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-coin-0-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-coin-0-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-center"
+                                                                     id="value-coin-0-1-{{$item->cashshift_uuid}}"></div>
                                                             </div>
                                                             <div class="col-span-1">
-                                                                <div class="text-end text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
-                                                                <div class="text-end" id="amount-bill-200-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-bill-100-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-bill-50-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-bill-20-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-bill-10-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-coin-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-coin-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-coin-1-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-coin-0-5-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-coin-0-2-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="amount-coin-0-1-{{$item->cashshift_uuid}}"></div>
-                                                                <div class="text-end" id="total-close-{{$item->cashshift_uuid}}"></div>
+                                                                <div
+                                                                    class="text-end text-gray-700 font-extrabold text-sm py-2">{{__('word.general.three_column')}}</div>
+                                                                <div class="text-end"
+                                                                     id="amount-bill-200-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-bill-100-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-bill-50-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-bill-20-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-bill-10-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-coin-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-coin-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-coin-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-coin-0-5-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-coin-0-2-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="amount-coin-0-1-{{$item->cashshift_uuid}}"></div>
+                                                                <div class="text-end"
+                                                                     id="total-close-{{$item->cashshift_uuid}}"></div>
                                                             </div>
                                                         </div>
                                                     </div>

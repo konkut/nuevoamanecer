@@ -14,7 +14,7 @@
     <x-label for="start_date" value="{{ __('word.project.attribute.start_date') }} *"/>
     <div class="relative">
         <i class="bi bi-calendar absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
-        <x-input required id="start_date" class="focus-and-blur pl-9 block mt-1 w-full"
+        <x-input required id="start_date" class="focus-and-blur pl-9 block mt-1 w-full text-black appearance-auto"
                  type="date" name="start_date" value="{{ old('start_date', $project->start_date?? '') }}"/>
     </div>
     @error('start_date')

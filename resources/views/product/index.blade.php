@@ -64,10 +64,8 @@
                                     onclick="enableSearch(this, '{{ __('word.product.filter.price') }}')">{{ __('word.product.attribute.price') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.product.filter.stock') }}')">{{ __('word.product.attribute.stock') }}</th>
-                                @if(auth()->user()->hasRole('Administrador'))
-                                    <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
-                                        onclick="enableSearch(this, '{{ __('word.product.filter.user_id') }}')">{{ __('word.product.attribute.user_id') }}</th>
-                                @endif
+                                <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
+                                    onclick="enableSearch(this, '{{ __('word.product.filter.user_id') }}')">{{ __('word.product.attribute.user_id') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
                                     onclick="enableSearch(this, '{{ __('word.product.filter.created_at') }}')">{{ __('word.product.attribute.created_at') }}</th>
                                 <th class="border-t border-b border-[#d1d5db] px-2 py-1 cursor-pointer"
@@ -85,9 +83,7 @@
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->name }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ number_format($item->price,2) }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->stock }}</td>
-                                    @if(auth()->user()->hasRole('Administrador'))
-                                        <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
-                                    @endif
+                                    <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->user->name }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->updated_at->format('H:i:s d/m/Y') }}</td>
                                     <td class="border-t border-b border-[#d1d5db] px-2 py-1">{{ $item->status ? '🟢' : '🔴' }}</td>
@@ -119,6 +115,7 @@
                                                     </svg>
                                                 </a>
                                             @endcan
+                                            @can('products.status')
                                                 @if($item->status)
                                                     <button type="button"
                                                             class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
@@ -144,6 +141,7 @@
                                                         </svg>
                                                     </button>
                                                 @endif
+                                            @endcan
                                             @can('products.destroy')
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -212,12 +210,10 @@
                                                     <p class="text-sm font-semibold ">{{ __('word.product.attribute.updated_at') }}</p>
                                                     <p> {{ $item->updated_at->format('H:i d/m/Y') }}</p>
                                                 </div>
-                                                @if(auth()->user()->hasRole('Administrador'))
-                                                    <div class="mt-2">
-                                                        <p class="text-sm font-semibold ">{{ __('word.product.attribute.user_id') }}</p>
-                                                        <p> {{ $item->user->name }}</p>
-                                                    </div>
-                                                @endif
+                                                <div class="mt-2">
+                                                    <p class="text-sm font-semibold ">{{ __('word.product.attribute.user_id') }}</p>
+                                                    <p> {{ $item->user->name }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

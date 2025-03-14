@@ -15,6 +15,7 @@
     <script type="text/javascript" src="{{ url('js/app.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ url('js/loader.js?v='.time()) }}"></script>
     <script type="text/javascript" src="{{ url('js/md_alert.js?v='.time()) }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/accounting/fetch_project.js?v='.time()) }}"></script>
 
     <!--Meta -->
     <title>{{ $title ?? __('word.general.app') }} - {{__('word.general.app')}}</title>
@@ -41,7 +42,7 @@
 
 <div class="min-h-screen bg-gray-100">
     <div class="flex flex-row w-full min-h-screen">
-        <div class="justify-start min-w-72 bg-gray-800 text-white p-4 hidden" id="sidebar">
+        <div class="justify-start min-w-72 bg-gray-800 text-white p-4 " id="sidebar">
             <x-menu></x-menu>
         </div>
         <div class="flex flex-col w-full overflow-hidden">

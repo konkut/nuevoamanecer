@@ -118,6 +118,7 @@
                                                     </svg>
                                                 </a>
                                             @endcan
+                                            @can('customers.status')
                                                 @if($item->status)
                                                     <button type="button"
                                                             class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
@@ -143,6 +144,7 @@
                                                         </svg>
                                                     </button>
                                                 @endif
+                                            @endcan
                                             @can('customers.destroy')
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -231,12 +233,14 @@
                                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-disable-{{$item->customer_uuid}}">
-                                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.disable_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                                        onclick="close_disable_modal('{{$item->customer_uuid}}')">&times;
+                                                        onclick="close_disable_modal('{{$item->customer_uuid}}')">
+                                                    &times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">
@@ -263,7 +267,8 @@
                                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-enable-{{$item->customer_uuid}}">
-                                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.enable_title')}}</h1>
                                                 <button type="button"
@@ -295,7 +300,8 @@
                                      class="hidden fixed inset-0 bg-black/60 bg-opacity-50 z-50 overflow-y-auto">
                                     <div class="flex items-center justify-center min-h-screen"
                                          id="scale-delete-{{$item->customer_uuid}}">
-                                        <div class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
+                                        <div
+                                            class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/6 lg:w-2/6 transform transition-all scale-100 opacity-100 duration-300">
                                             <div class="modal-header p-4 border-b flex justify-between items-center">
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.delete_title')}}</h1>
                                                 <button type="button"
@@ -305,7 +311,8 @@
                                             </div>
                                             <div class="modal-body p-6">
                                                 <p class="text-gray-600">{{__('word.customer.delete_confirmation')}}
-                                                    <strong id="name-{{$item->customer_uuid}}"></strong>{{__('word.general.delete_warning')}}
+                                                    <strong
+                                                        id="name-{{$item->customer_uuid}}"></strong>{{__('word.general.delete_warning')}}
                                                 </p>
                                             </div>
                                             <div class="modal-footer p-4 border-t flex justify-end space-x-2">

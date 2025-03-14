@@ -1,6 +1,7 @@
 <div onclick="fetch_session(this, '{{url('/')}}', '{{ $cashshift->cashshift_uuid }}', event)"
      class="mt-8 flex items-center justify-center flex-col sm:flex-row px-6 py-4 gap-4 rounded-lg shadow-md cursor-pointer hover:shadow-2xl transition-shadow text-white bg-blue-400">
     <p class="text-sm font-bold text-white">{{__('word.panel.session.title')}}</p>
+    @if($cashshift->status || auth()->user()->hasRole('Administrador'))
     <form
         action="{{ $cashshift->status ? route('dashboards.off_session', $cashshift->cashshift_uuid) : route('dashboards.on_session', $cashshift->cashshift_uuid) }}"
         method="POST">
@@ -14,12 +15,20 @@
         </button>
         <input type="hidden" name="status" id="status" value="{{ $cashshift->status ? '1' : '0' }}">
     </form>
+    @endif
+    @if(!$cashshift->status && !auth()->user()->hasRole('Administrador'))
+        <p class="text-sm font-bold ">{{__('word.panel.session.disabled')}}</p>
+    @endif
     <div class="text-center text-sm">
         <p class="font-semibold">{{__('word.panel.session.box')}}</p>
         <p> {{ $cashshift->cash ?? __('word.general.name_cash_dashboard') }}</p>
     </div>
     <div class="text-center text-sm">
         <p class="font-semibold">{{__('word.panel.session.user')}}</p>
+        <p> {{ $cashshift->user }}</p>
+    </div>
+    <div class="text-center text-sm">
+        <p class="font-semibold">{{__('word.panel.session.start_time')}}</p>
         <p> {{ $cashshift->start_time }}</p>
     </div>
     <div class="text-center text-sm">

@@ -36,6 +36,27 @@
     @enderror
 </div>
 <div class="mt-4">
+    <x-label for="businesstype_uuid" value="{{ __('word.company.attribute.businesstype_uuid') }} *" />
+    <div class="relative">
+        <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>
+        <select required id="businesstype_uuid"
+                class="focus-and-blur pl-9 pr-3 py-2 border-b-4 border-l-0 border-r-0 border-t-0 border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 active:outline-0 rounded-md shadow-sm w-full"
+                name="businesstype_uuid">
+            <option value="" disabled {{ old('businesstype_uuid', $company->businesstype_uuid) ? '' : 'selected' }}>
+                {{__('word.company.select_business')}}
+            </option>
+            @foreach($businesstypes as $item)
+                <option value="{{ $item->businesstype_uuid }}" {{ (old('businesstype_uuid', $company->businesstype_uuid) == $item->businesstype_uuid) ? 'selected' : '' }}>
+                    {{$item->name}}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    @error('businesstype_uuid')
+    <small class="font-bold text-red-500/80">{{ $message }}</small>
+    @enderror
+</div>
+<div class="mt-4">
     <x-label for="activity_uuid" value="{{ __('word.company.attribute.activity_uuid') }} *" />
     <div class="relative">
         <i class="bi bi-list-ul absolute top-1.5 left-2 text-[1.3em] text-[#d1d5db]"></i>

@@ -109,6 +109,7 @@
                                                     </svg>
                                                 </a>
                                             @endcan
+                                            @can('categories.status')
                                                 @if($item->status)
                                                     <button type="button"
                                                             class="bg-sky-500 text-white px-2 py-1 rounded text-xs"
@@ -134,6 +135,7 @@
                                                         </svg>
                                                     </button>
                                                 @endif
+                                            @endcan
                                             @can('categories.destroy')
                                                 <button type="button"
                                                         class="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -210,7 +212,8 @@
                                                 <h1 class="text-lg font-semibold text-gray-800">{{__('word.general.disable_title')}}</h1>
                                                 <button type="button"
                                                         class="close-modal text-gray-500 hover:text-gray-700 text-2xl"
-                                                        onclick="close_disable_modal('{{$item->category_uuid}}')">&times;
+                                                        onclick="close_disable_modal('{{$item->category_uuid}}')">
+                                                    &times;
                                                 </button>
                                             </div>
                                             <div class="modal-body p-6">

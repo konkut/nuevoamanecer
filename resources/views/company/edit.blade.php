@@ -29,7 +29,7 @@
                 <form method="POST" action="{{route('companies.update', $company->company_uuid)}}">
                     @csrf
                     @method("PUT" )
-                    <x-form-company :company="$company" :activities="$activities"></x-form-company>
+                    <x-form-company :company="$company" :activities="$activities" :businesstypes="$businesstypes"></x-form-company>
                     <div class="mt-4 flex justify-end">
                         <x-button>
                             {{ __('Save') }}

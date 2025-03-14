@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Businesstype;
 use App\Models\Company;
 use App\Models\Activity;
 use Illuminate\Http\Request;
@@ -13,14 +14,15 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $companies = Company::with(['user', 'activity'])->orderBy('created_at', 'desc')->paginate($perPage);
+        $companies = Company::with(['user', 'activity','businesstype'])->orderBy('created_at', 'desc')->paginate($perPage);
         return view("company.index", compact('companies', 'perPage'));
     }
     public function create()
     {
         $company = new Company();
         $activities = Activity::where('status', true)->get();
-        return view("company.create", compact('company', 'activities'));
+        $businesstypes = Businesstype::where('status', true)->get();
+        return view("company.create", compact('company', 'activities','businesstypes'));
     }
     public function store(Request $request)
     {
@@ -29,6 +31,7 @@ class CompanyController extends Controller
             'nit' => 'required|numeric',
             'description' => 'nullable|string|max:150',
             'activity_uuid' => 'required|exists:activities,activity_uuid',
+            'businesstype_uuid' => 'required|exists:businesstypes,businesstype_uuid',
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -41,6 +44,7 @@ class CompanyController extends Controller
             'nit' => $request->nit,
             'description' => $request->description,
             'activity_uuid' => $request->activity_uuid,
+            'businesstype_uuid' => $request->businesstype_uuid,
             'user_id' => Auth::id(),
         ]);
         return redirect("/companies")->with('success', __('word.company.alert.store'));
@@ -49,7 +53,8 @@ class CompanyController extends Controller
     {
         $company = Company::where('company_uuid', $company_uuid)->firstOrFail();
         $activities = Activity::where('status', true)->get();
-        return view("company.edit", compact('company', 'activities'));
+        $businesstypes = Businesstype::where('status', true)->get();
+        return view("company.edit", compact('company', 'activities','businesstypes'));
     }
     public function update(Request $request, string $company_uuid)
     {
@@ -59,6 +64,7 @@ class CompanyController extends Controller
             'nit' => 'required|numeric',
             'description' => 'nullable|string|max:150',
             'activity_uuid' => 'required|exists:activities,activity_uuid',
+            'businesstype_uuid' => 'required|exists:businesstypes,businesstype_uuid',
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -71,6 +77,7 @@ class CompanyController extends Controller
             'nit' => $request->nit,
             'description' => $request->description,
             'activity_uuid' => $request->activity_uuid,
+            'businesstype_uuid' => $request->businesstype_uuid,
         ]);
         return redirect("/companies")->with('success', __('word.company.alert.update'));
     }

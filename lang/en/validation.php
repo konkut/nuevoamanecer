@@ -303,5 +303,8 @@ return [
         /*REVENUE*/
         'customer_uuid' => 'customer',
         'service_uuid' => 'service',
+
+        /*BUSINESS TYPE*/
+        'businesstype_uuid' => 'business type',
     ]
 ];

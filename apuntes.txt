@@ -1,3 +1,19 @@
+class AddIndexesToVoucherdetailsTable extends Migration {
+    public function up() {
+        Schema::table('voucherdetails', function (Blueprint $table) {
+            $table->index('company_uuid'); // Índice en la columna company_uuid
+            $table->index('analyticalaccount_uuid'); // Índice en analyticalaccount_uuid
+        });
+    }
+
+    public function down() {
+        Schema::table('voucherdetails', function (Blueprint $table) {
+            $table->dropIndex(['company_uuid']);
+            $table->dropIndex(['analyticalaccount_uuid']);
+        });
+    }
+}
+
 protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',

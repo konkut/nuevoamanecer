@@ -32,12 +32,12 @@ class Accountsubgroup extends Model
     }
     public function mainaccounts()
     {
+        $project = Project::where('project_uuid',session('project_uuid'))->with(['company.businesstype'])->first();
+        $businesstype_uuid = $project->company->businesstype->businesstype_uuid;
         return $this->hasMany(Mainaccount::class, 'accountsubgroup_uuid', 'accountsubgroup_uuid')
-            ->join('mainaccount_businesstypes', 'mainaccount_businesstypes.mainaccount_uuid', '=', 'mainaccounts.mainaccount_uuid')
-            ->join('businesstypes', 'businesstypes.businesstype_uuid', '=', 'mainaccount_businesstypes.businesstype_uuid')
-            ->where('businesstypes.name', 'Construcción')
-            ->select('mainaccounts.*')
-            ->orderBy('mainaccounts.code', 'asc');
+            ->join('mainaccount_businesstypes','mainaccount_businesstypes.mainaccount_uuid', '=','mainaccounts.mainaccount_uuid')
+            ->where('mainaccount_businesstypes.businesstype_uuid',$businesstype_uuid)
+            ->orderByRaw('CAST(mainaccounts.code AS UNSIGNED) ASC');
     }
 
     protected static function boot()

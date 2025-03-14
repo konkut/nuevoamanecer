@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Denomination;
 use App\Models\Expense;
 use App\Models\Income;
+use App\Models\Revenue;
 use App\Models\Sale;
 use App\Models\Transaction;
 use Closure;
@@ -37,6 +38,12 @@ class CashshiftSession
         if ($request->route('sale_uuid')) {
             $sale = Sale::where('sale_uuid', $request->route('sale_uuid'))->first();
             $session_state = Cashshift::where('cashshift_uuid', $sale->cashshift_uuid)->where('status', true)->exists();
+            if ($session_state) return $next($request);
+            else return redirect()->route('dashboard')->with('error', __('word.general.alert.denied'));
+        }
+        if ($request->route('revenue_uuid')) {
+            $revenue = Revenue::where('revenue_uuid', $request->route('revenue_uuid'))->first();
+            $session_state = Cashshift::where('cashshift_uuid', $revenue->cashshift_uuid)->where('status', true)->exists();
             if ($session_state) return $next($request);
             else return redirect()->route('dashboard')->with('error', __('word.general.alert.denied'));
         }
